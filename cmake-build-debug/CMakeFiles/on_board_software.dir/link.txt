@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/on_board_software.dir/test.cpp.o  -o on_board_software 

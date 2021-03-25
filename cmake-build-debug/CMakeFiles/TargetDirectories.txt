@@ -1,3 +1,0 @@
-/home/romanos/CLionProjects/on-board-software/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/romanos/CLionProjects/on-board-software/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/romanos/CLionProjects/on-board-software/cmake-build-debug/CMakeFiles/on_board_software.dir
