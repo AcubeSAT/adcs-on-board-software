@@ -1,0 +1,11 @@
+[submodule "lib/Catch2"]
+	path = lib/Catch2
+	url = https://github.com/catchorg/Catch2.git
+	branch = v2.x
+[submodule "lib/eigen"]
+	path = lib/eigen
+	url = https://gitlab.com/libeigen/eigen.git
+
+[submodule "lib/etl"]
+	path = lib/etl
+	url = https://github.com/ETLCPP/etl
