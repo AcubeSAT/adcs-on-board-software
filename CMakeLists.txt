@@ -16,6 +16,9 @@ add_library(igrf OBJECT
 add_library(satellite-model OBJECT
         src/SatelliteModel.cpp)
 
+add_library(mekf OBJECT
+        src/MEKF.cpp)
+
 add_library(albedo OBJECT
         src/Albedo.cpp)
 
@@ -24,6 +27,7 @@ add_executable(adcs-onboard-software main.cpp
         $<TARGET_OBJECTS:satellite-model>
         $<TARGET_OBJECTS:igrf>
         $<TARGET_OBJECTS:albedo>
+        $<TARGET_OBJECTS:mekf>
         )
 
 target_link_libraries(adcs-onboard-software eigen)
@@ -37,6 +41,12 @@ IF (EXISTS "${PROJECT_SOURCE_DIR}/lib/Catch2/CMakeLists.txt")
     file(GLOB test_SRC "test/**/*.cpp")
 
     add_subdirectory(lib/Catch2)
-    add_executable(tests $<TARGET_OBJECTS:math-lib> $<TARGET_OBJECTS:igrf> $<TARGET_OBJECTS:albedo> ${test_main_SRC} ${test_SRC})
+    add_executable(tests $<TARGET_OBJECTS:math-lib>
+            $<TARGET_OBJECTS:igrf>
+            $<TARGET_OBJECTS:albedo>
+            $<TARGET_OBJECTS:satellite-model>
+            $<TARGET_OBJECTS:mekf>
+            ${test_main_SRC}
+            ${test_SRC})
     target_link_libraries(tests Catch2::Catch2)
 ENDIF ()
