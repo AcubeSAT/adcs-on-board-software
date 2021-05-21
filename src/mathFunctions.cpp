@@ -50,3 +50,40 @@ Matrix<float, 3, 3> skew(Vector3f vector) {
     return skewMatrix;
 }
 
+Vector3f cartesianToSpherical(Vector3f vectorCartesian) {
+    float x = vectorCartesian(0);
+    float y = vectorCartesian(1);
+    float z = vectorCartesian(2);
+
+    float r = vectorCartesian.norm();
+    float azimuthalAngle = atan(y / x);
+    float polarAngle = acos(z / r);
+
+    Vector3f vectorSpherical;
+    vectorSpherical(0) = r;
+    vectorSpherical(1) = azimuthalAngle;
+    vectorSpherical(2) = polarAngle;
+
+    return vectorSpherical;
+}
+
+Vector3f SphericalToCartesian(Vector3f vectorSpherical) {
+
+    float r = vectorSpherical(0);
+    float azimuthalAngle = vectorSpherical(1);
+    float polarAngle = vectorSpherical(2);
+
+    float x = r * sin(polarAngle) * cos(azimuthalAngle);
+    float y = r * sin(polarAngle) * sin(azimuthalAngle);
+    float z = r * cos(polarAngle);
+
+    Vector3f vectorCartesian;
+    vectorCartesian(0) = x;
+    vectorCartesian(1) = y;
+    vectorCartesian(2) = z;
+
+    return vectorCartesian;
+}
+
+
+

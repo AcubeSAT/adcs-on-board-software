@@ -12,9 +12,13 @@ add_library(math-lib OBJECT
 add_library(satellite-model OBJECT
         src/SatelliteModel.cpp)
 
+add_library(albedo OBJECT
+        src/Albedo.cpp)
+
 add_executable(adcs-onboard-software main.cpp
         $<TARGET_OBJECTS:math-lib>
         $<TARGET_OBJECTS:satellite-model>
+        $<TARGET_OBJECTS:albedo>
         )
 
 target_link_libraries(adcs-onboard-software eigen)
