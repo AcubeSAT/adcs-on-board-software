@@ -28,6 +28,8 @@ Vector<float, 2> radiansToIndices(Vector3f vectorSpherical) {
     Vector<float, 2> indices;
     indices(0) = i;
     indices(1) = j;
+
+    return indices;
 }
 
 Vector<float, 2> indicesToRadians(uint8_t i, uint8_t j) {
@@ -43,6 +45,8 @@ Vector<float, 2> indicesToRadians(uint8_t i, uint8_t j) {
     Vector<float, 2> radians;
     radians(0) = theta;
     radians(1) = phi;
+
+    return radians;
 }
 
 float calculateCellArea(uint8_t i, uint8_t j) {
