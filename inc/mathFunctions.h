@@ -39,4 +39,38 @@ Vector3f rotateVector(const Quaternionf &quaternion, const Vector3f &vector);
  */
 Matrix<float, 3, 3> skew(Vector3f vector);
 
+/**
+ * Convert degrees to rads
+ */
+inline double deg2rad(double degrees) {
+    return M_PI * degrees / 180;
+}
+
+/**
+ * Convert rads to degrees
+ */
+inline double rad2deg(double rads) {
+    return 180 * rads / M_PI;
+}
+
+/**
+ * This is a date format consists of 2 parts:
+ * The integer part of the number is the year.
+ * The floating point part is the fraction of the year for the specified date.
+ */
+typedef double DecimalDate;
+
+/**
+ * Converts date input parameters to decimal date format
+ * STEPS:
+ * Date = YYYY MM DD HH MM SS
+ * 1. Store each month's days
+ * 2. Calculate if the current year is a leap year
+ * 3. Calculate the input day number
+ * 4. Calculate the input hour number
+ * 5. Fraction = Input Number Calculated / Total Number
+ * 6. Decimal Date = YYYY + Fraction
+ */
+DecimalDate date2decimal(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
+
 #endif //MAIN_TEST_MATH_FUNCTIONS_H
