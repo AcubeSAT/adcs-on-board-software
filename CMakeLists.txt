@@ -4,10 +4,14 @@ project(adcs-onboard-software)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(${PROJECT_SOURCE_DIR}/inc
-        ${PROJECT_SOURCE_DIR}/lib/eigen)
+        ${PROJECT_SOURCE_DIR}/lib/eigen
+        ${PROJECT_SOURCE_DIR}/lib/geomag)
 
 add_library(math-lib OBJECT
         src/mathFunctions.cpp)
+
+add_library(igrf OBJECT
+        lib/geomag/geomag.cpp)
 
 add_library(satellite-model OBJECT
         src/SatelliteModel.cpp)
@@ -18,6 +22,7 @@ add_library(albedo OBJECT
 add_executable(adcs-onboard-software main.cpp
         $<TARGET_OBJECTS:math-lib>
         $<TARGET_OBJECTS:satellite-model>
+        $<TARGET_OBJECTS:igrf>
         $<TARGET_OBJECTS:albedo>
         )
 
@@ -30,6 +35,6 @@ IF (EXISTS "${PROJECT_SOURCE_DIR}/lib/Catch2/CMakeLists.txt")
     file(GLOB test_SRC "test/**/*.cpp")
 
     add_subdirectory(lib/Catch2)
-    add_executable(tests $<TARGET_OBJECTS:math-lib> $<TARGET_OBJECTS:albedo> ${test_main_SRC} ${test_SRC})
+    add_executable(tests $<TARGET_OBJECTS:math-lib> $<TARGET_OBJECTS:igrf> $<TARGET_OBJECTS:albedo> ${test_main_SRC} ${test_SRC})
     target_link_libraries(tests Catch2::Catch2)
 ENDIF ()

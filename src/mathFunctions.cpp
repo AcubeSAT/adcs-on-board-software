@@ -50,6 +50,28 @@ Matrix<float, 3, 3> skew(Vector3f vector) {
     return skewMatrix;
 }
 
+DecimalDate date2decimal(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second) {
+    assert(month < 13 && month > 0);
+    const uint8_t solarDayHours = 24;
+    const uint8_t solarHourMinutes = 60;
+    const uint16_t solarHourSeconds = 3600;
+    const uint16_t daysOfMonths[] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
+
+    bool yearIsLeap = (((year % 4) == 0) && (((year % 100) != 0) || ((year % 400) == 0)));
+
+    uint16_t daysInYear = yearIsLeap ? 366 : 365;
+    double dayNumber = (daysOfMonths[month - 1] + (day - 1)
+                        + (month > 2 ? yearIsLeap : 0));
+
+    double hourNumber = hour + static_cast<double>(minute) / solarHourMinutes +
+                        static_cast<double>(second) / solarHourSeconds;
+
+    DecimalDate decimalDate = (static_cast<double>(year) + (dayNumber / daysInYear))
+                              + hourNumber / solarDayHours / daysInYear;
+    return decimalDate;
+
+}
+
 Vector3f cartesianToSpherical(Vector3f vectorCartesian) {
     float x = vectorCartesian(0);
     float y = vectorCartesian(1);
@@ -84,6 +106,3 @@ Vector3f sphericalToCartesian(Vector3f vectorSpherical) {
 
     return vectorCartesian;
 }
-
-
-
