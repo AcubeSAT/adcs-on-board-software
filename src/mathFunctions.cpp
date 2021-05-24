@@ -56,26 +56,26 @@ Vector3f cartesianToSpherical(Vector3f vectorCartesian) {
     float z = vectorCartesian(2);
 
     float r = vectorCartesian.norm();
-    float azimuthalAngle = atan(y / x);
-    float polarAngle = acos(z / r);
+    float azimuth = (x != 0) ? atan(y / x) : 0;
+    float elevation = ((x !=0) && (y !=0)) ? atan(z / vectorCartesian(seq(0, 1)).norm()) : 0;
 
     Vector3f vectorSpherical;
-    vectorSpherical(0) = r;
-    vectorSpherical(1) = azimuthalAngle;
-    vectorSpherical(2) = polarAngle;
+    vectorSpherical(0) = azimuth;
+    vectorSpherical(1) = elevation;
+    vectorSpherical(2) = r;
 
     return vectorSpherical;
 }
 
-Vector3f SphericalToCartesian(Vector3f vectorSpherical) {
+Vector3f sphericalToCartesian(Vector3f vectorSpherical) {
 
-    float r = vectorSpherical(0);
-    float azimuthalAngle = vectorSpherical(1);
-    float polarAngle = vectorSpherical(2);
+    float azimuth = vectorSpherical(0);
+    float elevation = vectorSpherical(1);
+    float r = vectorSpherical(2);
 
-    float x = r * sin(polarAngle) * cos(azimuthalAngle);
-    float y = r * sin(polarAngle) * sin(azimuthalAngle);
-    float z = r * cos(polarAngle);
+    float x = r * cos(elevation) * cos(azimuth);
+    float y = r * cos(elevation) * sin(azimuth);
+    float z = r * sin(elevation);
 
     Vector3f vectorCartesian;
     vectorCartesian(0) = x;

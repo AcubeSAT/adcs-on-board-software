@@ -1,23 +1,28 @@
 #ifndef ADCS_ONBOARD_SOFTWARE_ALBEDO_H
 #define ADCS_ONBOARD_SOFTWARE_ALBEDO_H
 
-const uint8_t reflectivityDataRows = 180;
-const uint16_t reflectivityDataColumns = 288;
+#include "Eigen/Geometry"
+
+using namespace Eigen;
+
+const uint8_t reflectivityDataRows = 4;
+const uint16_t reflectivityDataColumns = 5;
 
 class Albedo {
 
-    Vector<float, 2> radiansToIndices(Vector3f vectorSpherical);
+public:
+    Vector<int8_t, 2> radiansToIndices(float theta, float phi);
 
-    Vector<float, 2> indicesToRadians(uint8_t i, uint8_t j) ;
+    Vector2f indicesToRadians(int8_t i, int8_t j);
 
-    float calculateCellArea(uint8_t i, uint8_t j);
+    float calculateCellArea(int8_t i, int8_t j);
 
-    float gridAngle(uint8_t loopI, uint8_t loopJ, uint8_t sunIndexI, uint8_t sunIndexJ);
+    float gridAngle(int8_t loopI, int8_t loopJ, int8_t sunIndexI, int8_t sunIndexJ);
 
-    Vector3f albedo(Vector3f satellite, Vector3f sunPosition,
+    Matrix<float, reflectivityDataRows, reflectivityDataColumns>
+    calculateAlbedo(Vector3f satellite, Vector3f sunPosition,
                     Matrix<float, reflectivityDataRows, reflectivityDataColumns> reflectivityData);
 
 };
-
 
 #endif //ADCS_ONBOARD_SOFTWARE_ALBEDO_H

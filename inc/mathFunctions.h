@@ -41,6 +41,6 @@ Matrix<float, 3, 3> skew(Vector3f vector);
 
 Vector3f cartesianToSpherical(Vector3f vectorCartesian);
 
-Vector3f SphericalToCartesian(Vector3f vectorSpherical);
+Vector3f sphericalToCartesian(Vector3f vectorSpherical);
 
 #endif //MAIN_TEST_MATH_FUNCTIONS_H
