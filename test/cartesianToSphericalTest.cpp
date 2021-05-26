@@ -30,4 +30,11 @@ TEST_CASE("Cartesian to spherical test") {
     REQUIRE(zerosSpherical(0) == Approx(0).epsilon(0.01));
     REQUIRE(zerosSpherical(1) == Approx(0).epsilon(0.01));
     REQUIRE(zerosSpherical(2) == Approx(0).epsilon(0.01));
+
+    Vector3f negativesCartesian = {-0.5689, -0.457, -2.568};
+    Vector3f negativesSpherical = cartesianToSpherical(negativesCartesian);
+
+    REQUIRE(negativesSpherical(0) == Approx(-2.464839943079727).epsilon(0.01));
+    REQUIRE(negativesSpherical(1) == Approx(-1.293934058318156).epsilon(0.01));
+    REQUIRE(negativesSpherical(2) == Approx(2.669666685187497).epsilon(0.01));
 }

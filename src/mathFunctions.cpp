@@ -2,6 +2,7 @@
 
 #include "Eigen/Geometry"
 #include "Eigen/Dense"
+#include <cmath>
 
 using namespace Eigen;
 
@@ -78,8 +79,9 @@ Vector3f cartesianToSpherical(Vector3f vectorCartesian) {
     float z = vectorCartesian(2);
 
     float r = vectorCartesian.norm();
-    float azimuth = (x != 0) ? atan(y / x) : 0;
-    float elevation = ((x !=0) && (y !=0)) ? atan(z / vectorCartesian(seq(0, 1)).norm()) : 0;
+
+    float azimuth = atan2(y, x);
+    float elevation = atan2(z, vectorCartesian(seq(0, 1)).norm());
 
     Vector3f vectorSpherical;
     vectorSpherical(0) = azimuth;

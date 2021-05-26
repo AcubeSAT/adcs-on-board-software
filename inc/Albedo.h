@@ -5,24 +5,20 @@
 
 using namespace Eigen;
 
-const uint8_t reflectivityDataRows = 4;
-const uint16_t reflectivityDataColumns = 5;
+const uint16_t reflectivityDataRows = 180;
+const uint16_t reflectivityDataColumns = 288;
 
-class Albedo {
+Vector<int16_t, 2> radiansToIndices(float theta, float phi);
 
-public:
-    Vector<int8_t, 2> radiansToIndices(float theta, float phi);
+Vector2f indicesToRadians(uint16_t i, uint16_t j);
 
-    Vector2f indicesToRadians(int8_t i, int8_t j);
+float calculateCellArea(uint16_t i, uint16_t j);
 
-    float calculateCellArea(int8_t i, int8_t j);
+float gridAngle(uint16_t loopI, uint16_t loopJ, int16_t sunIndexI, int16_t sunIndexJ);
 
-    float gridAngle(int8_t loopI, int8_t loopJ, int8_t sunIndexI, int8_t sunIndexJ);
+Matrix<float, reflectivityDataRows, reflectivityDataColumns>
+calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
+                const Matrix<float, reflectivityDataRows, reflectivityDataColumns> &reflectivityData);
 
-    Matrix<float, reflectivityDataRows, reflectivityDataColumns>
-    calculateAlbedo(Vector3f satellite, Vector3f sunPosition,
-                    Matrix<float, reflectivityDataRows, reflectivityDataColumns> reflectivityData);
-
-};
 
 #endif //ADCS_ONBOARD_SOFTWARE_ALBEDO_H
