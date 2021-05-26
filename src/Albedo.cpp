@@ -65,10 +65,10 @@ float gridAngle(uint16_t loopI, uint16_t loopJ, int16_t sunIndexI, int16_t sunIn
     Vector2f loopRadians = indicesToRadians(loopI, loopJ);
     Vector2f sunRadians = indicesToRadians(sunIndexI, sunIndexJ);
 
-    float rho = acos(sin(loopRadians(1)) * sin(sunRadians(1)) * cos(loopRadians(0) - sunRadians(0)) +
-            cos(loopRadians(1)) * cos(sunRadians(1)));
+    float angle = acos(sin(loopRadians(1)) * sin(sunRadians(1)) * cos(loopRadians(0) - sunRadians(0)) +
+                       cos(loopRadians(1)) * cos(sunRadians(1)));
 
-    return rho;
+    return angle;
 }
 
 Matrix<float, reflectivityDataRows, reflectivityDataColumns>
