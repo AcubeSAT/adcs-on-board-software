@@ -12,14 +12,14 @@ Vector<int16_t, 2> radiansToIndices(float theta, float phi) {
     float dx = 2 * M_PI / reflectivityDataColumns;
     float dy = M_PI / reflectivityDataRows;
 
-    int16_t i = round((M_PI - dy / 2 - phi) / dy) + 1;
-    int16_t j = round((theta + M_PI - dx / 2) / dx) + 1;
+    int16_t i = round((M_PI - dy / 2 - phi) / dy);
+    int16_t j = round((theta + M_PI - dx / 2) / dx);
 
-    if (i == 0) {
-        i = 1;
+    if (i == -1) {
+        i = 0;
     }
-    if (j == 0) {
-        j = 1;
+    if (j == -1) {
+        j = 0;
     }
 
     Vector<int16_t, 2> indices;
@@ -34,8 +34,8 @@ Vector2f indicesToRadians(uint16_t i, uint16_t j) {
     float dx = 2 * M_PI / reflectivityDataColumns;
     float dy = M_PI / reflectivityDataRows;
 
-    float phi = M_PI - dy / 2 - (i - 1) * dy;
-    float theta = (j - 1) * dx - M_PI + dx / 2;
+    float phi = M_PI - dy / 2 - i * dy;
+    float theta = j * dx - M_PI + dx / 2;
 
     Vector2f radians;
     radians(0) = theta;
@@ -53,11 +53,11 @@ float calculateCellArea(uint16_t i, uint16_t j) {
     float dphi = deg2rad(180 / static_cast<float> (reflectivityDataRows));
     float dtheta = deg2rad(360 / static_cast<float> (reflectivityDataColumns));
 
-    float phimax = radians(1) + dphi / 2;
-    float phimin = radians(1) - dphi / 2;
+    float phiMax = radians(1) + dphi / 2;
+    float phiMin = radians(1) - dphi / 2;
 
-    float A = EMR * EMR * dtheta * (cos(phimin) - cos(phimax));
-    return A;
+    float area = EMR * EMR * dtheta * (cos(phiMin) - cos(phiMax));
+    return area;
 }
 
 float gridAngle(uint16_t loopI, uint16_t loopJ, int16_t sunIndexI, int16_t sunIndexJ) {
@@ -66,7 +66,7 @@ float gridAngle(uint16_t loopI, uint16_t loopJ, int16_t sunIndexI, int16_t sunIn
     Vector2f sunRadians = indicesToRadians(sunIndexI, sunIndexJ);
 
     float rho = acos(sin(loopRadians(1)) * sin(sunRadians(1)) * cos(loopRadians(0) - sunRadians(0)) +
-                     cos(loopRadians(1)) * cos(sunRadians(1)));
+            cos(loopRadians(1)) * cos(sunRadians(1)));
 
     return rho;
 }
@@ -112,8 +112,9 @@ calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
 
             float satelliteDistance = (satellite - grid).norm();
 
-            float phiOut = acos((((satellite - grid) / satelliteDistance).transpose()).dot(grid) / grid.norm());
-            float pOut = incidentPower * reflectivityData(i, j) * cos(phiOut) /
+            float satelliteGridAngle = acos(
+                    (((satellite - grid) / satelliteDistance).transpose()).dot(grid) / grid.norm());
+            float pOut = incidentPower * reflectivityData(i, j) * cos(satelliteGridAngle) /
                          (M_PI * satelliteDistance * satelliteDistance);
             albedo(i, j) = pOut;
         }

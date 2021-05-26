@@ -19,23 +19,23 @@ TEST_CASE("Albedo test") {
 
 
     Vector<int16_t, 2> indices1 = radiansToIndices(20, 40);
-    REQUIRE(indices1(0) == Approx(-2111).epsilon(0.01));
-    REQUIRE(indices1(1) == Approx(1061).epsilon(0.01));
+    REQUIRE(indices1(0) == Approx(-2110).epsilon(0.01));
+    REQUIRE(indices1(1) == Approx(1060).epsilon(0.01));
 
     Vector<int16_t, 2> indices2 = radiansToIndices(1.0e+06 * 0.000000674740942,
                                                    1.0e+06 * 0.000001446501385);
-    REQUIRE(indices2(0) == Approx(98).epsilon(0.01));
-    REQUIRE(indices2(1) == Approx(175).epsilon(0.01));
+    REQUIRE(indices2(0) == Approx(97).epsilon(0.01));
+    REQUIRE(indices2(1) == Approx(174).epsilon(0.01));
 
     Vector2f radians = indicesToRadians(i, j);
-    REQUIRE(radians(0) == Approx(-2.061670178918301).epsilon(0.01));
-    REQUIRE(radians(1) == Approx(2.452187599052033).epsilon(0.01));
+    REQUIRE(radians(0) == Approx(-2.039853563268373).epsilon(0.01));
+    REQUIRE(radians(1) == Approx(2.434734306532090).epsilon(0.01));
 
     float cellArea = calculateCellArea(i, j);
-    REQUIRE(cellArea == Approx(9.830742819977879e+09).epsilon(0.01));
+    REQUIRE(cellArea == Approx(1.003737674791411e+10).epsilon(0.01));
 
     float gridAngleResult = gridAngle(loopI, loopJ, sunIndexI, sunIndexJ);
-    REQUIRE(gridAngleResult == Approx(1.430188660470710).epsilon(0.01));
+    REQUIRE(gridAngleResult == Approx(1.442580854116471).epsilon(0.01));
 
     Matrix<float, 180, 288> albedo1 = calculateAlbedo(satellite, sunPosition, reflectivityData1);
     REQUIRE(albedo1.sum() == Approx(0.065217631207925).epsilon(0.01));
