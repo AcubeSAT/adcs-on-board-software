@@ -65,10 +65,7 @@ calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
 
     const float solarIrradiance = 1;
 
-    Vector3f satelliteSpherical = cartesianToSpherical(satellite);
     Vector3f sunPositionSpherical = cartesianToSpherical(sunPosition);
-
-    satelliteSpherical(1) = M_PI / 2 - satelliteSpherical(1);
     sunPositionSpherical(1) = M_PI / 2 - sunPositionSpherical(1);
 
     Vector<int16_t, 2> sunIndices = albedo::radiansToIndices(sunPositionSpherical(0), sunPositionSpherical(1));
