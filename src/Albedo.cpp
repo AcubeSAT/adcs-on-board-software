@@ -82,7 +82,8 @@ calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
                 angleOfIncidentSolarIrradiance = M_PI / 2;
             }
 
-            float incidentPower = solarIrradiance * albedo::calculateCellArea(i, j) * cos(angleOfIncidentSolarIrradiance);
+            float incidentPower =
+                    solarIrradiance * albedo::calculateCellArea(i, j) * cos(angleOfIncidentSolarIrradiance);
             Vector2f gridRadians = albedo::indicesToRadians(i, j);
             float gridTheta = gridRadians(0);
             float gridPhi = gridRadians(1);

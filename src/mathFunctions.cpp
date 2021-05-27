@@ -79,7 +79,6 @@ Vector3f cartesianToSpherical(Vector3f vectorCartesian) {
     float z = vectorCartesian(2);
 
     float r = vectorCartesian.norm();
-
     float azimuth = atan2(y, x);
     float elevation = atan2(z, vectorCartesian(seq(0, 1)).norm());
 
