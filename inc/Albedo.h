@@ -5,8 +5,8 @@
 
 using namespace Eigen;
 
-const uint16_t ReflectivityDataRows = 180;
-const uint16_t ReflectivityDataColumns = 288;
+const int16_t ReflectivityDataRows = 180;
+const int16_t ReflectivityDataColumns = 288;
 
 const static float EMR = 6371.01e3;
 
@@ -25,7 +25,7 @@ namespace albedo {
  * @param j TOMS reflectivity matrix index
  * @return vector containing reflectivity data point's latitude and longitude
  */
-    Vector2f indicesToRadians(uint16_t i, uint16_t j);
+    Vector2f indicesToRadians(int16_t i, int16_t j);
 
 /**
  * Calculates the area of a cell with indices i, j
@@ -33,7 +33,7 @@ namespace albedo {
  * @param j index j
  * @return area of a cell with indices i, j
  */
-    float calculateCellArea(uint16_t i, uint16_t j);
+    float calculateCellArea(int16_t i, int16_t j);
 
 /**
  * Calculates the angle between two grid index pairs
@@ -43,7 +43,7 @@ namespace albedo {
  * @param sunIndexJ sun grid index j
  * @return angle between two grid index pairs
  */
-    float gridAngle(uint16_t loopI, uint16_t loopJ, int16_t sunIndexI, int16_t sunIndexJ);
+    float gridAngle(int16_t loopI, int16_t loopJ, int16_t sunIndexI, int16_t sunIndexJ);
 }
 
 /**

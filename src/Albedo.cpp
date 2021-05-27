@@ -23,7 +23,7 @@ inline Vector<int16_t, 2> albedo::radiansToIndices(float theta, float phi) {
     return {i, j};
 }
 
-inline Vector2f albedo::indicesToRadians(uint16_t i, uint16_t j) {
+inline Vector2f albedo::indicesToRadians(int16_t i, int16_t j) {
 
     float dx = 2 * M_PI / ReflectivityDataColumns;
     float dy = M_PI / ReflectivityDataRows;
@@ -34,21 +34,21 @@ inline Vector2f albedo::indicesToRadians(uint16_t i, uint16_t j) {
     return {theta, phi};
 }
 
-float albedo::calculateCellArea(uint16_t i, uint16_t j) {
+float albedo::calculateCellArea(int16_t i, int16_t j) {
 
     Vector2f radians = albedo::indicesToRadians(i, j);
 
-    float dphi = deg2rad(180 / static_cast<float> (ReflectivityDataRows));
-    float dtheta = deg2rad(360 / static_cast<float> (ReflectivityDataColumns));
+    float deltaPhi = deg2rad(180 / static_cast<float>(ReflectivityDataRows));
+    float deltaTheta = deg2rad(360 / static_cast<float>(ReflectivityDataColumns));
 
-    float phiMax = radians(1) + dphi / 2;
-    float phiMin = radians(1) - dphi / 2;
+    float phiMax = radians(1) + deltaPhi / 2;
+    float phiMin = radians(1) - deltaPhi / 2;
 
-    float area = EMR * EMR * dtheta * (cos(phiMin) - cos(phiMax));
+    float area = EMR * EMR * deltaTheta * (cos(phiMin) - cos(phiMax));
     return area;
 }
 
-float albedo::gridAngle(uint16_t loopI, uint16_t loopJ, int16_t sunIndexI, int16_t sunIndexJ) {
+float albedo::gridAngle(int16_t loopI, int16_t loopJ, int16_t sunIndexI, int16_t sunIndexJ) {
 
     Vector2f loopRadians = albedo::indicesToRadians(loopI, loopJ);
     Vector2f sunRadians = albedo::indicesToRadians(sunIndexI, sunIndexJ);
@@ -73,8 +73,8 @@ calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
     Vector3f grid;
     Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> albedo;
 
-    for (uint16_t i = 0; i < ReflectivityDataRows; i++) {
-        for (uint16_t j = 0; j < ReflectivityDataColumns; j++) {
+    for (int16_t i = 0; i < ReflectivityDataRows; i++) {
+        for (int16_t j = 0; j < ReflectivityDataColumns; j++) {
 
             float angleOfIncidentSolarIrradiance = albedo::gridAngle(i, j, sunIndices(0), sunIndices(1));
 

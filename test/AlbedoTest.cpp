@@ -4,8 +4,8 @@
 using namespace albedo;
 
 TEST_CASE("Calculate cell area test") {
-    uint16_t i = 40;
-    uint16_t j = 50;
+    int16_t i = 40;
+    int16_t j = 50;
 
     float cellArea = calculateCellArea(i, j);
     REQUIRE(cellArea == Approx(1.003737674791411e+10).epsilon(0.01));
@@ -13,8 +13,8 @@ TEST_CASE("Calculate cell area test") {
 
 TEST_CASE("Calculate grid area test") {
 
-    uint16_t loopI = 78;
-    uint16_t loopJ = 24;
+    int16_t loopI = 78;
+    int16_t loopJ = 24;
     int8_t sunIndexI = 56;
     int8_t sunIndexJ = 95;
 
@@ -23,8 +23,8 @@ TEST_CASE("Calculate grid area test") {
 }
 
 TEST_CASE("Indices to radians test") {
-    uint16_t i = 40;
-    uint16_t j = 50;
+    int16_t i = 40;
+    int16_t j = 50;
 
     Vector2f radians = albedo::indicesToRadians(i, j);
     REQUIRE(radians(0) == Approx(-2.039853563268373).epsilon(0.01));
