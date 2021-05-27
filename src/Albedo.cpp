@@ -5,7 +5,7 @@
 
 using namespace Eigen;
 
-Vector<int16_t, 2> albedo::radiansToIndices(float theta, float phi) {
+inline Vector<int16_t, 2> albedo::radiansToIndices(float theta, float phi) {
 
     float dx = 2 * M_PI / ReflectivityDataColumns;
     float dy = M_PI / ReflectivityDataRows;
@@ -23,7 +23,7 @@ Vector<int16_t, 2> albedo::radiansToIndices(float theta, float phi) {
     return {i, j};
 }
 
-Vector2f albedo::indicesToRadians(uint16_t i, uint16_t j) {
+inline Vector2f albedo::indicesToRadians(uint16_t i, uint16_t j) {
 
     float dx = 2 * M_PI / ReflectivityDataColumns;
     float dy = M_PI / ReflectivityDataRows;
