@@ -75,15 +75,15 @@ DecimalDate date2decimal(uint16_t year, uint8_t month, uint8_t day, uint8_t hour
 
 /**
  * Transforms Cartesian to Spherical coordinates
- * @param vectorCartesian vector in Cartesian coordinates (x, y, z)
- * @return vector in Spherical coordinates (azimuth, elevation, radius)
+ * @param vectorCartesian vector in Cartesian coordinates (x, y, z) in radians
+ * @return vector in Spherical coordinates (azimuth, elevation, radius) in radians
  */
 Vector3f cartesianToSpherical(Vector3f vectorCartesian);
 
 /**
  * Transforms Spherical to Cartesian coordinates
- * @param vectorSpherical vector in Spherical coordinates (azimuth, elevation, radius)
- * @return vector in Cartesian coordinates (x, y, z)
+ * @param vectorSpherical vector in Spherical coordinates (azimuth, elevation, radius) in radians
+ * @return vector in Cartesian coordinates (x, y, z) in radians
  */
 Vector3f sphericalToCartesian(Vector3f vectorSpherical);
 

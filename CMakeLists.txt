@@ -29,6 +29,8 @@ add_executable(adcs-onboard-software main.cpp
 target_link_libraries(adcs-onboard-software eigen)
 add_subdirectory(lib/eigen)
 
+add_compile_definitions(EIGEN_STACK_ALLOCATION_LIMIT=0)
+
 IF (EXISTS "${PROJECT_SOURCE_DIR}/lib/Catch2/CMakeLists.txt")
     # Gather all the .cpp files corresponding to tests
     file(GLOB test_main_SRC "test/*.cpp")
