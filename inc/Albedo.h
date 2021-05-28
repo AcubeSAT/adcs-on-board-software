@@ -10,7 +10,15 @@ const int16_t ReflectivityDataColumns = 288;
 
 const static float EMR = 6371.01e3;
 
-namespace albedo {
+class Albedo {
+private:
+
+    Vector<float, ReflectivityDataRows> phis;
+    Vector<float, ReflectivityDataColumns> thetas;
+    Vector<float, ReflectivityDataRows> cellAreas;
+
+public:
+    Albedo();
 /**
  * Transforms radians to TOMS reflectivity matrix indices
  * @param theta reflectivity data point's latitude
@@ -44,7 +52,9 @@ namespace albedo {
  * @return angle between two grid index pairs
  */
     float gridAngle(int16_t loopI, int16_t loopJ, int16_t sunIndexI, int16_t sunIndexJ);
-}
+
+    Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> earthFieldOfView(Vector3f satelliteSpherical);
+
 
 /**
  * Calculates the sunlight reflected off the Earth's surface
@@ -53,9 +63,9 @@ namespace albedo {
  * @param reflectivityData Earth surface reflectivity data from TOMS project
  * @return sunlight reflected off the Earth's surface
  */
-Matrix<float, ReflectivityDataRows, ReflectivityDataColumns>
-calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
-                const Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> &reflectivityData);
+    float
+    calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
+                    const Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> &reflectivityData);
 
-
+};
 #endif //ADCS_ONBOARD_SOFTWARE_ALBEDO_H
