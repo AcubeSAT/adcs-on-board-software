@@ -73,4 +73,18 @@ typedef double DecimalDate;
  */
 DecimalDate date2decimal(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
 
+/**
+ * Transforms Cartesian to Spherical coordinates
+ * @param vectorCartesian vector in Cartesian coordinates (x, y, z) in radians
+ * @return vector in Spherical coordinates (azimuth, elevation, radius) in radians
+ */
+Vector3f cartesianToSpherical(Vector3f vectorCartesian);
+
+/**
+ * Transforms Spherical to Cartesian coordinates
+ * @param vectorSpherical vector in Spherical coordinates (azimuth, elevation, radius) in radians
+ * @return vector in Cartesian coordinates (x, y, z) in radians
+ */
+Vector3f sphericalToCartesian(Vector3f vectorSpherical);
+
 #endif //MAIN_TEST_MATH_FUNCTIONS_H
