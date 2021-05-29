@@ -2,6 +2,7 @@
 
 #include "Eigen/Geometry"
 #include "Eigen/Dense"
+#include <cmath>
 
 using namespace Eigen;
 
@@ -70,4 +71,29 @@ DecimalDate date2decimal(uint16_t year, uint8_t month, uint8_t day, uint8_t hour
                               + hourNumber / solarDayHours / daysInYear;
     return decimalDate;
 
+}
+
+Vector3f cartesianToSpherical(Vector3f vectorCartesian) {
+    float x = vectorCartesian(0);
+    float y = vectorCartesian(1);
+    float z = vectorCartesian(2);
+
+    float r = vectorCartesian.norm();
+    float azimuth = atan2(y, x);
+    float elevation = atan2(z, vectorCartesian(seq(0, 1)).norm());
+
+    return {azimuth, elevation, r};
+}
+
+Vector3f sphericalToCartesian(Vector3f vectorSpherical) {
+
+    float azimuth = vectorSpherical(0);
+    float elevation = vectorSpherical(1);
+    float r = vectorSpherical(2);
+
+    float x = r * cos(elevation) * cos(azimuth);
+    float y = r * cos(elevation) * sin(azimuth);
+    float z = r * sin(elevation);
+
+    return {x, y, z};
 }
