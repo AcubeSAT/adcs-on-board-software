@@ -10,7 +10,7 @@ SatelliteModel::SatelliteModel(float timestep) {
 MeasurementVector SatelliteModel::measurementFunction(Vector3f magneticField,
                                                       Vector3f sunPosition,
                                                       bool eclipse,
-                                                      GlobalStateVector state) {
+                                                      GlobalStateVector state) const {
 
     MeasurementVector measurements;
 
@@ -36,7 +36,7 @@ MeasurementVector SatelliteModel::measurementFunction(Vector3f magneticField,
 
 GlobalStateVector
 SatelliteModel::stateTransitionFunction(GlobalStateVector state,
-                                        Vector3f gyroMeasurements) {
+                                        Vector3f gyroMeasurements) const {
 
     Vector3f bias = state(seq(4, 6));
 
@@ -58,26 +58,27 @@ SatelliteModel::stateTransitionFunction(GlobalStateVector state,
     return nextState;
 }
 
-Matrix<float, localStateSize, localStateSize>
+Matrix<float, LocalStateSize, LocalStateSize>
 SatelliteModel::stateTransitionJacobian(GlobalStateVector state,
-                                        Vector3f gyroMeasurements) {
+                                        Vector3f gyroMeasurements) const {
 
-    Matrix<float, localStateSize, localStateSize> F;
+    Matrix<float, LocalStateSize, LocalStateSize> F;
     F(seq(0, 2), seq(0, 2)) = skew(gyroMeasurements - state(seq(4, 6)));
     F(seq(0, 2), seq(3, 5)) = -Matrix<float, 3, 3>::Identity();
     F(seq(3, 5), seq(0, 5)) = Matrix<float, 3, 6>::Zero();
     return F;
 }
 
-Matrix<float, measurementSize, measurementSize>
+Matrix<float, MeasurementSize, MeasurementSize>
 SatelliteModel::measurementJacobian(Vector3f magneticField,
                                     Vector3f sunPosition, bool eclipse,
-                                    GlobalStateVector state) {
+                                    GlobalStateVector state) const {
 
     MeasurementVector estimatedMeasurements = measurementFunction(magneticField,
-                                                                   sunPosition, eclipse,
-                                                                   state);
-    Matrix<float, measurementSize, measurementSize> H;
+                                                                  sunPosition, eclipse,
+                                                                  state);
+    Matrix<float, MeasurementSize, MeasurementSize> H;
+
     H(seq(0, 2), seq(0, 2)) = skew(estimatedMeasurements(seq(0, 2)));
     H(seq(3, 5), seq(0, 2)) = skew(estimatedMeasurements(seq(3, 5)));
     H(seq(0, 2), seq(3, 5)) = Matrix<float, 3, 3>::Zero();

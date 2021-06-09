@@ -6,10 +6,10 @@
 
 using namespace Eigen;
 
-const uint8_t localStateSize = 6;
-const uint8_t measurementSize = 6;
+const uint8_t LocalStateSize = 6;
+const uint8_t MeasurementSize = 6;
 
-typedef Vector<float, measurementSize> MeasurementVector;
+typedef Vector<float, MeasurementSize> MeasurementVector;
 typedef Vector<float, 7> GlobalStateVector;
 
 
@@ -41,7 +41,7 @@ public:
     MeasurementVector
     measurementFunction(Vector3f magneticField,
                         Vector3f sunPosition, bool eclipse,
-                        GlobalStateVector state);
+                        GlobalStateVector state) const;
 
     /**
      * Updates the state vector taking into account measurements from gyroscope
@@ -50,7 +50,7 @@ public:
      * @return updated state
      */
     GlobalStateVector stateTransitionFunction(GlobalStateVector state,
-                                              Vector3f gyroMeasurements);
+                                              Vector3f gyroMeasurements) const;
 
     /**
      * Calculates the state's Jacobian
@@ -58,9 +58,9 @@ public:
      * @param gyroMeasurements measurements from gyroscope
      * @return state's Jacobian
      */
-    Matrix<float, localStateSize, localStateSize>
+    Matrix<float, LocalStateSize, LocalStateSize>
     stateTransitionJacobian(GlobalStateVector state,
-                            Vector3f gyroMeasurements);
+                            Vector3f gyroMeasurements) const;
 
     /**
      * Calculates the measurements' Jacobian
@@ -70,10 +70,10 @@ public:
      * @param state 7-element vector consisting of the quaternion representation of the satellite's orientation and bias
      * @return measurements' Jacobian
      */
-    Matrix<float, measurementSize, measurementSize>
+    Matrix<float, MeasurementSize, MeasurementSize>
     measurementJacobian(Vector3f magneticField,
                         Vector3f sunPosition, bool eclipse,
-                        GlobalStateVector state);
+                        GlobalStateVector state) const;
 };
 
 
