@@ -1,7 +1,7 @@
 #include "MEKF.h"
 #include "mathFunctions.h"
 
-void MEKF::predict(float timestep, SatelliteModel satelliteModel, const Vector3f &gyroMeasurements) {
+void MEKF::predict(float timestep, const SatelliteModel &satelliteModel, const Vector3f &gyroMeasurements) {
     F_k = satelliteModel.stateTransitionJacobian(globalState, gyroMeasurements);
     globalState = satelliteModel.stateTransitionFunction(globalState, gyroMeasurements);
     auto Phi = (F_k * timestep).exp();
@@ -9,12 +9,12 @@ void MEKF::predict(float timestep, SatelliteModel satelliteModel, const Vector3f
 }
 
 void MEKF::correct(const MeasurementVector &measurement, const Vector3f &magneticField,
-                   const Vector3f &sunPosition, bool eclipse, SatelliteModel satelliteModel) {
+                   const Vector3f &sunPosition, bool eclipse, const SatelliteModel &satelliteModel) {
     H_k = satelliteModel.measurementJacobian(magneticField, sunPosition, eclipse, globalState);
     MeasurementVector estimatedMeasurement = satelliteModel.measurementFunction(magneticField, sunPosition, eclipse,
                                                                                 globalState);
 
-    auto I = Matrix<float, localStateSize, localStateSize>::Identity();
+    auto I = Matrix<float, LocalStateSize, LocalStateSize>::Identity();
     auto temp = H_k * P * H_k.transpose() + R;
     K = (P * H_k.transpose()) * temp.colPivHouseholderQr().solve(I);
 
