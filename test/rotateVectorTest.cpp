@@ -1,6 +1,8 @@
 #include <catch2/catch.hpp>
 #include "mathFunctions.h"
 
+using namespace Eigen;
+
 TEST_CASE("Vector turn with quaternion test") {
 
     Eigen::Quaternionf identityQuaternion = {1, 0, 0, 0};

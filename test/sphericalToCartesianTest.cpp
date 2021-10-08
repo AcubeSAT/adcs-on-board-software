@@ -1,6 +1,8 @@
 #include <catch2/catch.hpp>
 #include "mathFunctions.h"
 
+using namespace Eigen;
+
 TEST_CASE("Spherical to cartesian test") {
 
     Vector3f vectorSpherical = {0.1, 0.2, 0.3};
