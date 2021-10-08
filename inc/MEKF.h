@@ -14,32 +14,32 @@ private:
     /**
      * state transition function Jacobian matrix
      */
-    Matrix<float, LocalStateSize, LocalStateSize> F_k;
+    Eigen::Matrix<float, LocalStateSize, LocalStateSize> F_k;
 
     /**
      * measurement function Jacobian matrix
      */
-    Matrix<float, MeasurementSize, LocalStateSize> H_k;
+    Eigen::Matrix<float, MeasurementSize, LocalStateSize> H_k;
 
     /**
      * Kalman gain
      */
-    Matrix<float, LocalStateSize, MeasurementSize> K;
+    Eigen::Matrix<float, LocalStateSize, MeasurementSize> K;
 
     /**
      * process noise covariance matrix
      */
-    Matrix<float, LocalStateSize, LocalStateSize> Q;
+    Eigen::Matrix<float, LocalStateSize, LocalStateSize> Q;
 
     /**
      * measurement noise covariance matrix
      */
-    Matrix<float, MeasurementSize, MeasurementSize> R;
+    Eigen::Matrix<float, MeasurementSize, MeasurementSize> R;
 
     /**
      * estimation error covariance matrix
      */
-    Matrix<float, LocalStateSize, LocalStateSize> P = Matrix<float, LocalStateSize, LocalStateSize>::Identity();
+    Eigen::Matrix<float, LocalStateSize, LocalStateSize> P = Eigen::Matrix<float, LocalStateSize, LocalStateSize>::Identity();
 
     /**
      * state of the system, consisting the quaternion from ECI to Body frame and the bias of the gyroscope
@@ -53,8 +53,8 @@ public:
      * @param Q process noise covariance matrix
      * @param R measurement noise covariance matrix
      */
-    MEKF(const Matrix<float, LocalStateSize, LocalStateSize> &Q,
-         const Matrix<float, LocalStateSize, LocalStateSize> &R)
+    MEKF(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &Q,
+         const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &R)
             : Q{Q}, R{R} {
     }
 
@@ -62,7 +62,7 @@ public:
      * Q Setter
      * @param Q process noise covariance matrix
      */
-    void setQ(const Matrix<float, LocalStateSize, LocalStateSize> &Q) {
+    void setQ(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &Q) {
         this->Q = Q;
     }
 
@@ -70,7 +70,7 @@ public:
      * Q Getter
      * @return Q process noise covariance matrix
      */
-    Matrix<float, LocalStateSize, LocalStateSize> getQ() const {
+    Eigen::Matrix<float, LocalStateSize, LocalStateSize> getQ() const {
         return Q;
     }
 
@@ -78,7 +78,7 @@ public:
      * R Setter
      * @param R measurement noise covariance matrix
      */
-    void setR(const Matrix<float, LocalStateSize, LocalStateSize> &R) {
+    void setR(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &R) {
         this->R = R;
     }
 
@@ -86,7 +86,7 @@ public:
      * R Getter
      * @return R measurement noise covariance matrix
      */
-    Matrix<float, MeasurementSize, MeasurementSize> getR() const {
+    Eigen::Matrix<float, MeasurementSize, MeasurementSize> getR() const {
         return R;
     }
 
@@ -94,7 +94,7 @@ public:
      * P Setter
      * @param P estimation error covariance matrix
      */
-    void setP(const Matrix<float, LocalStateSize, LocalStateSize> &P) {
+    void setP(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &P) {
         this->P = P;
     }
 
@@ -102,7 +102,7 @@ public:
      * P Getter
      * @return P estimation error covariance matrix
      */
-    Matrix<float, LocalStateSize, LocalStateSize> getP() const {
+    Eigen::Matrix<float, LocalStateSize, LocalStateSize> getP() const {
         return P;
     }
 
@@ -128,7 +128,7 @@ public:
      * @param satelliteModel object of the Class SatelliteModel that implements the space environment
      * @param gyroMeasurements measurements of the gyroscope in this timestep
      */
-    void predict(float timestep, const SatelliteModel &satelliteModel, const Vector3f &gyroMeasurements);
+    void predict(float timestep, const SatelliteModel &satelliteModel, const Eigen::Vector3f &gyroMeasurements);
 
     /**
      * MEKF Correction. A modified version of the classic Extended Kalman Filter version that uses a local error state to update the quaternion and the bias.
@@ -138,8 +138,8 @@ public:
      * @param eclipse bool variable which is set to false if during this timestep the satellite is not in eclipse
      * @param satelliteModel object of the Class SatelliteModel that implements the space environment
      */
-    void correct(const MeasurementVector &measurement, const Vector3f &magneticField,
-                 const Vector3f &sunPosition, bool eclipse, const SatelliteModel &satelliteModel);
+    void correct(const MeasurementVector &measurement, const Eigen::Vector3f &magneticField,
+                 const Eigen::Vector3f &sunPosition, bool eclipse, const SatelliteModel &satelliteModel);
 };
 
 

@@ -7,28 +7,16 @@ include_directories(${PROJECT_SOURCE_DIR}/inc
         ${PROJECT_SOURCE_DIR}/lib/eigen
         ${PROJECT_SOURCE_DIR}/lib/geomag)
 
-add_library(math-lib OBJECT
-        src/mathFunctions.cpp)
-
-add_library(igrf OBJECT
-        lib/geomag/geomag.cpp)
-
-add_library(satellite-model OBJECT
-        src/SatelliteModel.cpp)
-
-add_library(mekf OBJECT
-        src/MEKF.cpp)
-
-add_library(albedo OBJECT
-        src/Albedo.cpp)
+add_library(adcs OBJECT
+        src/mathFunctions.cpp
+        lib/geomag/geomag.cpp
+        src/SatelliteModel.cpp
+        src/MEKF.cpp
+        src/Albedo.cpp
+        src/Bdot.cpp)
 
 add_executable(adcs-onboard-software main.cpp
-        $<TARGET_OBJECTS:math-lib>
-        $<TARGET_OBJECTS:satellite-model>
-        $<TARGET_OBJECTS:igrf>
-        $<TARGET_OBJECTS:albedo>
-        $<TARGET_OBJECTS:mekf>
-        )
+        $<TARGET_OBJECTS:adcs>)
 
 target_link_libraries(adcs-onboard-software eigen)
 add_subdirectory(lib/eigen)
@@ -41,11 +29,7 @@ IF (EXISTS "${PROJECT_SOURCE_DIR}/lib/Catch2/CMakeLists.txt")
     file(GLOB test_SRC "test/**/*.cpp")
 
     add_subdirectory(lib/Catch2)
-    add_executable(tests $<TARGET_OBJECTS:math-lib>
-            $<TARGET_OBJECTS:igrf>
-            $<TARGET_OBJECTS:albedo>
-            $<TARGET_OBJECTS:satellite-model>
-            $<TARGET_OBJECTS:mekf>
+    add_executable(tests $<TARGET_OBJECTS:adcs>
             ${test_main_SRC}
             ${test_SRC})
     target_link_libraries(tests Catch2::Catch2)
