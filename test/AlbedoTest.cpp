@@ -2,6 +2,7 @@
 #include "Albedo.h"
 
 using namespace albedo;
+using namespace Eigen;
 
 TEST_CASE("Calculate cell area test") {
     int16_t i = 40;

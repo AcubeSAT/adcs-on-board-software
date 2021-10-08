@@ -4,8 +4,6 @@
 #include "Eigen/Geometry"
 #include <algorithm>
 
-using namespace Eigen;
-
 const int16_t ReflectivityDataRows = 180;
 const int16_t ReflectivityDataColumns = 288;
 
@@ -18,7 +16,7 @@ namespace albedo {
  * @param phi reflectivity data point's longitude
  * @return vector containing TOMS reflectivity matrix indices
  */
-    inline Vector<int16_t, 2> radiansToIndices(float theta, float phi) {
+    inline Eigen::Vector<int16_t, 2> radiansToIndices(float theta, float phi) {
         float dx = 2 * M_PI / ReflectivityDataColumns;
         float dy = M_PI / ReflectivityDataRows;
 
@@ -37,7 +35,7 @@ namespace albedo {
  * @param j TOMS reflectivity matrix index
  * @return vector containing reflectivity data point's latitude and longitude
  */
-    inline Vector2f indicesToRadians(int16_t i, int16_t j) {
+    inline Eigen::Vector2f indicesToRadians(int16_t i, int16_t j) {
         float dx = 2 * M_PI / ReflectivityDataColumns;
         float dy = M_PI / ReflectivityDataRows;
 
@@ -73,9 +71,9 @@ namespace albedo {
  * @param reflectivityData Earth surface reflectivity data from TOMS project
  * @return sunlight reflected off the Earth's surface
  */
-Matrix<float, ReflectivityDataRows, ReflectivityDataColumns>
-calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
-                const Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> &reflectivityData);
+Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns>
+calculateAlbedo(const Eigen::Vector3f &satellite, const Eigen::Vector3f &sunPosition,
+                const Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> &reflectivityData);
 
 
 #endif //ADCS_ONBOARD_SOFTWARE_ALBEDO_H

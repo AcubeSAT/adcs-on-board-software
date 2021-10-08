@@ -1,6 +1,8 @@
 #include <catch2/catch.hpp>
 #include "MEKF.h"
 
+using namespace Eigen;
+
 TEST_CASE("MEKF predict test") {
 
     float timestep = 0.1;
