@@ -1,6 +1,8 @@
 #include "MEKF.h"
 #include "mathFunctions.h"
 
+using namespace Eigen;
+
 void MEKF::predict(float timestep, const SatelliteModel &satelliteModel, const Vector3f &gyroMeasurements) {
     F_k = satelliteModel.stateTransitionJacobian(globalState, gyroMeasurements);
     globalState = satelliteModel.stateTransitionFunction(globalState, gyroMeasurements);

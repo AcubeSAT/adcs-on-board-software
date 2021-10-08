@@ -5,22 +5,20 @@
 
 #include "Eigen/Geometry"
 
-using namespace Eigen;
-
 /**
  * Calculates the product of two quaternions
  * @param quaternion1 quaternion that expresses a rotation
  * @param quaternion2 quaternion that expresses another rotation
  * @return quaternion equivalent to applying the two rotations in sequence
  */
-Quaternionf quaternionProduct(const Quaternionf &quaternion1, const Quaternionf &quaternion2);
+Eigen::Quaternionf quaternionProduct(const Eigen::Quaternionf &quaternion1, const Eigen::Quaternionf &quaternion2);
 
 /**
  * Calculates the exponential map of the rotational velocity
  * @param angularVelocity rotational velocity
  * @return quaternion that expresses rotation equal to rotational velocity (angularVelocity) in seconds
  */
-Quaternionf quaternionExponent(Vector3f angularVelocity);
+Eigen::Quaternionf quaternionExponent(Eigen::Vector3f angularVelocity);
 
 /**
  * Rotates 3D vector by quaternion.
@@ -30,14 +28,14 @@ Quaternionf quaternionExponent(Vector3f angularVelocity);
  * @param vector vector to be rotated from a frame to another
  * @return rotated vector
  */
-Vector3f rotateVector(const Quaternionf &quaternion, const Vector3f &vector);
+Eigen::Vector3f rotateVector(const Eigen::Quaternionf &quaternion, const Eigen::Vector3f &vector);
 
 /**
  * Maps a 3-dimensional vector to its corresponding skew-symmetric matrix
  * @param vector 3-dimensional vector
  * @return skew-symmetric matrix
  */
-Matrix<float, 3, 3> skew(Vector3f vector);
+Eigen::Matrix<float, 3, 3> skew(Eigen::Vector3f vector);
 
 /**
  * Convert degrees to rads
@@ -78,13 +76,13 @@ DecimalDate date2decimal(uint16_t year, uint8_t month, uint8_t day, uint8_t hour
  * @param vectorCartesian vector in Cartesian coordinates (x, y, z) in radians
  * @return vector in Spherical coordinates (azimuth, elevation, radius) in radians
  */
-Vector3f cartesianToSpherical(Vector3f vectorCartesian);
+Eigen::Vector3f cartesianToSpherical(Eigen::Vector3f vectorCartesian);
 
 /**
  * Transforms Spherical to Cartesian coordinates
  * @param vectorSpherical vector in Spherical coordinates (azimuth, elevation, radius) in radians
  * @return vector in Cartesian coordinates (x, y, z) in radians
  */
-Vector3f sphericalToCartesian(Vector3f vectorSpherical);
+Eigen::Vector3f sphericalToCartesian(Eigen::Vector3f vectorSpherical);
 
 #endif //MAIN_TEST_MATH_FUNCTIONS_H

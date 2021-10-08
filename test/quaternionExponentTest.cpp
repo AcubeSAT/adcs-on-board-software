@@ -1,6 +1,8 @@
 #include <catch2/catch.hpp>
 #include "mathFunctions.h"
 
+using namespace Eigen;
+
 TEST_CASE("Quaternion exponent test") {
     Vector3f w = {0.4, 0.5, -0.5};
 
