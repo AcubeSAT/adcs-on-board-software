@@ -4,7 +4,9 @@ project(adcs-onboard-software)
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(${PROJECT_SOURCE_DIR}/inc
+        ${PROJECT_SOURCE_DIR}/lib/etl/include
         ${PROJECT_SOURCE_DIR}/lib/eigen
+        ${PROJECT_SOURCE_DIR}/lib/SGP4
         ${PROJECT_SOURCE_DIR}/lib/geomag)
 
 add_library(adcs OBJECT
@@ -13,7 +15,8 @@ add_library(adcs OBJECT
         src/SatelliteModel.cpp
         src/MEKF.cpp
         src/Albedo.cpp
-        src/Bdot.cpp)
+        src/Bdot.cpp
+        lib/SGP4/sgp4.cpp)
 
 add_executable(adcs-onboard-software main.cpp
         $<TARGET_OBJECTS:adcs>)
