@@ -16,7 +16,8 @@ add_library(adcs OBJECT
         src/MEKF.cpp
         src/Albedo.cpp
         src/Bdot.cpp
-        lib/SGP4/sgp4.cpp)
+        lib/SGP4/sgp4.cpp
+        src/NominalToDetumblingTrigger.cpp)
 
 add_executable(adcs-onboard-software main.cpp
         $<TARGET_OBJECTS:adcs>)
