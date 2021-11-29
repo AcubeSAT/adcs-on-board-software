@@ -75,7 +75,7 @@ TEST_CASE("MEKF predict test") {
     }
 }
 
-TEST_CASE("MEKF correct test") {
+TEST_CASE("MEKF correct test - Without eclipse") {
 
     float timestep = 0.1;
     SatelliteModel satelliteModel(timestep);
@@ -135,7 +135,80 @@ TEST_CASE("MEKF correct test") {
             0.000119724890527456, -0.000251585328330496, -5.22285654118899e-06, -0.000202304764827347, 0.00125582934318329, 9.65157739458898e-06,
             6.15531964655994e-05, -9.30794393067315e-06, -0.00017517707393504, -9.35335667013187e-05, 9.65157739458904e-06, 0.00112289854007941;
 
-    mekf.correct(measurements, magneticFieldECI, sunPositionECI, eclipse, satelliteModel);
+    Vector3f satPositionECI(1.0e+06 * 4.569033859736713, 1.0e+06 * 0.261242083257025, -1.0e+06 * 5.135087257503072);
+    float albedo = 1.000567064204868e-10;
+
+    mekf.correct(measurements, magneticFieldECI, sunPositionECI, eclipse, satelliteModel, satPositionECI, albedo);
+
+    auto outputState = mekf.getGlobalState();
+    auto outputP = mekf.getP();
+
+    for (int i = 0; i < currentState.size(); i++) {
+        REQUIRE(outputState(i) == Approx(expectedState(i)).epsilon(0.01));
+    }
+    for (int i = 0; i < LocalStateSize; i++) {
+        for (int j = 0; j < LocalStateSize; j++) {
+            REQUIRE(outputP(i, j) == Approx(expectedP(i, j)).epsilon(0.01));
+        }
+    }
+}
+
+TEST_CASE("MEKF correct test - With eclipse") {
+
+    float timestep = 0.1;
+    SatelliteModel satelliteModel(timestep);
+    Matrix<float, LocalStateSize, LocalStateSize> Q;
+    Q << 1, 0, 0, 0, 0, 0,
+            0, 1, 0, 0, 0, 0,
+            0, 0, 1, 0, 0, 0,
+            0, 0, 0, 1e-3, 0, 0,
+            0, 0, 0, 0, 1e-3, 0,
+            0, 0, 0, 0, 0, 1e-3;
+    Q *= 1e-4;
+
+    Matrix<float, MeasurementSize, MeasurementSize> R;
+    R << 0.000000100000000, 0, 0, 0, 0, 0,
+            0, 0.000000100000000, 0, 0, 0, 0,
+            0, 0, 0.000000100000000, 0, 0, 0,
+            0, 0, 0, 1.000000000000000, 0, 0,
+            0, 0, 0, 0, 1.000000000000000, 0,
+            0, 0, 0, 0, 0, 1.000000000000000;
+
+    MEKF mekf(Q, R);
+
+    Matrix<float, LocalStateSize, LocalStateSize> P;
+    P
+            << 0.001000532028826, 0.000039799843243, -0.000023397035243, -0.000031228978606, -0.000000275326053, 0.000000439784453,
+            0.000039799843243, 0.001308555447659, -0.000085623932552, -0.000003047889606, -0.000040206576649, 0.000002088616037,
+            -0.000023397035243, -0.000085623932552, 0.001009595788290, 0.000001188949449, 0.000002693939586, -0.000031290752345,
+            -0.000031228978606, -0.000003047889606, 0.000001188949449, 0.000032666516885, 0.000000060978029, -0.000000024302848,
+            -0.000000275326053, -0.000040206576649, 0.000002693939586, 0.000000060978029, 0.000032932810253, -0.000000075615809,
+            0.000000439784453, 0.000002088616037, -0.000031290752345, -0.000000024302848, -0.000000075615809, 0.000032650244727;
+    mekf.setP(P);
+
+    GlobalStateVector currentState(-0.765115125919115, -0.474545758467044, 0.069502711228155, -0.429621391858752,
+                                   -0.072204707065460, 0.123869142919400, -0.064575258483096);
+    mekf.setGlobalState(currentState);
+
+    MeasurementVector measurements(0.080507270942589, -0.989408379069875, 0.120787576975857, 0, 0, 0);
+    Vector3f magneticFieldECI(1.0e+04 * 3.094327965270048, -1.0e+04 * 0.855794129136668, -1.0e+04 * 2.159163431159944);
+    Vector3f sunPositionECI(-0.175412927368641, 0.918817554837861, 0.398297949025007);
+    bool eclipse = true;
+    Vector3f satPositionECI(1.0e+06 * 4.569033859736713, 1.0e+06 * 0.261242083257025, -1.0e+06 * 5.135087257503072);
+    float albedo = 1.000567064204868e-10;
+
+    mekf.correct(measurements, magneticFieldECI, sunPositionECI, eclipse, satelliteModel, satPositionECI, albedo);
+
+    GlobalStateVector expectedState(-0.763759607585108, -0.477159784616164, 0.067216485704839, -0.429501741342207,
+                                    -0.072431881749339, 0.123846663072216, -0.064529456997382);
+    Matrix<float, LocalStateSize, LocalStateSize> expectedP;
+    expectedP
+            << 0.000008282830359, -0.000102485744922, 0.000011750668220, -0.000000114684634, 0.000003160214479, -0.000000323212935,
+            -0.000102485744922, 0.001283679714947, -0.000147170904163, 0.000001397218160, -0.000039581899152, 0.000004047691243,
+            0.000011750668220, -0.000147170904163, 0.000016974107366, -0.000000160181840, 0.000004537982225, -0.000000467202722,
+            -0.000000114684634, 0.000001397218160, -0.000000160181840, 0.000031690793902, -0.000000046261632, 0.000000007295405,
+            0.000003160214479, -0.000039581899152, 0.000004537982225, -0.000000046261632, 0.000032917017383, -0.000000134038474,
+            -0.000000323212935, 0.000004047691243, -0.000000467202722, 0.000000007295405, -0.000000134038474, 0.000031692982486;
 
     auto outputState = mekf.getGlobalState();
     auto outputP = mekf.getP();

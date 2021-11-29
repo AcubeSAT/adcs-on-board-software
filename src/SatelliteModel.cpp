@@ -1,5 +1,6 @@
 #include "SatelliteModel.h"
 #include "mathFunctions.h"
+#include "cssCompensation.h"
 
 using namespace Eigen;
 
@@ -7,10 +8,10 @@ SatelliteModel::SatelliteModel(float timestep) {
     this->timestep = timestep;
 }
 
-MeasurementVector SatelliteModel::measurementFunction(Vector3f magneticField,
-                                                      Vector3f sunPosition,
-                                                      bool eclipse,
-                                                      GlobalStateVector state) const {
+MeasurementVector
+SatelliteModel::measurementFunction(Vector3f magneticField, Vector3f sunPosition, bool eclipse, GlobalStateVector state,
+                                    Vector3f satPositionECI,
+                                    float albedo) const {
 
     MeasurementVector measurements;
 
@@ -25,9 +26,9 @@ MeasurementVector SatelliteModel::measurementFunction(Vector3f magneticField,
     Vector3f sunPositionBody;
 
     if (!eclipse) {
-        /* TODO: cssCompensation */
         sunPositionBody = rotateVector(quaternion, sunPosition);
-        measurements(seq(3, 5)) = sunPositionBody.normalized();
+        sunPositionBody.normalize();
+        measurements(seq(3, 5)) = cssCompensation(sunPositionBody, quaternion, satPositionECI, albedo);
     } else {
         measurements(seq(3, 5)).setZero();
     }
@@ -72,11 +73,11 @@ SatelliteModel::stateTransitionJacobian(GlobalStateVector state,
 Matrix<float, MeasurementSize, MeasurementSize>
 SatelliteModel::measurementJacobian(Vector3f magneticField,
                                     Vector3f sunPosition, bool eclipse,
-                                    GlobalStateVector state) const {
+                                    GlobalStateVector state, Vector3f satPositionECI, float albedo) const {
 
     MeasurementVector estimatedMeasurements = measurementFunction(magneticField,
                                                                   sunPosition, eclipse,
-                                                                  state);
+                                                                  state, satPositionECI, albedo);
     Matrix<float, MeasurementSize, MeasurementSize> H;
 
     H(seq(0, 2), seq(0, 2)) = skew(estimatedMeasurements(seq(0, 2)));
