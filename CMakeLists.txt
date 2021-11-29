@@ -16,6 +16,7 @@ add_library(adcs OBJECT
         src/MEKF.cpp
         src/Albedo.cpp
         src/Bdot.cpp
+        src/wahba.cpp
         lib/SGP4/sgp4.cpp)
 
 add_executable(adcs-onboard-software main.cpp
