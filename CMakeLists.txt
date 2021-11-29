@@ -17,6 +17,7 @@ add_library(adcs OBJECT
         src/Albedo.cpp
         src/Bdot.cpp
         src/wahba.cpp
+        src/cssCompensation.cpp
         lib/SGP4/sgp4.cpp)
 
 add_executable(adcs-onboard-software main.cpp

@@ -11,11 +11,11 @@ void MEKF::predict(float timestep, const SatelliteModel &satelliteModel, const V
 }
 
 void MEKF::correct(const MeasurementVector &measurement, const Vector3f &magneticField,
-                   const Vector3f &sunPosition, bool eclipse, const SatelliteModel &satelliteModel) {
-    H_k = satelliteModel.measurementJacobian(magneticField, sunPosition, eclipse, globalState);
+                   const Vector3f &sunPosition, bool eclipse, const SatelliteModel &satelliteModel, Vector3f satellitePositionECI,
+                   float albedo) {
+    H_k = satelliteModel.measurementJacobian(magneticField, sunPosition, eclipse, globalState, satellitePositionECI, albedo);
     MeasurementVector estimatedMeasurement = satelliteModel.measurementFunction(magneticField, sunPosition, eclipse,
-                                                                                globalState);
-
+                                                                                globalState, satellitePositionECI, albedo);
     auto I = Matrix<float, LocalStateSize, LocalStateSize>::Identity();
     auto temp = H_k * P * H_k.transpose() + R;
     K = (P * H_k.transpose()) * temp.colPivHouseholderQr().solve(I);
