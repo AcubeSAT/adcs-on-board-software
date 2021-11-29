@@ -1,11 +1,11 @@
 #ifndef MAIN_SATELLITEMODEL_H
 #define MAIN_SATELLITEMODEL_H
 
-
 #include "Eigen/Dense"
 
 const uint8_t LocalStateSize = 6;
 const uint8_t MeasurementSize = 6;
+const uint8_t vectorSize = 3;
 
 typedef Eigen::Vector<float, MeasurementSize> MeasurementVector;
 typedef Eigen::Vector<float, 7> GlobalStateVector;
