@@ -12,12 +12,12 @@
 class MEKF {
 private:
     /**
-     * state transition function Jacobian matrix
+     * state transition function Jacobian Matrix
      */
     Eigen::Matrix<float, LocalStateSize, LocalStateSize> F_k;
 
     /**
-     * measurement function Jacobian matrix
+     * measurement function Jacobian Matrix
      */
     Eigen::Matrix<float, MeasurementSize, LocalStateSize> H_k;
 
@@ -27,17 +27,17 @@ private:
     Eigen::Matrix<float, LocalStateSize, MeasurementSize> K;
 
     /**
-     * process noise covariance matrix
+     * process noise covariance Matrix
      */
     Eigen::Matrix<float, LocalStateSize, LocalStateSize> Q;
 
     /**
-     * measurement noise covariance matrix
+     * measurement noise covariance Matrix
      */
     Eigen::Matrix<float, MeasurementSize, MeasurementSize> R;
 
     /**
-     * estimation error covariance matrix
+     * estimation error covariance Matrix
      */
     Eigen::Matrix<float, LocalStateSize, LocalStateSize> P = Eigen::Matrix<float, LocalStateSize, LocalStateSize>::Identity();
 
@@ -50,8 +50,8 @@ public:
 
     /**
      * Class Constructor that initialises Q, R, P and globalState
-     * @param Q process noise covariance matrix
-     * @param R measurement noise covariance matrix
+     * @param Q process noise covariance Matrix
+     * @param R measurement noise covariance Matrix
      */
     MEKF(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &Q,
          const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &R)
@@ -60,7 +60,7 @@ public:
 
     /**
      * Q Setter
-     * @param Q process noise covariance matrix
+     * @param Q process noise covariance Matrix
      */
     void setQ(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &Q) {
         this->Q = Q;
@@ -68,7 +68,7 @@ public:
 
     /**
      * Q Getter
-     * @return Q process noise covariance matrix
+     * @return Q process noise covariance Matrix
      */
     Eigen::Matrix<float, LocalStateSize, LocalStateSize> getQ() const {
         return Q;
@@ -76,7 +76,7 @@ public:
 
     /**
      * R Setter
-     * @param R measurement noise covariance matrix
+     * @param R measurement noise covariance Matrix
      */
     void setR(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &R) {
         this->R = R;
@@ -84,7 +84,7 @@ public:
 
     /**
      * R Getter
-     * @return R measurement noise covariance matrix
+     * @return R measurement noise covariance Matrix
      */
     Eigen::Matrix<float, MeasurementSize, MeasurementSize> getR() const {
         return R;
@@ -92,7 +92,7 @@ public:
 
     /**
      * P Setter
-     * @param P estimation error covariance matrix
+     * @param P estimation error covariance Matrix
      */
     void setP(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &P) {
         this->P = P;
@@ -100,7 +100,7 @@ public:
 
     /**
      * P Getter
-     * @return P estimation error covariance matrix
+     * @return P estimation error covariance Matrix
      */
     Eigen::Matrix<float, LocalStateSize, LocalStateSize> getP() const {
         return P;
@@ -137,9 +137,12 @@ public:
      * @param sunPosition sun vector in the second frame, in our case ECI
      * @param eclipse bool variable which is set to false if during this timestep the satellite is not in eclipse
      * @param satelliteModel object of the Class SatelliteModel that implements the space environment
+     * @param satellitePositionECI satellite position in ECI frame
+     * @param albedo the fraction of the sunlight reflected off the Earth's surface
      */
     void correct(const MeasurementVector &measurement, const Eigen::Vector3f &magneticField,
-                 const Eigen::Vector3f &sunPosition, bool eclipse, const SatelliteModel &satelliteModel);
+                 const Eigen::Vector3f &sunPosition, bool eclipse, const SatelliteModel &satelliteModel, Eigen::Vector3f satellitePositionECI,
+                 float albedo);
 };
 
 
