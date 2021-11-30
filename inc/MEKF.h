@@ -14,32 +14,32 @@ private:
     /**
      * state transition function Jacobian Matrix
      */
-    Eigen::Matrix<float, LocalStateSize, LocalStateSize> F_k;
+    Eigen::Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> F_k;
 
     /**
      * measurement function Jacobian Matrix
      */
-    Eigen::Matrix<float, MeasurementSize, LocalStateSize> H_k;
+    Eigen::Matrix<float, MEASUREMENT_SIZE, LOCAL_STATE_SIZE> H_k;
 
     /**
      * Kalman gain
      */
-    Eigen::Matrix<float, LocalStateSize, MeasurementSize> K;
+    Eigen::Matrix<float, LOCAL_STATE_SIZE, MEASUREMENT_SIZE> K;
 
     /**
      * process noise covariance Matrix
      */
-    Eigen::Matrix<float, LocalStateSize, LocalStateSize> Q;
+    Eigen::Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> Q;
 
     /**
      * measurement noise covariance Matrix
      */
-    Eigen::Matrix<float, MeasurementSize, MeasurementSize> R;
+    Eigen::Matrix<float, MEASUREMENT_SIZE, MEASUREMENT_SIZE> R;
 
     /**
      * estimation error covariance Matrix
      */
-    Eigen::Matrix<float, LocalStateSize, LocalStateSize> P = Eigen::Matrix<float, LocalStateSize, LocalStateSize>::Identity();
+    Eigen::Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> P = Eigen::Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE>::Identity();
 
     /**
      * state of the system, consisting the quaternion from ECI to Body frame and the bias of the gyroscope
@@ -53,8 +53,8 @@ public:
      * @param Q process noise covariance Matrix
      * @param R measurement noise covariance Matrix
      */
-    MEKF(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &Q,
-         const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &R)
+    MEKF(const Eigen::Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> &Q,
+         const Eigen::Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> &R)
             : Q{Q}, R{R} {
     }
 
@@ -62,7 +62,7 @@ public:
      * Q Setter
      * @param Q process noise covariance Matrix
      */
-    void setQ(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &Q) {
+    void setQ(const Eigen::Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> &Q) {
         this->Q = Q;
     }
 
@@ -70,7 +70,7 @@ public:
      * Q Getter
      * @return Q process noise covariance Matrix
      */
-    Eigen::Matrix<float, LocalStateSize, LocalStateSize> getQ() const {
+    Eigen::Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> getQ() const {
         return Q;
     }
 
@@ -78,7 +78,7 @@ public:
      * R Setter
      * @param R measurement noise covariance Matrix
      */
-    void setR(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &R) {
+    void setR(const Eigen::Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> &R) {
         this->R = R;
     }
 
@@ -86,7 +86,7 @@ public:
      * R Getter
      * @return R measurement noise covariance Matrix
      */
-    Eigen::Matrix<float, MeasurementSize, MeasurementSize> getR() const {
+    Eigen::Matrix<float, MEASUREMENT_SIZE, MEASUREMENT_SIZE> getR() const {
         return R;
     }
 
@@ -94,7 +94,7 @@ public:
      * P Setter
      * @param P estimation error covariance Matrix
      */
-    void setP(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &P) {
+    void setP(const Eigen::Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> &P) {
         this->P = P;
     }
 
@@ -102,7 +102,7 @@ public:
      * P Getter
      * @return P estimation error covariance Matrix
      */
-    Eigen::Matrix<float, LocalStateSize, LocalStateSize> getP() const {
+    Eigen::Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> getP() const {
         return P;
     }
 

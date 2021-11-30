@@ -33,7 +33,6 @@ private:
 public:
 
     /**
-     * Class constructor
      * @param magneticFieldBody magnetic field value expressed in the Body Frame
      * @param Kp proportional positive scalar gain
      * @param maxMagneticDipole magnetorquers maximum magnetic dipole (in Am^2)
