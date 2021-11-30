@@ -1,4 +1,5 @@
 #include "wahba.h"
+#include "Definitions.h"
 
 Eigen::Quaternionf wahba(Eigen::Vector3f magneticBody, Eigen::Vector3f magneticECI, Eigen::Vector3f sunBody,
                          Eigen::Vector3f sunECI) {
@@ -7,9 +8,9 @@ Eigen::Quaternionf wahba(Eigen::Vector3f magneticBody, Eigen::Vector3f magneticE
     sunBody.normalize();
     sunECI.normalize();
 
-    Eigen::Matrix<float, vectorSize, vectorSize> A;
+    Eigen::Matrix<float, VECTOR_SIZE, VECTOR_SIZE> A;
 
-    for (uint8_t i = 0; i < vectorSize; i++) {
+    for (uint8_t i = 0; i < VECTOR_SIZE; i++) {
         A(i, 0) = magneticBody(i) * magneticECI(0) +
                   sunBody(i) * sunECI(0);
         A(i, 1) = magneticBody(i) * magneticECI(1) +
@@ -19,8 +20,8 @@ Eigen::Quaternionf wahba(Eigen::Vector3f magneticBody, Eigen::Vector3f magneticE
     }
 
     Eigen::JacobiSVD<Eigen::MatrixXf> svd(A, Eigen::ComputeThinU | Eigen::ComputeThinV);
-    Eigen::Matrix<float, vectorSize, vectorSize> U = svd.matrixU();
-    Eigen::Matrix<float, vectorSize, vectorSize> V = svd.matrixV();
+    Eigen::Matrix<float, VECTOR_SIZE, VECTOR_SIZE> U = svd.matrixU();
+    Eigen::Matrix<float, VECTOR_SIZE, VECTOR_SIZE> V = svd.matrixV();
 
     float d = U.determinant() * V.determinant();
     if (d < 0) {
@@ -29,7 +30,7 @@ Eigen::Quaternionf wahba(Eigen::Vector3f magneticBody, Eigen::Vector3f magneticE
         U(2, 2) *= -1;
     }
 
-    Eigen::Matrix<float, vectorSize, vectorSize> rotationMatrix = U * V.transpose();
+    Eigen::Matrix<float, VECTOR_SIZE, VECTOR_SIZE> rotationMatrix = U * V.transpose();
 
     Eigen::Quaternionf finalQuaternion(rotationMatrix.transpose());
 

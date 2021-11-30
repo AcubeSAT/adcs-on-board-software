@@ -1,15 +1,9 @@
 #ifndef MAIN_SATELLITEMODEL_H
 #define MAIN_SATELLITEMODEL_H
 
+
 #include "Eigen/Dense"
-
-const uint8_t LocalStateSize = 6;
-const uint8_t MeasurementSize = 6;
-const uint8_t vectorSize = 3;
-
-typedef Eigen::Vector<float, MeasurementSize> MeasurementVector;
-typedef Eigen::Vector<float, 7> GlobalStateVector;
-
+#include "Definitions.h"
 
 /**
  * Class that implements the space environment
@@ -58,7 +52,7 @@ public:
      * @param gyroMeasurements measurements from gyroscope
      * @return state's Jacobian
      */
-    Eigen::Matrix<float, LocalStateSize, LocalStateSize>
+    Eigen::Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE>
     stateTransitionJacobian(GlobalStateVector state,
                             Eigen::Vector3f gyroMeasurements) const;
 
@@ -70,8 +64,8 @@ public:
      * @param state 7-element vector consisting of the quaternion representation of the satellite's orientation and bias
      * @param albedo the sunlight reflected off the Earth's surface
      * @return measurements' Jacobian
-    */
-    Eigen::Matrix<float, MeasurementSize, MeasurementSize>
+     */
+    Eigen::Matrix<float, MEASUREMENT_SIZE, MEASUREMENT_SIZE>
     measurementJacobian(Eigen::Vector3f magneticField,
                         Eigen::Vector3f sunPosition, bool eclipse,
                         GlobalStateVector state, Eigen::Vector3f satPositionECI, float albedo) const;
