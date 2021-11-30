@@ -16,9 +16,16 @@ add_library(adcs OBJECT
         src/MEKF.cpp
         src/Albedo.cpp
         src/Bdot.cpp
+        lib/SGP4/sgp4.cpp
         src/wahba.cpp
         src/cssCompensation.cpp
-        lib/SGP4/sgp4.cpp)
+        src/Pointing.cpp
+        src/PointingTarget.cpp
+        src/NadirPointing.cpp
+        src/SunPointing.cpp
+        src/PointingStrategy.cpp
+        src/MagnetorquerPlusRW.cpp
+        src/MagnetorquerOnly.cpp)
 
 add_executable(adcs-onboard-software main.cpp
         $<TARGET_OBJECTS:adcs>)
