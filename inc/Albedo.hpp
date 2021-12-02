@@ -4,6 +4,8 @@
 #include "Eigen/Geometry"
 #include <algorithm>
 
+#include "Definitions.hpp"
+
 const int16_t ReflectivityDataRows = 180;
 const int16_t ReflectivityDataColumns = 288;
 
@@ -17,11 +19,11 @@ namespace albedo {
  * @return vector containing TOMS reflectivity matrix indices
  */
     inline Eigen::Vector<int16_t, 2> radiansToIndices(float theta, float phi) {
-        float dx = 2 * M_PI / ReflectivityDataColumns;
-        float dy = M_PI / ReflectivityDataRows;
+        float dx = 2 * PI / ReflectivityDataColumns;
+        float dy = PI / ReflectivityDataRows;
 
-        int16_t i = static_cast<int16_t>(round((M_PI - dy / 2 - phi) / dy));
-        int16_t j = static_cast<int16_t>(round((theta + M_PI - dx / 2) / dx));
+        int16_t i = static_cast<int16_t>(round((PI - dy / 2 - phi) / dy));
+        int16_t j = static_cast<int16_t>(round((theta + PI - dx / 2) / dx));
 
         i = std::max(static_cast<int16_t>(0), i);
         j = std::max(static_cast<int16_t>(0), j);
@@ -36,11 +38,11 @@ namespace albedo {
  * @return vector containing reflectivity data point's latitude and longitude
  */
     inline Eigen::Vector2f indicesToRadians(int16_t i, int16_t j) {
-        float dx = 2 * M_PI / ReflectivityDataColumns;
-        float dy = M_PI / ReflectivityDataRows;
+        float dx = 2 * PI / ReflectivityDataColumns;
+        float dy = PI / ReflectivityDataRows;
 
-        float phi = M_PI - dy / 2 - i * dy;
-        float theta = j * dx - M_PI + dx / 2;
+        float phi = PI - dy / 2 - i * dy;
+        float theta = j * dx - PI + dx / 2;
 
         return {theta, phi};
     }
