@@ -39,7 +39,7 @@ public:
      * @param oldReactionWheelAcceleration Angular acceleration of the reaction wheel in the previous step of the control cycle (in rpm/sec)
      * @return Magnetic torque and Reaction Wheel torque
      */
-    Eigen::Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> performPointing(Eigen::Quaternionf quaternion,
+    Eigen::Matrix<float, VectorSize, NumOfActuators> performPointing(Eigen::Quaternionf quaternion,
                                                                         Eigen::Vector3f sunEciUnitVector,
                                                                         GlobalStateVector state,
                                                                         bool eclipse,

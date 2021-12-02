@@ -16,7 +16,7 @@ void MEKF::correct(const MeasurementVector &measurement, const Vector3f &magneti
     H_k = satelliteModel.measurementJacobian(magneticField, sunPosition, eclipse, globalState, satellitePositionECI, albedo);
     MeasurementVector estimatedMeasurement = satelliteModel.measurementFunction(magneticField, sunPosition, eclipse,
                                                                                 globalState, satellitePositionECI, albedo);
-    auto I = Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE>::Identity();
+    auto I = Matrix<float, LocalStateSize, LocalStateSize>::Identity();
     auto temp = H_k * P * H_k.transpose() + R;
     K = (P * H_k.transpose()) * temp.colPivHouseholderQr().solve(I);
 

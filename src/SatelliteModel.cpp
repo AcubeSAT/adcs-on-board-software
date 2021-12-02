@@ -59,18 +59,18 @@ SatelliteModel::stateTransitionFunction(GlobalStateVector state,
     return nextState;
 }
 
-Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE>
+Matrix<float, LocalStateSize, LocalStateSize>
 SatelliteModel::stateTransitionJacobian(GlobalStateVector state,
                                         Vector3f gyroMeasurements) const {
 
-    Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> F;
+    Matrix<float, LocalStateSize, LocalStateSize> F;
     F(seq(0, 2), seq(0, 2)) = skew(gyroMeasurements - state(seq(4, 6)));
     F(seq(0, 2), seq(3, 5)) = -Matrix<float, 3, 3>::Identity();
     F(seq(3, 5), seq(0, 5)) = Matrix<float, 3, 6>::Zero();
     return F;
 }
 
-Matrix<float, MEASUREMENT_SIZE, MEASUREMENT_SIZE>
+Matrix<float, MeasurementSize, MeasurementSize>
 SatelliteModel::measurementJacobian(Vector3f magneticField,
                                     Vector3f sunPosition, bool eclipse,
                                     GlobalStateVector state, Vector3f satPositionECI, float albedo) const {
@@ -78,7 +78,7 @@ SatelliteModel::measurementJacobian(Vector3f magneticField,
     MeasurementVector estimatedMeasurements = measurementFunction(magneticField,
                                                                   sunPosition, eclipse,
                                                                   state, satPositionECI, albedo);
-    Matrix<float, MEASUREMENT_SIZE, MEASUREMENT_SIZE> H;
+    Matrix<float, MeasurementSize, MeasurementSize> H;
 
     H(seq(0, 2), seq(0, 2)) = skew(estimatedMeasurements(seq(0, 2)));
     H(seq(3, 5), seq(0, 2)) = skew(estimatedMeasurements(seq(3, 5)));
