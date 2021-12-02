@@ -1,8 +1,8 @@
 #include <catch2/catch.hpp>
 #include <cmath>
 #include <cstring>
-#include "TLEUtils.h"
-#include "mathFunctions.h"
+#include "TLEUtils.hpp"
+#include "MathFunctions.hpp"
 #include "sgp4.h"
 
 const int MinutesInDay = 1440;

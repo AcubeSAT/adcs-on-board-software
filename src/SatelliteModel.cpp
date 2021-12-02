@@ -1,6 +1,6 @@
-#include "SatelliteModel.h"
-#include "mathFunctions.h"
-#include "cssCompensation.h"
+#include "SatelliteModel.hpp"
+#include "MathFunctions.hpp"
+#include "CSSCompensation.hpp"
 
 using namespace Eigen;
 
