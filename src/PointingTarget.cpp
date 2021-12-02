@@ -1,4 +1,4 @@
-#include "PointingTarget.h"
+#include "PointingTarget.hpp"
 
 using namespace Eigen;
 

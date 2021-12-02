@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-#include "Bdot.h"
+#include "Bdot.hpp"
 #include "Eigen/Geometry"
 
 using namespace Eigen;

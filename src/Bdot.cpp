@@ -1,4 +1,4 @@
-#include "Bdot.h"
+#include "Bdot.hpp"
 
 using namespace Eigen;
 

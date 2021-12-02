@@ -1,5 +1,5 @@
-#include "SunPointing.h"
-#include "mathFunctions.h"
+#include "SunPointing.hpp"
+#include "MathFunctions.hpp"
 
 using namespace Eigen;
 
