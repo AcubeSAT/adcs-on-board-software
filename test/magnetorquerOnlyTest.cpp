@@ -16,7 +16,7 @@ TEST_CASE("Magnetorquer Only Strategy - Magnetorquer saturation") {
     Vector3f desiredReactionWheelTorque1 = {0, 0, 0};
     Vector3f desiredMagneticTorque1 = {5e-06, 5e-06, 0};
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque1 = magnetorquerOnly.desaturateMagnetorquer(
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque1 = magnetorquerOnly.desaturateMagnetorquer(
             desiredMagneticTorque1,
             desiredReactionWheelTorque1,
             commandedTorque1,
@@ -30,7 +30,7 @@ TEST_CASE("Magnetorquer Only Strategy - Magnetorquer saturation") {
     Vector3f desiredReactionWheelTorque2 = {0, 0, 0};
     Vector3f desiredMagneticTorque2 = {-0.000405, -0.000554, -0.001172};
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque2 = magnetorquerOnly.desaturateMagnetorquer(
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque2 = magnetorquerOnly.desaturateMagnetorquer(
             desiredMagneticTorque2,
             desiredReactionWheelTorque2,
             commandedTorque2,
@@ -53,7 +53,7 @@ TEST_CASE("Magnetorquer Only Strategy - Magnetorquer saturation") {
         Vector3f desiredReactionWheelTorque = {0, 0, 0};
         Vector3f desiredMagneticTorque = {-0.000405, -0.000554, -0.001172};
 
-        Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque = magnetorquerOnly.desaturateMagnetorquer(
+        Matrix<float, VectorSize, NumOfActuators> actuatorTorque = magnetorquerOnly.desaturateMagnetorquer(
                 desiredMagneticTorque,
                 desiredReactionWheelTorque,
                 commandedTorque,
@@ -73,7 +73,7 @@ TEST_CASE("Magnetorquer Only Strategy - Magnetorquer saturation") {
         Vector3f desiredReactionWheelTorque = {0, 0, 0};
         Vector3f desiredMagneticTorque = {-0.000405, -0.000554, -0.001172};
 
-        Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque = magnetorquerOnly.desaturateMagnetorquer(
+        Matrix<float, VectorSize, NumOfActuators> actuatorTorque = magnetorquerOnly.desaturateMagnetorquer(
                 desiredMagneticTorque,
                 desiredReactionWheelTorque,
                 commandedTorque,
@@ -93,7 +93,7 @@ TEST_CASE("Magnetorquer Only Strategy - Magnetorquer saturation") {
         Vector3f desiredReactionWheelTorque = {0, 0, 0};
         Vector3f desiredMagneticTorque = {-0.000405, -0.000554, -0.001172};
 
-        Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque = magnetorquerOnly.desaturateMagnetorquer(
+        Matrix<float, VectorSize, NumOfActuators> actuatorTorque = magnetorquerOnly.desaturateMagnetorquer(
                 desiredMagneticTorque,
                 desiredReactionWheelTorque,
                 commandedTorque,

@@ -8,7 +8,7 @@ MagnetorquerOnly::MagnetorquerOnly(Vector3f maxMagneticDipoleMoment, Vector3f re
         : PointingStrategy(maxMagneticDipoleMoment,
                            residualDipoleEstimation) {}
 
-Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+Matrix<float, VectorSize, NumOfActuators>
 MagnetorquerOnly::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
                                          Vector3f desiredReactionWheelTorque, [[maybe_unused]] Vector3f commandedTorque,
                                          Vector3f magneticField, Vector3f desiredMagneticDipole) const {
@@ -28,7 +28,7 @@ MagnetorquerOnly::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
         desiredMagneticDipole.z() < magnetorquerLowerLimits.z()) {
 
         Vector3f magnetorquerLimits;
-        for (int i = 0; i < VECTOR_SIZE; i++) {
+        for (int i = 0; i < VectorSize; i++) {
             if (desiredMagneticDipole(i) > 0){
                 magnetorquerLimits(i) = magnetorquerUpperLimits(i);
             }
@@ -45,14 +45,14 @@ MagnetorquerOnly::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
 
     desiredReactionWheelTorque = {0, 0, 0};
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque;
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque;
     actuatorTorque(seq(0, 2), 0) = desiredMagneticTorque;
     actuatorTorque(seq(0, 2), 1) = desiredReactionWheelTorque;
 
     return actuatorTorque;
 }
 
-Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+Matrix<float, VectorSize, NumOfActuators>
 MagnetorquerOnly::actuate(Vector3f commandedTorque, Vector3f magneticField, [[maybe_unused]] bool firstTime,
                           [[maybe_unused]] float currentReactionWheelAngularVelocity,
                           [[maybe_unused]] float oldReactionWheelAcceleration) const {
@@ -63,7 +63,7 @@ MagnetorquerOnly::actuate(Vector3f commandedTorque, Vector3f magneticField, [[ma
             skew(magneticFieldNormalized).transpose() * skew(magneticFieldNormalized) * commandedTorque;
     Vector3f desiredMagneticDipole = skew(magneticField) * desiredMagneticTorque / (pow(magneticField.norm(), 2));
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> desiredActuatorsTorque = desaturateMagnetorquer(desiredMagneticTorque,
+    Matrix<float, VectorSize, NumOfActuators> desiredActuatorsTorque = desaturateMagnetorquer(desiredMagneticTorque,
                                                                                                  {0, 0, 0},
                                                                                                  commandedTorque,
                                                                                                  magneticField,
@@ -75,7 +75,7 @@ MagnetorquerOnly::actuate(Vector3f commandedTorque, Vector3f magneticField, [[ma
     desiredMagneticTorque = desiredMagneticDipole.cross(magneticField);
 
     Vector3f desiredReactionWheelTorque = {0, 0, 0};
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque;
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque;
     actuatorTorque(seq(0, 2), 0) = desiredMagneticTorque;
     actuatorTorque(seq(0, 2), 1) = desiredReactionWheelTorque;
 
