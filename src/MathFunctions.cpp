@@ -1,8 +1,8 @@
+#include "Definitions.hpp"
 #include "MathFunctions.hpp"
 
 #include "Eigen/Geometry"
 #include "Eigen/Dense"
-#include <cmath>
 
 using namespace Eigen;
 
