@@ -1,4 +1,4 @@
-#include "PointingStrategy.h"
+#include "PointingStrategy.hpp"
 
 using namespace Eigen;
 

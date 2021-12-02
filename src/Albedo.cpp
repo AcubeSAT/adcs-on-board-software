@@ -1,7 +1,7 @@
 #include "Eigen/Geometry"
 #include "Eigen/Dense"
-#include "mathFunctions.h"
-#include "Albedo.h"
+#include "MathFunctions.hpp"
+#include "Albedo.hpp"
 
 using namespace Eigen;
 
