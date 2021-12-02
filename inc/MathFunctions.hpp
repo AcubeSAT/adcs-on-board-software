@@ -2,6 +2,7 @@
 #define MAIN_TEST_MATH_FUNCTIONS_H
 
 #include "Eigen/Geometry"
+#include "Definitions.hpp"
 
 /**
  * Calculates the product of two quaternions
@@ -39,14 +40,14 @@ Eigen::Matrix<float, 3, 3> skew(Eigen::Vector3f vector);
  * Convert degrees to rads
  */
 inline double deg2rad(double degrees) {
-    return M_PI * degrees / 180;
+    return PI * degrees / 180;
 }
 
 /**
  * Convert rads to degrees
  */
 inline double rad2deg(double rads) {
-    return 180 * rads / M_PI;
+    return 180 * rads / PI;
 }
 
 /**

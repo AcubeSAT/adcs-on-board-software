@@ -34,7 +34,7 @@ calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
     const float solarIrradiance = 1;
 
     Vector3f sunPositionSpherical = cartesianToSpherical(sunPosition);
-    sunPositionSpherical(1) = M_PI / 2 - sunPositionSpherical(1);
+    sunPositionSpherical(1) = PI / 2 - sunPositionSpherical(1);
 
     Vector<int16_t, 2> sunIndices = albedo::radiansToIndices(sunPositionSpherical(0), sunPositionSpherical(1));
 
@@ -46,7 +46,7 @@ calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
 
             float angleOfIncidentSolarIrradiance = albedo::gridAngle(i, j, sunIndices(0), sunIndices(1));
 
-            angleOfIncidentSolarIrradiance = std::min(angleOfIncidentSolarIrradiance, static_cast<float>(M_PI / 2));
+            angleOfIncidentSolarIrradiance = std::min(angleOfIncidentSolarIrradiance, static_cast<float>(PI / 2));
 
             float incidentPower =
                     solarIrradiance * albedo::calculateCellArea(i, j) * cos(angleOfIncidentSolarIrradiance);
@@ -54,14 +54,14 @@ calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
             float gridTheta = gridRadians(0);
             float gridPhi = gridRadians(1);
 
-            grid = sphericalToCartesian(Vector3f(gridTheta, M_PI / 2 - gridPhi, EMR));
+            grid = sphericalToCartesian(Vector3f(gridTheta, PI / 2 - gridPhi, EMR));
 
             float satelliteDistance = (satellite - grid).norm();
 
             float satelliteGridAngle = acos(
                     (((satellite - grid) / satelliteDistance).transpose()).dot(grid) / grid.norm());
             float pOut = incidentPower * reflectivityData(i, j) * cos(satelliteGridAngle) /
-                         (M_PI * satelliteDistance * satelliteDistance);
+                         (PI * satelliteDistance * satelliteDistance);
             albedo(i, j) = pOut;
         }
     }

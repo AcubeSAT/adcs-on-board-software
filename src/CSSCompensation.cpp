@@ -15,24 +15,24 @@ cssCompensation(Vector3f sunPositionBody, Quaternionf quaternionECIBody, Vector3
     std::array<Quaternionf, 6> cssFrameQuatRot;
 
     Quaternionf quaternion;
-    quaternion.w() = cos(-M_PI / 4);
-    quaternion.vec() = sin(-M_PI / 4) * Vector3f(0, 1, 0);
+    quaternion.w() = cos(-PI / 4);
+    quaternion.vec() = sin(-PI / 4) * Vector3f(0, 1, 0);
     cssFrameQuatRot[0]= quaternion;
 
-    quaternion.w() = cos(M_PI / 4);
-    quaternion.vec() = sin(M_PI / 4) * Vector3f(0, 1, 0);
+    quaternion.w() = cos(PI / 4);
+    quaternion.vec() = sin(PI / 4) * Vector3f(0, 1, 0);
     cssFrameQuatRot[1] = quaternion;
 
-    quaternion.w() = cos(-M_PI / 2);
-    quaternion.vec() = sin(-M_PI / 2) * Vector3f(0, 1, 0);
+    quaternion.w() = cos(-PI / 2);
+    quaternion.vec() = sin(-PI / 2) * Vector3f(0, 1, 0);
     cssFrameQuatRot[2] = quaternion;
 
-    quaternion.w() = cos(-M_PI / 4);
-    quaternion.vec() = sin(-M_PI / 4) * Vector3f(0, 0, 1);
+    quaternion.w() = cos(-PI / 4);
+    quaternion.vec() = sin(-PI / 4) * Vector3f(0, 0, 1);
     cssFrameQuatRot[3] = quaternion;
 
-    quaternion.w() = cos(M_PI / 4);
-    quaternion.vec() = sin(M_PI / 4) * Vector3f(0, 0, 1);
+    quaternion.w() = cos(PI / 4);
+    quaternion.vec() = sin(PI / 4) * Vector3f(0, 0, 1);
     cssFrameQuatRot[4] = quaternion;
 
     Matrix<float, 3, 6> sunPositionInFrame;
