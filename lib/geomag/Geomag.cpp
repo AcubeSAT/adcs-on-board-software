@@ -1,4 +1,5 @@
 #include "Geomag.h"
+#include "Definitions.hpp"
 #include "MathFunctions.hpp"
 
 #define GEO_NAN log(-1.0)
@@ -903,7 +904,7 @@ static int dihf(int gh) {
                     } else {
                         hpx = h + x;
                         if (hpx < sn) {
-                            d = M_PI;
+                            d = PI;
                         } else {
                             argument = y;
                             argument2 = hpx;
@@ -932,7 +933,7 @@ static int dihf(int gh) {
                     } else {
                         hpx = htemp + xtemp;
                         if (hpx < sn) {
-                            dtemp = M_PI;
+                            dtemp = PI;
                         } else {
                             argument = ytemp;
                             argument2 = hpx;
