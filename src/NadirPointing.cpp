@@ -1,5 +1,5 @@
-#include "NadirPointing.h"
-#include "mathFunctions.h"
+#include "NadirPointing.hpp"
+#include "MathFunctions.hpp"
 
 using namespace Eigen;
 

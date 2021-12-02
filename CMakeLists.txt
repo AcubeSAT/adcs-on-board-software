@@ -10,15 +10,15 @@ include_directories(${PROJECT_SOURCE_DIR}/inc
         ${PROJECT_SOURCE_DIR}/lib/geomag)
 
 add_library(adcs OBJECT
-        src/mathFunctions.cpp
-        lib/geomag/geomag.cpp
+        src/MathFunctions.cpp
+        lib/geomag/Geomag.cpp
         src/SatelliteModel.cpp
         src/MEKF.cpp
         src/Albedo.cpp
         src/Bdot.cpp
         lib/SGP4/sgp4.cpp
-        src/wahba.cpp
-        src/cssCompensation.cpp
+        src/Wahba.cpp
+        src/CSSCompensation.cpp
         src/Pointing.cpp
         src/PointingTarget.cpp
         src/NadirPointing.cpp

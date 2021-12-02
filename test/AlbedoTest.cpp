@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-#include "Albedo.h"
+#include "Albedo.hpp"
 
 using namespace albedo;
 using namespace Eigen;
