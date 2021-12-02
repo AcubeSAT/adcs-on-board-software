@@ -1,7 +1,7 @@
 #include <catch2/catch.hpp>
-#include <cmath>
 #include <cstring>
 #include "TLEUtils.hpp"
+#include "Definitions.hpp"
 #include "MathFunctions.hpp"
 #include "sgp4.h"
 
