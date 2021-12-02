@@ -1,4 +1,4 @@
-#include "Pointing.h"
+#include "Pointing.hpp"
 
 using namespace Eigen;
 

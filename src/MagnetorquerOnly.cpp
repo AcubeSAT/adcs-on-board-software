@@ -1,5 +1,5 @@
-#include "MagnetorquerOnly.h"
-#include "mathFunctions.h"
+#include "MagnetorquerOnly.hpp"
+#include "MathFunctions.hpp"
 #include <cassert>
 
 using namespace Eigen;

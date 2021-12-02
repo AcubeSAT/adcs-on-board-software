@@ -1,5 +1,5 @@
-#include "MEKF.h"
-#include "mathFunctions.h"
+#include "MEKF.hpp"
+#include "MathFunctions.hpp"
 
 using namespace Eigen;
 
