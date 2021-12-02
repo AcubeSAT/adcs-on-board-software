@@ -21,7 +21,7 @@ public:
      * the dipole is scaled accordingly
      * @return Magnetic torque and Reaction Wheel torque (equal to zero in this case)
      */
-    Eigen::Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+    Eigen::Matrix<float, VectorSize, NumOfActuators>
     desaturateMagnetorquer(Eigen::Vector3f desiredMagneticTorque,
                            Eigen::Vector3f desiredReactionWheelTorque,
                            Eigen::Vector3f commandedTorque,
@@ -32,7 +32,7 @@ public:
      * Algorithm to calculate the torque to be provided by the magnetorquers given the control torque
      * @return Magnetic torque and Reaction Wheel torque (equal to zero in this case)
      */
-    Eigen::Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+    Eigen::Matrix<float, VectorSize, NumOfActuators>
     actuate(Eigen::Vector3f commandedTorque, Eigen::Vector3f magneticField, bool firstTime,
             float currentReactionWheelAngularVelocity,
             float oldReactionWheelAcceleration) const override;
