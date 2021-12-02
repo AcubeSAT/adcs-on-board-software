@@ -1,13 +1,13 @@
 #ifndef ADCS_ONBOARD_SOFTWARE_DEFINITIONS_H
 #define ADCS_ONBOARD_SOFTWARE_DEFINITIONS_H
 
-#define VECTOR_SIZE 3
-#define NUM_OF_ACTUATORS 2
-#define LOCAL_STATE_SIZE 6
-#define GLOBAL_STATE_SIZE 7
-#define MEASUREMENT_SIZE 6
+inline uint8_t const VectorSize = 3;
+inline uint8_t const NumOfActuators = 2;
+inline uint8_t const LocalStateSize = 6;
+inline uint8_t const GlobalStateSize = 7;
+inline uint8_t const MeasurementSize = 6;
 
-typedef Eigen::Vector<float, MEASUREMENT_SIZE> MeasurementVector;
-typedef Eigen::Vector<float, GLOBAL_STATE_SIZE> GlobalStateVector;
+typedef Eigen::Vector<float, MeasurementSize> MeasurementVector;
+typedef Eigen::Vector<float, GlobalStateSize> GlobalStateVector;
 
 #endif //ADCS_ONBOARD_SOFTWARE_DEFINITIONS_H

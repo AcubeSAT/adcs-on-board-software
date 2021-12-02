@@ -25,7 +25,7 @@ TEST_CASE("Wahba Test") {
         if (signbit(expectedQuaternion.w()) != signbit(outputQuaternion.w())) {
             signFactor = -1;
         }
-        for (uint8_t i = 0; i < VECTOR_SIZE; i++) {
+        for (uint8_t i = 0; i < VectorSize; i++) {
             REQUIRE(vectorExpectedQuaternion(i) == Approx(vectorOutputQuaternion(i) * signFactor).epsilon(0.01));
         }
     }SECTION("Second Test") {
@@ -49,7 +49,7 @@ TEST_CASE("Wahba Test") {
         if (signbit(expectedQuaternion.w()) != signbit(outputQuaternion.w())) {
             signFactor = -1;
         }
-        for (uint8_t i = 0; i < VECTOR_SIZE; i++) {
+        for (uint8_t i = 0; i < VectorSize; i++) {
             REQUIRE(vectorExpectedQuaternion(i) == Approx(vectorOutputQuaternion(i) * signFactor).epsilon(0.01));
         }
     }
