@@ -29,7 +29,7 @@ protected:
      * @param desiredMagneticDipole Magnetic dipole moment (in Am^2)
      * @return Magnetic torque and Reaction Wheel torque
      */
-    Eigen::Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+    Eigen::Matrix<float, VectorSize, NumOfActuators>
     desaturateMagnetorquer(Eigen::Vector3f desiredMagneticTorque,
                            Eigen::Vector3f desiredReactionWheelTorque,
                            Eigen::Vector3f commandedTorque,
@@ -60,7 +60,7 @@ public:
      * @param oldReactionWheelAcceleration Angular acceleration of the reaction wheel in the previous step of the control cycle (in rpm/sec)
      * @return Magnetic torque and Reaction Wheel torque
      */
-    virtual Eigen::Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+    virtual Eigen::Matrix<float, VectorSize, NumOfActuators>
     actuate(Eigen::Vector3f commandedTorque, Eigen::Vector3f magneticField, bool firstTime,
             float currentReactionWheelAngularVelocity,
             float oldReactionWheelAcceleration) const = 0;

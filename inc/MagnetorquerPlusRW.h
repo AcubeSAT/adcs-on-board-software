@@ -47,7 +47,7 @@ public:
      * @param commandedTorque Control torque calculated by the PD controller (in Nm)
      * @return Magnetic torque and Reaction Wheel torque
      */
-    Eigen::Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> splitTorque(Eigen::Vector3f magneticField,
+    Eigen::Matrix<float, VectorSize, NumOfActuators> splitTorque(Eigen::Vector3f magneticField,
                                                                     Eigen::Vector3f commandedTorque) const;
 
 
@@ -57,7 +57,7 @@ public:
      * the magnetic and reaction wheel torques are split accordingly so that the reaction wheel torque compensates for the lack of magnetic actuation
      * @return Magnetic torque and Reaction Wheel torque
      */
-    Eigen::Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+    Eigen::Matrix<float, VectorSize, NumOfActuators>
     desaturateMagnetorquer(Eigen::Vector3f desiredMagneticTorque,
                            Eigen::Vector3f desiredReactionWheelTorque,
                            Eigen::Vector3f commandedTorque,
@@ -75,7 +75,7 @@ public:
      * @param reactionWheelAngularAcceleration Angular acceleration of the reaction wheel (in rpm/sec)
      * @return Magnetic torque and Reaction Wheel torque
      */
-    Eigen::Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+    Eigen::Matrix<float, VectorSize, NumOfActuators>
     desaturateReactionWheel(Eigen::Vector3f effectiveMagneticTorque,
                             Eigen::Vector3f reactionWheelTorque,
                             Eigen::Vector3f magneticFieldBody,
@@ -93,7 +93,7 @@ public:
      * Algorithm to distribute the commanded torque (control torque calculated by the PD controller) between the magnetorquers and the reaction wheel
      * @return Magnetic torque and Reaction Wheel torque
      */
-    Eigen::Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+    Eigen::Matrix<float, VectorSize, NumOfActuators>
     actuate(Eigen::Vector3f commandedTorque, Eigen::Vector3f magneticField, bool firstTime,
             float currentReactionWheelAngularVelocity,
             float oldReactionWheelAcceleration) const override;

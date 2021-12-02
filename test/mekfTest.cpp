@@ -8,7 +8,7 @@ TEST_CASE("MEKF predict test") {
     float timestep = 0.1;
     SatelliteModel satelliteModel(timestep);
 
-    Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> Q;
+    Matrix<float, LocalStateSize, LocalStateSize> Q;
     Q << 1.0000, 0, 0, 0, 0, 0,
             0, 1.0000, 0, 0, 0, 0,
             0, 0, 1.0000, 0, 0, 0,
@@ -17,7 +17,7 @@ TEST_CASE("MEKF predict test") {
             0, 0, 0, 0, 0, 0.0010;
     Q *= 0.0001;
 
-    Matrix<float, MEASUREMENT_SIZE, MEASUREMENT_SIZE> R;
+    Matrix<float, MeasurementSize, MeasurementSize> R;
     R << 0.5000, 0, 0, 0, 0, 0,
             0, 0.5000, 0, 0, 0, 0,
             0, 0, 0.5000, 0, 0, 0,
@@ -36,7 +36,7 @@ TEST_CASE("MEKF predict test") {
             << 0.4486483147627, -0.114193231757218, 0.886315639304009, -0.0109170969839343, 0.0131055903551422, 0.149087220992626, -0.0793308773361279;
     mekf.setGlobalState(globalState);
 
-    Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> P;
+    Matrix<float, LocalStateSize, LocalStateSize> P;
     P
             << 0.000337179933164061, -1.35958687441977e-05, -5.91609214736156e-05, -8.7060924123911e-05, 3.80878717796191e-06, 1.55817175081154e-05,
             -1.35958687441977e-05, 0.000204930906168386, -1.30855063776812e-05, 3.71914105746695e-06, -5.14131269453151e-05, 3.34122716765293e-06,
@@ -53,7 +53,7 @@ TEST_CASE("MEKF predict test") {
     expectedState
             << 0.4486483147627, -0.114193231757218, 0.886315639304009, -0.0109170969839343, 0.0131055903551422, 0.149087220992626, -0.0793308773361279;
 
-    Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> expectedP;
+    Matrix<float, LocalStateSize, LocalStateSize> expectedP;
     expectedP
             << 0.000457395623188004, -1.43817488333673e-05, -6.2356658766682e-05, -0.000115174771470664, 4.03306879457865e-06, 1.62369515817417e-05,
             -1.43817488333673e-05, 0.00031785218777148, -1.3763005969784e-05, 3.94820378119138e-06, -7.78255037583639e-05, 3.47309781676073e-06,
@@ -68,8 +68,8 @@ TEST_CASE("MEKF predict test") {
     for (int i = 0; i < globalState.size(); i++) {
         REQUIRE(outputState(i) == Approx(expectedState(i)).epsilon(0.01));
     }
-    for (int i = 0; i < LOCAL_STATE_SIZE; i++) {
-        for (int j = 0; j < LOCAL_STATE_SIZE; j++) {
+    for (int i = 0; i < LocalStateSize; i++) {
+        for (int j = 0; j < LocalStateSize; j++) {
             REQUIRE(outputP(i, j) == Approx(expectedP(i, j)).epsilon(0.01));
         }
     }
@@ -79,7 +79,7 @@ TEST_CASE("MEKF correct test - Without eclipse") {
 
     float timestep = 0.1;
     SatelliteModel satelliteModel(timestep);
-    Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> Q;
+    Matrix<float, LocalStateSize, LocalStateSize> Q;
     Q << 1.0000, 0, 0, 0, 0, 0,
             0, 1.0000, 0, 0, 0, 0,
             0, 0, 1.0000, 0, 0, 0,
@@ -88,7 +88,7 @@ TEST_CASE("MEKF correct test - Without eclipse") {
             0, 0, 0, 0, 0, 0.0010;
     Q *= 0.0001;
 
-    Matrix<float, MEASUREMENT_SIZE, MEASUREMENT_SIZE> R;
+    Matrix<float, MeasurementSize, MeasurementSize> R;
     R << 0.5000, 0, 0, 0, 0, 0,
             0, 0.5000, 0, 0, 0, 0,
             0, 0, 0.5000, 0, 0, 0,
@@ -108,7 +108,7 @@ TEST_CASE("MEKF correct test - Without eclipse") {
 
     bool eclipse = false;
 
-    Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> P;
+    Matrix<float, LocalStateSize, LocalStateSize> P;
     P
             << 0.000870224300067165, -0.000201808316484561, -9.94737304030683e-05, -0.000823536427216137, 0.00019790714175496, 9.94747338020742e-05,
             -0.000201808316484561, 0.000511536169607892, 1.04891056336985e-05, 0.000195831694631971, -0.000478747395815867, -1.51251051804663e-05,
@@ -126,7 +126,7 @@ TEST_CASE("MEKF correct test - Without eclipse") {
     GlobalStateVector expectedState(0.419543338867396, -0.0723533634494709, 0.903348658620409, 0.0520536125379745,
                                     0.0131084960408313, 0.151017030517226, -0.0779175696843138);
 
-    Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> expectedP;
+    Matrix<float, LocalStateSize, LocalStateSize> expectedP;
     expectedP
             << 0.00048521878227115, -0.000122665712867073, -6.20122609113396e-05, -0.000459304885817903, 0.000119724890527455, 6.15531964656011e-05,
             -0.000122665712867073, 0.000268604946327022, 6.85766789136854e-06, 0.000118589984422999, -0.000251585328330496, -9.30794393067327e-06,
@@ -146,8 +146,8 @@ TEST_CASE("MEKF correct test - Without eclipse") {
     for (int i = 0; i < currentState.size(); i++) {
         REQUIRE(outputState(i) == Approx(expectedState(i)).epsilon(0.01));
     }
-    for (int i = 0; i < LOCAL_STATE_SIZE; i++) {
-        for (int j = 0; j < LOCAL_STATE_SIZE; j++) {
+    for (int i = 0; i < LocalStateSize; i++) {
+        for (int j = 0; j < LocalStateSize; j++) {
             REQUIRE(outputP(i, j) == Approx(expectedP(i, j)).epsilon(0.01));
         }
     }
@@ -157,7 +157,7 @@ TEST_CASE("MEKF correct test - With eclipse") {
 
     float timestep = 0.1;
     SatelliteModel satelliteModel(timestep);
-    Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> Q;
+    Matrix<float, LocalStateSize, LocalStateSize> Q;
     Q << 1, 0, 0, 0, 0, 0,
             0, 1, 0, 0, 0, 0,
             0, 0, 1, 0, 0, 0,
@@ -166,7 +166,7 @@ TEST_CASE("MEKF correct test - With eclipse") {
             0, 0, 0, 0, 0, 1e-3;
     Q *= 1e-4;
 
-    Matrix<float, MEASUREMENT_SIZE, MEASUREMENT_SIZE> R;
+    Matrix<float, MeasurementSize, MeasurementSize> R;
     R << 0.000000100000000, 0, 0, 0, 0, 0,
             0, 0.000000100000000, 0, 0, 0, 0,
             0, 0, 0.000000100000000, 0, 0, 0,
@@ -176,7 +176,7 @@ TEST_CASE("MEKF correct test - With eclipse") {
 
     MEKF mekf(Q, R);
 
-    Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> P;
+    Matrix<float, LocalStateSize, LocalStateSize> P;
     P
             << 0.001000532028826, 0.000039799843243, -0.000023397035243, -0.000031228978606, -0.000000275326053, 0.000000439784453,
             0.000039799843243, 0.001308555447659, -0.000085623932552, -0.000003047889606, -0.000040206576649, 0.000002088616037,
@@ -201,7 +201,7 @@ TEST_CASE("MEKF correct test - With eclipse") {
 
     GlobalStateVector expectedState(-0.763759607585108, -0.477159784616164, 0.067216485704839, -0.429501741342207,
                                     -0.072431881749339, 0.123846663072216, -0.064529456997382);
-    Matrix<float, LOCAL_STATE_SIZE, LOCAL_STATE_SIZE> expectedP;
+    Matrix<float, LocalStateSize, LocalStateSize> expectedP;
     expectedP
             << 0.000008282830359, -0.000102485744922, 0.000011750668220, -0.000000114684634, 0.000003160214479, -0.000000323212935,
             -0.000102485744922, 0.001283679714947, -0.000147170904163, 0.000001397218160, -0.000039581899152, 0.000004047691243,
@@ -216,8 +216,8 @@ TEST_CASE("MEKF correct test - With eclipse") {
     for (int i = 0; i < currentState.size(); i++) {
         REQUIRE(outputState(i) == Approx(expectedState(i)).epsilon(0.01));
     }
-    for (int i = 0; i < LOCAL_STATE_SIZE; i++) {
-        for (int j = 0; j < LOCAL_STATE_SIZE; j++) {
+    for (int i = 0; i < LocalStateSize; i++) {
+        for (int j = 0; j < LocalStateSize; j++) {
             REQUIRE(outputP(i, j) == Approx(expectedP(i, j)).epsilon(0.01));
         }
     }

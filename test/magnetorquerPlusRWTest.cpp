@@ -18,7 +18,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Torque Split") {
     Vector3f commandedTorque1 = {1e-06, 1e-06, 1e-06};
     Vector3f magneticField1 = {0, 0, 1e-05};
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque1 = magnetorquerPlusRW.splitTorque(magneticField1,
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque1 = magnetorquerPlusRW.splitTorque(magneticField1,
                                                                                                   commandedTorque1);
 
     Vector3f desiredMagneticTorque1 = actuatorTorque1.col(0);
@@ -26,7 +26,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Torque Split") {
 
     Vector3f commandedTorque2 = {-1e-03 * 0.40561, -1e-03 * 0.55451, 1e-03 * 0.29295};
     Vector3f magneticField2 = {1e-04 * 0.44848, -1e-04 * 0.02672, -1e-04 * 0.14255};
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque2 = magnetorquerPlusRW.splitTorque(magneticField2,
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque2 = magnetorquerPlusRW.splitTorque(magneticField2,
                                                                                                   commandedTorque2);
 
     Vector3f desiredMagneticTorque2 = actuatorTorque2.col(0);
@@ -34,7 +34,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Torque Split") {
 
     Vector3f commandedTorque3 = {1e-04 * 0.52402, -1e-04 * 0.13596, 1e-04 * 0.72617};
     Vector3f magneticField3 = {1e-04 * 0.44672, -1e-04 * 0.03053, -1e-04 * 0.14552};
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque3 = magnetorquerPlusRW.splitTorque(magneticField3,
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque3 = magnetorquerPlusRW.splitTorque(magneticField3,
                                                                                                   commandedTorque3);
 
     Vector3f desiredMagneticTorque3 = actuatorTorque3.col(0);
@@ -72,7 +72,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Magnetorquer Saturation") {
     Vector3f desiredReactionWheelTorque1 = {0, 0, 0};
     Vector3f desiredMagneticTorque1 = {5e-06, 5e-06, 0};
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque1 = magnetorquerPlusRW.desaturateMagnetorquer(
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque1 = magnetorquerPlusRW.desaturateMagnetorquer(
             desiredMagneticTorque1,
             desiredReactionWheelTorque1,
             commandedTorque1,
@@ -87,7 +87,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Magnetorquer Saturation") {
     Vector3f desiredReactionWheelTorque2 = {0, 0, 0.001465101};
     Vector3f desiredMagneticTorque2 = {-0.000405, -0.000554, -0.001172};
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque2 = magnetorquerPlusRW.desaturateMagnetorquer(
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque2 = magnetorquerPlusRW.desaturateMagnetorquer(
             desiredMagneticTorque2,
             desiredReactionWheelTorque2,
             commandedTorque2,
@@ -119,7 +119,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Magnetorquer Saturation") {
         Vector3f desiredReactionWheelTorque = {0, 0, 0.001465101};
         Vector3f desiredMagneticTorque = {-0.000405, -0.000554, -0.001172};
 
-        Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque = magnetorquerPlusRW.desaturateMagnetorquer(
+        Matrix<float, VectorSize, NumOfActuators> actuatorTorque = magnetorquerPlusRW.desaturateMagnetorquer(
                 desiredMagneticTorque,
                 desiredReactionWheelTorque,
                 commandedTorque,
@@ -145,7 +145,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Magnetorquer Saturation") {
         Vector3f desiredReactionWheelTorque = {0, 0, 0.001465101};
         Vector3f desiredMagneticTorque = {-0.000405, -0.000554, -0.001172};
 
-        Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque = magnetorquerPlusRW.desaturateMagnetorquer(
+        Matrix<float, VectorSize, NumOfActuators> actuatorTorque = magnetorquerPlusRW.desaturateMagnetorquer(
                 desiredMagneticTorque,
                 desiredReactionWheelTorque,
                 commandedTorque,
@@ -170,7 +170,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Magnetorquer Saturation") {
         Vector3f desiredReactionWheelTorque = {0, 0, 0.001465101};
         Vector3f desiredMagneticTorque = {-0.000405, -0.000554, -0.001172};
 
-        Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque = magnetorquerPlusRW.desaturateMagnetorquer(
+        Matrix<float, VectorSize, NumOfActuators> actuatorTorque = magnetorquerPlusRW.desaturateMagnetorquer(
                 desiredMagneticTorque,
                 desiredReactionWheelTorque,
                 commandedTorque,
@@ -197,7 +197,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Reaction Wheel Saturation") {
     float reactionWheelAngularVelocity1 = 11000;
     float reactionWheelAngularAcceleration1 = 10;
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque1 = magnetorquerPlusRW.desaturateReactionWheel(
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque1 = magnetorquerPlusRW.desaturateReactionWheel(
             effectiveMagneticTorque1, reactionWheelTorque1, magneticFieldBody1,
             reactionWheelAngularVelocity1, reactionWheelAngularAcceleration1);
 
@@ -210,7 +210,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Reaction Wheel Saturation") {
     float reactionWheelAngularVelocity2 = 0;
     float reactionWheelAngularAcceleration2 = 0;
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque2 = magnetorquerPlusRW.desaturateReactionWheel(
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque2 = magnetorquerPlusRW.desaturateReactionWheel(
             effectiveMagneticTorque2, reactionWheelTorque2, magneticFieldBody2,
             reactionWheelAngularVelocity2, reactionWheelAngularAcceleration2);
 

@@ -15,7 +15,7 @@ MagnetorquerPlusRW::MagnetorquerPlusRW(Vector3f maxMagneticDipoleMoment, Vector3
     this->flywheelInertia = flywheelInertia;
 }
 
-Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+Matrix<float, VectorSize, NumOfActuators>
 MagnetorquerPlusRW::splitTorque(Vector3f magneticField, Vector3f commandedTorque) const {
     Vector3f z(0, 0, 1);
     Vector3f desiredReactionWheelTorque = z * (magneticField.dot(commandedTorque)) / magneticField.z();
@@ -23,14 +23,14 @@ MagnetorquerPlusRW::splitTorque(Vector3f magneticField, Vector3f commandedTorque
     Vector3f desiredMagneticTorque = skew(magneticField.normalized()).transpose() * skew(magneticField.normalized())
                                      * (commandedTorque - desiredReactionWheelTorque);
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque;
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque;
     actuatorTorque(seq(0, 2), 0) = desiredMagneticTorque;
     actuatorTorque(seq(0, 2), 1) = desiredReactionWheelTorque;
 
     return actuatorTorque;
 }
 
-Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+Matrix<float, VectorSize, NumOfActuators>
 MagnetorquerPlusRW::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
                                            Vector3f desiredReactionWheelTorque, Vector3f commandedTorque,
                                            Vector3f magneticField, Vector3f desiredMagneticDipole) const {
@@ -58,7 +58,7 @@ MagnetorquerPlusRW::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
         desiredMagneticDipole.z() < magnetorquerLowerLimits.z()) {
 
         Vector3f magnetorquerLimits;
-        for (int i = 0; i < VECTOR_SIZE; i++) {
+        for (int i = 0; i < VectorSize; i++) {
             if (desiredMagneticDipole(i) > 0){
                 magnetorquerLimits(i) = magnetorquerUpperLimits(i);
             }
@@ -80,14 +80,14 @@ MagnetorquerPlusRW::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
 
     desiredReactionWheelTorque = scaleReactionWheelTorque(desiredReactionWheelTorque);
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque;
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque;
     actuatorTorque(seq(0, 2), 0) = desiredMagneticTorque;
     actuatorTorque(seq(0, 2), 1) = desiredReactionWheelTorque;
 
     return actuatorTorque;
 }
 
-Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+Matrix<float, VectorSize, NumOfActuators>
 MagnetorquerPlusRW::desaturateReactionWheel(Vector3f effectiveMagneticTorque,
                                             Vector3f reactionWheelTorque, Vector3f magneticFieldBody,
                                             float reactionWheelAngularVelocity,
@@ -107,7 +107,7 @@ MagnetorquerPlusRW::desaturateReactionWheel(Vector3f effectiveMagneticTorque,
         reactionWheelTorque = reactionWheelTorque - (effectiveMagneticTorque - initialMagneticTorque);
     }
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque;
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque;
     actuatorTorque(seq(0, 2), 0) = effectiveMagneticTorque;
     actuatorTorque(seq(0, 2), 1) = reactionWheelTorque;
 
@@ -122,13 +122,13 @@ Vector3f MagnetorquerPlusRW::scaleReactionWheelTorque(Vector3f reactionWheelTorq
     return reactionWheelTorque;
 }
 
-Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS>
+Matrix<float, VectorSize, NumOfActuators>
 MagnetorquerPlusRW::actuate(Vector3f commandedTorque, Vector3f magneticField, bool firstTime,
                             float currentReactionWheelAngularVelocity,
                             float oldReactionWheelAcceleration) const {
     assert(magneticField.norm() != 0);
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> desiredActuatorsTorque = splitTorque(magneticField, commandedTorque);
+    Matrix<float, VectorSize, NumOfActuators> desiredActuatorsTorque = splitTorque(magneticField, commandedTorque);
 
     Vector3f desiredMagneticTorque = desiredActuatorsTorque.col(0);
     Vector3f desiredReactionWheelTorque = desiredActuatorsTorque.col(1);
@@ -159,7 +159,7 @@ MagnetorquerPlusRW::actuate(Vector3f commandedTorque, Vector3f magneticField, bo
         desiredReactionWheelTorque = scaleReactionWheelTorque(desiredReactionWheelTorque);
     }
 
-    Matrix<float, VECTOR_SIZE, NUM_OF_ACTUATORS> actuatorTorque;
+    Matrix<float, VectorSize, NumOfActuators> actuatorTorque;
     actuatorTorque(seq(0, 2), 0) = desiredMagneticTorque;
     actuatorTorque(seq(0, 2), 1) = desiredReactionWheelTorque;
 
