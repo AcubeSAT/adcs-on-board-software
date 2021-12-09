@@ -12,3 +12,6 @@
 [submodule "ci/page_style/doxygen-dark-theme"]
 	path = ci/page_style/doxygen-dark-theme
 	url = https://github.com/MaJerle/doxygen-dark-theme
+[submodule "lib/afl"]
+	path = lib/afl
+	url = https://github.com/google/AFL
