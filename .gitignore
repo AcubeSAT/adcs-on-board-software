@@ -17,8 +17,8 @@ CTestTestfile.cmake
 _deps
 
 # Executables
-adcs-onboard-software
-tests
+/adcs-onboard-software
+/tests
 
 # Dump and continuous integration files
 *.dump
