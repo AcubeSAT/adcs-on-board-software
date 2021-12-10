@@ -64,10 +64,6 @@ TEST_CASE("Test the overall SGP4 propagator functionality") {
     TLEFile = (char *) "SSO-500-11PM";
     strcpy(TLEStr1, tle11PM500.first.c_str());
     strcpy(TLEStr2, tle11PM500.second.c_str());
-    std::cout << "\n";
-    std::cout << "TLE file: " << TLEFile << std::endl;
-    std::cout << "TLE first line: " << TLEStr1 << std::endl;
-    std::cout << "TLE second line: " << TLEStr2 << std::endl;
 
     // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
