@@ -16,6 +16,9 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 
+# AFL++
+findings
+
 # Executables
 /adcs-onboard-software
 /tests

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
-project(afl)
+project(aflplusplus)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -27,7 +27,7 @@ add_library(afl OBJECT
         ../src/MagnetorquerPlusRW.cpp
         ../src/MagnetorquerOnly.cpp)
 
-add_executable(afl inputs/ToTest.cpp
+add_executable(aflplusplus tests/ToTest.cpp
         $<TARGET_OBJECTS:afl>)
 
 add_compile_definitions(EIGEN_STACK_ALLOCATION_LIMIT=0)
