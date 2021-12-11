@@ -57,10 +57,16 @@ git switch afl++ # Optional, to enter the afl++ branch
 git submodule update --init --recursive
 cd ..
 docker run -ti -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus
-cd ../on-board-software
+cd ../on-board-software/aflplusplus
+./fuzz.sh
 ```
 
-Fun fact: Since you mounted the volume, any changes you do in `on-board-software` while inside the container will persist in the host directory even after closing the container
+<p float="left">
+  <img src="/assets/afl-instrumentation.png" />
+  <img src="/assets/afl-tui.png"/> 
+</p>
+
+Fun fact: Since you mounted the volume, any changes you do in `on-board-software` while inside the container will persist in the host directory even after closing the container. This is bidirectional: you can keep updating the `on-board-software` directory from outside, and the changes will be immediately reflected inside the container
 Fun fact #2: you can work inside the container, and sign your commits with `git commit -S` out of the box!
 
 #### Manual
