@@ -62,8 +62,8 @@ cd ../on-board-software/aflplusplus
 ```
 
 <p float="left">
-  <img src="/assets/afl-instrumentation.png" />
-  <img src="/assets/afl-tui.png"/> 
+  <img src="/aflplusplus/assets/afl-instrumentation.png" width="60%"/>
+  <img src="/aflplusplus/assets/afl-tui.png" width="39%"/> 
 </p>
 
 Fun fact: Since you mounted the volume, any changes you do in `on-board-software` while inside the container will persist in the host directory even after closing the container. This is bidirectional: you can keep updating the `on-board-software` directory from outside, and the changes will be immediately reflected inside the container
