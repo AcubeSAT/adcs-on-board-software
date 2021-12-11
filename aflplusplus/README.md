@@ -32,19 +32,33 @@ sh get-docker.sh
 make shellcheck
 ```
 
+If you prefer to build the image locally, you can find their `Dockerfile` [here](https://github.com/AFLplusplus/AFLplusplus/blob/stable/Dockerfile).
+
+You might have to run docker with root privileges. If you want to run it as a non-root user, you usually have to add your user in the `docker` group. Beware, since adding a user to the `docker` group is equivalent to giving root access, since they will be able to start containers with root privileges with `docker run --privileged`.
+
+##### Development
+
 After getting docker up and running, you can just pull the AFL++ image:
 ```sh
 docker pull aflplusplus/aflplusplus
 ```
 
-and run AFL++:
+You can then start the AFL++ container. It would be convenient if you could transfer (mount) the project file somewhere on the container, so that you don't have to copy the files over, or `git clone` again from inside the container. You can do that with [docker volumes](https://docs.docker.com/storage/volumes/#start-a-container-with-a-volume). For example, if you were on the parent directory of `on-board-software`, you would run:
 ```sh
-docker run -ti -v /location/of/your/target:/src aflplusplus/aflplusplus
+docker run -ti -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus
 ```
+and you can access the project structure with `cd ../on-board-software`. Note that we use `$PWD` because docker wants you to use an absolute path when passing a host directory.
 
-If you prefer to build the image locally, you can find their `Dockerfile` [here](https://github.com/AFLplusplus/AFLplusplus/blob/stable/Dockerfile).
-
-You might have to run docker with root privileges. If you want to run it as a non-root user, you usually have to add your user in the `docker` group. Beware, since adding a user to the `docker` group is equivalent to giving root access, since they will be able to start containers with root privileges with `docker run --privileged`.
+Just for the sake of completeness, the full process to grab the repository and play around with afl would be something like:
+```sh
+git clone https://gitlab.com/acubesat/adcs/on-board-software.git
+cd on-board-software
+git switch afl++ # Optional, to enter the afl++ branch
+git submodule update --init --recursive
+cd ..
+docker run -ti -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus
+cd ../on-board-software
+```
 
 #### Manual
 
