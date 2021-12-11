@@ -60,6 +60,9 @@ docker run -ti -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusp
 cd ../on-board-software
 ```
 
+Fun fact: Since you mounted the volume, any changes you do in `on-board-software` while inside the container will persist in the host directory even after closing the container
+Fun fact #2: you can work inside the container, and sign your commits with `git commit -S` out of the box!
+
 #### Manual
 
 If you want to build what you need yourself, you have to gather any dependencies you might want (e.g. flex, bison, llvm) beforehand. After you have everything at your disposal, you can follow the standard building routine:
