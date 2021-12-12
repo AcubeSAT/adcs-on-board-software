@@ -46,6 +46,11 @@ private:
      */
     GlobalStateVector globalState{1, 0, 0, 0, 0, 0, 0};
 
+    /**
+     * difference between predicted and groundtruth measurements
+     */
+    MeasurementVector innovation;
+
 public:
 
     /**
@@ -123,6 +128,55 @@ public:
     }
 
     /**
+     * F_k Setter
+     * @param state transition function Jacobian Matrix
+     */
+    void setF(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> F) {
+        this->F_k = F;
+    }
+
+    /**
+     * F_K Getter
+     * @return state transition function Jacobian Matrix
+     */
+    Eigen::Matrix<float, LocalStateSize, LocalStateSize> getF() const {
+        return F_k;
+    }
+
+    /**
+     * H_k Setter
+     * @param measurement function Jacobian Matrix
+     */
+    void setH(const Eigen::Matrix<float, MeasurementSize, LocalStateSize> H) {
+        this->H_k = H;
+    }
+
+    /**
+     * H_k Getter
+     * @return measurement function Jacobian Matrix
+     */
+    Eigen::Matrix<float, MeasurementSize, LocalStateSize> getH() const {
+        return H_k;
+    }
+
+    /**
+     * innovation Getter
+     * @param innovation difference between predicted and groundtruth measurements
+     */
+    const MeasurementVector &getInnovation() const {
+        return innovation;
+    }
+
+    /**
+     * innovation Setter
+     * @param innovation difference between predicted and groundtruth measurements
+     */
+    void setInnovation(const MeasurementVector &innovation) {
+        this->innovation = innovation;
+    }
+
+
+    /**
      * MEKF prediction.
      * @param timestep sampling time in seconds
      * @param satelliteModel object of the Class SatelliteModel that implements the space environment
@@ -141,7 +195,8 @@ public:
      * @param albedo the fraction of the sunlight reflected off the Earth's surface
      */
     void correct(const MeasurementVector &measurement, const Eigen::Vector3f &magneticField,
-                 const Eigen::Vector3f &sunPosition, bool eclipse, const SatelliteModel &satelliteModel, Eigen::Vector3f satellitePositionECI,
+                 const Eigen::Vector3f &sunPosition, bool eclipse, const SatelliteModel &satelliteModel,
+                 Eigen::Vector3f satellitePositionECI,
                  float albedo);
 };
 
