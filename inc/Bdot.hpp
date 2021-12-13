@@ -1,5 +1,4 @@
-#ifndef ADCS_ONBOARD_SOFTWARE_BDOT_H
-#define ADCS_ONBOARD_SOFTWARE_BDOT_H
+#pragma once 
 
 #include "Eigen/Geometry"
 
@@ -136,5 +135,3 @@ public:
         this->timestep = timestep;
     }
 };
-
-#endif //ADCS_ONBOARD_SOFTWARE_BDOT_H
