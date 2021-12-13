@@ -9,7 +9,7 @@ include_directories(${PROJECT_SOURCE_DIR}/inc
         ${PROJECT_SOURCE_DIR}/lib/SGP4
         ${PROJECT_SOURCE_DIR}/lib/geomag)
 
-add_library(adcs OBJECT STATIC
+add_library(adcs OBJECT
         src/MathFunctions.cpp
         lib/geomag/Geomag.cpp
         src/SatelliteModel.cpp
