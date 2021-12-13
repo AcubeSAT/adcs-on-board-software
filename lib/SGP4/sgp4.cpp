@@ -295,13 +295,16 @@ namespace SGP4Funcs {
                 nodep = atan2(alfdp, betdp);
                 //  sgp4fix for afspc written intrinsic functions
                 // nodep used without a trigonometric function ahead
-                if ((nodep < 0.0) && (opsmode == 'a'))
+                if ((nodep < 0.0) && (opsmode == 'a')) {
                     nodep = nodep + twopi;
-                if (fabs(xnoh - nodep) > pi)
-                    if (nodep < xnoh)
+                }
+                if (fabs(xnoh - nodep) > pi) {
+                    if (nodep < xnoh) {
                         nodep = nodep + twopi;
-                    else
+                    } else {
                         nodep = nodep - twopi;
+                    }
+		        }
                 mp = mp + pl;
                 argpp = xls - mp - cosip * nodep;
             }
@@ -3154,5 +3157,3 @@ namespace SGP4Funcs {
 
 
 } // namespace SGP4Funcs
-
-
