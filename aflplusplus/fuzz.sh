@@ -1,4 +1,3 @@
-#!/bin/bash
 # Build and run the instrumented executable.
 
 # Use AFL++ as a compile front-end.
