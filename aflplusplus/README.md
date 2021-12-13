@@ -123,3 +123,5 @@ use GCC mode (afl-gcc/afl-g++) (or afl-clang/afl-clang++ for clang)
 - [LLVM mode - afl-clang-fast](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.llvm.md)
 - [GCC_PLUGIN mode - afl-gcc-fast](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.gcc_plugin.md)
 - GCC/CLANG modes (afl-gcc/afl-clang) have no README as they have no own features
+
+The repository configuration uses LTO. To change this, edit `fuzz.sh`.
