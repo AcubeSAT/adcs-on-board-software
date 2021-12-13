@@ -36,6 +36,6 @@ export AFL_LLVM_LAF_ALL=1
 mkdir -p build
 mkdir -p findings \
 && cd build \
-&& cmake .. \
+&& cmake -DCMAKE_CXX_COMPILER=afl-c++ .. \
 && make \
 && afl-fuzz -i ../inputs -o ../findings ../build/aflplusplus
