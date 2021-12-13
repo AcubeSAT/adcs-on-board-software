@@ -1,5 +1,4 @@
-#ifndef ADCS_ONBOARD_SOFTWARE_MAGNETORQUERONLY_H
-#define ADCS_ONBOARD_SOFTWARE_MAGNETORQUERONLY_H
+#pragma once 
 
 #include "PointingStrategy.hpp"
 
@@ -37,5 +36,3 @@ public:
             float currentReactionWheelAngularVelocity,
             float oldReactionWheelAcceleration) const override;
 };
-
-#endif //ADCS_ONBOARD_SOFTWARE_MAGNETORQUERONLY_H
