@@ -14,6 +14,9 @@ int fuzz(std::string const &s) {
             // A string begins here.
             auto s_current = s_begin + 1;
             while ((s_current != s.end()) && (*s_current != '"')) {
+                if (*s_current == 'f') {
+                    abort();
+                }
                 s_current++;
             }
             if (s_current == s.end()) {

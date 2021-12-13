@@ -1,0 +1,1 @@
+afl-fuzz -i- -o findings/ build/aflplusplus
