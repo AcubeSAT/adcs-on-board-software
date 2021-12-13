@@ -6,6 +6,8 @@ export CXX=$AFL/afl-cc
 
 # Use AFL++ in LTO mode
 export AFL_CC_COMPILER="LTO"
+export RANLIB=llvm-ranlib 
+export AR=llvm-ar
 
 # Use laf-intel for instrumentation. 
 # See https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_in_depth.md#b-selecting-instrumentation-options
