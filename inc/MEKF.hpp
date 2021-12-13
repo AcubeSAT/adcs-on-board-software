@@ -1,6 +1,4 @@
-
-#ifndef ADCS_ONBOARD_SOFTWARE_MEKF_H
-#define ADCS_ONBOARD_SOFTWARE_MEKF_H
+#pragma once 
 
 #include "Eigen/Dense"
 #include "SatelliteModel.hpp"
@@ -199,6 +197,3 @@ public:
                  Eigen::Vector3f satellitePositionECI,
                  float albedo);
 };
-
-
-#endif //ADCS_ONBOARD_SOFTWARE_MEKF_H
