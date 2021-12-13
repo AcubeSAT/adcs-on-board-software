@@ -2,7 +2,7 @@
 # Build and run the instrumented executable.
 
 # Use AFL++ as a compile front-end.
-export CXX=$AFL/afl-cc
+export CXX=$AFL/afl-c++
 
 # Use AFL++ in LTO mode
 export AFL_CC_COMPILER="LTO"
