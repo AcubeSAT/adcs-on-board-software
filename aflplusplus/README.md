@@ -125,3 +125,7 @@ use GCC mode (afl-gcc/afl-g++) (or afl-clang/afl-clang++ for clang)
 - GCC/CLANG modes (afl-gcc/afl-clang) have no README as they have no own features
 
 The repository configuration uses LTO. To change this, edit `fuzz.sh`.
+
+TODO: https://github.com/jefftrull/json_spirit/blob/develop/fuzzing/CMakeLists.txt
+TODO: https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.persistent_mode.md
+TODO: pick up from https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_in_depth.md#g-libfuzzer-fuzzer-harnesses-with-llvmfuzzertestoneinput
