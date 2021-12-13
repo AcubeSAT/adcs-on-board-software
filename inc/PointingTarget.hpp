@@ -1,5 +1,4 @@
-#ifndef ADCS_ONBOARD_SOFTWARE_POINTINGTARGET_H
-#define ADCS_ONBOARD_SOFTWARE_POINTINGTARGET_H
+#pragma once 
 
 #include "Eigen/Dense"
 #include "Definitions.hpp"
@@ -112,5 +111,3 @@ public:
      */
     Eigen::Vector3f getAngularVelocityECIOrbit() const;
 };
-
-#endif //ADCS_ONBOARD_SOFTWARE_POINTINGTARGET_H

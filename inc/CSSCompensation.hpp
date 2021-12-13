@@ -1,6 +1,4 @@
-#ifndef ADCS_ONBOARD_SOFTWARE_CSSCOMPENSATION_H
-#define ADCS_ONBOARD_SOFTWARE_CSSCOMPENSATION_H
-
+#pragma once 
 
 #include "Eigen/Geometry"
 
@@ -16,5 +14,3 @@
 Eigen::Vector3f
 cssCompensation(Eigen::Vector3f sunPositionBody, Eigen::Quaternionf quaternionECIBody, Eigen::Vector3f satellitePositionECI,
                 float albedo);
-
-#endif //ADCS_ONBOARD_SOFTWARE_CSSCOMPENSATION_H

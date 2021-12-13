@@ -1,5 +1,4 @@
-#ifndef ADCS_ONBOARD_SOFTWARE_WAHBA_H
-#define ADCS_ONBOARD_SOFTWARE_WAHBA_H
+#pragma once 
 
 #include "Eigen/Geometry"
 #include "SatelliteModel.hpp"
@@ -15,6 +14,3 @@
  */
 Eigen::Quaternionf
 wahba(Eigen::Vector3f magneticBody, Eigen::Vector3f magneticECI, Eigen::Vector3f sunBody, Eigen::Vector3f sunECI);
-
-#endif //ADCS_ONBOARD_SOFTWARE_WAHBA_H
-

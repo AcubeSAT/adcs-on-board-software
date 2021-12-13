@@ -1,5 +1,4 @@
-#ifndef ADCS_ONBOARD_SOFTWARE_SUNPOINTING_H
-#define ADCS_ONBOARD_SOFTWARE_SUNPOINTING_H
+#pragma once 
 
 #include "PointingTarget.hpp"
 
@@ -36,5 +35,3 @@ public:
                                          Eigen::Quaternionf quaternionECIBody) const;
 
 };
-
-#endif //ADCS_ONBOARD_SOFTWARE_SUNPOINTING_H

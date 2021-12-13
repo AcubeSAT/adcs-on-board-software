@@ -1,5 +1,4 @@
-#ifndef ADCS_ONBOARD_SOFTWARE_POINTING_H
-#define ADCS_ONBOARD_SOFTWARE_POINTING_H
+#pragma once 
 
 #include "PointingStrategy.hpp"
 #include "PointingTarget.hpp"
@@ -50,5 +49,3 @@ public:
 
 
 };
-
-#endif //ADCS_ONBOARD_SOFTWARE_POINTING_H
