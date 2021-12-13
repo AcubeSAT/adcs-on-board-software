@@ -9,7 +9,7 @@ include_directories(../inc
         ../lib/SGP4
         ../lib/geomag)
 
-add_library(afl OBJECT
+add_library(afl OBJECT STATIC
         ../src/MathFunctions.cpp
         ../lib/geomag/Geomag.cpp
         ../src/SatelliteModel.cpp
