@@ -1,5 +1,4 @@
-#ifndef ADCS_ONBOARD_SOFTWARE_ALBEDO_H
-#define ADCS_ONBOARD_SOFTWARE_ALBEDO_H
+#pragma once
 
 #include "Eigen/Geometry"
 #include <algorithm>
@@ -76,6 +75,3 @@ namespace albedo {
 Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns>
 calculateAlbedo(const Eigen::Vector3f &satellite, const Eigen::Vector3f &sunPosition,
                 const Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> &reflectivityData);
-
-
-#endif //ADCS_ONBOARD_SOFTWARE_ALBEDO_H

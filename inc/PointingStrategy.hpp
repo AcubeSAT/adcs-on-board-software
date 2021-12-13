@@ -1,5 +1,4 @@
-#ifndef ADCS_ONBOARD_SOFTWARE_POINTINGSTRATEGY_H
-#define ADCS_ONBOARD_SOFTWARE_POINTINGSTRATEGY_H
+#pragma once 
 
 #include "Eigen/Dense"
 #include "Definitions.hpp"
@@ -89,5 +88,3 @@ public:
      */
     Eigen::Vector3f getResidualDipoleEstimation() const;
 };
-
-#endif //ADCS_ONBOARD_SOFTWARE_POINTINGSTRATEGY_H
