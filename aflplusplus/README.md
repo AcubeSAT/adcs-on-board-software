@@ -1,3 +1,15 @@
+- [Installing/Building](#installingbuilding)
+  - [Packages](#packages)
+  - [Docker](#docker)
+    - [Arch Linux](#arch-linux)
+    - [get-docker](#get-docker)
+    - [Development](#development)
+  - [Manual](#manual)
+- [Fuzzing](#fuzzing)
+  - [Risks](#risks)
+  - [Instrumentation](#instrumentation)
+    - [Selecting AFL++ Compiler](#selecting-afl-compiler)
+
 ### Installing/Building
 
 #### Packages
@@ -58,7 +70,6 @@ git submodule update --init --recursive
 cd ..
 docker run -ti -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus
 cd ../on-board-software/aflplusplus
-./fuzz.sh
 ```
 
 <p float="left">
