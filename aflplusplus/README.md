@@ -1,3 +1,4 @@
+- [TL;DR](#tldr)
 - [Installing/Building](#installingbuilding)
   - [Packages](#packages)
   - [Docker](#docker)
@@ -10,6 +11,20 @@
   - [Instrumentation](#instrumentation)
     - [Selecting AFL++ Compiler](#selecting-afl-compiler)
 - [Using](#using)
+
+### TL;DR
+
+1. `docker pull aflplusplus/aflplusplus`
+2. `docker run -ti -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus`
+3. `cd ../on-board-software/aflplusplus`
+4. `./setup.sh`
+5. `./launch-screen.sh`
+6. `./fuzz.sh`
+7. `./stop-fuzz.sh`
+8. `./minimize-corpus.sh`
+9. `./launch-screen.sh`
+10. `./refuzz.sh`
+11. Repeat 7-10
 
 ### Installing/Building
 
