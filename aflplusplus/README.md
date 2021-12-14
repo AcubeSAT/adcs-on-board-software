@@ -9,6 +9,7 @@
   - [Risks](#risks)
   - [Instrumentation](#instrumentation)
     - [Selecting AFL++ Compiler](#selecting-afl-compiler)
+- [Using](#using)
 
 ### Installing/Building
 
@@ -137,7 +138,19 @@ use GCC mode (afl-gcc/afl-g++) (or afl-clang/afl-clang++ for clang)
 
 The repository configuration uses LTO. To change this, edit `fuzz.sh`.
 
-TODO: https://foxglovesecurity.com/2016/03/15/fuzzing-workflows-a-fuzz-job-from-start-to-finish/
-TODO: https://github.com/jefftrull/json_spirit/blob/develop/fuzzing/CMakeLists.txt
-TODO: https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.persistent_mode.md
-TODO: pick up from https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_in_depth.md#g-libfuzzer-fuzzer-harnesses-with-llvmfuzzertestoneinput
+- TODO: https://foxglovesecurity.com/2016/03/15/fuzzing-workflows-a-fuzz-job-from-start-to-finish/
+- TODO: https://github.com/jefftrull/json_spirit/blob/develop/fuzzing/CMakeLists.txt
+- TODO: https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.persistent_mode.md
+- TODO: pick up from https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_in_depth.md#g-libfuzzer-fuzzer-harnesses-with-llvmfuzzertestoneinput
+
+### Using
+
+Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflplusplus/`, you can simply:
+1. `./setup.sh`
+2. `./launch-screen.sh`
+3. `./fuzz.sh`
+4. `./stop-fuzz.sh`
+5. `./minimize-corpus.sh`
+6. `./launch-screen.sh`
+7. `./refuzz.sh`
+8. Repeat 4-7
