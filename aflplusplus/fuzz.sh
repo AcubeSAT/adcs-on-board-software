@@ -39,4 +39,5 @@ mkdir -p findings \
 && cd build \
 && cmake -DCMAKE_CXX_COMPILER=afl-c++ .. \
 && make \
-&& afl-fuzz -i ../inputs -o ../findings ../build/aflplusplus
+&& screen -r "fuzzer1" -X stuff $'afl-fuzz -i inputs -o findings -M fuzzer1 -- build/aflplusplus\n' \
+&& screen -r "fuzzer2" -X stuff $'afl-fuzz -i inputs -o findings -S fuzzer2 -- build/aflplusplus\n'
