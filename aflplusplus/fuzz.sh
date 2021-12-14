@@ -1,3 +1,4 @@
+#!/bin/bash
 # Build and run the instrumented executable.
 
 # Use AFL++ as a compile front-end.
@@ -34,8 +35,8 @@ export AFL_LLVM_LAF_ALL=1
 # export AFL_USE_UBSAN=1
 
 # Build the instrumented executable and run it under AFL++.
-mkdir -p build
-mkdir -p findings \
+mkdir -p build \
+&& mkdir -p findings \
 && cd build \
 && cmake -DCMAKE_CXX_COMPILER=afl-c++ .. \
 && make \

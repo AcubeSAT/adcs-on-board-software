@@ -1,3 +1,4 @@
+#!/bin/bash
 if ! command -v screen &> /dev/null
 then
     apt update \
