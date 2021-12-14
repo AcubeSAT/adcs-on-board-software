@@ -1,4 +1,5 @@
 #!/bin/bash
+# Check if screen exists, otherwise install it in the container.
 if ! command -v screen &> /dev/null
 then
     apt update \
@@ -6,6 +7,7 @@ then
     && apt install --yes --no-install-recommends screen -y
 fi
 
+# Check if rsync exists, otherwise install it in the container.
 if ! command -v rsync &> /dev/null
 then
     apt update \

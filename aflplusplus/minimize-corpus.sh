@@ -1,4 +1,9 @@
 #!/bin/bash
+# Grab the findings of both fuzzers,
+# use afl-cmin to minimize the corpus,
+# then feed it back to the fuzzers.
+# rsync is used instead of cp
+# because cp doesn't like overwriting files.
 cd findings \
 && mkdir -p queue_all \
 && rsync -a --delete fuzzer*/queue/* queue_all/ \

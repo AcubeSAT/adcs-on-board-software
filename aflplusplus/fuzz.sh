@@ -35,6 +35,10 @@ export AFL_LLVM_LAF_ALL=1
 # export AFL_USE_UBSAN=1
 
 # Build the instrumented executable and run it under AFL++.
+# Tell each screen session to run afl-fuzz.
+# fuzzer1 is the Master, runs deterministic strategies.
+# fuzzer2 is the Slave, runs chaotic, random strategies.
+# A Master is required, you can have as many Slave instances as your box can handle.
 mkdir -p build \
 && mkdir -p findings \
 && cd build \
