@@ -14,7 +14,7 @@
 
 ### TL;DR
 
-[![asciicast](https://asciinema.org/a/456197.png)](https://asciinema.org/a/456197)
+[![asciicast](https://asciinema.org/a/456411.png)](https://asciinema.org/a/456411)
 
 1. `docker pull aflplusplus/aflplusplus`
 2. `docker run -ti -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus`
