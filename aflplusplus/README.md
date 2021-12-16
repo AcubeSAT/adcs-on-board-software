@@ -21,12 +21,13 @@
 3. `cd ../on-board-software/aflplusplus`
 4. `./setup.sh`
 5. `./launch-screen.sh`
-6. `./fuzz.sh`
-7. `./stop-fuzz.sh`
-8. `./minimize-corpus.sh`
-9.  `./refuzz.sh`
-10. Repeat 7-9
-11. `./quit-screen.sh`
+6. `./minimize-testcases.sh`
+7. `./fuzz.sh`
+8. `./stop-fuzz.sh`
+9. `./minimize-corpus.sh`
+10. `./refuzz.sh`
+11. Repeat 8-10
+12. `./quit-screen.sh`
 
 ### Installing/Building
 
@@ -169,19 +170,22 @@ Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflp
 2. `./launch-screen.sh`
    
    This starts two sessions named `fuzzer1` and `fuzzer2` in detached mode, meaning it starts the sessions without attaching to them. `screen` is key for this pipeline to work. Using `screen`, we can spawn the `afl-fuzz` fuzzing instances inside each session, have them run there without throttling/blocking the terminal, be sure that there won'r be any premature termination of the fuzzing due to common accidents, be able to hop back and forth between the fuzzer instances to inspect them as we like, etc. `screen` is awesome. At any point in time, you can run `screen -ls` to list all running sessions, if any. You can use this to manually verify that the sessions have started/stopped. Use `screen -r fuzzer1` to attach to `fuzzer1`, and do the same for `fuzzer2`, respectively. To detach from a session, press the keyboard shortcut `CTRL+A+D`.
-3. `./fuzz.sh`
+3. `./minimize-testcases.sh`
+   
+   This uses `afl-tmin` to minimize each testcase (note: regardless of if it is a good testcase to begin with) to the bare minimum required to express the same code paths as the original testcase.
+4. `./fuzz.sh`
    
    This sets various environment variables to configure AFL++, for example mode, instrumentation strategy, sanitizer (optional). Then, it instruments the code, builds the instrumented executable and fuzzers it with `afl-fuzz`. You can edit it to directly affect how AFL++ is configured. It uses `screen` to tell both `screen` sessions to start fuzzing with `afl-fuzz`. Specifically, it tells the session named `fuzzer1` to spawn a Master fuzzer instance which uses deterministic fuzzing strategies, and the session `fuzzer2` to spawn a Slave fuzzer instance which uses chaotic, random fuzzing strategies. These instances directly cooperate. The directory `inputs/` is read for the initial testcases, and `afl-fuzz` outputs to `findings/`. 
-4. `./stop-fuzz.sh`
+5. `./stop-fuzz.sh`
    
    This sends a `CTRL+C` to both the `fuzzer1` and `fuzzer2` running `screen` sessions. This gracefully terminates the `afl-fuzz` instances. It is required to stop the instances after a while, to minimize the testing corpus with `afl-cmin`. You should leave the fuzzer instances run for quite a while before stopping (and minimizing the corpus). It is highly advisable that you let them complete at least 1 cycle prior to terminating.
-5. `./minimize-corpus.sh`
+6. `./minimize-corpus.sh`
    
-   This gathers the `afl-fuzz` output of both `fuzzer` and `fuzzer2`, uses `afl-cmin` to generate a minimized corpus, and passes the minimized corpus to both fuzzers. `rsync` is used here instead of `cp`, because `cp` doesn't want to overwrite the files, and it's very likely that some findings of `fuzzer1` will also have been discovered by `fuzzer2`.
-6. `./refuzz.sh`
+   This gathers the `afl-fuzz` output of both `fuzzer` and `fuzzer2`, uses `afl-cmin` to generate a minimized corpus, and passes the minimized corpus to both fuzzers. Note that `afl-cmin` find the testcases that most efficiently express unique paths according to previous runs and is thus different from `afl-tmin`. `rsync` is used here instead of `cp`, because `cp` doesn't want to overwrite the files, and it's very likely that some findings of `fuzzer1` will also have been discovered by `fuzzer2`.
+7. `./refuzz.sh`
    
    Similar to `./fuzz.sh`, this re-runs `afl-fuzz`. Two important differences. First, there's no need to configure AFL++, instrument, etc. Second, the parameter `-i inputs` from `fuzz.sh` has now been changed to `-i-`. This is necessary, since it tells the fuzzer instances to use the minimized corpus instead of looking at the `inputs/` initial testcases directory.
-7. Repeat 4-6
-8. `./quit-screen.sh`
+8. Repeat 5-7
+9.  `./quit-screen.sh`
    
    This gracefully kills the two `screen` sessions.
