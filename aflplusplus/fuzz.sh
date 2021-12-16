@@ -39,10 +39,10 @@ export AFL_LLVM_LAF_ALL=1
 # fuzzer1 is the Master, runs deterministic strategies.
 # fuzzer2 is the Slave, runs chaotic, random strategies.
 # A Master is required, you can have as many Slave instances as your box can handle.
-mkdir -p build \
-&& mkdir -p findings \
-&& cd build \
-&& cmake -DCMAKE_CXX_COMPILER=afl-c++ .. \
+mkdir -p build
+mkdir -p findings
+cd build || exit
+cmake -DCMAKE_CXX_COMPILER=afl-c++ .. \
 && make \
 && screen -r "fuzzer1" -X stuff $'afl-fuzz -i minimized -o findings -M fuzzer1 -- build/aflplusplus\n' \
 && screen -r "fuzzer2" -X stuff $'afl-fuzz -i minimized -o findings -S fuzzer2 -- build/aflplusplus\n'

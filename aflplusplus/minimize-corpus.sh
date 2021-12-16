@@ -4,9 +4,9 @@
 # then feed it back to the fuzzers.
 # rsync is used instead of cp
 # because cp doesn't like overwriting files.
-cd findings \
-&& mkdir -p queue_all \
-&& rsync -a --delete fuzzer*/queue/* queue_all/ \
+cd findings || exit
+mkdir -p queue_all
+rsync -a --delete fuzzer*/queue/* queue_all/ \
 && afl-cmin -i queue_all -o queue_cmin -- ../build/aflplusplus \
 && rm -rf queue_all \
 && rm -rf fuzzer1/queue \
