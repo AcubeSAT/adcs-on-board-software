@@ -20,14 +20,16 @@
 2. `docker run -ti -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus`
 3. `cd ../on-board-software/aflplusplus`
 4. `./setup.sh`
-5. `./launch-screen.sh`
-6. `./minimize-testcases.sh`
-7. `./fuzz.sh`
-8. `./stop-fuzz.sh`
-9. `./minimize-corpus.sh`
-10. `./refuzz.sh`
-11. Repeat 8-10
-12. `./quit-screen.sh`
+5. `./instrument.sh`
+6. `./launch-screen.sh`
+7. `./tmin.sh`
+8. `./fuzz.sh`
+9. `./stop-fuzz.sh`
+10. `./cmin.sh`
+11. `./re-tmin.sh`
+12. `./refuzz.sh`
+13. Repeat 9-12
+14. `./quit-screen.sh`
 
 ### Installing/Building
 
@@ -167,25 +169,36 @@ Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflp
 1. `./setup.sh`
    
    This makes sure you can run `screen` and `rsync`, used by the scripts below.
-2. `./launch-screen.sh`
+2. `./instrument.sh`
    
-   This starts two sessions named `fuzzer1` and `fuzzer2` in detached mode, meaning it starts the sessions without attaching to them. `screen` is key for this pipeline to work. Using `screen`, we can spawn the `afl-fuzz` fuzzing instances inside each session, have them run there without throttling/blocking the terminal, be sure that there won'r be any premature termination of the fuzzing due to common accidents, be able to hop back and forth between the fuzzer instances to inspect them as we like, etc. `screen` is awesome. At any point in time, you can run `screen -ls` to list all running sessions, if any. You can use this to manually verify that the sessions have started/stopped. Use `screen -r fuzzer1` to attach to `fuzzer1`, and do the same for `fuzzer2`, respectively. To detach from a session, press the keyboard shortcut `CTRL+A+D`.
-3. `./minimize-testcases.sh`
+   This sets various environment variables to configure AFL++, for example mode, instrumentation strategy, sanitizer (optional). Then, it instruments the code, builds the instrumented executable and fuzzers it with `afl-fuzz`. You can edit it to directly affect how AFL++ is configured. 
+3.  `/.launch-screen.sh`
    
-   This uses `afl-tmin` to minimize each testcase (note: regardless of if it is a good testcase to begin with) to the bare minimum required to express the same code paths as the original testcase.
-4. `./fuzz.sh`
+   This starts four sessions named `fuzzer1`, `fuzzer2`; `tmin` and `cmin`, in detached mode, meaning it starts the sessions without attaching to them. `screen` is key for this pipeline to work. Using `screen`, we can spawn the `afl-fuzz` fuzzing instances inside each session, have them run there without throttling/blocking the terminal, be sure that there won'r be any premature termination of the fuzzing due to common accidents, be able to hop back and forth between the fuzzer instances to inspect them as we like, etc. We also use it to run `afl-cmin`. We can use it to run `afl-tmin` in the background where it spawns many processes to speed up the testcase minimization. `screen` is awesome. At any point in time, you can run `screen -ls` to list all running sessions, if any. You can use this to manually verify that the sessions have started/stopped. Use `screen -r fuzzer1` to attach to `fuzzer1` or `fuzzer2` and do the same for `cmin` and `tmin`, respectively. To detach from a session, press the keyboard shortcut `CTRL+A+D`.
+4. `./tmin.sh`
    
-   This sets various environment variables to configure AFL++, for example mode, instrumentation strategy, sanitizer (optional). Then, it instruments the code, builds the instrumented executable and fuzzers it with `afl-fuzz`. You can edit it to directly affect how AFL++ is configured. It uses `screen` to tell both `screen` sessions to start fuzzing with `afl-fuzz`. Specifically, it tells the session named `fuzzer1` to spawn a Master fuzzer instance which uses deterministic fuzzing strategies, and the session `fuzzer2` to spawn a Slave fuzzer instance which uses chaotic, random fuzzing strategies. These instances directly cooperate. The directory `inputs/` is read for the initial testcases, and `afl-fuzz` outputs to `findings/`. 
-5. `./stop-fuzz.sh`
+   This uses `afl-tmin` to minimize each of the initial testcases to the bare minimum required to express the same code paths as the original testcase.
+   It runs afl-tmin in parallel, by spawning different processes.
+   It determines how many by probing the available CPU cores with `nproc`. Feel free to change this as you see fit.
+   This is ran in the `tmin` `screen` session.
+5. `./fuzz.sh`
+   
+   This uses `screen` to tell both `screen` sessions to start fuzzing with `afl-fuzz`. Specifically, it tells the session named `fuzzer1` to spawn a Master fuzzer instance which uses deterministic fuzzing strategies, and the session `fuzzer2` to spawn a Slave fuzzer instance which uses chaotic, random fuzzing strategies. These instances directly cooperate. The directory `inputs/` is read for the initial testcases, and `afl-fuzz` outputs to `findings/`. 
+6. `./stop-fuzz.sh`
    
    This sends a `CTRL+C` to both the `fuzzer1` and `fuzzer2` running `screen` sessions. This gracefully terminates the `afl-fuzz` instances. It is required to stop the instances after a while, to minimize the testing corpus with `afl-cmin`. You should leave the fuzzer instances run for quite a while before stopping (and minimizing the corpus). It is highly advisable that you let them complete at least 1 cycle prior to terminating.
-6. `./minimize-corpus.sh`
+7. `./cmin.sh`
    
    This gathers the `afl-fuzz` output of both `fuzzer` and `fuzzer2`, uses `afl-cmin` to generate a minimized corpus, and passes the minimized corpus to both fuzzers. Note that `afl-cmin` find the testcases that most efficiently express unique paths according to previous runs and is thus different from `afl-tmin`. `rsync` is used here instead of `cp`, because `cp` doesn't want to overwrite the files, and it's very likely that some findings of `fuzzer1` will also have been discovered by `fuzzer2`.
-7. `./refuzz.sh`
+   This is ran in the `cmin` `screen` session.
+8. `./re-tmin.sh`
+   
+   This works like `tmin.sh`. The difference is that we now `afl-tmin` each testcase in the corpus that has been produced by the fuzzer instances and minimized with `afl-cmin`. `rsync` is also used here for the same reasons as above.
+   This is ran in the `tmin` `screen` session.
+9.  `./refuzz.sh`
    
    Similar to `./fuzz.sh`, this re-runs `afl-fuzz`. Two important differences. First, there's no need to configure AFL++, instrument, etc. Second, the parameter `-i inputs` from `fuzz.sh` has now been changed to `-i-`. This is necessary, since it tells the fuzzer instances to use the minimized corpus instead of looking at the `inputs/` initial testcases directory.
-8. Repeat 5-7
-9.  `./quit-screen.sh`
+11. Repeat 6-9
+12. `./quit-screen.sh`
    
    This gracefully kills the two `screen` sessions.
