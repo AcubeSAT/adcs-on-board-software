@@ -19,7 +19,6 @@ _deps
 # AFL++
 findings
 minimized
-queue
 
 # Executables
 /adcs-onboard-software
