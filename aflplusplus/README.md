@@ -181,6 +181,7 @@ Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflp
    It runs afl-tmin in parallel, by spawning different processes.
    It determines how many by probing the available CPU cores with `nproc`. Feel free to change this as you see fit.
    This is ran in the `tmin` `screen` session.
+   **NOTE**: `afl-tmin` and `afl-cmin` run in a detached screen session. There are no scripts to stop these sessions like `stop-fuzz.sh`, because, unlike `afl-fuzz`, both `afl-tmin` and `afl-cmin` terminate on their own, and do not need to be aborted by the user. **Make sure that the respective session command has terminated before running the next script**. The scripts must be ran in the order specified here. If not, you _will_ break things.  
 5. `./fuzz.sh`
    
    This uses `screen` to tell both `screen` sessions to start fuzzing with `afl-fuzz`. Specifically, it tells the session named `fuzzer1` to spawn a Master fuzzer instance which uses deterministic fuzzing strategies, and the session `fuzzer2` to spawn a Slave fuzzer instance which uses chaotic, random fuzzing strategies. These instances directly cooperate. The directory `inputs/` is read for the initial testcases, and `afl-fuzz` outputs to `findings/`. 
