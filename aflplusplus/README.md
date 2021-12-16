@@ -193,7 +193,7 @@ Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflp
    This is ran in the `cmin` `screen` session.
 8. `./re-tmin.sh`
    
-   This works like `tmin.sh`. The difference is that we now `afl-tmin` each testcase in the corpus that has been produced by the fuzzer instances and minimized with `afl-cmin`. `rsync` is also used here for the same reasons as above.
+   This works like `tmin.sh`. The difference is that we now `afl-tmin` each testcase in the corpus that has been produced by the fuzzer instances and minimized with `afl-cmin`.
    This is ran in the `tmin` `screen` session.
 9.  `./refuzz.sh`
    

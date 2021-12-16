@@ -8,7 +8,7 @@ mkdir -p queue
 cd findings || exit
 rm -rf fuzzer1/queue \
 && rm -rf fuzzer2/queue \
-&& rsync -a --delete ../queue fuzzer1/queue \
-&& rsync -a --delete ../queue fuzzer2/queue \
+&& cp -r ../queue fuzzer1/queue \
+&& cp -r ../queue fuzzer2/queue \
 && rm -rf ../queue \
 && rm -rf ../queue_cmin
