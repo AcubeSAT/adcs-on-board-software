@@ -1,16 +1,15 @@
 #!/bin/bash
-# Check if screen exists, otherwise install it in the container.
-if ! command -v screen &> /dev/null
-then
-    apt update \
-    && apt upgrade -y \
-    && apt install --yes --no-install-recommends screen -y
-fi
+# Check if package is installed, install it otherwise.
+function maybe-install {
+    if ! dpkg-query -W -f='${Status}' "$1" | grep "ok installed"
+    then
+        apt install --yes --no-install-recommends "$1"
+    fi
+}
 
-# Check if rsync exists, otherwise install it in the container.
-if ! command -v rsync &> /dev/null
-then
-    apt update \
-    && apt upgrade -y \
-    && apt install --yes --no-install-recommends rsync -y
-fi
+apt autoremove -y
+
+apt update \
+&& apt upgrade -y \
+&& maybe-install screen \
+&& maybe-install rsync
