@@ -168,7 +168,7 @@ The repository configuration uses LTO. To change this, edit `fuzz.sh`.
 Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflplusplus/`, you can simply:
 1. `./setup.sh`
    
-   This makes sure you can run `screen` and `rsync`, used by the scripts below.
+   This makes sure you can run `screen`, `rsync`, `gdb` and `go`. `screen` is used to start detached sessions to run time-consuming commands that should not be aborted midway. `rsync` is used to copy files instead of `cp` to allow for overwrites. `gdb` is used to take advantage of the [`exploitable`](https://github.com/jfoote/exploitable) GDB plugin. `go` is needed to use [`crashwalk`](https://github.com/bnagy/crashwalk).
 2. `./instrument.sh`
    
    This sets various environment variables to configure AFL++, for example mode, instrumentation strategy, sanitizer (optional). Then, it instruments the code, builds the instrumented executable and fuzzers it with `afl-fuzz`. You can edit it to directly affect how AFL++ is configured. 

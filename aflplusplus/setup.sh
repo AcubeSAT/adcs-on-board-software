@@ -12,4 +12,6 @@ apt autoremove -y
 apt update \
 && apt upgrade -y \
 && maybe-install screen \
-&& maybe-install rsync
+&& maybe-install rsync \
+&& maybe-install gdb \
+&& maybe-install golang
