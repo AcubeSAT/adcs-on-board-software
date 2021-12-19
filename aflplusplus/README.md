@@ -11,6 +11,7 @@
   - [Instrumentation](#instrumentation)
     - [Selecting AFL++ Compiler](#selecting-afl-compiler)
 - [Using](#using)
+- [TODO](#todo)
 
 ### TL;DR
 
@@ -159,11 +160,6 @@ use GCC mode (afl-gcc/afl-g++) (or afl-clang/afl-clang++ for clang)
 
 The repository configuration uses LTO. To change this, edit `fuzz.sh`.
 
-- TODO: https://foxglovesecurity.com/2016/03/15/fuzzing-workflows-a-fuzz-job-from-start-to-finish/
-- TODO: https://github.com/jefftrull/json_spirit/blob/develop/fuzzing/CMakeLists.txt
-- TODO: https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.persistent_mode.md
-- TODO: pick up from https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_in_depth.md#g-libfuzzer-fuzzer-harnesses-with-llvmfuzzertestoneinput
-
 ### Using
 
 Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflplusplus/`, you can simply:
@@ -207,3 +203,13 @@ Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflp
 13. `./quit-screen.sh`
    
    This gracefully kills the two `screen` sessions.
+
+### TODO
+
+- Integrate [`afl-cov`](https://github.com/mrash/afl-cov)
+- Better parallelization support. This mainly means two things:
+  - Some things we run here are not parallelized. They can be
+  - There's a lot of changes needed to increase/decrease the cores used and the fuzzer instances used. Currently, everything is hardcoded (e.g. hardcoded 2 fuzzer instances, one `M`ain one `S`econdary; hardcoded `launch-screen` and `quit-screen` scripts...). Big room for improvement. [Here](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_in_depth.md#c-using-multiple-cores) is a brief rundown on using multiple cores with AFL++. [`afl-trivia`](https://github.com/bnagy/afl-trivia), [`afl-extras`](https://github.com/fekir/afl-extras), [`afl-utils`](https://gitlab.com/rc0r/afl-utils) can serve as great resources for inspiration. They can also help coming up with better helper scripts
+- Improve `CMakeLists` (see [this](https://github.com/jefftrull/json_spirit/blob/develop/fuzzing/CMakeLists.txt))
+- Use the [StatsD AFL++ metrics](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/rpc_statsd.md) with [Grafana](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/resources/grafana-afl++.json) to monitor the whole process (also see [this](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/afl-fuzz_approach.md#addendum-automatically-sending-metrics-with-statsd)). [Other](https://github.com/reflare/afl-monitor) solutions exist, however this is the most appealing to me
+- Go over the [AFL++ best practices](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/best_practices.md) one more time
