@@ -32,8 +32,7 @@ int fuzz(std::string const &s) {
 int main() {
 
     auto const s = std::string(
-        std::istreambuf_iterator<char>(std::cin),
-        std::istreambuf_iterator<char>());
+        std::istreambuf_iterator(std::cin), {});
 
     fuzz(s);
     return 0;
