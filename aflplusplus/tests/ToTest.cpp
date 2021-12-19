@@ -31,6 +31,10 @@ int fuzz(std::string const &s) {
 
 int main() {
 
+#ifdef __AFL_HAVE_MANUAL_CONTROL
+  __AFL_INIT();
+#endif
+
     auto const s = std::string(
         std::istreambuf_iterator(std::cin), {});
 
