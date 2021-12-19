@@ -35,9 +35,11 @@ int main() {
   __AFL_INIT();
 #endif
 
-    auto const s = std::string(
-        std::istreambuf_iterator(std::cin), {});
-
-    fuzz(s);
+    while (__AFL_LOOP(1000)) {
+        auto const s = std::string(
+            std::istreambuf_iterator(std::cin), {});
+    
+        fuzz(s);
+    }
     return 0;
 }
