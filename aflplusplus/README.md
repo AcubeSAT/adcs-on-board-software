@@ -8,8 +8,6 @@
   - [Manual](#manual)
 - [Fuzzing](#fuzzing)
   - [Risks](#risks)
-  - [Instrumentation](#instrumentation)
-    - [Selecting AFL++ Compiler](#selecting-afl-compiler)
 - [Using](#using)
 - [TODO](#todo)
 
@@ -115,50 +113,11 @@ sudo make install
 
 Note that the `distrib` build target will get you AFL++ with all batteries included. For other build targets and build options you can refer to the [README](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md#linux-on-x86).
 
-https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/INSTALL.md#linux-on-x86
-
 ### Fuzzing
 
 #### Risks
 
 Before going on, spend some time to read on [what can go wrong](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_in_depth.md#0-common-sense-risks).
-
-#### Instrumentation
-
-##### Selecting AFL++ Compiler
-
-```
-+--------------------------------+
-| clang/clang++ 11+ is available | --> use LTO mode (afl-clang-lto/afl-clang-lto++)
-+--------------------------------+     see [instrumentation/README.lto.md](instrumentation/README.lto.md)
-    |
-    | if not, or if the target fails with LTO afl-clang-lto/++
-    |
-    v
-+---------------------------------+
-| clang/clang++ 3.8+ is available | --> use LLVM mode (afl-clang-fast/afl-clang-fast++)
-+---------------------------------+     see [instrumentation/README.llvm.md](instrumentation/README.llvm.md)
-    |
-    | if not, or if the target fails with LLVM afl-clang-fast/++
-    |
-    v
- +--------------------------------+
- | gcc 5+ is available            | -> use GCC_PLUGIN mode (afl-gcc-fast/afl-g++-fast)
- +--------------------------------+    see [instrumentation/README.gcc_plugin.md](instrumentation/README.gcc_plugin.md) and
-                                       [instrumentation/README.instrument_list.md](instrumentation/README.instrument_list.md)
-    |
-    | if not, or if you do not have a gcc with plugin support
-    |
-    v
-use GCC mode (afl-gcc/afl-g++) (or afl-clang/afl-clang++ for clang)
-```
-
-- [LTO mode - afl-clang-lto](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_in_depth.md#:~:text=LTO%20mode%20%2D%20afl%2Dclang%2Dlto)
-- [LLVM mode - afl-clang-fast](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.llvm.md)
-- [GCC_PLUGIN mode - afl-gcc-fast](https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.gcc_plugin.md)
-- GCC/CLANG modes (afl-gcc/afl-clang) have no README as they have no own features
-
-The repository configuration uses LTO. To change this, edit `fuzz.sh`.
 
 ### Using
 
