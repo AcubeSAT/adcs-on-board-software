@@ -29,7 +29,8 @@
 11. `./re-tmin.sh`
 12. `./refuzz.sh`
 13. Repeat 9-12
-14. `./quit-screen.sh`
+14. `./triage.sh`
+15. `./quit-screen.sh`
 
 ### Installing/Building
 
@@ -174,7 +175,7 @@ Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflp
    This sets various environment variables to configure AFL++, for example mode, instrumentation strategy, sanitizer (optional). Then, it instruments the code, builds the instrumented executable and fuzzers it with `afl-fuzz`. You can edit it to directly affect how AFL++ is configured. 
 3.  `/.launch-screen.sh`
    
-   This starts four sessions named `fuzzer1`, `fuzzer2`; `tmin` and `cmin`, in detached mode, meaning it starts the sessions without attaching to them. `screen` is key for this pipeline to work. Using `screen`, we can spawn the `afl-fuzz` fuzzing instances inside each session, have them run there without throttling/blocking the terminal, be sure that there won'r be any premature termination of the fuzzing due to common accidents, be able to hop back and forth between the fuzzer instances to inspect them as we like, etc. We also use it to run `afl-cmin`. We can use it to run `afl-tmin` in the background where it spawns many processes to speed up the testcase minimization. `screen` is awesome. At any point in time, you can run `screen -ls` to list all running sessions, if any. You can use this to manually verify that the sessions have started/stopped. Use `screen -r fuzzer1` to attach to `fuzzer1` or `fuzzer2` and do the same for `cmin` and `tmin`, respectively. To detach from a session, press the keyboard shortcut `CTRL+A+D`.
+   This starts five sessions named `fuzzer1`, `fuzzer2`; `tmin` and `cmin`; `crashwalk` in detached mode, meaning it starts the sessions without attaching to them. `screen` is key for this pipeline to work. Using `screen`, we can spawn the `afl-fuzz` fuzzing instances inside each session, have them run there without throttling/blocking the terminal, be sure that there won'r be any premature termination of the fuzzing due to common accidents, be able to hop back and forth between the fuzzer instances to inspect them as we like, etc. We also use it to run `afl-cmin`. We can use it to run `afl-tmin` in the background where it spawns many processes to speed up the testcase minimization. `screen` is awesome. At any point in time, you can run `screen -ls` to list all running sessions, if any. You can use this to manually verify that the sessions have started/stopped. Use `screen -r fuzzer1` to attach to `fuzzer1` or `fuzzer2` and do the same for `cmin` and `tmin`, and `crashwalk` respectively. To detach from a session, press the keyboard shortcut `CTRL+A+D`.
 4. `./tmin.sh`
    
    This uses `afl-tmin` to minimize each of the initial testcases to the bare minimum required to express the same code paths as the original testcase.
@@ -200,6 +201,9 @@ Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflp
    
    Similar to `./fuzz.sh`, this re-runs `afl-fuzz`. Two important differences. First, there's no need to configure AFL++, instrument, etc. Second, the parameter `-i inputs` from `fuzz.sh` has now been changed to `-i-`. This is necessary, since it tells the fuzzer instances to use the minimized corpus instead of looking at the `inputs/` initial testcases directory.
 11. Repeat 6-9
-12. `./quit-screen.sh`
+12. `./triage.sh`
+
+   This uses `cwtriage` to give you a databse containing results from triaging the fuzzer-found crashes, and `cwdump` to summarize said results. Both `cwtriage` and `cwdump` are ran in the `crashwalk` `screen` session.
+13. `./quit-screen.sh`
    
    This gracefully kills the two `screen` sessions.

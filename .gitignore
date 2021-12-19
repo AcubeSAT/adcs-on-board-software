@@ -19,6 +19,8 @@ _deps
 # AFL++
 findings
 minimized
+crashwalk.db
+triage
 
 # Executables
 /adcs-onboard-software
