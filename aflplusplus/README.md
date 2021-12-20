@@ -1,3 +1,6 @@
+<details>
+<summary>Click to expand</summary>
+
 - [TL;DR](#tldr)
 - [Installing/Building](#installingbuilding)
   - [Packages](#packages)
@@ -10,6 +13,9 @@
   - [Risks](#risks)
 - [Using](#using)
 - [TODO](#todo)
+
+</details>
+
 
 ### TL;DR
 
