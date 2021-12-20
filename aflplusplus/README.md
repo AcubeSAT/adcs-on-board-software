@@ -24,18 +24,18 @@
 1. `docker pull aflplusplus/aflplusplus`
 2. `docker run -ti -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus`
 3. `cd ../on-board-software/aflplusplus`
-4. `./setup.sh`
-5. `./instrument.sh`
-6. `./launch-screen.sh`
-7. `./tmin.sh`
-8. `./fuzz.sh`
-9. `./stop-fuzz.sh`
-10. `./cmin.sh`
-11. `./re-tmin.sh`
-12. `./refuzz.sh`
+4. `./scripts/setup.sh`
+5. `./scripts/instrument.sh`
+6. `./scripts/launch-screen.sh`
+7. `./scripts/tmin.sh`
+8. `./scripts/fuzz.sh`
+9. `./scripts/stop-fuzz.sh`
+10. `./scripts/cmin.sh`
+11. `./scripts/re-tmin.sh`
+12. `./scripts/refuzz.sh`
 13. Repeat 9-12
-14. `./triage.sh`
-15. `./quit-screen.sh`
+14. `./scripts/triage.sh`
+15. `./scripts/quit-screen.sh`
 
 ### Installing/Building
 
@@ -128,44 +128,44 @@ Before going on, spend some time to read on [what can go wrong](https://github.c
 ### Using
 
 Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflplusplus/`, you can simply:
-1. `./setup.sh`
+1. `./scripts/setup.sh`
    
    This makes sure you can run `screen`, `rsync`, `gdb` and `go`. `screen` is used to start detached sessions to run time-consuming commands that should not be aborted midway. `rsync` is used to copy files instead of `cp` to allow for overwrites. `gdb` is used to take advantage of the [`exploitable`](https://github.com/jfoote/exploitable) GDB plugin. `go` is needed to use [`crashwalk`](https://github.com/bnagy/crashwalk).
-2. `./instrument.sh`
+2. `./scripts/instrument.sh`
    
    This sets various environment variables to configure AFL++, for example mode, instrumentation strategy, sanitizer (optional). Then, it instruments the code, builds the instrumented executable and fuzzers it with `afl-fuzz`. You can edit it to directly affect how AFL++ is configured. 
-3.  `/.launch-screen.sh`
+3.  `./scripts/launch-screen.sh`
    
    This starts five sessions named `fuzzer1`, `fuzzer2`; `tmin` and `cmin`; `crashwalk` in detached mode, meaning it starts the sessions without attaching to them. `screen` is key for this pipeline to work. Using `screen`, we can spawn the `afl-fuzz` fuzzing instances inside each session, have them run there without throttling/blocking the terminal, be sure that there won'r be any premature termination of the fuzzing due to common accidents, be able to hop back and forth between the fuzzer instances to inspect them as we like, etc. We also use it to run `afl-cmin`. We can use it to run `afl-tmin` in the background where it spawns many processes to speed up the testcase minimization. `screen` is awesome. At any point in time, you can run `screen -ls` to list all running sessions, if any. You can use this to manually verify that the sessions have started/stopped. Use `screen -r fuzzer1` to attach to `fuzzer1` or `fuzzer2` and do the same for `cmin` and `tmin`, and `crashwalk` respectively. To detach from a session, press the keyboard shortcut `CTRL+A+D`.
-4. `./tmin.sh`
+4. `./scripts/tmin.sh`
    
    This uses `afl-tmin` to minimize each of the initial testcases to the bare minimum required to express the same code paths as the original testcase.
    It runs afl-tmin in parallel, by spawning different processes.
    It determines how many by probing the available CPU cores with `nproc`. Feel free to change this as you see fit.
    This is ran in the `tmin` `screen` session.
    **NOTE**: `afl-tmin` and `afl-cmin` run in a detached screen session. There are no scripts to stop these sessions like `stop-fuzz.sh`, because, unlike `afl-fuzz`, both `afl-tmin` and `afl-cmin` terminate on their own, and do not need to be aborted by the user. **Make sure that the respective session command has terminated before running the next script**. The scripts must be ran in the order specified here. If not, you _will_ break things.  
-5. `./fuzz.sh`
+5. `./scripts/fuzz.sh`
    
    This uses `screen` to tell both `screen` sessions to start fuzzing with `afl-fuzz`. Specifically, it tells the session named `fuzzer1` to spawn a Master fuzzer instance which uses deterministic fuzzing strategies, and the session `fuzzer2` to spawn a Slave fuzzer instance which uses chaotic, random fuzzing strategies. These instances directly cooperate. The directory `inputs/` is read for the initial testcases, and `afl-fuzz` outputs to `findings/`. 
-6. `./stop-fuzz.sh`
+6. `./scripts/stop-fuzz.sh`
    
    This sends a `CTRL+C` to both the `fuzzer1` and `fuzzer2` running `screen` sessions. This gracefully terminates the `afl-fuzz` instances. It is required to stop the instances after a while, to minimize the testing corpus with `afl-cmin`. You should leave the fuzzer instances run for quite a while before stopping (and minimizing the corpus). It is highly advisable that you let them complete at least 1 cycle prior to terminating.
-7. `./cmin.sh`
+7. `./scripts/cmin.sh`
    
    This gathers the `afl-fuzz` output of both `fuzzer` and `fuzzer2`, uses `afl-cmin` to generate a minimized corpus, and passes the minimized corpus to both fuzzers. Note that `afl-cmin` find the testcases that most efficiently express unique paths according to previous runs and is thus different from `afl-tmin`. `rsync` is used here instead of `cp`, because `cp` doesn't want to overwrite the files, and it's very likely that some findings of `fuzzer1` will also have been discovered by `fuzzer2`.
    This is ran in the `cmin` `screen` session.
-8. `./re-tmin.sh`
+8. `./scripts/re-tmin.sh`
    
    This works like `tmin.sh`. The difference is that we now `afl-tmin` each testcase in the corpus that has been produced by the fuzzer instances and minimized with `afl-cmin`.
    This is ran in the `tmin` `screen` session.
-9.  `./refuzz.sh`
+9.  `./scripts/refuzz.sh`
    
    Similar to `./fuzz.sh`, this re-runs `afl-fuzz`. Two important differences. First, there's no need to configure AFL++, instrument, etc. Second, the parameter `-i inputs` from `fuzz.sh` has now been changed to `-i-`. This is necessary, since it tells the fuzzer instances to use the minimized corpus instead of looking at the `inputs/` initial testcases directory.
 11. Repeat 6-9
-12. `./triage.sh`
+12. `./scripts/triage.sh`
 
    This uses `cwtriage` to give you a databse containing results from triaging the fuzzer-found crashes, and `cwdump` to summarize said results. Both `cwtriage` and `cwdump` are ran in the `crashwalk` `screen` session.
-13. `./quit-screen.sh`
+13. `./scripts/quit-screen.sh`
    
    This gracefully kills the two `screen` sessions.
 
