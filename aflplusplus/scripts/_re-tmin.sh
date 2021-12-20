@@ -4,7 +4,7 @@
 # the queue from the two fuzzer instances.
 
 mkdir -p queue
-./_tmin.sh queue_cmin queue "$(nproc)" || exit
+./scripts/_tmin.sh queue_cmin queue "$(nproc)" || exit
 cd findings || exit
 rm -rf fuzzer1/queue \
 && rm -rf fuzzer2/queue \
