@@ -80,7 +80,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-// #include <iostream>
 
 #define SGP4Version  "SGP4 Version 2020-07-13"
 
@@ -255,3 +254,4 @@ namespace SGP4Funcs {
 }  // namespace
 
 #endif //ADCS_ONBOARD_SOFTWARE_SGP4_H
+

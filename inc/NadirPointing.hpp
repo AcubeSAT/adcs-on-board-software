@@ -1,5 +1,4 @@
-#ifndef ADCS_ONBOARD_SOFTWARE_NADIRPOINTING_H
-#define ADCS_ONBOARD_SOFTWARE_NADIRPOINTING_H
+#pragma once 
 
 #include "PointingTarget.hpp"
 
@@ -27,5 +26,3 @@ public:
                                     GlobalStateVector state,
                                     bool eclipse) const override;
 };
-
-#endif //ADCS_ONBOARD_SOFTWARE_NADIRPOINTING_H

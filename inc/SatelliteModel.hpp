@@ -1,6 +1,4 @@
-#ifndef MAIN_SATELLITEMODEL_H
-#define MAIN_SATELLITEMODEL_H
-
+#pragma once 
 
 #include "Eigen/Dense"
 #include "Definitions.hpp"
@@ -70,6 +68,3 @@ public:
                         Eigen::Vector3f sunPosition, bool eclipse,
                         GlobalStateVector state, Eigen::Vector3f satPositionECI, float albedo) const;
 };
-
-
-#endif //MAIN_SATELLITEMODEL_H

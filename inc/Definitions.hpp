@@ -1,5 +1,4 @@
-#ifndef ADCS_ONBOARD_SOFTWARE_DEFINITIONS_H
-#define ADCS_ONBOARD_SOFTWARE_DEFINITIONS_H
+#pragma once 
 
 #include "Eigen/Geometry"
 #include <cstdint>
@@ -16,5 +15,3 @@ inline uint8_t const MeasurementSize = 6;
 
 typedef Eigen::Vector<float, MeasurementSize> MeasurementVector;
 typedef Eigen::Vector<float, GlobalStateSize> GlobalStateVector;
-
-#endif //ADCS_ONBOARD_SOFTWARE_DEFINITIONS_H
