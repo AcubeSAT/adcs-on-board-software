@@ -25,7 +25,8 @@ add_library(adcs OBJECT
         src/SunPointing.cpp
         src/PointingStrategy.cpp
         src/MagnetorquerPlusRW.cpp
-        src/MagnetorquerOnly.cpp)
+        src/MagnetorquerOnly.cpp
+        src/Eclipse.cpp)
 
 add_executable(adcs-onboard-software main.cpp
         $<TARGET_OBJECTS:adcs>)
@@ -40,6 +41,6 @@ IF (EXISTS "${PROJECT_SOURCE_DIR}/lib/Catch2/CMakeLists.txt")
     add_subdirectory(lib/Catch2)
     add_executable(tests $<TARGET_OBJECTS:adcs>
             ${test_main_SRC}
-            ${test_SRC})
+            ${test_SRC} test/EclipseTest.cpp)
     target_link_libraries(tests Catch2::Catch2)
 ENDIF ()
