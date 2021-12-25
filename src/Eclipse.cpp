@@ -8,7 +8,7 @@ bool calculate_eclipse(Eigen::Vector3f xsat_eci, Eigen::Vector3f sun_pos_eci) {
     double alpha1 = M_PI - acos(R_EARTH / x1) - acos(R_EARTH / (xsat_eci.norm()));
     double alpha2 = acos(R_EARTH / x2) - acos(R_EARTH / (xsat_eci).norm());
     double alpha = M_PI - acos(sun_pos_eci.dot(xsat_eci) / ((sun_pos_eci).norm() * (xsat_eci).norm()));
-    if (alpha < alpha1) {
+    if ((alpha < alpha1) || (alpha <= alpha2)) {
         eclipse = true;
     } else {
         eclipse = false;
