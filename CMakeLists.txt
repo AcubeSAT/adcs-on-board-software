@@ -26,7 +26,7 @@ add_library(adcs OBJECT
         src/PointingStrategy.cpp
         src/MagnetorquerPlusRW.cpp
         src/MagnetorquerOnly.cpp
-        src/Eclipse.cpp)
+        src/Eclipse.cpp inc/SunPosition.hpp src/SunPosition.cpp)
 
 add_executable(adcs-onboard-software main.cpp
         $<TARGET_OBJECTS:adcs>)
