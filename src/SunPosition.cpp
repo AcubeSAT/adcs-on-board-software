@@ -2,8 +2,8 @@
 #include <cmath>
 #include <vector>
 
-foo sun_position(double time) {
-    std::vector<double> v(3);
+Eigen::Vector3d sun_position(double time) {
+    Eigen::Vector3d sun_pos_eci(3);
     double ut1 = (time - 2451545) / 36525;
     double meanlong = 280.4606184 + 36000.77005361 * ut1;
     double meananomaly = 357.5277233 + 35999.05034 * ut1;
@@ -11,7 +11,7 @@ foo sun_position(double time) {
     double obliquity;
     double magr;
     double rtasc;
-    foo res;
+
     meanlong = std::fmod((meanlong), (360));
     meananomaly = std::fmod((meananomaly * M_PI / 180), (2 * M_PI));
 
@@ -31,27 +31,10 @@ foo sun_position(double time) {
     obliquity = obliquity * M_PI / 180;
     magr = 1.000140612 - 0.016708617 * cos(meananomaly) - 0.000139589 * cos(2 * meananomaly);
 
-    v[1] = magr * cos(eclplong);
-    v[2] = magr * cos(obliquity) * sin(eclplong);
-    v[3] = magr * sin(obliquity) * sin(eclplong);
-    res.sun_pos_eci = v;
+    sun_pos_eci[0] = magr * cos(eclplong);
+    sun_pos_eci[1] = magr * cos(obliquity) * sin(eclplong);
+    sun_pos_eci[2] = magr * sin(obliquity) * sin(eclplong);
 
-    rtasc = atan(cos(obliquity) * tan(eclplong));
-
-    if (eclplong < 0) {
-        eclplong = eclplong + 2 * M_PI;
-    }
-
-    if (abs(eclplong - rtasc) > (M_PI / 2)) {
-        if (std::fmod((eclplong - rtasc), 1) < 0.51) {
-            rtasc = rtasc + 0.5 * M_PI * (eclplong - rtasc) - (eclplong - std::fmod(rtasc, 1) / (M_PI / 2));
-        } else {
-            rtasc = rtasc + 0.5 * M_PI * ((eclplong - rtasc) + (1 - std::fmod((eclplong - rtasc), 1))) / (M_PI / 2);
-        }
-
-    }
-
-    res.decl = asin(sin(obliquity) * sin(eclplong));
-    return res;
+    return sun_pos_eci;
 
 }
