@@ -10,7 +10,6 @@ Eigen::Vector3d sun_position(double time) {
     double eclplong;
     double obliquity;
     double magr;
-    double rtasc;
 
     meanlong = std::fmod((meanlong), (360));
     meananomaly = std::fmod((meananomaly * M_PI / 180), (2 * M_PI));
