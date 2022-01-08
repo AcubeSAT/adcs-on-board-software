@@ -31,15 +31,28 @@ int fuzz(std::string const &s) {
 
 int main() {
 
-#ifdef __AFL_HAVE_MANUAL_CONTROL
-  __AFL_INIT();
-#endif
+// Deffered initialization not needed for now.
+// See https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.persistent_mode.md#3-deferred-initialization
+// for more.
 
-    while (__AFL_LOOP(1000)) {
-        auto const s = std::string(
-            std::istreambuf_iterator(std::cin), {});
+// #ifdef __AFL_HAVE_MANUAL_CONTROL
+//   __AFL_INIT();
+// #endif
+
+    // Persistent mode also not needed.
+    // See https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.persistent_mode.md#4-persistent-mode
+    // for more.
+
+    // If using persistent mode, we can also take advantage of shared memory fuzzing.
+    // See https://github.com/AFLplusplus/AFLplusplus/blob/stable/instrumentation/README.persistent_mode.md#5-shared-memory-fuzzing
+    // for more.
+    // Note that modifications for this to work with C++ will be required.
+
+    // while (__AFL_LOOP(1000)) {
+    auto const s = std::string(
+        std::istreambuf_iterator(std::cin), {});
     
-        fuzz(s);
-    }
+    fuzz(s);
+    // }
     return 0;
 }
