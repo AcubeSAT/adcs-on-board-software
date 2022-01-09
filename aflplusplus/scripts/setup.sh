@@ -1,6 +1,10 @@
 #!/bin/bash
 # Make sure all dependencies are installed and ready to go.
 
+# Have everything in the Docker container use vim instead of Joe.
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
 # Check if package is installed, install it otherwise.
 function maybe-install {
     if ! dpkg-query -W -f='${Status}' "$1" | grep "ok installed"
@@ -26,7 +30,20 @@ apt update \
 && maybe-install screen \
 && maybe-install rsync \
 && maybe-install gdb \
-&& maybe-install golang
+&& maybe-install curl
+
+# Manually install go, to get a more recent version.
+# If we don't, we can't use go install, and we can't
+# use shfmt.
+if ! dir-ok /usr/local/go
+then
+    curl -OL https://go.dev/dl/go1.17.6.linux-amd64.tar.gz \
+    && tar -C /usr/local -xvf go1.17.6.linux-amd64.tar.gz \
+    && rm -rf go1.17.6.linux-amd64.tar.gz \
+    && echo "export PATH=$PATH:/usr/local/go/bin" >> "$HOME"/.bashrc
+    source "$HOME"/.bashrc
+    go version || exit
+fi
 
 cd || exit
 if ! dir-ok src
@@ -40,6 +57,6 @@ cd || exit
 if ! dir-ok go
 then
     mkdir -p go
-    export GOPATH=~/go
     go get -u github.com/bnagy/crashwalk/cmd/...
+    go install mvdan.cc/sh/v3/cmd/shfmt@latest
 fi
