@@ -8,6 +8,6 @@
 # Although AFL already de-dupes crashes,
 # bucketing summarizes these by an order of magnitude or more.
 # Crashes that bucket the same have exactly the same stack contents,
-# so they're likely (but NOT guaranteed) to be the same bug. 
+# so they're likely (but NOT guaranteed) to be the same bug.
 
 screen -r "crashwalk" -X stuff $'~/go/bin/cwtriage -root findings/ -afl && ~/go/bin/cwdump ./crashwalk.db > triage\n'

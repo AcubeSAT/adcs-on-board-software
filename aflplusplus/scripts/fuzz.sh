@@ -7,4 +7,4 @@
 
 mkdir -p findings
 screen -r "fuzzer1" -X stuff $'afl-fuzz -i minimized -o findings -M fuzzer1 -- build/aflplusplus\n' \
-&& screen -r "fuzzer2" -X stuff $'afl-fuzz -i minimized -o findings -S fuzzer2 -- build/aflplusplus\n'
+  && screen -r "fuzzer2" -X stuff $'afl-fuzz -i minimized -o findings -S fuzzer2 -- build/aflplusplus\n'

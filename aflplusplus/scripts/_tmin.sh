@@ -14,13 +14,10 @@ number_of_files=$(find "$input_directory" -maxdepth 1 -type f ! -name "$input_di
 
 mkdir -p "$output_directory"
 
-for k in $(seq 1 "$number_of_cores" "$number_of_files")
-do
-  for i in $(seq 0 $((10#$number_of_cores - 1)))
-  do
+for k in $(seq 1 "$number_of_cores" "$number_of_files"); do
+  for i in $(seq 0 $((10#$number_of_cores - 1))); do
     file=$(find "$input_directory" -maxdepth 1 -type f -printf '%P\n' | tac | sed $((i + k))"q;d")
-    if [[ $file ]]
-    then
+    if [[ $file ]]; then
       afl-tmin -i "$input_directory"/"$file" -o "$output_directory"/"$file" -- build/aflplusplus &
     fi
   done

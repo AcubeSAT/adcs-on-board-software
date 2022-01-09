@@ -7,4 +7,4 @@
 mkdir -p queue_all
 rsync -a --delete findings/fuzzer*/queue/* queue_all/ || exit
 afl-cmin -i queue_all -o queue_cmin -- build/aflplusplus \
-&& rm -rf queue_all
+  && rm -rf queue_all

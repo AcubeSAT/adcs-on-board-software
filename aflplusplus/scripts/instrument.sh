@@ -5,10 +5,10 @@ export CXX=$AFL/afl-c++
 
 # Use AFL++ in LTO mode
 export AFL_CC_COMPILER="LTO"
-export RANLIB=llvm-ranlib 
+export RANLIB=llvm-ranlib
 export AR=llvm-ar
 
-# Use laf-intel for instrumentation. 
+# Use laf-intel for instrumentation.
 # See https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_in_depth.md#b-selecting-instrumentation-options
 # TODO: when the testing corpus is more mature, maybe change to red queen.
 export AFL_LLVM_LAF_ALL=1
@@ -37,4 +37,4 @@ export AFL_LLVM_LAF_ALL=1
 mkdir -p build
 cd build || exit
 cmake -DCMAKE_CXX_COMPILER=afl-c++ .. \
-&& make
+  && make
