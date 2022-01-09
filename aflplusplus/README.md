@@ -16,6 +16,7 @@
 
 </details>
 
+**RUN ALL SCRIPTS FROM THE AFLPLUSPLUS DIRECTORY**
 
 ### TL;DR
 
