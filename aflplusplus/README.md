@@ -172,6 +172,10 @@ Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflp
 
 ### TODO
 
+- Turn into submodule/template repository
+- Automate/Facilitate updating the `aflplusplus` Docker image
+- Create custom Dockerfile based on the `aflplusplus` Docker image
+- Also fuzz on CI: See [this](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/fuzzing_in_depth.md#5-ci-fuzzing) for some pointers
 - Integrate [`afl-cov`](https://github.com/mrash/afl-cov)
 - Better parallelization support. This mainly means two things:
   - Some things we run here are not parallelized. They can be
