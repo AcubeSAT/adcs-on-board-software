@@ -14,9 +14,7 @@ public:
      * @param angularVelocityECIOrbit angular velocity of the orbit frame with respect to the ECI frame, expressed in the orbit frame
      */
     SunPointing(Eigen::Matrix<float, 3, 3> Kp,
-                Eigen::Matrix<float, 3, 3> Kd,
-                Eigen::Quaternionf desiredQuaternion,
-                Eigen::Vector3f angularVelocityECIOrbit);
+                Eigen::Matrix<float, 3, 3> Kd);
 
     void changeGains(bool eclipse, Eigen::Matrix<float, 3, 3> &KpGain, Eigen::Matrix<float, 3, 3> &KdGain) const override;
 

@@ -3,11 +3,7 @@
 
 using namespace Eigen;
 
-
-const Vector3f residualDipoleEstimation = {0.05, 0.05, 0.05};
-const Vector3f maxMagneticDipole = {0.2, 0.2, 0.2};
-
-const MagnetorquerOnly magnetorquerOnly(maxMagneticDipole, residualDipoleEstimation);
+const MagnetorquerOnly magnetorquerOnly;
 
 TEST_CASE("Magnetorquer Only Strategy - Magnetorquer saturation") {
     Vector3f commandedTorque1 = {5e-06, 5e-06, 0};
@@ -46,7 +42,7 @@ TEST_CASE("Magnetorquer Only Strategy - Magnetorquer saturation") {
     REQUIRE(desiredMagneticTorque2(1) == Approx(-1.0e-04 * 0.052783).epsilon(1e-4));
     REQUIRE(desiredMagneticTorque2(2) == Approx(-1.0e-04 * 0.111574).epsilon(1e-4));
 
-    SECTION("Zero desired dipole in all axes"){
+    SECTION("Zero desired dipole in all axes") {
         Vector3f commandedTorque = {5e-06, 5e-06, 0};
         Vector3f magneticField = {0, 0, 1e-05};
         Vector3f desiredMagneticDipole = {0, 0, 0};
@@ -66,7 +62,7 @@ TEST_CASE("Magnetorquer Only Strategy - Magnetorquer saturation") {
         REQUIRE(desiredMagneticTorque(2) == Approx(-0.001172).epsilon(1e-4));
     }
 
-    SECTION("Zero desired dipole in two axes - Division by zero"){
+    SECTION("Zero desired dipole in two axes - Division by zero") {
         Vector3f commandedTorque = {5e-06, 5e-06, 0};
         Vector3f magneticField = {0, 0, 1e-05};
         Vector3f desiredMagneticDipole = {0, 0, 0.5};
@@ -86,7 +82,7 @@ TEST_CASE("Magnetorquer Only Strategy - Magnetorquer saturation") {
         REQUIRE(desiredMagneticTorque(2) == Approx(0).epsilon(1e-4));
     }
 
-    SECTION("Zero desired dipole in one axis - Division by zero"){
+    SECTION("Zero desired dipole in one axis - Division by zero") {
         Vector3f commandedTorque = {5e-06, 5e-06, 0};
         Vector3f magneticField = {0, 0, 1e-05};
         Vector3f desiredMagneticDipole = {0, 0.5, 0.5};

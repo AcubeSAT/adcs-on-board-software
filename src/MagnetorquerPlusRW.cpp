@@ -1,19 +1,11 @@
 #include "MagnetorquerPlusRW.hpp"
 #include "MathFunctions.hpp"
+#include "Parameters.hpp"
 #include <cassert>
 
 using namespace Eigen;
-
-MagnetorquerPlusRW::MagnetorquerPlusRW(Vector3f maxMagneticDipoleMoment, Vector3f residualDipoleEstimation,
-                                       float maxReactionWheelTorque, float reactionWheelAngularVelocityLimit,
-                                       float torquePercentage, float flywheelInertia) : PointingStrategy(
-        maxMagneticDipoleMoment,
-        residualDipoleEstimation) {
-    this->maxReactionWheelTorque = maxReactionWheelTorque;
-    this->reactionWheelAngularVelocityLimit = reactionWheelAngularVelocityLimit;
-    this->torquePercentage = torquePercentage;
-    this->flywheelInertia = flywheelInertia;
-}
+using namespace Parameters;
+using namespace Parameters::Actuators;
 
 Matrix<float, VectorSize, NumOfActuators>
 MagnetorquerPlusRW::splitTorque(Vector3f magneticField, Vector3f commandedTorque) const {
@@ -36,8 +28,8 @@ MagnetorquerPlusRW::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
                                            Vector3f magneticField, Vector3f desiredMagneticDipole) const {
     double magneticTorqueGain, reactionWheelTorqueGain, magneticTorqueGainSaturated, reactionWheelTorqueGainSaturated;
 
-    Vector3f magnetorquerUpperLimits = maxMagneticDipoleMoment + residualDipoleEstimation;
-    Vector3f magnetorquerLowerLimits = residualDipoleEstimation - maxMagneticDipoleMoment;
+    Vector3f magnetorquerUpperLimits = MaxMagneticDipole + ResidualDipoleEstimation;
+    Vector3f magnetorquerLowerLimits = ResidualDipoleEstimation - MaxMagneticDipole;
     Vector3f saturatedDipole = desiredMagneticDipole / desiredMagneticTorque.norm();
     Vector3f reactionWheelTorqueUnitVector = desiredReactionWheelTorque.normalized();
     Vector3f magneticTorqueUnitVector = desiredMagneticTorque.normalized();
@@ -94,11 +86,11 @@ MagnetorquerPlusRW::desaturateReactionWheel(Vector3f effectiveMagneticTorque,
                                             float reactionWheelAngularAcceleration) const {
     Vector3f initialMagneticTorque = effectiveMagneticTorque;
 
-    if (((reactionWheelAngularVelocity > reactionWheelAngularVelocityLimit && reactionWheelAngularAcceleration > 0) ||
-         (reactionWheelAngularVelocity < -reactionWheelAngularVelocityLimit && reactionWheelAngularAcceleration < 0))
+    if (((reactionWheelAngularVelocity > ReactionWheelAngularVelocityLimit && reactionWheelAngularAcceleration > 0) ||
+         (reactionWheelAngularVelocity < -ReactionWheelAngularVelocityLimit && reactionWheelAngularAcceleration < 0))
         && abs(reactionWheelTorque(2)) > 0) {
 
-        Vector3f addedTorque{0, 0, (torquePercentage * flywheelInertia * reactionWheelAngularAcceleration)};
+        Vector3f addedTorque{0, 0, (TorquePercentage * FlywheelInertia * reactionWheelAngularAcceleration)};
         Vector3f magneticTorque = effectiveMagneticTorque + addedTorque;
         Vector3f magneticDipole = (-magneticTorque.cross(magneticFieldBody)) / (float) pow(magneticFieldBody.norm(), 2);
         magneticDipole = scaleMagnetorquerDipole(magneticDipole);
@@ -115,7 +107,7 @@ MagnetorquerPlusRW::desaturateReactionWheel(Vector3f effectiveMagneticTorque,
 }
 
 Vector3f MagnetorquerPlusRW::scaleReactionWheelTorque(Vector3f reactionWheelTorque) const {
-    reactionWheelTorque(2) = clamp(reactionWheelTorque(2), -maxReactionWheelTorque, maxReactionWheelTorque);
+    reactionWheelTorque(2) = clamp(reactionWheelTorque(2), -MaxReactionWheelTorque, MaxReactionWheelTorque);
     return reactionWheelTorque;
 }
 
@@ -140,7 +132,7 @@ MagnetorquerPlusRW::actuate(Vector3f commandedTorque, Vector3f magneticField, bo
     desiredMagneticTorque = desiredActuatorsTorque.col(0);
     desiredReactionWheelTorque = desiredActuatorsTorque.col(1);
     desiredMagneticDipole = skew(magneticField) * desiredMagneticTorque / (pow(magneticField.norm(), 2));
-    desiredMagneticDipole = desiredMagneticDipole - residualDipoleEstimation;
+    desiredMagneticDipole = desiredMagneticDipole - ResidualDipoleEstimation;
     desiredMagneticTorque = desiredMagneticDipole.cross(magneticField);
 
 

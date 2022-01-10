@@ -6,40 +6,7 @@
  * Default profile of the AOCS nominal mode during which actuation is carried out using both the magnetorquers and the reaction wheel
  */
 class MagnetorquerPlusRW : public PointingStrategy {
-private:
-    /**
-     * Reaction Wheel Maximum Rotation Rate (in rpm)
-     */
-    float reactionWheelAngularVelocityLimit;
-
-    /**
-     * Percentage of RW desaturation torque added to the torque given on Z-axis through magnetorquers
-     */
-    float torquePercentage;
-
-    /**
-     * (in kg*m^2)
-     */
-    float flywheelInertia;
-
-    /**
-     * Maximum torque provided by the Reaction Wheel (in Nm)
-     */
-    float maxReactionWheelTorque;
-
 public:
-    /**
-     * @param maxMagneticDipoleMoment Maximum magnetic dipole provided by the Magnetorquers (in Am^2)
-     * @param residualDipoleEstimation Estimation of the residual magnetic dipole (in Am^2)
-     * @param maxReactionWheelTorque Maximum torque provided by the Reaction Wheel (in Nm)
-     * @param reactionWheelAngularVelocityLimit Reaction Wheel Maximum Rotation Rate (in rpm)
-     * @param torquePercentage Percentage of RW desaturation torque added to the torque given on Z-axis through magnetorquers
-     * @param flywheelInertia Inertia of the flywheel (in kg*m^2)
-     */
-    MagnetorquerPlusRW(Eigen::Vector3f maxMagneticDipoleMoment, Eigen::Vector3f residualDipoleEstimation,
-                       float maxReactionWheelTorque, float reactionWheelAngularVelocityLimit, float torquePercentage,
-                       float flywheelInertia);
-
     /**
      * Algorithm for the decomposition of the control torque into magnetic torque and reaction wheel torque
      * @param magneticField Magnetic field value expressed in the Body Frame (in T)

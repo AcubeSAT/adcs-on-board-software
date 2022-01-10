@@ -1,12 +1,10 @@
 #include "SatelliteModel.hpp"
 #include "MathFunctions.hpp"
 #include "CSSCompensation.hpp"
+#include "Parameters.hpp"
 
 using namespace Eigen;
-
-SatelliteModel::SatelliteModel(float timestep) {
-    this->timestep = timestep;
-}
+using namespace Parameters::SatelliteModel;
 
 MeasurementVector
 SatelliteModel::measurementFunction(Vector3f magneticField, Vector3f sunPosition, bool eclipse, GlobalStateVector state,
@@ -48,7 +46,7 @@ SatelliteModel::stateTransitionFunction(GlobalStateVector state,
     currentQuaternion.vec() = state(seq(1, 3));
 
     Quaternionf nextQuaternion = quaternionProduct(currentQuaternion,
-                                                   quaternionExponent(angularVelocity * timestep));
+                                                   quaternionExponent(angularVelocity * Timestep));
 
     GlobalStateVector nextState;
 
