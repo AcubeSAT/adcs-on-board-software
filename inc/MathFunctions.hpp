@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "Eigen/Geometry"
 #include "Definitions.hpp"
@@ -82,3 +82,59 @@ Eigen::Vector3f cartesianToSpherical(Eigen::Vector3f vectorCartesian);
  * @return vector in Cartesian coordinates (x, y, z) in radians
  */
 Eigen::Vector3f sphericalToCartesian(Eigen::Vector3f vectorSpherical);
+
+/**
+ * Clamps the values of an Eigen vector between an upper and lower bound
+ * @param vector vector to be clamped
+ * @param lowerLimit lower bound
+ * @param upperLimit upper bound
+ * @return clamped vector
+ */
+inline Eigen::Vector3f
+clamp(Eigen::Vector3f vector, const Eigen::Vector3f &lowerLimit, const Eigen::Vector3f &upperLimit) {
+    for (int i = 0; i < 3; i++) {
+        vector(i) = std::max(lowerLimit(i), std::min(vector(i), upperLimit(i)));
+    }
+
+    return vector;
+}
+
+/**
+ * Clamps a value between an upper and lower bound
+ * @param number number to be clamped
+ * @param lowerLimit lower bound
+ * @param upperLimit upper bound
+ * @return clamped vector
+ */
+template<typename T>
+T clamp(T number, const T lowerLimit, const T upperLimit) {
+    return std::max(lowerLimit, std::min(number, upperLimit));
+}
+
+/**
+ * Clamps a value in case it is lower than a limit
+ * @param number number to be clamped
+ * @return clamped number 
+ */
+template<typename T>
+T clampDown(T number, const T limit) {
+    if (number < limit) {
+        number = limit;
+    }
+
+    return number;
+}
+
+/**
+ * Clamps a value in case it is upper than a limit
+ * @param number number to be clamped
+ * @return clamped number 
+ */
+template<typename T>
+T clampUp(T number, const T limit) {
+    if (number > limit) {
+        number = limit;
+    }
+
+    return number;
+}
