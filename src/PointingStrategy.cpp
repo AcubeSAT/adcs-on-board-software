@@ -1,4 +1,5 @@
 #include "PointingStrategy.hpp"
+#include "MathFunctions.hpp"
 
 using namespace Eigen;
 
@@ -7,12 +8,7 @@ PointingStrategy::PointingStrategy(Vector3f maxMagneticDipoleMoment, Vector3f re
 
 
 Vector3f PointingStrategy::scaleMagnetorquerDipole(Vector3f magneticDipole) const {
-    for (int i = 0; i < VectorSize; i++) {
-        if (abs(magneticDipole(i)) > maxMagneticDipoleMoment(i)) {
-            magneticDipole(i) = copysignf(maxMagneticDipoleMoment(i), magneticDipole(i));
-        }
-    }
-
+    magneticDipole = clamp(magneticDipole, -maxMagneticDipoleMoment, maxMagneticDipoleMoment);
     return magneticDipole;
 }
 
