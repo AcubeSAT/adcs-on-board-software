@@ -50,17 +50,8 @@ private:
     MeasurementVector innovation;
 
 public:
-
-    /**
-     * Class Constructor that initialises Q, R, P and globalState
-     * @param Q process noise covariance Matrix
-     * @param R measurement noise covariance Matrix
-     */
-    MEKF(const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &Q,
-         const Eigen::Matrix<float, LocalStateSize, LocalStateSize> &R)
-            : Q{Q}, R{R} {
-    }
-
+    MEKF();
+    
     /**
      * Q Setter
      * @param Q process noise covariance Matrix

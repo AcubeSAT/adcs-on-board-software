@@ -7,19 +7,7 @@
  * Class that implements the space environment
  */
 class SatelliteModel {
-private:
-    /**
-     * timestep sampling time in seconds
-     */
-    float timestep;
-
-public:
-    /**
-     * Class constructor that initializes the timestep
-     * @param timestep sampling time in seconds
-     */
-    SatelliteModel(float timestep);
-
+    public:
     /**
      * Rotates the magnetic field and sun position measurements to body frame
      * @param magneticField magnetic field measurements

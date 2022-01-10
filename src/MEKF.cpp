@@ -1,7 +1,13 @@
 #include "MEKF.hpp"
 #include "MathFunctions.hpp"
+#include "Parameters.hpp"
 
 using namespace Eigen;
+
+MEKF::MEKF() :
+        Q{Parameters::CovarianceMatrices::Q},
+        R{Parameters::CovarianceMatrices::R}{}
+
 
 void MEKF::predict(float timestep, const SatelliteModel &satelliteModel, const Vector3f &gyroMeasurements) {
     F_k = satelliteModel.stateTransitionJacobian(globalState, gyroMeasurements);
