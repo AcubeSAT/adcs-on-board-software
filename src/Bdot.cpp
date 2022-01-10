@@ -1,4 +1,5 @@
 #include "Bdot.hpp"
+#include "MathFunctions.hpp"
 
 using namespace Eigen;
 
@@ -28,11 +29,6 @@ Vector3f Bdot::controller(Vector3f &magneticFieldBody) {
 }
 
 Vector3f Bdot::magnetorquerScaling(Vector3f magneticDipole) {
-    for (int i = 0; i < 3; i++) {
-        if (abs(magneticDipole(i)) > maxMagneticDipole(i)) {
-            magneticDipole(i) = copysignf(maxMagneticDipole(i), magneticDipole(i));
-        }
-    }
-
+    magneticDipole = clamp(magneticDipole, -maxMagneticDipole, maxMagneticDipole);
     return magneticDipole;
 }

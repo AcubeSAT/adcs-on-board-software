@@ -231,3 +231,75 @@ TEST_CASE("Skew matrix test") {
     REQUIRE(matrix(2, 1) == Approx(0.4).epsilon(0.01));
     REQUIRE(matrix(2, 2) == Approx(0).epsilon(0.01));
 }
+
+TEST_CASE("Clamp vector") {
+    Vector3f vector1 = {0.4, 0.5, -0.5};
+    Vector3f upperLimit1 = {1, 2, 3};
+    Vector3f lowerLimit1 = {0.1, 0.2, -0.4};
+
+    vector1 = clamp(vector1, lowerLimit1, upperLimit1);
+    REQUIRE(vector1(0) == Approx(0.4).epsilon(0.01));
+    REQUIRE(vector1(1) == Approx(0.5).epsilon(0.01));
+    REQUIRE(vector1(2) == Approx(-0.4).epsilon(0.01));
+
+    Vector3f vector2 = {0.4, 0.5, -0.5};
+    Vector3f upperLimit2 = {0, 2, 0};
+    Vector3f lowerLimit2 = {-0.1, -0.2, -0.4};
+
+    vector2 = clamp(vector2, lowerLimit2, upperLimit2);
+    REQUIRE(vector2(0) == Approx(0).epsilon(0.01));
+    REQUIRE(vector2(1) == Approx(0.5).epsilon(0.01));
+    REQUIRE(vector2(2) == Approx(-0.4).epsilon(0.01));
+}
+
+TEST_CASE("Clamp number") {
+    float number1 = 0.4;
+    float upperLimit1 = 1;
+    float lowerLimit1 = 0.8;
+
+    number1 = clamp(number1, lowerLimit1, upperLimit1);
+    REQUIRE(number1 == Approx(0.8).epsilon(0.01));
+
+    float number2 = 0.4;
+    float upperLimit2 = 0.3;
+    float lowerLimit2 = 0.1;
+
+    number2 = clamp(number2, lowerLimit2, upperLimit2);
+    REQUIRE(number2 == Approx(0.3).epsilon(0.01));
+
+    float number3 = 0.4;
+    float upperLimit3 = 0.6;
+    float lowerLimit3 = 0.1;
+
+    number3 = clamp(number3, lowerLimit3, upperLimit3);
+    REQUIRE(number3 == Approx(0.4).epsilon(0.01));
+
+}
+
+TEST_CASE("Clamp down") {
+    float number1 = 0.4;
+    float limit1 = 1;
+
+    number1 = clampDown(number1, limit1);
+    REQUIRE(number1 == Approx(1).epsilon(0.01));
+
+    float number2 = 0.5;
+    float limit2 = 0.3;
+
+    number2 = clampDown(number2, limit2);
+    REQUIRE(number2 == Approx(0.5).epsilon(0.01));
+}
+
+TEST_CASE("Clamp up") {
+    float number1 = 0.4;
+    float limit1 = 1;
+
+    number1 = clampUp(number1, limit1);
+    REQUIRE(number1 == Approx(0.4).epsilon(0.01));
+
+    float number2 = 0.5;
+    float limit2 = 0.3;
+
+    number2 = clampUp(number2, limit2);
+    REQUIRE(number2 == Approx(0.3).epsilon(0.01));
+}
