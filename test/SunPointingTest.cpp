@@ -1,15 +1,10 @@
 #include <catch2/catch.hpp>
 #include "SunPointing.hpp"
+#include "Parameters.hpp"
 
 using namespace Eigen;
 
-const Quaternionf desiredQuaternion = {1, 0, 0, 0};
-const Vector3f angularVelocityECIOrbit = {0, 0.0011, 0};
-
-const auto Kp = Matrix<float, 3, 3>::Identity(3, 3);
-const auto Kd = Matrix<float, 3, 3>::Identity(3, 3);
-
-const SunPointing sunPointing(Kp, Kd, desiredQuaternion, angularVelocityECIOrbit);
+const SunPointing sunPointing(Parameters::SunPointingPlusRW::Kp, Parameters::SunPointingPlusRW::Kd);
 
 TEST_CASE("Sun Pointing - Commanded Torque") {
     GlobalStateVector state1 = {1, 0, 0, 0, 0, 0, 0};

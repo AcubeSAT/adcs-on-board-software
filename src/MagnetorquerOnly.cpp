@@ -1,12 +1,11 @@
 #include "MagnetorquerOnly.hpp"
 #include "MathFunctions.hpp"
+#include "Parameters.hpp"
 #include <cassert>
 
 using namespace Eigen;
-
-MagnetorquerOnly::MagnetorquerOnly(Vector3f maxMagneticDipoleMoment, Vector3f residualDipoleEstimation)
-        : PointingStrategy(maxMagneticDipoleMoment,
-                           residualDipoleEstimation) {}
+using namespace Parameters::Actuators;
+using namespace Parameters;
 
 Matrix<float, VectorSize, NumOfActuators>
 MagnetorquerOnly::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
@@ -16,8 +15,8 @@ MagnetorquerOnly::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
 
     double magneticTorqueGainSaturated;
 
-    Vector3f magnetorquerUpperLimits = maxMagneticDipoleMoment + residualDipoleEstimation;
-    Vector3f magnetorquerLowerLimits = residualDipoleEstimation - maxMagneticDipoleMoment;
+    Vector3f magnetorquerUpperLimits = MaxMagneticDipole + ResidualDipoleEstimation;
+    Vector3f magnetorquerLowerLimits = ResidualDipoleEstimation - MaxMagneticDipole;
     Vector3f saturatedDipole = desiredMagneticDipole / desiredMagneticTorque.norm();
 
     if (desiredMagneticDipole.x() > magnetorquerUpperLimits.x() ||
@@ -71,7 +70,7 @@ MagnetorquerOnly::actuate(Vector3f commandedTorque, Vector3f magneticField, [[ma
 
     desiredMagneticTorque = desiredActuatorsTorque.col(0);
     desiredMagneticDipole = skew(magneticField) * desiredMagneticTorque / (pow(magneticField.norm(), 2));
-    desiredMagneticDipole = desiredMagneticDipole - residualDipoleEstimation;
+    desiredMagneticDipole = desiredMagneticDipole - ResidualDipoleEstimation;
     desiredMagneticTorque = desiredMagneticDipole.cross(magneticField);
 
     Vector3f desiredReactionWheelTorque = {0, 0, 0};
