@@ -1,32 +1,13 @@
 #include <catch2/catch.hpp>
 #include "MEKF.hpp"
+#include "Parameters.hpp"
 
 using namespace Eigen;
 
+const SatelliteModel satelliteModel;
+
 TEST_CASE("MEKF predict test") {
-
-    float timestep = 0.1;
-    SatelliteModel satelliteModel(timestep);
-
-    Matrix<float, LocalStateSize, LocalStateSize> Q;
-    Q << 1.0000, 0, 0, 0, 0, 0,
-            0, 1.0000, 0, 0, 0, 0,
-            0, 0, 1.0000, 0, 0, 0,
-            0, 0, 0, 0.0010, 0, 0,
-            0, 0, 0, 0, 0.0010, 0,
-            0, 0, 0, 0, 0, 0.0010;
-    Q *= 0.0001;
-
-    Matrix<float, MeasurementSize, MeasurementSize> R;
-    R << 0.5000, 0, 0, 0, 0, 0,
-            0, 0.5000, 0, 0, 0, 0,
-            0, 0, 0.5000, 0, 0, 0,
-            0, 0, 0, 1.000, 0, 0,
-            0, 0, 0, 0, 1.0000, 0,
-            0, 0, 0, 0, 0, 1.0000;
-    R *= 0.001;
-
-    MEKF mekf(Q, R);
+    MEKF mekf;
 
     Vector3f gyroMeasurements;
     gyroMeasurements << 0.0142643813238961, 0.14848215231781, -0.0791417585254324;
@@ -47,7 +28,7 @@ TEST_CASE("MEKF predict test") {
 
     mekf.setP(P);
 
-    mekf.predict(timestep, satelliteModel, gyroMeasurements);
+    mekf.predict(Parameters::SatelliteModel::Timestep, satelliteModel, gyroMeasurements);
 
     GlobalStateVector expectedState;
     expectedState
@@ -76,9 +57,6 @@ TEST_CASE("MEKF predict test") {
 }
 
 TEST_CASE("MEKF correct test - Without eclipse") {
-
-    float timestep = 0.1;
-    SatelliteModel satelliteModel(timestep);
     Matrix<float, LocalStateSize, LocalStateSize> Q;
     Q << 1.0000, 0, 0, 0, 0, 0,
             0, 1.0000, 0, 0, 0, 0,
@@ -87,7 +65,6 @@ TEST_CASE("MEKF correct test - Without eclipse") {
             0, 0, 0, 0, 0.0010, 0,
             0, 0, 0, 0, 0, 0.0010;
     Q *= 0.0001;
-
     Matrix<float, MeasurementSize, MeasurementSize> R;
     R << 0.5000, 0, 0, 0, 0, 0,
             0, 0.5000, 0, 0, 0, 0,
@@ -97,7 +74,9 @@ TEST_CASE("MEKF correct test - Without eclipse") {
             0, 0, 0, 0, 0, 1.0000;
     R *= 0.001;
 
-    MEKF mekf(Q, R);
+    MEKF mekf;
+    mekf.setQ(Q);
+    mekf.setR(R);
 
     MeasurementVector measurements(0.95096940533737, -0.0591251014318659, -0.303580981770863, -0.0549449466873172,
                                    0.944547804661188, -0.323744494228485);
@@ -154,9 +133,6 @@ TEST_CASE("MEKF correct test - Without eclipse") {
 }
 
 TEST_CASE("MEKF correct test - With eclipse") {
-
-    float timestep = 0.1;
-    SatelliteModel satelliteModel(timestep);
     Matrix<float, LocalStateSize, LocalStateSize> Q;
     Q << 1, 0, 0, 0, 0, 0,
             0, 1, 0, 0, 0, 0,
@@ -174,7 +150,9 @@ TEST_CASE("MEKF correct test - With eclipse") {
             0, 0, 0, 0, 1.000000000000000, 0,
             0, 0, 0, 0, 0, 1.000000000000000;
 
-    MEKF mekf(Q, R);
+    MEKF mekf;
+    mekf.setQ(Q);
+    mekf.setR(R);
 
     Matrix<float, LocalStateSize, LocalStateSize> P;
     P

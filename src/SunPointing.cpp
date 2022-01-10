@@ -1,13 +1,12 @@
 #include "SunPointing.hpp"
 #include "MathFunctions.hpp"
+#include "Parameters.hpp"
 
 using namespace Eigen;
+using namespace Parameters;
 
 SunPointing::SunPointing(Matrix<float, 3, 3> Kp,
-                         Matrix<float, 3, 3> Kd,
-                         Quaternionf desiredQuaternion,
-                         Vector3f angularVelocityECIOrbit) : PointingTarget(Kp, Kd, desiredQuaternion,
-                                                                            angularVelocityECIOrbit) {}
+                         Matrix<float, 3, 3> Kd) : PointingTarget(Kp, Kd) {}
 
 void SunPointing::changeGains(bool eclipse, Matrix<float, 3, 3> &KpGain, Matrix<float, 3, 3> &KdGain) const {
     if (eclipse) {
@@ -33,7 +32,7 @@ Vector3f SunPointing::calculateTorque([[maybe_unused]] Quaternionf quaternionOrb
     quaternionECIBody.vec() = state(seq(1, 3));
 
     Quaternionf quaternionSunBody = calculateQuaternionSunBody(sunECIUnitVector, quaternionECIBody);
-    Quaternionf errorQuaternion = quaternionProduct(desiredQuaternion.conjugate(), quaternionSunBody);
+    Quaternionf errorQuaternion = quaternionProduct(DesiredQuaternion.conjugate(), quaternionSunBody);
     Vector3f commandedTorque =
             -copysignf(1, errorQuaternion.w()) * KpGain * errorQuaternion.vec() - KdGain * angularVelocityECIBody;
 

@@ -13,31 +13,12 @@ private:
     Eigen::Vector3f magneticFieldBody;
 
     Eigen::Vector3f bDotVector;
-
-    /**
-     * proportional positive scalar gain
-     */
-    Eigen::Matrix<float, 3, 3> Kp;
-
-    /**
-     * Maximum magnetic dipole of magnetorquers (in Am^2)
-     */
-    Eigen::Vector3f maxMagneticDipole;
-
-    /**
-     * derivation value equal to the time-period elapsed between two measurements of the magnetic field (in sec)
-     */
-    float timestep;
-
 public:
 
     /**
      * @param magneticFieldBody magnetic field value expressed in the Body Frame
-     * @param Kp proportional positive scalar gain
-     * @param maxMagneticDipole magnetorquers maximum magnetic dipole (in Am^2)
-     * @param timestep derivation value (in sec)
      */
-    Bdot(Eigen::Vector3f magneticFieldBody, Eigen::Matrix<float, 3, 3> Kp, Eigen::Vector3f maxMagneticDipole, float timestep);
+    Bdot(Eigen::Vector3f magneticFieldBody);
 
     /**
      * Bdot controller is used in Detumbling mode, during which actuation is performed by the magnetorquers, and
@@ -85,53 +66,5 @@ public:
      */
     void setBDotVector(Eigen::Vector3f bDotVector){
         this->bDotVector = bDotVector;
-    }
-
-    /**
-     * proportional positive scalar gain getter
-     * @return proportional positive scalar gain
-     */
-    Eigen::Matrix<float, 3, 3> getKp(){
-        return Kp;
-    }
-
-    /**
-     * proportional positive scalar gain setter
-     * @param Kp proportional positive scalar gain
-     */
-    void setKp(Eigen::Matrix<float, 3, 3> Kp){
-        this->Kp = Kp;
-    }
-
-    /**
-     * Maximum magnetic dipole of magnetorquers (in Am^2) getter
-     * @return Maximum magnetic dipole of magnetorquers (in Am^2)
-     */
-    Eigen::Vector3f getMaxMagneticDipole(){
-        return maxMagneticDipole;
-    }
-
-    /**
-     * Maximum magnetic dipole of magnetorquers (in Am^2) setter
-     * @param maxMagneticDipole Maximum magnetic dipole of magnetorquers (in Am^2)
-     */
-    void setMaxMagneticDipole(Eigen::Vector3f maxMagneticDipole){
-        this->maxMagneticDipole = maxMagneticDipole;
-    }
-
-    /**
-     * derivation value getter
-     * @return derivation value
-     */
-    float getTimestep(){
-        return timestep;
-    }
-
-    /**
-     * derivation value setter
-     * @param timestep derivation value
-     */
-    void setTimestep(float timestep){
-        this->timestep = timestep;
     }
 };

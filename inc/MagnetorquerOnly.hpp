@@ -7,13 +7,6 @@
  */
 class MagnetorquerOnly : public PointingStrategy {
 public:
-
-    /**
-     * @param maxMagneticDipoleMoment Maximum magnetic dipole provided by the Magnetorquers (in Am^2)
-     * @param residualDipoleEstimation Estimation of the residual magnetic dipole (in Am^2)
-     */
-    MagnetorquerOnly(Eigen::Vector3f maxMagneticDipoleMoment, Eigen::Vector3f residualDipoleEstimation);
-
     /**
      * Magnetorquer desaturation algorithm
      * In case the induced magnetic dipole exceeds the available maximum dipole provided by the magnetorquers,

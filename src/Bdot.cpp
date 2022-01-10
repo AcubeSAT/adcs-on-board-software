@@ -1,18 +1,17 @@
 #include "Bdot.hpp"
+#include "Parameters.hpp"
 #include "MathFunctions.hpp"
 
+using namespace Parameters::BDot;
+using namespace Parameters::Actuators;
 using namespace Eigen;
 
-Bdot::Bdot(Vector3f magneticFieldBody, Matrix<float, 3, 3> Kp, Vector3f maxMagneticDipole, float timestep) :
+Bdot::Bdot(Vector3f magneticFieldBody) :
         magneticFieldBody{magneticFieldBody},
-        Kp{Kp},
-        bDotVector{{0, 0, 0}}, maxMagneticDipole{maxMagneticDipole}, timestep{timestep} {}
+        bDotVector{{0, 0, 0}}{}
 
-Vector3f Bdot::controller(Vector3f &magneticFieldBody) {
-
-    if (timestep != 0) timestep = 0.1;
-        
-    bDotVector = (magneticFieldBody - this->magneticFieldBody) / timestep;
+Vector3f Bdot::controller(Vector3f &magneticFieldBody) {        
+    bDotVector = (magneticFieldBody - this->magneticFieldBody) / Timestep;
 
     Vector3f magneticDipole;
     if ((this->magneticFieldBody.norm()) != 0) {
@@ -29,6 +28,6 @@ Vector3f Bdot::controller(Vector3f &magneticFieldBody) {
 }
 
 Vector3f Bdot::magnetorquerScaling(Vector3f magneticDipole) {
-    magneticDipole = clamp(magneticDipole, -maxMagneticDipole, maxMagneticDipole);
+    magneticDipole = clamp(magneticDipole, -MaxMagneticDipole, MaxMagneticDipole);
     return magneticDipole;
 }

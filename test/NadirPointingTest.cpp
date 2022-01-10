@@ -1,15 +1,10 @@
 #include <catch2/catch.hpp>
 #include "NadirPointing.hpp"
+#include "Parameters.hpp"
 
 using namespace Eigen;
 
-const Quaternionf desiredQuaternion = {1, 0, 0, 0};
-const Vector3f angularVelocityECIOrbit = {0, 0.0011, 0};
-
-const auto Kp = Matrix<float, 3, 3>::Identity(3, 3);
-const auto Kd = Matrix<float, 3, 3>::Identity(3, 3);
-
-const NadirPointing nadirPointing(Kp, Kd, desiredQuaternion, angularVelocityECIOrbit);
+const NadirPointing nadirPointing(Parameters::NadirPointingPlusRW::Kp, Parameters::NadirPointingPlusRW::Kd);
 
 TEST_CASE("Nadir pointing - Commanded Torque") {
     GlobalStateVector state;
