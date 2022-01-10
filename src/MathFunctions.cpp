@@ -2,7 +2,6 @@
 #include "MathFunctions.hpp"
 
 #include "Eigen/Geometry"
-#include "Eigen/Dense"
 
 using namespace Eigen;
 

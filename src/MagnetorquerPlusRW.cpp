@@ -115,10 +115,7 @@ MagnetorquerPlusRW::desaturateReactionWheel(Vector3f effectiveMagneticTorque,
 }
 
 Vector3f MagnetorquerPlusRW::scaleReactionWheelTorque(Vector3f reactionWheelTorque) const {
-    if (abs(reactionWheelTorque(2)) > maxReactionWheelTorque) {
-        reactionWheelTorque(2) = copysignf(maxReactionWheelTorque, reactionWheelTorque(2));
-    }
-
+    reactionWheelTorque(2) = clamp(reactionWheelTorque(2), -maxReactionWheelTorque, maxReactionWheelTorque);
     return reactionWheelTorque;
 }
 
