@@ -21,7 +21,7 @@
 8. `./scripts/fuzz.sh`
 9. `./scripts/stop-fuzz.sh`
 10. `./scripts/cmin.sh`
-11. `./scripts/re-tmin.sh`
+11. `./scripts/retmin.sh`
 12. `./scripts/refuzz.sh`
 13. Repeat 9-12
 14. `./scripts/triage.sh`
@@ -146,7 +146,7 @@ Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflp
    
    This gathers the `afl-fuzz` output of both `fuzzer` and `fuzzer2`, uses `afl-cmin` to generate a minimized corpus, and passes the minimized corpus to both fuzzers. Note that `afl-cmin` find the testcases that most efficiently express unique paths according to previous runs and is thus different from `afl-tmin`. `rsync` is used here instead of `cp`, because `cp` doesn't want to overwrite the files, and it's very likely that some findings of `fuzzer1` will also have been discovered by `fuzzer2`.
    This is ran in the `cmin` `screen` session.
-8. `./scripts/re-tmin.sh`
+8. `./scripts/retmin.sh`
    
    This works like `tmin.sh`. The difference is that we now `afl-tmin` each testcase in the corpus that has been produced by the fuzzer instances and minimized with `afl-cmin`.
    This is ran in the `tmin` `screen` session.

@@ -2,4 +2,4 @@
 # Wrapper script to call the afl-tmin script in a screen session.
 # TODO: find a better way?
 
-screen -r "tmin" -X stuff $'./scripts/_re-tmin.sh\n'
+screen -r "tmin" -X stuff $'./scripts/_retmin.sh\n'
