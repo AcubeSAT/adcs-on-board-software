@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Grab the findings of both fuzzers,
 # use afl-cmin to minimize the corpus,
 # then feed it back to the fuzzers.

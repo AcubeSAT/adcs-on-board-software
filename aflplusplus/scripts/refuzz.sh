@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Tell each screen session to start afl-fuzz.
 # "-i-" is used instead of "-i inputs/" because we
 # want the fuzzers to use the produced (and minimized)

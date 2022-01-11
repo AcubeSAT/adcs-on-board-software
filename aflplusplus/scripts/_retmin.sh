@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # This, unlike tmin.sh, does some extra work because now
 # we want afl-tmin to run on the findings directory, containing
 # the queue from the two fuzzer instances.

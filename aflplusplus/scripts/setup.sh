@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Make sure all dependencies are installed and ready to go.
 
 # Have everything in the Docker container use vim instead of Joe.

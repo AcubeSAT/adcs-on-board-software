@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Use cwtriage to use gdb and gdb's "exploitable" plugin, to
 # triage afl-found crashes and probe which
 # lead to exploitable conditions and which don't.

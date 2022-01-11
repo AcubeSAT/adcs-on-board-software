@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Run the instrumented executable under AFL++.
 # Tell each screen session to run afl-fuzz.
 # fuzzer1 is the Master, runs deterministic strategies.

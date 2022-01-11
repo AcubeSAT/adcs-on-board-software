@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Use AFL++ in LTO mode
 export AFL_CC_COMPILER="LTO"

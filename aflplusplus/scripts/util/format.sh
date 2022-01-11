@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Use shfmt to find all paths to shell scripts recursively,
 # then format each file in-place.
 
