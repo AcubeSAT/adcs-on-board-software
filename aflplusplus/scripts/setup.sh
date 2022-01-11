@@ -33,6 +33,8 @@ apt update \
 # Manually install go, to get a more recent version.
 # If we don't, we can't use go install, and we can't
 # use shfmt.
+
+# If go isn't found, manually source the ~/.bashrc file.
 if ! dir-ok /usr/local/go; then
   curl -OL https://go.dev/dl/go1.17.6.linux-amd64.tar.gz \
     && tar -C /usr/local -xvf go1.17.6.linux-amd64.tar.gz \
