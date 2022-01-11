@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Use AFL++ as a compile front-end.
-export CXX=$AFL/afl-c++
-
 # Use AFL++ in LTO mode
 export AFL_CC_COMPILER="LTO"
 export RANLIB=llvm-ranlib
