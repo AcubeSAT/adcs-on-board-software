@@ -9,8 +9,8 @@ using namespace Parameters;
 
 Matrix<float, VectorSize, NumOfActuators>
 MagnetorquerOnly::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
-                                         Vector3f desiredReactionWheelTorque, [[maybe_unused]] Vector3f commandedTorque,
-                                         Vector3f magneticField, Vector3f desiredMagneticDipole) const {
+                                         Vector3f desiredReactionWheelTorque, [[maybe_unused]] const Vector3f commandedTorque,
+                                         const Vector3f magneticField, Vector3f desiredMagneticDipole) const {
     assert(desiredMagneticTorque.norm() != 0);
 
     double magneticTorqueGainSaturated;
@@ -52,9 +52,9 @@ MagnetorquerOnly::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
 }
 
 Matrix<float, VectorSize, NumOfActuators>
-MagnetorquerOnly::actuate(Vector3f commandedTorque, Vector3f magneticField, [[maybe_unused]] bool firstTime,
-                          [[maybe_unused]] float currentReactionWheelAngularVelocity,
-                          [[maybe_unused]] float oldReactionWheelAcceleration) const {
+MagnetorquerOnly::actuate(const Vector3f commandedTorque, const Vector3f magneticField, [[maybe_unused]] const bool firstTime,
+                          [[maybe_unused]] const float currentReactionWheelAngularVelocity,
+                          [[maybe_unused]] const float oldReactionWheelAcceleration) const {
     assert(not magneticField.isZero());
 
     Vector3f magneticFieldNormalized = magneticField.normalized();

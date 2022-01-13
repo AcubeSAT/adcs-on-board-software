@@ -8,7 +8,7 @@ using namespace Parameters;
 using namespace Parameters::Actuators;
 
 Matrix<float, VectorSize, NumOfActuators>
-MagnetorquerPlusRW::splitTorque(Vector3f magneticField, Vector3f commandedTorque) const {
+MagnetorquerPlusRW::splitTorque(const Vector3f magneticField, const Vector3f commandedTorque) const {
     Vector3f z(0, 0, 1);
     Vector3f desiredReactionWheelTorque = z * (magneticField.dot(commandedTorque)) / magneticField.z();
 
@@ -24,8 +24,8 @@ MagnetorquerPlusRW::splitTorque(Vector3f magneticField, Vector3f commandedTorque
 
 Matrix<float, VectorSize, NumOfActuators>
 MagnetorquerPlusRW::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
-                                           Vector3f desiredReactionWheelTorque, Vector3f commandedTorque,
-                                           Vector3f magneticField, Vector3f desiredMagneticDipole) const {
+                                           Vector3f desiredReactionWheelTorque, const Vector3f commandedTorque,
+                                           const Vector3f magneticField, Vector3f desiredMagneticDipole) const {
     double magneticTorqueGain, reactionWheelTorqueGain, magneticTorqueGainSaturated, reactionWheelTorqueGainSaturated;
 
     Vector3f magnetorquerUpperLimits = MaxMagneticDipole + ResidualDipoleEstimation;
@@ -81,9 +81,9 @@ MagnetorquerPlusRW::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
 
 Matrix<float, VectorSize, NumOfActuators>
 MagnetorquerPlusRW::desaturateReactionWheel(Vector3f effectiveMagneticTorque,
-                                            Vector3f reactionWheelTorque, Vector3f magneticFieldBody,
-                                            float reactionWheelAngularVelocity,
-                                            float reactionWheelAngularAcceleration) const {
+                                            Vector3f reactionWheelTorque, const Vector3f magneticFieldBody,
+                                            const float reactionWheelAngularVelocity,
+                                            const float reactionWheelAngularAcceleration) const {
     Vector3f initialMagneticTorque = effectiveMagneticTorque;
 
     if (((reactionWheelAngularVelocity > ReactionWheelAngularVelocityLimit && reactionWheelAngularAcceleration > 0) ||
@@ -112,9 +112,9 @@ Vector3f MagnetorquerPlusRW::scaleReactionWheelTorque(Vector3f reactionWheelTorq
 }
 
 Matrix<float, VectorSize, NumOfActuators>
-MagnetorquerPlusRW::actuate(Vector3f commandedTorque, Vector3f magneticField, bool firstTime,
-                            float currentReactionWheelAngularVelocity,
-                            float oldReactionWheelAcceleration) const {
+MagnetorquerPlusRW::actuate(const Vector3f commandedTorque, const Vector3f magneticField, const bool firstTime,
+                            const float currentReactionWheelAngularVelocity,
+                            const float oldReactionWheelAcceleration) const {
     assert(magneticField.norm() != 0);
 
     Matrix<float, VectorSize, NumOfActuators> desiredActuatorsTorque = splitTorque(magneticField, commandedTorque);

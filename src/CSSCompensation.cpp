@@ -5,7 +5,7 @@
 using namespace Eigen;
 
 Vector3f
-cssCompensation(Vector3f sunPositionBody, Quaternionf quaternionECIBody, Vector3f satellitePositionECI, float albedo) {
+cssCompensation(Vector3f sunPositionBody, const Quaternionf quaternionECIBody, Vector3f satellitePositionECI, const float albedo) {
     sunPositionBody.normalize();
     satellitePositionECI.normalize();
 

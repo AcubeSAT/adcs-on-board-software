@@ -5,10 +5,10 @@
 using namespace Eigen;
 using namespace Parameters;
 
-SunPointing::SunPointing(Matrix<float, 3, 3> Kp,
-                         Matrix<float, 3, 3> Kd) : PointingTarget(Kp, Kd) {}
+SunPointing::SunPointing(const Matrix<float, 3, 3> Kp,
+                         const Matrix<float, 3, 3> Kd) : PointingTarget(Kp, Kd) {}
 
-void SunPointing::changeGains(bool eclipse, Matrix<float, 3, 3> &KpGain, Matrix<float, 3, 3> &KdGain) const {
+void SunPointing::changeGains(const bool eclipse, Matrix<float, 3, 3> &KpGain, Matrix<float, 3, 3> &KdGain) const {
     if (eclipse) {
         KpGain = 20 * this->Kd;
         KdGain = 1.2 * this->Kp;
@@ -18,8 +18,8 @@ void SunPointing::changeGains(bool eclipse, Matrix<float, 3, 3> &KpGain, Matrix<
     }
 }
 
-Vector3f SunPointing::calculateTorque([[maybe_unused]] Quaternionf quaternionOrbitBody, Vector3f sunECIUnitVector,
-                                      GlobalStateVector state, bool eclipse) const {
+Vector3f SunPointing::calculateTorque([[maybe_unused]] const Quaternionf quaternionOrbitBody, const Vector3f sunECIUnitVector,
+                                      const GlobalStateVector state, const bool eclipse) const {
     Matrix<float, 3, 3> KpGain;
     Matrix<float, 3, 3> KdGain;
 
@@ -40,10 +40,10 @@ Vector3f SunPointing::calculateTorque([[maybe_unused]] Quaternionf quaternionOrb
 }
 
 Quaternionf
-SunPointing::calculateQuaternionSunBody(Vector3f sunECIUnitVector, Quaternionf quaternionECIBody) const {
+SunPointing::calculateQuaternionSunBody(Vector3f sunECIUnitVector, const Quaternionf quaternionECIBody) const {
     Vector3f desiredSunVector = {-1, 1, 0};
     desiredSunVector = desiredSunVector.normalized();
-    sunECIUnitVector = sunECIUnitVector.normalized();
+    sunECIUnitVector.normalize();
 
     Vector3f sunBodyUnitVector = rotateVector(quaternionECIBody, sunECIUnitVector);
 

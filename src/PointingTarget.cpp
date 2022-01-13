@@ -2,7 +2,7 @@
 
 using namespace Eigen;
 
-PointingTarget::PointingTarget(Matrix<float, 3, 3> Kp, Matrix<float, 3, 3> Kd) :
+PointingTarget::PointingTarget(const Matrix<float, 3, 3> Kp, const Matrix<float, 3, 3> Kd) :
         Kp{Kp},
         Kd{Kd}{}
 
