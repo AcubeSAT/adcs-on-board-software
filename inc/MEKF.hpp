@@ -152,7 +152,7 @@ public:
      * innovation Getter
      * @param innovation difference between predicted and groundtruth measurements
      */
-    const MeasurementVector &getInnovation() const {
+    MeasurementVector getInnovation() const {
         return innovation;
     }
 
@@ -160,7 +160,7 @@ public:
      * innovation Setter
      * @param innovation difference between predicted and groundtruth measurements
      */
-    void setInnovation(const MeasurementVector &innovation) {
+    void setInnovation(const MeasurementVector innovation) {
         this->innovation = innovation;
     }
 

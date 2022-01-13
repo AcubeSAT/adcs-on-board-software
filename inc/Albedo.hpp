@@ -5,8 +5,8 @@
 
 #include "Definitions.hpp"
 
-const int16_t ReflectivityDataRows = 180;
-const int16_t ReflectivityDataColumns = 288;
+inline constexpr int16_t ReflectivityDataRows = 180;
+inline constexpr int16_t ReflectivityDataColumns = 288;
 
 const static float EMR = 6371.01e3;
 

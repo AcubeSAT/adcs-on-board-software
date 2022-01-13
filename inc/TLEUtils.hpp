@@ -2,7 +2,7 @@
 
 #include "etl/string.h"
 
-const int TLELineSize = 70;
+inline constexpr int TLELineSize = 70;
 static_assert(sizeof(int) >= 4, "Integer variables not large enough to support SGP4");
 typedef std::pair<etl::string<TLELineSize>, etl::string<TLELineSize>> TLE;
 

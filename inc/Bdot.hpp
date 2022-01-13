@@ -40,7 +40,7 @@ public:
      * magnetic field value expressed in the Body Frame getter
      * @return magnetic field value expressed in the Body Frame
      */
-    Eigen::Vector3f getMagneticFieldBody(){
+    Eigen::Vector3f getMagneticFieldBody() const{
         return magneticFieldBody;
     }
 
@@ -56,7 +56,7 @@ public:
      * Bdot vector getter
      * @return Bdot vector
      */
-    Eigen::Vector3f getBDotVector(){
+    Eigen::Vector3f getBDotVector() const{
         return bDotVector;
     }
 
