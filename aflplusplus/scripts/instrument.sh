@@ -33,5 +33,5 @@ export AFL_LLVM_LAF_ALL=1
 # Build the instrumented executable.
 mkdir -p build
 cd build || exit
-cmake -DCMAKE_CXX_COMPILER=afl-c++ .. \
+cmake -DCMAKE_CXX_COMPILER=afl-c++ -DCMAKE_BUILD_TYPE=RelWithDebInfo .. \
   && make

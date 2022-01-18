@@ -157,11 +157,11 @@ Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflp
 9.  `./scripts/refuzz.sh`
    
    Similar to `./fuzz.sh`, this re-runs `afl-fuzz`. Two important differences. First, there's no need to configure AFL++, instrument, etc. Second, the parameter `-i inputs` from `fuzz.sh` has now been changed to `-i-`. This is necessary, since it tells the fuzzer instances to use the minimized corpus instead of looking at the `inputs/` initial testcases directory.
-11. Repeat 6-9 as you see fit. Note that fuzzing is an iterative process, and you will definitely want to repeat this process (6-9) at _least_ once. Also, note that you should let all `afl-fuzz` instances complete at _least_ one full cycle before killing them with `stop-fuzz.sh`
-12. `./scripts/triage.sh`
+10. Repeat 6-9 as you see fit. Note that fuzzing is an iterative process, and you will definitely want to repeat this process (6-9) at _least_ once. Also, note that you should let all `afl-fuzz` instances complete at _least_ one full cycle before killing them with `stop-fuzz.sh`
+11. `./scripts/triage.sh`
 
    This uses `cwtriage` to give you a databse containing results from triaging the fuzzer-found crashes, and `cwdump` to summarize said results. Both `cwtriage` and `cwdump` are ran in the `crashwalk` `screen` session.
-13. `./scripts/quit-screen.sh`
+12. `./scripts/quit-screen.sh`
    
    This gracefully kills the two `screen` sessions.
 
