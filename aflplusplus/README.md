@@ -7,6 +7,8 @@
 
 **RUN ALL SCRIPTS FROM THE AFLPLUSPLUS DIRECTORY**
 
+Make sure that you understand how fuzzing (with afl++) works before treading further. The [afl++ README](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/README.md) can serve as a good starting point.
+
 ### TL;DR
 
 [![asciicast](https://asciinema.org/a/457900.png)](https://asciinema.org/a/457900)
