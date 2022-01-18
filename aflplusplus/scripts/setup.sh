@@ -34,13 +34,19 @@ apt update \
 # If we don't, we can't use go install, and we can't
 # use shfmt.
 
-# If go isn't found, manually source the ~/.bashrc file.
 if ! dir-ok /usr/local/go; then
   curl -OL https://go.dev/dl/go1.17.6.linux-amd64.tar.gz \
     && tar -C /usr/local -xvf go1.17.6.linux-amd64.tar.gz \
     && rm -rf go1.17.6.linux-amd64.tar.gz \
     && echo "export PATH=$PATH:/usr/local/go/bin" >>"$HOME"/.bashrc
-  source "$HOME"/.bashrc
+
+  # A hack to be able to source .bashrc from inside the shell script.
+  # See https://askubuntu.com/a/77053/1165092
+
+  # Note that the terminal will not reflect the env changes sourcing .bashrc caused.
+  # In other words, if you want to have go in the path in the terminal,
+  # either re-source ~/.bashrc manually, or restart the terminal.
+  PS1='$ ' && source "$HOME"/.bashrc
   go version || exit
 fi
 
