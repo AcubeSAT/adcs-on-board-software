@@ -35,16 +35,22 @@ apt update \
 # use shfmt.
 
 if ! dir-ok /usr/local/go; then
+  mkdir -p ~/.go
+  rm -rf ~/go
+  GOPATH="$HOME"/.go
+  echo "GOPATH=$HOME/.go" >>"$HOME"/.bashrc \
+    && echo "export GOPATH" >>"$HOME"/.bashrc \
+    && echo "PATH=$PATH:/usr/local/go/bin:$GOPATH/bin" >>"$HOME"/.bashrc
+
   curl -OL https://go.dev/dl/go1.17.6.linux-amd64.tar.gz \
     && tar -C /usr/local -xvf go1.17.6.linux-amd64.tar.gz \
-    && rm -rf go1.17.6.linux-amd64.tar.gz \
-    && echo "export PATH=$PATH:/usr/local/go/bin" >>"$HOME"/.bashrc
+    && rm -rf go1.17.6.linux-amd64.tar.gz
 
   # A hack to be able to source .bashrc from inside the shell script.
   # See https://askubuntu.com/a/77053/1165092
 
   # Note that the terminal will not reflect the env changes sourcing .bashrc caused.
-  # In other words, if you want to have go in the path in the terminal,
+  # In other words, you still have to
   # either re-source ~/.bashrc manually, or restart the terminal.
   PS1='$ ' && source "$HOME"/.bashrc
   go version || exit

@@ -10,4 +10,4 @@
 # Crashes that bucket the same have exactly the same stack contents,
 # so they're likely (but NOT guaranteed) to be the same bug.
 
-screen -xr "crashwalk" -X stuff $'~/go/bin/cwtriage -root findings/ -afl && ~/go/bin/cwdump ./crashwalk.db > triage\n'
+screen -xr "crashwalk" -X stuff $'cwtriage -root findings/ -afl && cwdump ./crashwalk.db > triage\n'

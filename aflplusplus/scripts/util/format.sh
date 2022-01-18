@@ -6,4 +6,4 @@
 # the Google codestyle guidelines for shell:
 # https://google.github.io/styleguide/shellguide.html
 
-~/go/bin/shfmt -f . | xargs ~/go/bin/shfmt -l -w -i 2 -ci -bn
+shfmt -f . | xargs shfmt -l -w -i 2 -ci -bn
