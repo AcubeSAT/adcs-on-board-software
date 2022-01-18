@@ -21,8 +21,6 @@ function dir-ok {
   fi
 }
 
-apt autoremove -y
-
 apt update \
   && apt upgrade -y \
   && maybe-install screen \
