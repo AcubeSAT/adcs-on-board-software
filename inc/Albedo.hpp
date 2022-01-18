@@ -17,7 +17,7 @@ namespace albedo {
  * @param phi reflectivity data point's longitude
  * @return vector containing TOMS reflectivity matrix indices
  */
-    inline Eigen::Vector<int16_t, 2> radiansToIndices(float theta, float phi) {
+    inline Eigen::Vector<int16_t, 2> radiansToIndices(const float theta, const float phi) {
         float dx = 2 * PI / ReflectivityDataColumns;
         float dy = PI / ReflectivityDataRows;
 
@@ -36,7 +36,7 @@ namespace albedo {
  * @param j TOMS reflectivity matrix index
  * @return vector containing reflectivity data point's latitude and longitude
  */
-    inline Eigen::Vector2f indicesToRadians(int16_t i, int16_t j) {
+    inline Eigen::Vector2f indicesToRadians(const int16_t i, const int16_t j) {
         float dx = 2 * PI / ReflectivityDataColumns;
         float dy = PI / ReflectivityDataRows;
 
@@ -62,7 +62,7 @@ namespace albedo {
  * @param sunIndexJ sun grid index j
  * @return angle between two grid index pairs
  */
-    float gridAngle(int16_t loopI, int16_t loopJ, int16_t sunIndexI, int16_t sunIndexJ);
+    float gridAngle(const int16_t loopI, const int16_t loopJ, const int16_t sunIndexI, const int16_t sunIndexJ);
 }
 
 /**

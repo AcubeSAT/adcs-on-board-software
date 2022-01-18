@@ -5,7 +5,7 @@
 
 using namespace Eigen;
 
-float albedo::calculateCellArea(int16_t i, int16_t j) {
+float albedo::calculateCellArea(const int16_t i, const int16_t j) {
     Vector2f radians = albedo::indicesToRadians(i, j);
 
     float deltaPhi = deg2rad(180 / static_cast<float>(ReflectivityDataRows));
@@ -18,7 +18,7 @@ float albedo::calculateCellArea(int16_t i, int16_t j) {
     return area;
 }
 
-float albedo::gridAngle(int16_t loopI, int16_t loopJ, int16_t sunIndexI, int16_t sunIndexJ) {
+float albedo::gridAngle(const int16_t loopI, const int16_t loopJ, const int16_t sunIndexI, const int16_t sunIndexJ) {
     Vector2f loopRadians = albedo::indicesToRadians(loopI, loopJ);
     Vector2f sunRadians = albedo::indicesToRadians(sunIndexI, sunIndexJ);
 
