@@ -8,7 +8,7 @@
 inline constexpr int16_t ReflectivityDataRows = 180;
 inline constexpr int16_t ReflectivityDataColumns = 288;
 
-const static float EMR = 6371.01e3;
+inline constexpr auto const EMR = 6371.01e3;
 
 namespace albedo {
 /**
