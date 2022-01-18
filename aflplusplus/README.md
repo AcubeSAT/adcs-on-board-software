@@ -122,6 +122,8 @@ Before going on, spend some time to read on [what can go wrong](https://github.c
 Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflplusplus/`, you can simply:
 1. `./scripts/setup.sh`
    
+   Note that this script was made to be ran inside the `aflplusplus/aflplusplus` image Docker container, as demonstrated above. For other distros and/or environments, you might have to inspect the script and tailor all steps to your own box accordingly. It can still serve as a good guideline on what you need to set up.
+   
    This makes sure you can run `screen`, `rsync`, `gdb` and `go`. `screen` is used to start detached sessions to run time-consuming commands that should not be aborted midway. `rsync` is used to copy files instead of `cp` to allow for overwrites. `gdb` is used to take advantage of the [`exploitable`](https://github.com/jfoote/exploitable) GDB plugin. `go` is needed to use [`crashwalk`](https://github.com/bnagy/crashwalk).
 2. `./scripts/instrument.sh`
    
