@@ -52,7 +52,7 @@ namespace albedo {
  * @param j index j
  * @return area of a cell with indices i, j
  */
-    float calculateCellArea(int16_t i, int16_t j);
+    float calculateCellArea(const int16_t i, const int16_t j);
 
 /**
  * Calculates the angle between two grid index pairs
