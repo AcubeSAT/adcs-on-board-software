@@ -26,10 +26,14 @@ add_library(adcs OBJECT
         src/PointingStrategy.cpp
         src/MagnetorquerPlusRW.cpp
         src/MagnetorquerOnly.cpp
-        src/Eclipse.cpp inc/SunPosition.hpp src/SunPosition.cpp)
+        src/Eclipse.cpp
+        src/SunPosition.cpp
+        src/EnvironmentalModel.cpp
+        src/EciToEcef.cpp
+        src/EcefToLlh.cpp)
 
 add_executable(adcs-onboard-software main.cpp
-        $<TARGET_OBJECTS:adcs>)
+        $<TARGET_OBJECTS:adcs> test/AlbedoTest.cpp)
 
 add_compile_definitions(EIGEN_STACK_ALLOCATION_LIMIT=0)
 
@@ -41,6 +45,6 @@ IF (EXISTS "${PROJECT_SOURCE_DIR}/lib/Catch2/CMakeLists.txt")
     add_subdirectory(lib/Catch2)
     add_executable(tests $<TARGET_OBJECTS:adcs>
             ${test_main_SRC}
-            ${test_SRC} test/EclipseTest.cpp test/SunPositionTest.cpp)
+            ${test_SRC})
     target_link_libraries(tests Catch2::Catch2)
 ENDIF ()

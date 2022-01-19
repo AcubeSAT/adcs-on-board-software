@@ -70,20 +70,6 @@ void EnvironmentalModel::MagneticField() {
 
 }
 
-/**
- * inputs     :
- * ---------
- * tle
- * typerun          - type of run (verification 'v', catalog 'c', manual 'm')
- * typeinput        - type of manual input (mfe 'm', epoch 'e', dayofyr 'd')
- * opsmode          - mode of operation (afspc or improved 'a', 'i')
- * whichconst       - which set of constants to use  72, 84
- * tsince           - tsince=tsince_offset+t_array*dt;    %minutes
- * reflectivityData - for albedo to start
- **/
-
-
-
 void EnvironmentalModel::Init_TLE(const TLE tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst,
                                   double &startmfe, double &stopmfe, double &deltamin, double tsince,
                                   Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> refData) {
@@ -97,9 +83,7 @@ void EnvironmentalModel::Init_TLE(const TLE tle, char typerun, char typeinput, c
     double time_gregorian;
 
 
-    /**
-     * convert tle from string to char
-     */
+    //convert tle from string to char
     int i;
     char tle1[70];
     char tle2[70];
@@ -121,9 +105,8 @@ void EnvironmentalModel::Init_TLE(const TLE tle, char typerun, char typeinput, c
     //initialize reflectiveData
     reflectivityData = refData;
 
-    /**
-     * initialize gStr needed for geomag
-     */
+    //initialize gStr needed for geomag
+
     //calculate gregorian time
     Eyear = satrec.epochyr + 2000;
     time_day = satrec.epochdays + tsince / 1440;
@@ -152,4 +135,16 @@ void EnvironmentalModel::Init_TLE(const TLE tle, char typerun, char typeinput, c
     gStr.currentDate = time_gregorian;
 
 
+}
+
+void EnvironmentalModel::ModelEnvironmental(const TLE tle, char typerun, char typeinput, char opsmode,
+                                            gravconsttype whichconst,
+                                            double &startmfe, double &stopmfe, double &deltamin, double tsince,
+                                            Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> refData) {
+
+    Init_TLE(tle, typerun, typeinput, opsmode, whichconst, startmfe, stopmfe, deltamin, tsince, refData);
+    MagneticField();
+    eclipse_property = Eclipse();
+    sun_position_property = SunPosition();
+    albedo_property = Albedo();
 }
