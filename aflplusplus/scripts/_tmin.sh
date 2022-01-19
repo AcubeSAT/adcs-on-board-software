@@ -6,6 +6,8 @@
 
 # This runs afl-tmin on multiple files in parallel,
 # since running afl-tmin on a lot of files can be time-consuming.
+# GNU parallel could be used instead.
+# See https://www.gnu.org/software/parallel/parallel.pdf
 
 input_directory=$1
 output_directory=$2
