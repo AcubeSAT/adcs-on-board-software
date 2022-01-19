@@ -37,8 +37,8 @@ namespace albedo {
  * @return vector containing reflectivity data point's latitude and longitude
  */
     inline Eigen::Vector2f indicesToRadians(const int16_t i, const int16_t j) {
-        float dx = 2 * PI / ReflectivityDataColumns;
-        float dy = PI / ReflectivityDataRows;
+        const float dx = 2 * PI / ReflectivityDataColumns;
+        const float dy = PI / ReflectivityDataRows;
 
         float phi = PI - dy / 2 - i * dy;
         float theta = j * dx - PI + dx / 2;
