@@ -16,7 +16,7 @@ Eigen::Vector3d EnvironmentalModel::SunPosition() {
 
 
 bool EnvironmentalModel::Eclipse() {
-    Eigen::Vector3f xsat_eci;
+    Eigen::Vector3d xsat_eci;
 
     SGP4Funcs::sgp4(satrec, tsince, position, velocity);
 
@@ -25,7 +25,7 @@ bool EnvironmentalModel::Eclipse() {
     xsat_eci(2) = position[2];
 
 
-    Eigen::Vector3f sun_pos_eci;
+    Eigen::Vector3d sun_pos_eci;
     bool ecl = calculate_eclipse(xsat_eci, sun_position(jd));
     return ecl;
 }
@@ -38,9 +38,9 @@ Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> Environmenta
     SGP4Funcs::sgp4(satrec, tsince, position, velocity);
 
 
-    xsat_eci(0) = position[0];
-    xsat_eci(1) = position[1];
-    xsat_eci(2) = position[2];
+    xsat_eci[0] = position[0];
+    xsat_eci[1] = position[1];
+    xsat_eci[2] = position[2];
 
     // jd = time (im not sure)
 
@@ -48,16 +48,24 @@ Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> Environmenta
 
     Eigen::Vector3d sat_ecef = eci_to_ecef(xsat_eci, gstime);
 
-    Eigen::Vector3f satellite;
-    Eigen::Vector3f sunPosition;
+    Eigen::Vector3d satellite;
+    Eigen::Vector3d sunPosition;
 
     satellite = sat_ecef;
 
     Eigen::Vector3d sun_ecef = eci_to_ecef(sun_position(jd), gstime);
 
     sunPosition = sun_ecef;
-
-    Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> alb = calculateAlbedo(satellite, sunPosition,
+    //albedo takes Vectors3f not 3d
+    Eigen::Vector3f sat_vec_3f;
+    Eigen::Vector3f sun_vec_3f;
+    sat_vec_3f[0] = satellite[0];
+    sat_vec_3f[1] = satellite[1];
+    sat_vec_3f[2] = satellite[2];
+    sun_vec_3f[0] = sunPosition[0];
+    sun_vec_3f[1] = sunPosition[1];
+    sun_vec_3f[2] = sunPosition[2];
+    Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> alb = calculateAlbedo(sat_vec_3f, sun_vec_3f,
                                                                                               reflectivityData);
 
 
