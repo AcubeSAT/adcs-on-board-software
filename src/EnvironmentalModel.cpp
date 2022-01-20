@@ -119,7 +119,7 @@ void EnvironmentalModel::Init_TLE(const TLE tle, char typerun, char typeinput, c
     Eyear = satrec.epochyr + 2000;
     time_day = satrec.epochdays + tsince / 1440;
     SGP4Funcs::days2mdhms_SGP4(Eyear, time_day, mon, day, hr, minute, sec);
-    time_gregorian = date2decimal(Eyear, time_day, day, hr, minute, sec);
+    time_gregorian = date2decimal(Eyear, mon, day, hr, minute, sec);
 
     Eigen::Vector3d xsat_eci;
 
