@@ -24,8 +24,8 @@ public:
      * @param Kp proportional positive gain
      * @param Kd derivative positive gain
      */
-    PointingTarget(Eigen::Matrix<float, VectorSize, VectorSize> Kp,
-                   Eigen::Matrix<float, VectorSize, VectorSize> Kd);
+    PointingTarget(const Eigen::Matrix<float, VectorSize, VectorSize> Kp,
+                   const Eigen::Matrix<float, VectorSize, VectorSize> Kd);
 
     /**
      * Changes the gains depending on the existence of eclipse or not
@@ -33,7 +33,8 @@ public:
      * @param KpGain proportional positive gain
      * @param KdGain derivative positive gain
      */
-    virtual void changeGains(bool eclipse, Eigen::Matrix<float, VectorSize, VectorSize> &KpGain, Eigen::Matrix<float, VectorSize, VectorSize> &KdGain) const = 0;
+    virtual void changeGains(const bool eclipse, Eigen::Matrix<float, VectorSize, VectorSize> &KpGain,
+                             Eigen::Matrix<float, VectorSize, VectorSize> &KdGain) const = 0;
 
     /**
      * PD controller that calculates the desired torque to be applied in order to achieve pointing
@@ -44,10 +45,10 @@ public:
      * @param eclipse existence or not of eclipse
      * @return Control torque calculated by the PD controller (in Nm)
      */
-    virtual Eigen::Vector3f calculateTorque(Eigen::Quaternionf quaternionOrbitBody,
-                                            Eigen::Vector3f sunECIUnitVector,
-                                            GlobalStateVector state,
-                                            bool eclipse) const = 0;
+    virtual Eigen::Vector3f calculateTorque(const Eigen::Quaternionf quaternionOrbitBody,
+                                            const Eigen::Vector3f sunECIUnitVector,
+                                            const GlobalStateVector state,
+                                            const bool eclipse) const = 0;
 
     /**
      * Proportional positive gain setter
