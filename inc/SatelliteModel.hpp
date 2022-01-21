@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "Eigen/Dense"
 #include "Definitions.hpp"
@@ -7,7 +7,7 @@
  * Class that implements the space environment
  */
 class SatelliteModel {
-    public:
+public:
     /**
      * Rotates the magnetic field and sun position measurements to body frame
      * @param magneticField magnetic field measurements
@@ -19,9 +19,9 @@ class SatelliteModel {
      * @return magnetic field and sun position measurements in body frame
      */
     MeasurementVector
-    measurementFunction(Eigen::Vector3f magneticField,
-                        Eigen::Vector3f sunPosition, bool eclipse,
-                        GlobalStateVector state, Eigen::Vector3f satPositionECI, float albedo) const;
+    measurementFunction(const Eigen::Vector3f magneticField,
+                        const Eigen::Vector3f sunPosition, const bool eclipse,
+                        const GlobalStateVector state, const Eigen::Vector3f satPositionECI, const float albedo) const;
 
     /**
      * Updates the state vector taking into account measurements from gyroscope
@@ -29,8 +29,8 @@ class SatelliteModel {
      * @param gyroMeasurements measurements from gyroscope
      * @return updated state
      */
-    GlobalStateVector stateTransitionFunction(GlobalStateVector state,
-                                              Eigen::Vector3f gyroMeasurements) const;
+    GlobalStateVector stateTransitionFunction(const GlobalStateVector state,
+                                              const Eigen::Vector3f gyroMeasurements) const;
 
     /**
      * Calculates the state's Jacobian
@@ -39,8 +39,8 @@ class SatelliteModel {
      * @return state's Jacobian
      */
     Eigen::Matrix<float, LocalStateSize, LocalStateSize>
-    stateTransitionJacobian(GlobalStateVector state,
-                            Eigen::Vector3f gyroMeasurements) const;
+    stateTransitionJacobian(const GlobalStateVector state,
+                            const Eigen::Vector3f gyroMeasurements) const;
 
     /**
      * Calculates the measurements' Jacobian
@@ -52,7 +52,7 @@ class SatelliteModel {
      * @return measurements' Jacobian
      */
     Eigen::Matrix<float, MeasurementSize, MeasurementSize>
-    measurementJacobian(Eigen::Vector3f magneticField,
-                        Eigen::Vector3f sunPosition, bool eclipse,
-                        GlobalStateVector state, Eigen::Vector3f satPositionECI, float albedo) const;
+    measurementJacobian(const Eigen::Vector3f magneticField,
+                        const Eigen::Vector3f sunPosition, const bool eclipse,
+                        const GlobalStateVector state, const Eigen::Vector3f satPositionECI, const float albedo) const;
 };
