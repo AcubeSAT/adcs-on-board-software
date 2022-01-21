@@ -99,7 +99,7 @@ namespace Parameters {
         /**
          * Proportional positive gain
          */
-        inline auto Kp = Eigen::Matrix<float, VectorSize, VectorSize>::Identity(
+        inline const auto Kp = Eigen::Matrix<float, VectorSize, VectorSize>::Identity(
                 VectorSize, VectorSize);
 
         /**
