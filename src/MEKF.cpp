@@ -6,7 +6,7 @@ using namespace Eigen;
 
 MEKF::MEKF() :
         Q{Parameters::CovarianceMatrices::Q},
-        R{Parameters::CovarianceMatrices::R}{}
+        R{Parameters::CovarianceMatrices::R} {}
 
 
 void MEKF::predict(const float timestep, const SatelliteModel &satelliteModel, const Vector3f &gyroMeasurements) {

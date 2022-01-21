@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "PointingTarget.hpp"
 
@@ -16,7 +16,8 @@ public:
     NadirPointing(const Eigen::Matrix<float, 3, 3> Kp,
                   const Eigen::Matrix<float, 3, 3> Kd);
 
-    void changeGains(const bool eclipse, Eigen::Matrix<float, 3, 3> &KpGain, Eigen::Matrix<float, 3, 3> &KdGain) const override;
+    void changeGains(const bool eclipse, Eigen::Matrix<float, 3, 3> &KpGain,
+                     Eigen::Matrix<float, 3, 3> &KdGain) const override;
 
     Eigen::Vector3f calculateTorque(const Eigen::Quaternionf quaternionOrbitBody,
                                     const Eigen::Vector3f sunECIUnitVector,

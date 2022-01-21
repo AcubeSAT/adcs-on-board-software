@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "PointingStrategy.hpp"
 #include "PointingTarget.hpp"
@@ -39,13 +39,13 @@ public:
      * @return Magnetic torque and Reaction Wheel torque
      */
     Eigen::Matrix<float, VectorSize, NumOfActuators> performPointing(const Eigen::Quaternionf quaternion,
-                                                                        const Eigen::Vector3f sunEciUnitVector,
-                                                                        const GlobalStateVector state,
-                                                                        const bool eclipse,
-                                                                        const Eigen::Vector3f magneticField,
-                                                                        const bool firstTime,
-                                                                        const float currentReactionWheelAngularVelocity,
-                                                                        const float oldReactionWheelAcceleration) const;
+                                                                     const Eigen::Vector3f sunEciUnitVector,
+                                                                     const GlobalStateVector state,
+                                                                     const bool eclipse,
+                                                                     const Eigen::Vector3f magneticField,
+                                                                     const bool firstTime,
+                                                                     const float currentReactionWheelAngularVelocity,
+                                                                     const float oldReactionWheelAcceleration) const;
 
 
 };

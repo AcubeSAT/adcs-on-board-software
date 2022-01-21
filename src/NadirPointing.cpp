@@ -8,7 +8,7 @@ using namespace Parameters;
 NadirPointing::NadirPointing(const Matrix<float, 3, 3> Kp,
                              const Matrix<float, 3, 3> Kd) : PointingTarget(Kp, Kd) {}
 
-void NadirPointing::changeGains(const bool eclipse, Matrix<float, 3, 3> &KpGain, Matrix<float, 3, 3> &KdGain) const{
+void NadirPointing::changeGains(const bool eclipse, Matrix<float, 3, 3> &KpGain, Matrix<float, 3, 3> &KdGain) const {
     if (eclipse) {
         KdGain = 20 * this->Kd;
         KpGain = 1.2 * this->Kp;
@@ -18,8 +18,9 @@ void NadirPointing::changeGains(const bool eclipse, Matrix<float, 3, 3> &KpGain,
     }
 }
 
-Vector3f NadirPointing::calculateTorque(const Quaternionf quaternionOrbitBody, [[maybe_unused]] const Vector3f sunECIUnitVector,
-                                        const GlobalStateVector state, const bool eclipse) const{
+Vector3f
+NadirPointing::calculateTorque(const Quaternionf quaternionOrbitBody, [[maybe_unused]] const Vector3f sunECIUnitVector,
+                               const GlobalStateVector state, const bool eclipse) const {
     Matrix<float, 3, 3> KpGain;
     Matrix<float, 3, 3> KdGain;
 

@@ -50,7 +50,9 @@ Matrix<float, 3, 3> skew(const Vector3f vector) {
     return skewMatrix;
 }
 
-DecimalDate date2decimal(const uint16_t year, const uint8_t month, const uint8_t day, const uint8_t hour, const uint8_t minute, const uint8_t second) {
+DecimalDate
+date2decimal(const uint16_t year, const uint8_t month, const uint8_t day, const uint8_t hour, const uint8_t minute,
+             const uint8_t second) {
     assert(month < 13 && month > 0);
     const uint8_t solarDayHours = 24;
     const uint8_t solarHourMinutes = 60;

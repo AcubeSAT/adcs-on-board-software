@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "PointingTarget.hpp"
 
@@ -16,7 +16,8 @@ public:
     SunPointing(const Eigen::Matrix<float, 3, 3> Kp,
                 const Eigen::Matrix<float, 3, 3> Kd);
 
-    void changeGains(const bool eclipse, Eigen::Matrix<float, 3, 3> &KpGain, Eigen::Matrix<float, 3, 3> &KdGain) const override;
+    void changeGains(const bool eclipse, Eigen::Matrix<float, 3, 3> &KpGain,
+                     Eigen::Matrix<float, 3, 3> &KdGain) const override;
 
     Eigen::Vector3f calculateTorque(const Eigen::Quaternionf quaternionOrbitBody,
                                     const Eigen::Vector3f sunECIUnitVector,
@@ -30,6 +31,6 @@ public:
      * @return quaternion that expresses the rotation from the body frame to sun
      */
     Eigen::Quaternionf calculateQuaternionSunBody(Eigen::Vector3f sunECIUnitVector,
-                                         const Eigen::Quaternionf quaternionECIBody) const;
+                                                  const Eigen::Quaternionf quaternionECIBody) const;
 
 };

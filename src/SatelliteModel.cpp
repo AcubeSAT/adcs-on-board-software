@@ -7,7 +7,8 @@ using namespace Eigen;
 using namespace Parameters::SatelliteModel;
 
 MeasurementVector
-SatelliteModel::measurementFunction(const Vector3f magneticField, const Vector3f sunPosition, const bool eclipse, const GlobalStateVector state,
+SatelliteModel::measurementFunction(const Vector3f magneticField, const Vector3f sunPosition, const bool eclipse,
+                                    const GlobalStateVector state,
                                     const Vector3f satPositionECI,
                                     const float albedo) const {
 
@@ -71,11 +72,12 @@ SatelliteModel::stateTransitionJacobian(const GlobalStateVector state,
 Matrix<float, MeasurementSize, MeasurementSize>
 SatelliteModel::measurementJacobian(const Vector3f magneticField,
                                     const Vector3f sunPosition, const bool eclipse,
-                                    const GlobalStateVector state, const Vector3f satPositionECI, const float albedo) const {
+                                    const GlobalStateVector state, const Vector3f satPositionECI,
+                                    const float albedo) const {
 
     const MeasurementVector estimatedMeasurements = measurementFunction(magneticField,
-                                                                  sunPosition, eclipse,
-                                                                  state, satPositionECI, albedo);
+                                                                        sunPosition, eclipse,
+                                                                        state, satPositionECI, albedo);
     Matrix<float, MeasurementSize, MeasurementSize> H;
 
     H(seq(0, 2), seq(0, 2)) = skew(estimatedMeasurements(seq(0, 2)));

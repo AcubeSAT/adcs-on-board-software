@@ -33,7 +33,8 @@ public:
      * @param KpGain proportional positive gain
      * @param KdGain derivative positive gain
      */
-    virtual void changeGains(const bool eclipse, Eigen::Matrix<float, VectorSize, VectorSize> &KpGain, Eigen::Matrix<float, VectorSize, VectorSize> &KdGain) const = 0;
+    virtual void changeGains(const bool eclipse, Eigen::Matrix<float, VectorSize, VectorSize> &KpGain,
+                             Eigen::Matrix<float, VectorSize, VectorSize> &KdGain) const = 0;
 
     /**
      * PD controller that calculates the desired torque to be applied in order to achieve pointing

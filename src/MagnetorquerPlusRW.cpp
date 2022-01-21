@@ -51,10 +51,9 @@ MagnetorquerPlusRW::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
 
         Vector3f magnetorquerLimits;
         for (int i = 0; i < VectorSize; i++) {
-            if (desiredMagneticDipole(i) > 0){
+            if (desiredMagneticDipole(i) > 0) {
                 magnetorquerLimits(i) = magnetorquerUpperLimits(i);
-            }
-            else{
+            } else {
                 magnetorquerLimits(i) = magnetorquerLowerLimits(i);
             }
             assert(magnetorquerLimits(i) != 0);

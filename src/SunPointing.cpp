@@ -18,8 +18,9 @@ void SunPointing::changeGains(const bool eclipse, Matrix<float, 3, 3> &KpGain, M
     }
 }
 
-Vector3f SunPointing::calculateTorque([[maybe_unused]] const Quaternionf quaternionOrbitBody, const Vector3f sunECIUnitVector,
-                                      const GlobalStateVector state, const bool eclipse) const {
+Vector3f
+SunPointing::calculateTorque([[maybe_unused]] const Quaternionf quaternionOrbitBody, const Vector3f sunECIUnitVector,
+                             const GlobalStateVector state, const bool eclipse) const {
     Matrix<float, 3, 3> KpGain;
     Matrix<float, 3, 3> KdGain;
 

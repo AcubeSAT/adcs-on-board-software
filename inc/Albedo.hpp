@@ -40,8 +40,8 @@ namespace albedo {
         const float dx = 2 * PI / ReflectivityDataColumns;
         const float dy = PI / ReflectivityDataRows;
 
-        float phi = PI - dy / 2 - i * dy;
-        float theta = j * dx - PI + dx / 2;
+        const float phi = PI - dy / 2 - i * dy;
+        const float theta = j * dx - PI + dx / 2;
 
         return {theta, phi};
     }

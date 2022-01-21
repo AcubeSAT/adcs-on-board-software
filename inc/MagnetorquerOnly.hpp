@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "PointingStrategy.hpp"
 
@@ -16,7 +16,7 @@ public:
     Eigen::Matrix<float, VectorSize, NumOfActuators>
     desaturateMagnetorquer(Eigen::Vector3f desiredMagneticTorque,
                            Eigen::Vector3f desiredReactionWheelTorque,
-                           const Eigen::Vector3f commandedTorque,
+                           [[maybe_unused]] const Eigen::Vector3f commandedTorque,
                            const Eigen::Vector3f magneticField,
                            Eigen::Vector3f desiredMagneticDipole) const;
 
@@ -25,7 +25,8 @@ public:
      * @return Magnetic torque and Reaction Wheel torque (equal to zero in this case)
      */
     Eigen::Matrix<float, VectorSize, NumOfActuators>
-    actuate(const Eigen::Vector3f commandedTorque, const Eigen::Vector3f magneticField, const bool firstTime,
-            const float currentReactionWheelAngularVelocity,
-            const float oldReactionWheelAcceleration) const override;
+    actuate(const Eigen::Vector3f commandedTorque, const Eigen::Vector3f magneticField,
+            [[maybe_unused]] const bool firstTime,
+            [[maybe_unused]] const float currentReactionWheelAngularVelocity,
+            [[maybe_unused]] const float oldReactionWheelAcceleration) const override;
 };

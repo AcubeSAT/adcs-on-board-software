@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "Eigen/Dense"
 #include "Definitions.hpp"
@@ -7,7 +7,7 @@
  * Class that implements the space environment
  */
 class SatelliteModel {
-    public:
+public:
     /**
      * Rotates the magnetic field and sun position measurements to body frame
      * @param magneticField magnetic field measurements

@@ -4,7 +4,7 @@ using namespace Eigen;
 
 PointingTarget::PointingTarget(const Matrix<float, 3, 3> Kp, const Matrix<float, 3, 3> Kd) :
         Kp{Kp},
-        Kd{Kd}{}
+        Kd{Kd} {}
 
 void PointingTarget::setKp(Matrix<float, 3, 3> Kp) {
     this->Kp = Kp;
