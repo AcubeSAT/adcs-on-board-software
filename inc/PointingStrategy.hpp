@@ -20,8 +20,8 @@ protected:
     Eigen::Matrix<float, VectorSize, NumOfActuators>
     desaturateMagnetorquer(Eigen::Vector3f desiredMagneticTorque,
                            Eigen::Vector3f desiredReactionWheelTorque,
-                           Eigen::Vector3f commandedTorque,
-                           Eigen::Vector3f magneticField,
+                           const Eigen::Vector3f commandedTorque,
+                           const Eigen::Vector3f magneticField,
                            Eigen::Vector3f desiredMagneticDipole) const;
 
 public:
@@ -42,7 +42,7 @@ public:
      * @return Magnetic torque and Reaction Wheel torque
      */
     virtual Eigen::Matrix<float, VectorSize, NumOfActuators>
-    actuate(Eigen::Vector3f commandedTorque, Eigen::Vector3f magneticField, bool firstTime,
-            float currentReactionWheelAngularVelocity,
-            float oldReactionWheelAcceleration) const = 0;
+    actuate(const Eigen::Vector3f commandedTorque, const Eigen::Vector3f magneticField, const bool firstTime,
+            const float currentReactionWheelAngularVelocity,
+            const float oldReactionWheelAcceleration) const = 0;
 };

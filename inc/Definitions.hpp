@@ -7,11 +7,11 @@ using std::uint8_t;
 
 inline constexpr auto const PI = 3.14159265358979323846;
 
-inline uint8_t const VectorSize = 3;
-inline uint8_t const NumOfActuators = 2;
-inline uint8_t const LocalStateSize = 6;
-inline uint8_t const GlobalStateSize = 7;
-inline uint8_t const MeasurementSize = 6;
+inline constexpr uint8_t VectorSize = 3;
+inline constexpr uint8_t NumOfActuators = 2;
+inline constexpr uint8_t LocalStateSize = 6;
+inline constexpr uint8_t  GlobalStateSize = 7;
+inline constexpr uint8_t MeasurementSize = 6;
 
 typedef Eigen::Vector<float, MeasurementSize> MeasurementVector;
 typedef Eigen::Vector<float, GlobalStateSize> GlobalStateVector;

@@ -27,7 +27,7 @@ public:
      * @param magneticFieldBody magnetic field value expressed in the Body Frame
      * @return magnetic dipole value
      */
-    Eigen::Vector3f controller(Eigen::Vector3f &magneticFieldBody);
+    Eigen::Vector3f controller(const Eigen::Vector3f &magneticFieldBody);
 
     /**
      * Scaling of the desired magnetic dipole in case it exceeds the maximum dipole provided by each magnetorquer
@@ -40,7 +40,7 @@ public:
      * magnetic field value expressed in the Body Frame getter
      * @return magnetic field value expressed in the Body Frame
      */
-    Eigen::Vector3f getMagneticFieldBody(){
+    Eigen::Vector3f getMagneticFieldBody() const{
         return magneticFieldBody;
     }
 
@@ -56,7 +56,7 @@ public:
      * Bdot vector getter
      * @return Bdot vector
      */
-    Eigen::Vector3f getBDotVector(){
+    Eigen::Vector3f getBDotVector() const{
         return bDotVector;
     }
 

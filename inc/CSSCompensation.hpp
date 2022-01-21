@@ -12,5 +12,5 @@
  * @return the light the coarse sun sensors detect.
  */
 Eigen::Vector3f
-cssCompensation(Eigen::Vector3f sunPositionBody, Eigen::Quaternionf quaternionECIBody, Eigen::Vector3f satellitePositionECI,
-                float albedo);
+cssCompensation(Eigen::Vector3f sunPositionBody, const Eigen::Quaternionf quaternionECIBody, Eigen::Vector3f satellitePositionECI,
+                const float albedo);
