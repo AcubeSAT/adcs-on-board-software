@@ -33,7 +33,7 @@ add_library(adcs OBJECT
         src/EcefToLlh.cpp)
 
 add_executable(adcs-onboard-software main.cpp
-        $<TARGET_OBJECTS:adcs> test/AlbedoTest.cpp)
+        $<TARGET_OBJECTS:adcs>)
 
 add_compile_definitions(EIGEN_STACK_ALLOCATION_LIMIT=0)
 
