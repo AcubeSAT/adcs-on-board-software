@@ -16,7 +16,7 @@ Eigen::Quaternionf quaternionProduct(const Eigen::Quaternionf &quaternion1, cons
  * @param angularVelocity rotational velocity
  * @return quaternion that expresses rotation equal to rotational velocity (angularVelocity) in seconds
  */
-Eigen::Quaternionf quaternionExponent(Eigen::Vector3f angularVelocity);
+Eigen::Quaternionf quaternionExponent(const Eigen::Vector3f angularVelocity);
 
 /**
  * Rotates 3D vector by quaternion.
@@ -33,19 +33,19 @@ Eigen::Vector3f rotateVector(const Eigen::Quaternionf &quaternion, const Eigen::
  * @param vector 3-dimensional vector
  * @return skew-symmetric matrix
  */
-Eigen::Matrix<float, 3, 3> skew(Eigen::Vector3f vector);
+Eigen::Matrix<float, 3, 3> skew(const Eigen::Vector3f vector);
 
 /**
  * Convert degrees to rads
  */
-inline double deg2rad(double degrees) {
+inline double deg2rad(const double degrees) {
     return PI * degrees / 180;
 }
 
 /**
  * Convert rads to degrees
  */
-inline double rad2deg(double rads) {
+inline double rad2deg(const double rads) {
     return 180 * rads / PI;
 }
 
@@ -67,21 +67,21 @@ typedef double DecimalDate;
  * 5. Fraction = Input Number Calculated / Total Number
  * 6. Decimal Date = YYYY + Fraction
  */
-DecimalDate date2decimal(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second);
+DecimalDate date2decimal(const uint16_t year, const uint8_t month, const uint8_t day, const uint8_t hour, const uint8_t minute, const uint8_t second);
 
 /**
  * Transforms Cartesian to Spherical coordinates
  * @param vectorCartesian vector in Cartesian coordinates (x, y, z) in radians
  * @return vector in Spherical coordinates (azimuth, elevation, radius) in radians
  */
-Eigen::Vector3f cartesianToSpherical(Eigen::Vector3f vectorCartesian);
+Eigen::Vector3f cartesianToSpherical(const Eigen::Vector3f vectorCartesian);
 
 /**
  * Transforms Spherical to Cartesian coordinates
  * @param vectorSpherical vector in Spherical coordinates (azimuth, elevation, radius) in radians
  * @return vector in Cartesian coordinates (x, y, z) in radians
  */
-Eigen::Vector3f sphericalToCartesian(Eigen::Vector3f vectorSpherical);
+Eigen::Vector3f sphericalToCartesian(const Eigen::Vector3f vectorSpherical);
 
 /**
  * Clamps the values of an Eigen vector between an upper and lower bound

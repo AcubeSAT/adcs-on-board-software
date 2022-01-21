@@ -13,8 +13,8 @@ public:
      * @param commandedTorque Control torque calculated by the PD controller (in Nm)
      * @return Magnetic torque and Reaction Wheel torque
      */
-    Eigen::Matrix<float, VectorSize, NumOfActuators> splitTorque(Eigen::Vector3f magneticField,
-                                                                    Eigen::Vector3f commandedTorque) const;
+    Eigen::Matrix<float, VectorSize, NumOfActuators> splitTorque(const Eigen::Vector3f magneticField,
+                                                                    const Eigen::Vector3f commandedTorque) const;
 
 
     /**
@@ -26,8 +26,8 @@ public:
     Eigen::Matrix<float, VectorSize, NumOfActuators>
     desaturateMagnetorquer(Eigen::Vector3f desiredMagneticTorque,
                            Eigen::Vector3f desiredReactionWheelTorque,
-                           Eigen::Vector3f commandedTorque,
-                           Eigen::Vector3f magneticField,
+                           const Eigen::Vector3f commandedTorque,
+                           const Eigen::Vector3f magneticField,
                            Eigen::Vector3f desiredMagneticDipole) const;
 
     /**
@@ -44,9 +44,9 @@ public:
     Eigen::Matrix<float, VectorSize, NumOfActuators>
     desaturateReactionWheel(Eigen::Vector3f effectiveMagneticTorque,
                             Eigen::Vector3f reactionWheelTorque,
-                            Eigen::Vector3f magneticFieldBody,
-                            float reactionWheelAngularVelocity,
-                            float reactionWheelAngularAcceleration) const;
+                            const Eigen::Vector3f magneticFieldBody,
+                            const float reactionWheelAngularVelocity,
+                            const float reactionWheelAngularAcceleration) const;
 
     /**
      * Reaction wheel torque scaling algorithm
@@ -60,7 +60,7 @@ public:
      * @return Magnetic torque and Reaction Wheel torque
      */
     Eigen::Matrix<float, VectorSize, NumOfActuators>
-    actuate(Eigen::Vector3f commandedTorque, Eigen::Vector3f magneticField, bool firstTime,
-            float currentReactionWheelAngularVelocity,
-            float oldReactionWheelAcceleration) const override;
+    actuate(const Eigen::Vector3f commandedTorque, const Eigen::Vector3f magneticField, const bool firstTime,
+            const float currentReactionWheelAngularVelocity,
+            const float oldReactionWheelAcceleration) const override;
 };

@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "PointingTarget.hpp"
 
@@ -13,13 +13,14 @@ public:
      * @param desiredQuaternion desired quaternion to achieve nadir pointing
      * @param angularVelocityECIOrbit angular velocity of the orbit frame with respect to the ECI frame, expressed in the orbit frame
      */
-    NadirPointing(Eigen::Matrix<float, 3, 3> Kp,
-                  Eigen::Matrix<float, 3, 3> Kd);
+    NadirPointing(const Eigen::Matrix<float, 3, 3> Kp,
+                  const Eigen::Matrix<float, 3, 3> Kd);
 
-    void changeGains(bool eclipse, Eigen::Matrix<float, 3, 3> &KpGain, Eigen::Matrix<float, 3, 3> &KdGain) const override;
+    void changeGains(const bool eclipse, Eigen::Matrix<float, 3, 3> &KpGain,
+                     Eigen::Matrix<float, 3, 3> &KdGain) const override;
 
-    Eigen::Vector3f calculateTorque(Eigen::Quaternionf quaternionOrbitBody,
-                                    Eigen::Vector3f sunECIUnitVector,
-                                    GlobalStateVector state,
-                                    bool eclipse) const override;
+    Eigen::Vector3f calculateTorque(const Eigen::Quaternionf quaternionOrbitBody,
+                                    const Eigen::Vector3f sunECIUnitVector,
+                                    const GlobalStateVector state,
+                                    const bool eclipse) const override;
 };
