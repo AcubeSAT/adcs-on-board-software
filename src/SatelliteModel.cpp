@@ -17,7 +17,7 @@ SatelliteModel::measurementFunction(const Vector3f magneticField, const Vector3f
     quaternion.w() = state(0);
     quaternion.vec() = state(seq(1, 3));
 
-    Vector3f magneticFieldBody = rotateVector(quaternion, magneticField);
+    const Vector3f magneticFieldBody = rotateVector(quaternion, magneticField);
 
     measurements(seq(0, 2)) = magneticFieldBody.normalized();
 
@@ -37,9 +37,9 @@ GlobalStateVector
 SatelliteModel::stateTransitionFunction(const GlobalStateVector state,
                                         const Vector3f gyroMeasurements) const {
 
-    Vector3f bias = state(seq(4, 6));
+    const Vector3f bias = state(seq(4, 6));
 
-    Vector3f angularVelocity = gyroMeasurements - bias;
+    const Vector3f angularVelocity = gyroMeasurements - bias;
 
     Quaternionf currentQuaternion;
     currentQuaternion.w() = state(0);
@@ -73,7 +73,7 @@ SatelliteModel::measurementJacobian(const Vector3f magneticField,
                                     const Vector3f sunPosition, const bool eclipse,
                                     const GlobalStateVector state, const Vector3f satPositionECI, const float albedo) const {
 
-    MeasurementVector estimatedMeasurements = measurementFunction(magneticField,
+    const MeasurementVector estimatedMeasurements = measurementFunction(magneticField,
                                                                   sunPosition, eclipse,
                                                                   state, satPositionECI, albedo);
     Matrix<float, MeasurementSize, MeasurementSize> H;

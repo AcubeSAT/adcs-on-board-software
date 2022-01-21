@@ -27,7 +27,7 @@ public:
      * @param magneticFieldBody magnetic field value expressed in the Body Frame
      * @return magnetic dipole value
      */
-    Eigen::Vector3f controller(Eigen::Vector3f &magneticFieldBody);
+    Eigen::Vector3f controller(const Eigen::Vector3f &magneticFieldBody);
 
     /**
      * Scaling of the desired magnetic dipole in case it exceeds the maximum dipole provided by each magnetorquer

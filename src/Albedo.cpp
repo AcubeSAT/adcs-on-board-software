@@ -8,11 +8,11 @@ using namespace Eigen;
 float albedo::calculateCellArea(const int16_t i, const int16_t j) {
     Vector2f radians = albedo::indicesToRadians(i, j);
 
-    float deltaPhi = deg2rad(180 / static_cast<float>(ReflectivityDataRows));
-    float deltaTheta = deg2rad(360 / static_cast<float>(ReflectivityDataColumns));
+    const float deltaPhi = deg2rad(180 / static_cast<float>(ReflectivityDataRows));
+    const float deltaTheta = deg2rad(360 / static_cast<float>(ReflectivityDataColumns));
 
-    float phiMax = radians(1) + deltaPhi / 2;
-    float phiMin = radians(1) - deltaPhi / 2;
+    const float phiMax = radians(1) + deltaPhi / 2;
+    const float phiMin = radians(1) - deltaPhi / 2;
 
     float area = EMR * EMR * deltaTheta * (cos(phiMin) - cos(phiMax));
     return area;

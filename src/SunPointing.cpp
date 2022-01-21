@@ -25,14 +25,14 @@ Vector3f SunPointing::calculateTorque([[maybe_unused]] const Quaternionf quatern
 
     changeGains(eclipse, KpGain, KdGain);
 
-    Vector3f angularVelocityECIBody = state(seq(4, 6));
+    const Vector3f angularVelocityECIBody = state(seq(4, 6));
 
     Quaternionf quaternionECIBody;
     quaternionECIBody.w() = state(0);
     quaternionECIBody.vec() = state(seq(1, 3));
 
-    Quaternionf quaternionSunBody = calculateQuaternionSunBody(sunECIUnitVector, quaternionECIBody);
-    Quaternionf errorQuaternion = quaternionProduct(DesiredQuaternion.conjugate(), quaternionSunBody);
+    const Quaternionf quaternionSunBody = calculateQuaternionSunBody(sunECIUnitVector, quaternionECIBody);
+    const Quaternionf errorQuaternion = quaternionProduct(DesiredQuaternion.conjugate(), quaternionSunBody);
     Vector3f commandedTorque =
             -copysignf(1, errorQuaternion.w()) * KpGain * errorQuaternion.vec() - KdGain * angularVelocityECIBody;
 
@@ -45,7 +45,7 @@ SunPointing::calculateQuaternionSunBody(Vector3f sunECIUnitVector, const Quatern
     desiredSunVector = desiredSunVector.normalized();
     sunECIUnitVector.normalize();
 
-    Vector3f sunBodyUnitVector = rotateVector(quaternionECIBody, sunECIUnitVector);
+    const Vector3f sunBodyUnitVector = rotateVector(quaternionECIBody, sunECIUnitVector);
 
     Quaternionf quaternionSunBody;
     if (sunBodyUnitVector.dot(desiredSunVector) > 0.99) {

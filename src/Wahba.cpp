@@ -30,7 +30,7 @@ Eigen::Quaternionf wahba(Eigen::Vector3f magneticBody, Eigen::Vector3f magneticE
         U(2, 2) *= -1;
     }
 
-    Eigen::Matrix<float, VectorSize, VectorSize> rotationMatrix = U * V.transpose();
+    const Eigen::Matrix<float, VectorSize, VectorSize> rotationMatrix = U * V.transpose();
 
     Eigen::Quaternionf finalQuaternion(rotationMatrix.transpose());
 

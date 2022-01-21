@@ -9,7 +9,7 @@ using namespace Parameters::Actuators;
 
 Matrix<float, VectorSize, NumOfActuators>
 MagnetorquerPlusRW::splitTorque(const Vector3f magneticField, const Vector3f commandedTorque) const {
-    Vector3f z(0, 0, 1);
+    const Vector3f z(0, 0, 1);
     Vector3f desiredReactionWheelTorque = z * (magneticField.dot(commandedTorque)) / magneticField.z();
 
     Vector3f desiredMagneticTorque = skew(magneticField.normalized()).transpose() * skew(magneticField.normalized())
@@ -28,11 +28,11 @@ MagnetorquerPlusRW::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
                                            const Vector3f magneticField, Vector3f desiredMagneticDipole) const {
     double magneticTorqueGain, reactionWheelTorqueGain, magneticTorqueGainSaturated, reactionWheelTorqueGainSaturated;
 
-    Vector3f magnetorquerUpperLimits = MaxMagneticDipole + ResidualDipoleEstimation;
-    Vector3f magnetorquerLowerLimits = ResidualDipoleEstimation - MaxMagneticDipole;
-    Vector3f saturatedDipole = desiredMagneticDipole / desiredMagneticTorque.norm();
-    Vector3f reactionWheelTorqueUnitVector = desiredReactionWheelTorque.normalized();
-    Vector3f magneticTorqueUnitVector = desiredMagneticTorque.normalized();
+    const Vector3f magnetorquerUpperLimits = MaxMagneticDipole + ResidualDipoleEstimation;
+    const Vector3f magnetorquerLowerLimits = ResidualDipoleEstimation - MaxMagneticDipole;
+    const Vector3f saturatedDipole = desiredMagneticDipole / desiredMagneticTorque.norm();
+    const Vector3f reactionWheelTorqueUnitVector = desiredReactionWheelTorque.normalized();
+    const Vector3f magneticTorqueUnitVector = desiredMagneticTorque.normalized();
 
     magneticTorqueGain = (magneticTorqueUnitVector - (reactionWheelTorqueUnitVector.dot(magneticTorqueUnitVector)) *
                                                      reactionWheelTorqueUnitVector).dot(commandedTorque) /
@@ -84,7 +84,7 @@ MagnetorquerPlusRW::desaturateReactionWheel(Vector3f effectiveMagneticTorque,
                                             Vector3f reactionWheelTorque, const Vector3f magneticFieldBody,
                                             const float reactionWheelAngularVelocity,
                                             const float reactionWheelAngularAcceleration) const {
-    Vector3f initialMagneticTorque = effectiveMagneticTorque;
+    const Vector3f initialMagneticTorque = effectiveMagneticTorque;
 
     if (((reactionWheelAngularVelocity > ReactionWheelAngularVelocityLimit && reactionWheelAngularAcceleration > 0) ||
          (reactionWheelAngularVelocity < -ReactionWheelAngularVelocityLimit && reactionWheelAngularAcceleration < 0))

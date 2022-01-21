@@ -9,7 +9,7 @@ Quaternionf quaternionExponent(const Vector3f angularVelocity) {
 
     Quaternionf quaternionExponent;
 
-    float theta = angularVelocity.norm();
+    const float theta = angularVelocity.norm();
 
     quaternionExponent.w() = cos(theta / 2.0);
     quaternionExponent.vec() = sin(theta / 2.0) * angularVelocity.normalized();
@@ -29,7 +29,7 @@ Quaternionf quaternionProduct(const Quaternionf &quaternion1, const Quaternionf 
 }
 
 Vector3f rotateVector(const Eigen::Quaternionf &quaternion, const Vector3f &vector) {
-    Vector3f t = 2 * vector.cross(quaternion.vec());
+    const Vector3f t = 2 * vector.cross(quaternion.vec());
     Vector3f rotatedVector = vector + quaternion.w() * t + t.cross(quaternion.vec());
     return rotatedVector;
 }
@@ -73,9 +73,9 @@ DecimalDate date2decimal(const uint16_t year, const uint8_t month, const uint8_t
 }
 
 Vector3f cartesianToSpherical(const Vector3f vectorCartesian) {
-    float x = vectorCartesian(0);
-    float y = vectorCartesian(1);
-    float z = vectorCartesian(2);
+    const float x = vectorCartesian(0);
+    const float y = vectorCartesian(1);
+    const float z = vectorCartesian(2);
 
     float r = vectorCartesian.norm();
     float azimuth = atan2(y, x);
@@ -86,9 +86,9 @@ Vector3f cartesianToSpherical(const Vector3f vectorCartesian) {
 
 Vector3f sphericalToCartesian(const Vector3f vectorSpherical) {
 
-    float azimuth = vectorSpherical(0);
-    float elevation = vectorSpherical(1);
-    float r = vectorSpherical(2);
+    const float azimuth = vectorSpherical(0);
+    const float elevation = vectorSpherical(1);
+    const float r = vectorSpherical(2);
 
     float x = r * cos(elevation) * cos(azimuth);
     float y = r * cos(elevation) * sin(azimuth);

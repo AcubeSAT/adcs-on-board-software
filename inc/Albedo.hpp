@@ -18,8 +18,8 @@ namespace albedo {
  * @return vector containing TOMS reflectivity matrix indices
  */
     inline Eigen::Vector<int16_t, 2> radiansToIndices(const float theta, const float phi) {
-        float dx = 2 * PI / ReflectivityDataColumns;
-        float dy = PI / ReflectivityDataRows;
+        const float dx = 2 * PI / ReflectivityDataColumns;
+        const float dy = PI / ReflectivityDataRows;
 
         int16_t i = static_cast<int16_t>(round((PI - dy / 2 - phi) / dy));
         int16_t j = static_cast<int16_t>(round((theta + PI - dx / 2) / dx));

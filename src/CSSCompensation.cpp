@@ -9,8 +9,8 @@ cssCompensation(Vector3f sunPositionBody, const Quaternionf quaternionECIBody, V
     sunPositionBody.normalize();
     satellitePositionECI.normalize();
 
-    Vector3f satellitePositionBody = rotateVector(quaternionECIBody, satellitePositionECI);
-    Vector3f nadir = -satellitePositionBody;
+    const Vector3f satellitePositionBody = rotateVector(quaternionECIBody, satellitePositionECI);
+    const Vector3f nadir = -satellitePositionBody;
 
     std::array<Quaternionf, 6> cssFrameQuatRot;
 

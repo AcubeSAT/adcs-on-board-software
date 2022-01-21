@@ -15,9 +15,9 @@ MagnetorquerOnly::desaturateMagnetorquer(Vector3f desiredMagneticTorque,
 
     double magneticTorqueGainSaturated;
 
-    Vector3f magnetorquerUpperLimits = MaxMagneticDipole + ResidualDipoleEstimation;
-    Vector3f magnetorquerLowerLimits = ResidualDipoleEstimation - MaxMagneticDipole;
-    Vector3f saturatedDipole = desiredMagneticDipole / desiredMagneticTorque.norm();
+    const Vector3f magnetorquerUpperLimits = MaxMagneticDipole + ResidualDipoleEstimation;
+    const Vector3f magnetorquerLowerLimits = ResidualDipoleEstimation - MaxMagneticDipole;
+    const Vector3f saturatedDipole = desiredMagneticDipole / desiredMagneticTorque.norm();
 
     if (desiredMagneticDipole.x() > magnetorquerUpperLimits.x() ||
         desiredMagneticDipole.y() > magnetorquerUpperLimits.y() ||
