@@ -32,7 +32,7 @@ NadirPointing::calculateTorque(const Quaternionf quaternionOrbitBody, [[maybe_un
             angularVelocityECIBody - rotateVector(quaternionOrbitBody, AngularVelocityECIOrbit);
     const Quaternionf errorQuaternion = quaternionProduct(DesiredQuaternion.conjugate(), quaternionOrbitBody);
 
-    Vector3f commandedTorque =
+    const Vector3f commandedTorque =
             -copysignf(1, errorQuaternion.w()) * KpGain * errorQuaternion.vec() - KdGain * angularVelocityOrbitBody;
 
     return commandedTorque;

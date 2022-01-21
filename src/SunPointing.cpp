@@ -34,7 +34,7 @@ SunPointing::calculateTorque([[maybe_unused]] const Quaternionf quaternionOrbitB
 
     const Quaternionf quaternionSunBody = calculateQuaternionSunBody(sunECIUnitVector, quaternionECIBody);
     const Quaternionf errorQuaternion = quaternionProduct(DesiredQuaternion.conjugate(), quaternionSunBody);
-    Vector3f commandedTorque =
+    const Vector3f commandedTorque =
             -copysignf(1, errorQuaternion.w()) * KpGain * errorQuaternion.vec() - KdGain * angularVelocityECIBody;
 
     return commandedTorque;

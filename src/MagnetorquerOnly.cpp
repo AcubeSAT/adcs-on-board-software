@@ -57,7 +57,7 @@ MagnetorquerOnly::actuate(const Vector3f commandedTorque, const Vector3f magneti
                           [[maybe_unused]] const float oldReactionWheelAcceleration) const {
     assert(not magneticField.isZero());
 
-    Vector3f magneticFieldNormalized = magneticField.normalized();
+    const Vector3f magneticFieldNormalized = magneticField.normalized();
     Vector3f desiredMagneticTorque =
             skew(magneticFieldNormalized).transpose() * skew(magneticFieldNormalized) * commandedTorque;
     Vector3f desiredMagneticDipole = skew(magneticField) * desiredMagneticTorque / (pow(magneticField.norm(), 2));
@@ -73,7 +73,7 @@ MagnetorquerOnly::actuate(const Vector3f commandedTorque, const Vector3f magneti
     desiredMagneticDipole = desiredMagneticDipole - ResidualDipoleEstimation;
     desiredMagneticTorque = desiredMagneticDipole.cross(magneticField);
 
-    Vector3f desiredReactionWheelTorque = {0, 0, 0};
+    const Vector3f desiredReactionWheelTorque = {0, 0, 0};
     Matrix<float, VectorSize, NumOfActuators> actuatorTorque;
     actuatorTorque(seq(0, 2), 0) = desiredMagneticTorque;
     actuatorTorque(seq(0, 2), 1) = desiredReactionWheelTorque;
