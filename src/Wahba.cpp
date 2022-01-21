@@ -23,7 +23,7 @@ Eigen::Quaternionf wahba(Eigen::Vector3f magneticBody, Eigen::Vector3f magneticE
     Eigen::Matrix<float, VectorSize, VectorSize> U = svd.matrixU();
     const Eigen::Matrix<float, VectorSize, VectorSize> V = svd.matrixV();
 
-    float d = U.determinant() * V.determinant();
+    const float d = U.determinant() * V.determinant();
     if (d < 0) {
         U(0, 2) *= -1;
         U(1, 2) *= -1;

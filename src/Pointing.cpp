@@ -13,9 +13,9 @@ Matrix<float, VectorSize, NumOfActuators> Pointing::performPointing(const Quater
                                                                     const bool firstTime,
                                                                     const float currentReactionWheelAngularVelocity,
                                                                     const float oldReactionWheelAcceleration) const {
-    Vector3f commandedTorque = target.calculateTorque(quaternion, sunECIUnitVector, state, eclipse);
+    const Vector3f commandedTorque = target.calculateTorque(quaternion, sunECIUnitVector, state, eclipse);
 
-    Matrix<float, VectorSize, NumOfActuators> actuatorTorque = strategy.actuate(commandedTorque, magneticField,
+    const Matrix<float, VectorSize, NumOfActuators> actuatorTorque = strategy.actuate(commandedTorque, magneticField,
                                                                                 firstTime,
                                                                                 currentReactionWheelAngularVelocity,
                                                                                 oldReactionWheelAcceleration);

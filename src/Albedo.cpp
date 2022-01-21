@@ -14,7 +14,7 @@ float albedo::calculateCellArea(const int16_t i, const int16_t j) {
     const float phiMax = radians(1) + deltaPhi / 2;
     const float phiMin = radians(1) - deltaPhi / 2;
 
-    float area = EMR * EMR * deltaTheta * (cos(phiMin) - cos(phiMax));
+    const float area = EMR * EMR * deltaTheta * (cos(phiMin) - cos(phiMax));
     return area;
 }
 

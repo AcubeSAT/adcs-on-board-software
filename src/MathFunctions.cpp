@@ -30,7 +30,7 @@ Quaternionf quaternionProduct(const Quaternionf &quaternion1, const Quaternionf 
 
 Vector3f rotateVector(const Eigen::Quaternionf &quaternion, const Vector3f &vector) {
     const Vector3f t = 2 * vector.cross(quaternion.vec());
-    Vector3f rotatedVector = vector + quaternion.w() * t + t.cross(quaternion.vec());
+    const Vector3f rotatedVector = vector + quaternion.w() * t + t.cross(quaternion.vec());
     return rotatedVector;
 }
 
@@ -59,16 +59,16 @@ date2decimal(const uint16_t year, const uint8_t month, const uint8_t day, const 
     const uint16_t solarHourSeconds = 3600;
     const uint16_t daysOfMonths[] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334};
 
-    bool yearIsLeap = (((year % 4) == 0) && (((year % 100) != 0) || ((year % 400) == 0)));
+    const bool yearIsLeap = (((year % 4) == 0) && (((year % 100) != 0) || ((year % 400) == 0)));
 
-    uint16_t daysInYear = yearIsLeap ? 366 : 365;
-    double dayNumber = (daysOfMonths[month - 1] + (day - 1)
+    const uint16_t daysInYear = yearIsLeap ? 366 : 365;
+    const double dayNumber = (daysOfMonths[month - 1] + (day - 1)
                         + (month > 2 ? yearIsLeap : 0));
 
-    double hourNumber = hour + static_cast<double>(minute) / solarHourMinutes +
+    const double hourNumber = hour + static_cast<double>(minute) / solarHourMinutes +
                         static_cast<double>(second) / solarHourSeconds;
 
-    DecimalDate decimalDate = (static_cast<double>(year) + (dayNumber / daysInYear))
+    const DecimalDate decimalDate = (static_cast<double>(year) + (dayNumber / daysInYear))
                               + hourNumber / solarDayHours / daysInYear;
     return decimalDate;
 
@@ -79,9 +79,9 @@ Vector3f cartesianToSpherical(const Vector3f vectorCartesian) {
     const float y = vectorCartesian(1);
     const float z = vectorCartesian(2);
 
-    float r = vectorCartesian.norm();
-    float azimuth = atan2(y, x);
-    float elevation = atan2(z, vectorCartesian(seq(0, 1)).norm());
+    const float r = vectorCartesian.norm();
+    const float azimuth = atan2(y, x);
+    const float elevation = atan2(z, vectorCartesian(seq(0, 1)).norm());
 
     return {azimuth, elevation, r};
 }
@@ -92,9 +92,9 @@ Vector3f sphericalToCartesian(const Vector3f vectorSpherical) {
     const float elevation = vectorSpherical(1);
     const float r = vectorSpherical(2);
 
-    float x = r * cos(elevation) * cos(azimuth);
-    float y = r * cos(elevation) * sin(azimuth);
-    float z = r * sin(elevation);
+    const float x = r * cos(elevation) * cos(azimuth);
+    const float y = r * cos(elevation) * sin(azimuth);
+    const float z = r * sin(elevation);
 
     return {x, y, z};
 }

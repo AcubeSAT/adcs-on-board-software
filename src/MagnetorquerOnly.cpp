@@ -62,7 +62,7 @@ MagnetorquerOnly::actuate(const Vector3f commandedTorque, const Vector3f magneti
             skew(magneticFieldNormalized).transpose() * skew(magneticFieldNormalized) * commandedTorque;
     Vector3f desiredMagneticDipole = skew(magneticField) * desiredMagneticTorque / (pow(magneticField.norm(), 2));
 
-    Matrix<float, VectorSize, NumOfActuators> desiredActuatorsTorque = desaturateMagnetorquer(desiredMagneticTorque,
+    const Matrix<float, VectorSize, NumOfActuators> desiredActuatorsTorque = desaturateMagnetorquer(desiredMagneticTorque,
                                                                                                  {0, 0, 0},
                                                                                                  commandedTorque,
                                                                                                  magneticField,
