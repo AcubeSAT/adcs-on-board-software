@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-#include "EciToEcef.hpp"
+#include "MathFunctions.hpp"
 #include <cmath>
 
 using namespace Eigen;

@@ -82,3 +82,9 @@ Eigen::Vector3f cartesianToSpherical(Eigen::Vector3f vectorCartesian);
  * @return vector in Cartesian coordinates (x, y, z) in radians
  */
 Eigen::Vector3f sphericalToCartesian(Eigen::Vector3f vectorSpherical);
+
+Eigen::Vector3d eci_to_ecef(Eigen::Vector3d vec_eci, double gstime);
+
+Eigen::Vector3d ecef_to_llh(Eigen::Vector3d uvw);
+
+
