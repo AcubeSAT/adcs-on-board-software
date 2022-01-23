@@ -20,8 +20,7 @@ public:
     OrbitalParameters();
 
     void
-    calculateTime(const TLE tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst, double &stopmfe,
-               double &deltamin);
+    calculateTime(const TLE tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst);
 
     void calculateNextPosition();
 
