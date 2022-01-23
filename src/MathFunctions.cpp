@@ -98,13 +98,13 @@ Vector3f sphericalToCartesian(Vector3f vectorSpherical) {
     return {x, y, z};
 }
 
-Eigen::Vector3d eci_to_ecef(Eigen::Vector3d vec_eci, double gstime) {
+Eigen::Vector3f eci_to_ecef(Eigen::Vector3f vec_eci, double gstime) {
 
 
     double OMEGAE = 7.292115860000000e-05;
     double CGAST = cos(gstime);
     double SGAST = sin(gstime);
-    Eigen::Vector3d vec_ecef;
+    Eigen::Vector3f vec_ecef;
 
     vec_ecef[0] = vec_eci[0] * CGAST + vec_eci[1] * SGAST;
     vec_ecef[1] = -vec_eci[0] * SGAST + vec_eci[1] * CGAST;
@@ -114,8 +114,8 @@ Eigen::Vector3d eci_to_ecef(Eigen::Vector3d vec_eci, double gstime) {
     return vec_ecef;
 }
 
-Eigen::Vector3d ecef_to_llh(Eigen::Vector3d uvw) {
-    Eigen::Vector3d llh;
+Eigen::Vector3f ecef_to_llh(Eigen::Vector3f uvw) {
+    Eigen::Vector3f llh;
     double lat;
     double re;
     double olatsav;

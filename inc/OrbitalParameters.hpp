@@ -1,7 +1,6 @@
 #pragma once
 
 #include "sgp4.h"
-#include "Geomag.h"
 #include "Eigen/Geometry"
 #include "Eigen/Dense"
 #include "TLEUtils.hpp"
@@ -11,16 +10,17 @@ private:
     double jd;
     elsetrec satrec;
     double tsince;
-    geomag_vector gStr;
-    Eigen::Vector3d position;
+    Eigen::Vector3f position;
     double gstime;
+    double time_gregorian;
+    Eigen::Vector3f sat_llh;
 
 public:
 
     OrbitalParameters();
 
     void
-    convertTLE(const TLE tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst, double &stopmfe,
+    calculateTime(const TLE tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst, double &stopmfe,
                double &deltamin);
 
     void calculateNextPosition();
@@ -37,12 +37,21 @@ public:
         return tsince;
     }
 
-    Eigen::Vector3d get_position() {
+    Eigen::Vector3f get_position() {
         return position;
+
+    }
+
+    Eigen::Vector3f get_SatLLH() {
+        return sat_llh;
 
     }
 
     double getGstime() {
         return gstime;
+    }
+
+    double getTime_gregorian() {
+        return time_gregorian;
     }
 };

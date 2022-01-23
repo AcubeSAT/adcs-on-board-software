@@ -12,25 +12,24 @@
 class EnvironmentalModel {
 private:
     bool eclipse;
-    Eigen::Vector3d sunPosition;
+    Eigen::Vector3f sunPosition;
+    Eigen::Vector3f satellitePosition;
     Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> albedo;
-    Eigen::Vector3d magneticField;
+    Eigen::Vector3f magneticField;
     Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> reflectivityData;
-
     geomag_vector gStr;
-
     OrbitalParameters orbitalParameters;
 public:
 
-    EnvironmentalModel(OrbitalParameters orbitalParameters);
+    EnvironmentalModel(OrbitalParameters orbitalParameters, Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> reflectivityData);
 
     void ModelEnvironmental();
 
-    geomag_vector Get_magnetic_field() {
-        return gStr;
+    Eigen::Vector3f Get_magnetic_field() {
+        return magneticField;
     }
 
-    Eigen::Vector3d Get_sunPosition() {
+    Eigen::Vector3f Get_sunPosition() {
         return sunPosition;
     }
 
@@ -38,9 +37,11 @@ public:
         return eclipse;
     }
 
+    Eigen::Vector3f Get_satellitePosition() {
+        return satellitePosition;
+    }
+
     Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> Get_albedo() {
         return albedo;
     }
-
-
 };

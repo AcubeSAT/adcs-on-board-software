@@ -1,7 +1,7 @@
 
 #include "Eclipse.hpp"
 
-bool calculate_eclipse(Eigen::Vector3d xsat_eci, Eigen::Vector3d sun_pos_eci) {
+bool calculate_eclipse(Eigen::Vector3f xsat_eci, Eigen::Vector3f sun_pos_eci) {
     bool eclipse;
     double x1 = R_EARTH * AU / (R_SUN + R_EARTH);
     double x2 = R_EARTH * AU / (R_SUN - R_EARTH);

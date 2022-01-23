@@ -9,7 +9,7 @@
 #define R_SUN 696000
 #define AU 149600000
 
-bool calculate_eclipse(Eigen::Vector3d xsat_eci, Eigen::Vector3d sun_pos_eci);
+bool calculate_eclipse(Eigen::Vector3f xsat_eci, Eigen::Vector3f sun_pos_eci);
 
 
 #endif //ADCS_ONBOARD_SOFTWARE_ECLIPSE_HPP

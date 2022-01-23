@@ -2,8 +2,8 @@
 #include <cmath>
 #include <vector>
 
-Eigen::Vector3d sun_position(double time) {
-    Eigen::Vector3d sun_pos_eci(3);
+Eigen::Vector3f sun_position(double time) {
+    Eigen::Vector3f sun_pos_eci(3);
     double ut1 = (time - 2451545) / 36525;
     double meanlong = 280.4606184 + 36000.77005361 * ut1;
     double meananomaly = 357.5277233 + 35999.05034 * ut1;
