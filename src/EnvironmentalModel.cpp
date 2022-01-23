@@ -24,9 +24,9 @@ void EnvironmentalModel::ModelEnvironmental() {
     Vector3f sat_llh = orbitalParameters.get_SatLLH();
     double time_gregorian = orbitalParameters.getTime_gregorian();
 
-    gStr.latitude = sat_llh[0];
-    gStr.longitude = sat_llh[1];
-    gStr.altitude = sat_llh[2];
+    gStr.latitude = sat_llh[0] * 180 / PI;
+    gStr.longitude = sat_llh[1] * 180 / PI;
+    gStr.altitude = sat_llh[2] / 1000;
     gStr.currentDate = time_gregorian;
 
     geomag(&gStr);
@@ -43,8 +43,8 @@ void EnvironmentalModel::ModelEnvironmental() {
 
     Eigen::Vector3f sat_ecef = eci_to_ecef(satellitePosition, gstime);
     Eigen::Vector3f sun_ecef = eci_to_ecef(sun_pos_eci, gstime);
+    satellitePosition = satellitePosition * 1000;
 
-    Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> alb = calculateAlbedo(sat_ecef, sun_ecef,
-                                                                                              reflectivityData);
+    albedo = calculateAlbedo(sat_ecef, sun_ecef, reflectivityData);
 
 }

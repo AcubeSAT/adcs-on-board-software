@@ -21,7 +21,6 @@ void OrbitalParameters::calculateTime(const TLE tle, char typerun, char typeinpu
     int hr;
     int minute;
     double sec;
-    double time_gregorian;
 
     double stopmfe;
     double deltamin;
@@ -56,9 +55,6 @@ void OrbitalParameters::calculateNextPosition() {
 
     SGP4Funcs::sgp4(satrec, tsince, xsat_eci, velocity);
 
-    /**
-     * TODO: typecast from double array[3] to Vector3f 
-     */
     for (uint8_t i = 0; i < 3; i++) {
         position(i) = xsat_eci[i];
     }
@@ -67,5 +63,5 @@ void OrbitalParameters::calculateNextPosition() {
     gstime = SGP4Funcs::gstime_SGP4(jd);
 
     Eigen::Vector3f sat_ecef = eci_to_ecef(position, gstime);
-    Eigen::Vector3f sat_llh = ecef_to_llh(sat_ecef);
+    sat_llh = ecef_to_llh(sat_ecef);
 }

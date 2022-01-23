@@ -106,9 +106,9 @@ Eigen::Vector3f eci_to_ecef(Eigen::Vector3f vec_eci, double gstime) {
     double SGAST = sin(gstime);
     Eigen::Vector3f vec_ecef;
 
-    vec_ecef[0] = vec_eci[0] * CGAST + vec_eci[1] * SGAST;
-    vec_ecef[1] = -vec_eci[0] * SGAST + vec_eci[1] * CGAST;
-    vec_ecef[2] = vec_eci[2];
+    vec_ecef[0] = (vec_eci[0] * CGAST + vec_eci[1] * SGAST) * 1000;
+    vec_ecef[1] = (-vec_eci[0] * SGAST + vec_eci[1] * CGAST) * 1000;
+    vec_ecef[2] = vec_eci[2] * 1000;
 
 
     return vec_ecef;

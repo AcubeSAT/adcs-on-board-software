@@ -25,6 +25,7 @@ public:
 
     void ModelEnvironmental();
 
+    //get magnetic field (NED)
     Eigen::Vector3f Get_magnetic_field() {
         return magneticField;
     }
