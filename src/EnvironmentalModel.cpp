@@ -1,8 +1,6 @@
-
 #include "EnvironmentalModel.hpp"
 #include "MathFunctions.hpp"
-#include <iostream>
-using namespace std;
+
 using namespace Eigen;
 
 EnvironmentalModel::EnvironmentalModel(OrbitalParameters orbitalParameters,
@@ -40,31 +38,13 @@ void EnvironmentalModel::ModelEnvironmental() {
     // jd = time (im not sure)
     Eigen::Vector3f sun_pos_eci = sun_position(julianDate);
     sunPosition = sun_pos_eci;
-    cout<<(static_cast<float>(julianDate));
 
     eclipse = calculate_eclipse(satellitePosition, sun_pos_eci);
+
     Eigen::Vector3f sat_ecef = eci_to_ecef(satellitePosition, gstime);
-
-    Eigen::Vector3f satellite;
-
-    satellite = sat_ecef;
-
     Eigen::Vector3f sun_ecef = eci_to_ecef(sun_pos_eci, gstime);
-    /**
-     ** TODO: albedo takes Vectors3f not 3d
-     */
-    Eigen::Vector3f sat_vec_3f;
-    Eigen::Vector3f sun_vec_3f;
 
-    sat_vec_3f[0] = satellite[0];
-    sat_vec_3f[1] = satellite[1];
-    sat_vec_3f[2] = satellite[2];
-
-    sun_vec_3f[0] = sun_ecef[0];
-    sun_vec_3f[1] = sun_ecef[1];
-    sun_vec_3f[2] = sun_ecef[2];
-
-    Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> alb = calculateAlbedo(sat_vec_3f, sun_vec_3f,
+    Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> alb = calculateAlbedo(sat_ecef, sun_ecef,
                                                                                               reflectivityData);
 
 }

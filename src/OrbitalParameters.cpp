@@ -13,8 +13,7 @@ OrbitalParameters::OrbitalParameters(){
     sat_llh  = {0, 0, 0};
 }
 
-void OrbitalParameters::calculateTime(const TLE tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst,
-                                   double &stopmfe, double &deltamin) {
+void OrbitalParameters::calculateTime(const TLE tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst) {
     int Eyear;
     int time_day;
     int mon;
@@ -24,7 +23,8 @@ void OrbitalParameters::calculateTime(const TLE tle, char typerun, char typeinpu
     double sec;
     double time_gregorian;
 
-
+    double stopmfe;
+    double deltamin;
     //convert tle from string to char
     int i;
     char tle1[70];
@@ -63,12 +63,9 @@ void OrbitalParameters::calculateNextPosition() {
         position(i) = xsat_eci[i];
     }
 
+    jd = satrec.jdsatepoch + satrec.t / 1440;
     gstime = SGP4Funcs::gstime_SGP4(jd);
 
     Eigen::Vector3f sat_ecef = eci_to_ecef(position, gstime);
-
     Eigen::Vector3f sat_llh = ecef_to_llh(sat_ecef);
-    
-    jd = satrec.jdsatepoch + satrec.t / 1440;
-    gstime = SGP4Funcs::gstime_SGP4(jd);
 }
