@@ -1,7 +1,6 @@
-#ifndef ADCS_ONBOARD_SOFTWARE_GEOMAG_H
-#define ADCS_ONBOARD_SOFTWARE_GEOMAG_H
+#pragma once
 
-typedef struct {
+typedef struct geomag_vector {
     double currentDate; /**< Date (decimal) */
     double latitude; /**< Geodetic latitude (degrees) */
     double longitude; /**< Geodetic longitude (degrees) */
@@ -19,6 +18,3 @@ typedef struct {
 extern geomag_vector igrf_vector;
 
 void geomag(geomag_vector *gStr);
-
-
-#endif //ADCS_ONBOARD_SOFTWARE_GEOMAG_H

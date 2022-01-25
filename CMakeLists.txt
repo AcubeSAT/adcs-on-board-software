@@ -11,6 +11,13 @@ include_directories(${PROJECT_SOURCE_DIR}/inc
 
 add_library(adcs OBJECT
         src/MathFunctions.cpp
+        # This is completely fine, and it will work
+        # as long as you don't change
+        # project(adcs-onboard-software) to
+        # project(adcs-onboard-software CXX).
+        # If you want to specify the project language make sure to do
+        # project(adcs-onboard-software C CXX) instead.
+        lib/geomag/GeomagVector.c
         lib/geomag/Geomag.cpp
         src/SatelliteModel.cpp
         src/MEKF.cpp

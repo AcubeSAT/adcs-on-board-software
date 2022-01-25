@@ -1,14 +1,16 @@
-#include "Geomag.h"
+#include "Geomag.hpp"
 #include "Definitions.hpp"
 #include "MathFunctions.hpp"
 
-#define GEO_NAN log(-1.0)
+// This file is a port of the C99 Geomag.c file to C++.
+// Because the original file used struct designated initializers
+// to initialize the IGRF state vector, the GeomagVector.c file
+// was created to do just that.
 
-geomag_vector igrf_vector = {.currentDate = 0, .latitude = 0, .longitude = 0,
-        .altitude = 0, .xMagneticField = 0,
-        .yMagneticField = 0, .zMagneticField = 0,
-        .norm = 0, .declination = 0, .inclination = 0,
-        .horizontalIntensity = 0, .totalIntensity = 0};
+// See https://web.archive.org/web/20211008081131/https://stackoverflow.com/questions/855996/c-equivalent-to-designated-initializers
+// to understand how GeomagVector.c is used in this file and Geomag.hpp.
+
+#define GEO_NAN log(-1.0)
 
 static int interpsh(double date, double dte1, int nmax1, double dte2, int nmax2,
                     int gh);
