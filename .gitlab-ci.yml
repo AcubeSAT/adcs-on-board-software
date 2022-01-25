@@ -105,7 +105,7 @@ unit-tests:
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
   script:
     - cmake .
-    - make tests -j4
+    - make tests -j$(nproc)
     - ./tests --use-colour yes # Run the tests
   after_script:
     - ./tests -r junit -o junit.xml
