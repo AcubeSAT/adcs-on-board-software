@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Make sure all dependencies are installed and ready to go.
 
+DESIRED_PATH="aflplusplus"
+[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || { echo "Run from $DESIRED_PATH"; exit; }
+
 # Have everything in the Docker container use vim instead of Joe.
 export VISUAL=vim
 export EDITOR="$VISUAL"

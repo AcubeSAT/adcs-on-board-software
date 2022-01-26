@@ -2,4 +2,7 @@
 # Wrapper script to call the afl-tmin script in a screen session.
 # TODO: find a better way?
 
+DESIRED_PATH="aflplusplus"
+[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || { echo "Run from $DESIRED_PATH"; exit; }
+
 screen -xr "tmin" -X stuff $'./scripts/_retmin.sh\n'

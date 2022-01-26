@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 # Kill the running screen sessions.
+
+DESIRED_PATH="aflplusplus"
+[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || { echo "Run from $DESIRED_PATH"; exit; }
+
 screen -X -S fuzzer1 quit
 screen -X -S fuzzer2 quit
 screen -X -S tmin quit

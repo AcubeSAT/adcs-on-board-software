@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+DESIRED_PATH="aflplusplus"
+[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || { echo "Run from $DESIRED_PATH"; exit; }
+
 # Use AFL++ in LTO mode
 export AFL_CC_COMPILER="LTO"
 export RANLIB=llvm-ranlib

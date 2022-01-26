@@ -10,4 +10,7 @@
 # Crashes that bucket the same have exactly the same stack contents,
 # so they're likely (but NOT guaranteed) to be the same bug.
 
+DESIRED_PATH="aflplusplus"
+[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || { echo "Run from $DESIRED_PATH"; exit; }
+
 screen -xr "crashwalk" -X stuff $'cwtriage -root findings/ -afl && cwdump ./crashwalk.db > triage\n'
