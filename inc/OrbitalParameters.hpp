@@ -24,24 +24,24 @@ public:
 
     void calculateNextPosition();
 
-    double get_jd() {
+    double getJd() {
         return jd;
     }
 
-    elsetrec get_satrec() {
+    elsetrec getSatrec() {
         return satrec;
     }
 
-    double get_tsince() {
+    double getTsince() {
         return tsince;
     }
 
-    Eigen::Vector3f get_position() {
+    Eigen::Vector3f getPosition() {
         return position;
 
     }
 
-    Eigen::Vector3f get_SatLLH() {
+    Eigen::Vector3f getSatLLH() {
         return sat_llh;
 
     }
@@ -50,7 +50,7 @@ public:
         return gstime;
     }
 
-    double getTime_gregorian() {
+    double getTimeGregorian() {
         return time_gregorian;
     }
 };

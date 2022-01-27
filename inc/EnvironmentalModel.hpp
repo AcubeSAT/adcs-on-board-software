@@ -26,23 +26,23 @@ public:
     void ModelEnvironmental();
 
     //get magnetic field (NED)
-    Eigen::Vector3f Get_magnetic_field() {
+    Eigen::Vector3f GetMagneticField() {
         return magneticField;
     }
 
-    Eigen::Vector3f Get_sunPosition() {
+    Eigen::Vector3f GetSunPosition() {
         return sunPosition;
     }
 
-    bool Get_eclipse() {
+    bool GetEclipse() {
         return eclipse;
     }
 
-    Eigen::Vector3f Get_satellitePosition() {
+    Eigen::Vector3f GetSatellitePosition() {
         return satellitePosition;
     }
 
-    Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> Get_albedo() {
+    Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> GetAlbedo() {
         return albedo;
     }
 };

@@ -18,11 +18,11 @@ EnvironmentalModel::EnvironmentalModel(OrbitalParameters orbitalParameters,
 
 void EnvironmentalModel::ModelEnvironmental() {
     orbitalParameters.calculateNextPosition();
-    satellitePosition = orbitalParameters.get_position();
-    double julianDate = orbitalParameters.get_jd();
+    satellitePosition = orbitalParameters.getPosition();
+    double julianDate = orbitalParameters.getJd();
     double gstime = orbitalParameters.getGstime();
-    Vector3f sat_llh = orbitalParameters.get_SatLLH();
-    double time_gregorian = orbitalParameters.getTime_gregorian();
+    Vector3f sat_llh = orbitalParameters.getSatLLH();
+    double time_gregorian = orbitalParameters.getTimeGregorian();
 
     gStr.latitude = sat_llh[0] * 180 / PI;
     gStr.longitude = sat_llh[1] * 180 / PI;
