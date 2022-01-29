@@ -9,7 +9,7 @@ EnvironmentalModel::EnvironmentalModel(OrbitalParameters orbitalParameters,
     igrf_struct = {.currentDate = 0, .latitude = 0, .longitude = 0,
             .altitude = 0, .xMagneticField = 0, .yMagneticField = 0, .zMagneticField = 0,
             .norm = 0, .declination = 0, .inclination = 0, .horizontalIntensity = 0, .totalIntensity = 0};
-    eclipse = false;
+    isEclipse = false;
     sunPosition = {0, 0, 0};
     albedo = Matrix<float, ReflectivityDataRows, ReflectivityDataColumns>::Zero();
     magneticField = {0, 0, 0};
@@ -38,7 +38,7 @@ void EnvironmentalModel::ModelEnvironment() {
     Eigen::Vector3f sunPositionECI = calculateSunPosition(julianDate);
     sunPosition = sunPositionECI;
 
-    eclipse = calculateEclipse(satellitePosition, sunPositionECI);
+    isEclipse = calculateEclipse(satellitePosition, sunPositionECI);
 
     Eigen::Vector3f satelliteECEF = eci2ecef(satellitePosition, gstime);
     Eigen::Vector3f sunECEF = eci2ecef(sunPositionECI, gstime);

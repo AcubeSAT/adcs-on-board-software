@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Eigen/Geometry"
-#include "Eclipse.hpp"
-#include "SunPosition.hpp"
 #include "Albedo.hpp"
 #include "Geomag.h"
 #include "TLEUtils.hpp"
@@ -11,7 +9,7 @@
 
 class EnvironmentalModel {
 private:
-    bool eclipse;
+    bool isEclipse;
     Eigen::Vector3f sunPosition;
     Eigen::Vector3f satellitePosition;
     Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> albedo;
@@ -35,7 +33,7 @@ public:
     }
 
     bool GetEclipse() {
-        return eclipse;
+        return isEclipse;
     }
 
     Eigen::Vector3f GetSatellitePosition() const {

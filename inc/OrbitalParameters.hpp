@@ -5,6 +5,14 @@
 #include "Eigen/Dense"
 #include "TLEUtils.hpp"
 
+#define R_EARTH 6371
+#define R_SUN 696000
+#define AU 149600000
+
+bool calculateEclipse(Eigen::Vector3f xSatelliteECI, Eigen::Vector3f sunPositionECI);
+
+Eigen::Vector3f calculateSunPosition(double time);
+
 class OrbitalParameters {
 private:
     double julianDay;
@@ -20,7 +28,7 @@ public:
     OrbitalParameters();
 
     void
-    calculateTime(const TLE tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst);
+    calculateTime(const TLE &tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst);
 
     void calculateNextPosition();
 

@@ -26,8 +26,6 @@ add_library(adcs OBJECT
         src/PointingStrategy.cpp
         src/MagnetorquerPlusRW.cpp
         src/MagnetorquerOnly.cpp
-        src/Eclipse.cpp
-        src/SunPosition.cpp
         src/EnvironmentalModel.cpp
         src/OrbitalParameters.cpp)
 
