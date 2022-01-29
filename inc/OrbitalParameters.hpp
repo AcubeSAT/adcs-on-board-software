@@ -24,33 +24,33 @@ public:
 
     void calculateNextPosition();
 
-    double getJd() {
+    double getJd() const {
         return jd;
     }
 
-    elsetrec getSatrec() {
+    elsetrec getSatrec() const {
         return satrec;
     }
 
-    double getTsince() {
+    double getTsince() const {
         return tsince;
     }
 
-    Eigen::Vector3f getPosition() {
+    Eigen::Vector3f getPosition() const {
         return position;
 
     }
 
-    Eigen::Vector3f getSatLLH() {
+    Eigen::Vector3f getSatLLH() const {
         return sat_llh;
 
     }
 
-    double getGstime() {
+    double getGstime() const {
         return gstime;
     }
 
-    double getTimeGregorian() {
+    double getTimeGregorian() const {
         return time_gregorian;
     }
 };

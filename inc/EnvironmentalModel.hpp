@@ -17,7 +17,7 @@ private:
     Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> albedo;
     Eigen::Vector3f magneticField;
     Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> reflectivityData;
-    geomag_vector gStr;
+    geomag_vector igrf_struct;
     OrbitalParameters orbitalParameters;
 public:
 
@@ -26,11 +26,11 @@ public:
     void ModelEnvironmental();
 
     //get magnetic field (NED)
-    Eigen::Vector3f GetMagneticField() {
+    Eigen::Vector3f GetMagneticField() const {
         return magneticField;
     }
 
-    Eigen::Vector3f GetSunPosition() {
+    Eigen::Vector3f GetSunPosition() const {
         return sunPosition;
     }
 
@@ -38,11 +38,11 @@ public:
         return eclipse;
     }
 
-    Eigen::Vector3f GetSatellitePosition() {
+    Eigen::Vector3f GetSatellitePosition() const {
         return satellitePosition;
     }
 
-    Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> GetAlbedo() {
+    Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> GetAlbedo() const {
         return albedo;
     }
 };

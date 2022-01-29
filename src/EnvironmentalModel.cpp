@@ -6,7 +6,7 @@ using namespace Eigen;
 EnvironmentalModel::EnvironmentalModel(OrbitalParameters orbitalParameters,
                                        Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> reflectivityData)
         : orbitalParameters(orbitalParameters), reflectivityData{reflectivityData} {
-    gStr = {.currentDate = 0, .latitude = 0, .longitude = 0,
+    igrf_struct = {.currentDate = 0, .latitude = 0, .longitude = 0,
             .altitude = 0, .xMagneticField = 0, .yMagneticField = 0, .zMagneticField = 0,
             .norm = 0, .declination = 0, .inclination = 0, .horizontalIntensity = 0, .totalIntensity = 0};
     eclipse = false;
@@ -24,16 +24,16 @@ void EnvironmentalModel::ModelEnvironmental() {
     Vector3f sat_llh = orbitalParameters.getSatLLH();
     double time_gregorian = orbitalParameters.getTimeGregorian();
 
-    gStr.latitude = sat_llh[0] * 180 / PI;
-    gStr.longitude = sat_llh[1] * 180 / PI;
-    gStr.altitude = sat_llh[2] / 1000;
-    gStr.currentDate = time_gregorian;
+    igrf_struct.latitude = sat_llh[0] * 180 / PI;
+    igrf_struct.longitude = sat_llh[1] * 180 / PI;
+    igrf_struct.altitude = sat_llh[2] / 1000;
+    igrf_struct.currentDate = time_gregorian;
 
-    geomag(&gStr);
+    geomag(&igrf_struct);
 
-    magneticField(0) = gStr.xMagneticField;
-    magneticField(1) = gStr.yMagneticField;
-    magneticField(2) = gStr.zMagneticField;
+    magneticField(0) = igrf_struct.xMagneticField;
+    magneticField(1) = igrf_struct.yMagneticField;
+    magneticField(2) = igrf_struct.zMagneticField;
 
     // jd = time (im not sure)
     Eigen::Vector3f sun_pos_eci = sun_position(julianDate);
