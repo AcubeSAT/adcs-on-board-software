@@ -310,3 +310,33 @@ TEST_CASE("EcefToLlh Test3")
     REQUIRE(vecLLH[2] == Approx(495419.761713431));
 
 }
+
+TEST_CASE("Ned2ecef Test1")
+{
+    Vector3f vecNED;
+    float lat = -0.00215018349404917;
+    float longit = -1.53893187083921;
+    vecNED[0] = 21927.0935576559;
+    vecNED[1] = 490.758716715348;
+    vecNED[2] = 7848.08753664789;
+    Vector3f vecECEF = ned2ecef(vecNED, lat, longit);
+
+    REQUIRE(vecECEF[0] == Approx(241.979515198619));
+    REQUIRE(vecECEF[1] == Approx(7812.59729678756));
+    REQUIRE(vecECEF[2] == Approx(21943.9176853079));
+}
+
+TEST_CASE("Ned2ecef Test2")
+{
+    Vector3f vecNED;
+    float lat = -0.00115485233360311;
+    float longit = -1.53912545696974;
+    vecNED[0] = 21930.4628495019;
+    vecNED[1] = 489.006234668502;
+    vecNED[2] = 7891.82083326086;
+    Vector3f vecECEF = ned2ecef(vecNED, lat, longit);
+
+    REQUIRE(vecECEF[0] == Approx(239.664101962900));
+    REQUIRE(vecECEF[1] == Approx(7878.02890637489));
+    REQUIRE(vecECEF[2] == Approx(21939.5621110306));
+}

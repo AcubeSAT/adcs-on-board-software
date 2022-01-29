@@ -159,3 +159,19 @@ Eigen::Vector3f ecef2llh(Eigen::Vector3f uvw) {
     return llh;
 
 }
+
+Eigen::Vector3f ned2ecef(Eigen::Vector3f vectorNED, float latitude, float longitude) {
+    Eigen::Vector3f vectorECEF;
+    Eigen::Matrix<float, 3, 3> R;
+    R(0, 0) = -sin(latitude) * cos(longitude);
+    R(1, 0) = -sin(latitude) * sin(longitude);
+    R(2, 0) = cos(latitude);
+    R(0, 1) = -sin(longitude);
+    R(1, 1) = cos(longitude);
+    R(2, 1) = 0;
+    R(0, 2) = -cos(latitude) * cos(longitude);
+    R(1, 2) = -cos(latitude) * sin(longitude);
+    R(2, 2) = -sin(latitude);
+    vectorECEF = R * vectorNED;
+    return vectorECEF;
+}
