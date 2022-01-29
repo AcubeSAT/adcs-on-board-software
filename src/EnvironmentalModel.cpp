@@ -16,18 +16,18 @@ EnvironmentalModel::EnvironmentalModel(OrbitalParameters orbitalParameters,
 }
 
 
-void EnvironmentalModel::ModelEnvironmental() {
+void EnvironmentalModel::ModelEnvironment() {
     orbitalParameters.calculateNextPosition();
     satellitePosition = orbitalParameters.getPosition();
-    double julianDate = orbitalParameters.getJd();
+    double julianDate = orbitalParameters.getjulianDay();
     double gstime = orbitalParameters.getGstime();
     Vector3f sat_llh = orbitalParameters.getSatLLH();
-    double time_gregorian = orbitalParameters.getTimeGregorian();
+    double timeGregorian = orbitalParameters.getTimeGregorian();
 
     igrf_struct.latitude = sat_llh[0] * 180 / PI;
     igrf_struct.longitude = sat_llh[1] * 180 / PI;
     igrf_struct.altitude = sat_llh[2] / 1000;
-    igrf_struct.currentDate = time_gregorian;
+    igrf_struct.currentDate = timeGregorian;
 
     geomag(&igrf_struct);
 
@@ -35,16 +35,15 @@ void EnvironmentalModel::ModelEnvironmental() {
     magneticField(1) = igrf_struct.yMagneticField;
     magneticField(2) = igrf_struct.zMagneticField;
 
-    // jd = time (im not sure)
-    Eigen::Vector3f sun_pos_eci = sun_position(julianDate);
-    sunPosition = sun_pos_eci;
+    Eigen::Vector3f sunPositionECI = calculateSunPosition(julianDate);
+    sunPosition = sunPositionECI;
 
-    eclipse = calculate_eclipse(satellitePosition, sun_pos_eci);
+    eclipse = calculateEclipse(satellitePosition, sunPositionECI);
 
-    Eigen::Vector3f sat_ecef = eci_to_ecef(satellitePosition, gstime);
-    Eigen::Vector3f sun_ecef = eci_to_ecef(sun_pos_eci, gstime);
-    satellitePosition = satellitePosition * 1000;
+    Eigen::Vector3f satelliteECEF = eci2ecef(satellitePosition, gstime);
+    Eigen::Vector3f sunECEF = eci2ecef(sunPositionECI, gstime);
+    satellitePosition *= 1000;
 
-    albedo = calculateAlbedo(sat_ecef, sun_ecef, reflectivityData);
+    albedo = calculateAlbedo(satelliteECEF, sunECEF, reflectivityData);
 
 }

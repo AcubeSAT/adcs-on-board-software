@@ -11,14 +11,14 @@ TEST_CASE("Environmental Model Test1 ") {
 
     EnvironmentalModel em(orbitalParameters, reflectivityData1);
 
-    em.ModelEnvironmental();
+    em.ModelEnvironment();
     bool ecl1 = em.GetEclipse();
     REQUIRE(ecl1 == false);
 
-    Eigen::Vector3f sun_pos_test1 = em.GetSunPosition();
-    REQUIRE(sun_pos_test1[0] == Approx(-0.174717604923527));
-    REQUIRE(sun_pos_test1[1] == Approx(0.918928406982493));
-    REQUIRE(sun_pos_test1[2] == Approx(0.398346002571225));
+    Eigen::Vector3f sunPosTest1 = em.GetSunPosition();
+    REQUIRE(sunPosTest1[0] == Approx(-0.174717604923527));
+    REQUIRE(sunPosTest1[1] == Approx(0.918928406982493));
+    REQUIRE(sunPosTest1[2] == Approx(0.398346002571225));
 
     Eigen::Vector3f magneticField = em.GetMagneticField();
     REQUIRE(magneticField(0) == Approx(21927.0935576559).epsilon(0.01));

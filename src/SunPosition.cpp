@@ -2,8 +2,8 @@
 #include <cmath>
 #include <vector>
 
-Eigen::Vector3f sun_position(double time) {
-    Eigen::Vector3f sun_pos_eci(3);
+Eigen::Vector3f calculateSunPosition(double time) {
+    Eigen::Vector3f sunPositionECI(3);
     double ut1 = (time - 2451545) / 36525;
     double meanlong = 280.4606184 + 36000.77005361 * ut1;
     double meananomaly = 357.5277233 + 35999.05034 * ut1;
@@ -30,10 +30,10 @@ Eigen::Vector3f sun_position(double time) {
     obliquity = obliquity * M_PI / 180;
     magr = 1.000140612 - 0.016708617 * cos(meananomaly) - 0.000139589 * cos(2 * meananomaly);
 
-    sun_pos_eci[0] = magr * cos(eclplong);
-    sun_pos_eci[1] = magr * cos(obliquity) * sin(eclplong);
-    sun_pos_eci[2] = magr * sin(obliquity) * sin(eclplong);
+    sunPositionECI[0] = magr * cos(eclplong);
+    sunPositionECI[1] = magr * cos(obliquity) * sin(eclplong);
+    sunPositionECI[2] = magr * sin(obliquity) * sin(eclplong);
 
-    return sun_pos_eci;
+    return sunPositionECI;
 
 }

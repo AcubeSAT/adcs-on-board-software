@@ -23,7 +23,7 @@ public:
 
     EnvironmentalModel(OrbitalParameters orbitalParameters, Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> reflectivityData);
 
-    void ModelEnvironmental();
+    void ModelEnvironment();
 
     //get magnetic field (NED)
     Eigen::Vector3f GetMagneticField() const {

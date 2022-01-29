@@ -5,17 +5,17 @@
 using namespace Eigen;
 
 OrbitalParameters::OrbitalParameters(){
-    jd = 0;
+    julianDay = 0;
     tsince = 0;
     position = {0, 0, 0};
     gstime = 0;
-    time_gregorian = 0;
-    sat_llh  = {0, 0, 0};
+    timeGregorian = 0;
+    satelliteLLH = {0, 0, 0};
 }
 
 void OrbitalParameters::calculateTime(const TLE tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst) {
     int Eyear;
-    int time_day;
+    int timeDay;
     int mon;
     int day;
     int hr;
@@ -39,29 +39,29 @@ void OrbitalParameters::calculateTime(const TLE tle, char typerun, char typeinpu
                           typerun, typeinput, opsmode, whichconst,
                           tsince, stopmfe, deltamin, satrec);
 
-    jd = satrec.jdsatepoch + satrec.t / 1440;
+    julianDay = satrec.jdsatepoch + satrec.t / 1440;
 
-    //calculate gregorian time
+
     Eyear = satrec.epochyr + 2000;
-    time_day = satrec.epochdays + tsince / 1440;
-    SGP4Funcs::days2mdhms_SGP4(Eyear, time_day, mon, day, hr, minute, sec);
-    time_gregorian = date2decimal(Eyear, mon, day, hr, minute, sec);   
+    timeDay = satrec.epochdays + tsince / 1440;
+    SGP4Funcs::days2mdhms_SGP4(Eyear, timeDay, mon, day, hr, minute, sec);
+    timeGregorian = date2decimal(Eyear, mon, day, hr, minute, sec);
 }
 
 
 void OrbitalParameters::calculateNextPosition() {
-    double xsat_eci[3];
+    double xsatelliteECI[3];
     double velocity[3];
 
-    SGP4Funcs::sgp4(satrec, tsince, xsat_eci, velocity);
+    SGP4Funcs::sgp4(satrec, tsince, xsatelliteECI, velocity);
 
     for (uint8_t i = 0; i < 3; i++) {
-        position(i) = xsat_eci[i];
+        position(i) = xsatelliteECI[i];
     }
 
-    jd = satrec.jdsatepoch + satrec.t / 1440;
-    gstime = SGP4Funcs::gstime_SGP4(jd);
+    julianDay = satrec.jdsatepoch + satrec.t / 1440;
+    gstime = SGP4Funcs::gstime_SGP4(julianDay);
 
-    Eigen::Vector3f sat_ecef = eci_to_ecef(position, gstime);
-    sat_llh = ecef_to_llh(sat_ecef);
+    Eigen::Vector3f satelliteECEF = eci2ecef(position, gstime);
+    satelliteLLH = ecef2llh(satelliteECEF);
 }

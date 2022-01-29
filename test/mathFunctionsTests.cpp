@@ -231,3 +231,82 @@ TEST_CASE("Skew matrix test") {
     REQUIRE(matrix(2, 1) == Approx(0.4).epsilon(0.01));
     REQUIRE(matrix(2, 2) == Approx(0).epsilon(0.01));
 }
+
+TEST_CASE("EciToEcef Test1")
+{
+    Vector3f vecECI = {-6733.04064617925, -1382.68992247076, -14.6876088752119};
+    double gstime = 4.883067536994346;
+    Vector3f vec = eci2ecef(vecECI, gstime);
+
+    REQUIRE(vec[0] == Approx(218.984818755685 * 1000));
+    REQUIRE(vec[1] == Approx(-6870.05920017860 * 1000));
+    REQUIRE(vec[2] == Approx(-14.6876088752119 * 1000));
+
+}
+
+TEST_CASE("EciToEcef Test2")
+{
+    Vector3f vecECI = {-2.3, 0, 1212};
+    double gstime = 3.3453224;
+    Vector3f vec = eci2ecef(vecECI, gstime);
+
+    REQUIRE(vec[0] == Approx(2.25243318591924 * 1000));
+    REQUIRE(vec[1] == Approx(-0.465343682636487 * 1000));
+    REQUIRE(vec[2] == Approx(1212 * 1000));
+
+}
+
+TEST_CASE("EciToEcef Test3")
+{
+    Vector3f vecECI = {-1234, -74329.123, 0.1432};
+    double gstime = 12234909;
+    Vector3f vec = eci2ecef(vecECI, gstime);
+
+    REQUIRE(vec[0] == Approx(-74334.9817031508 * 1000));
+    REQUIRE(vec[1] == Approx(-807.327158822088 * 1000));
+    REQUIRE(vec[2] == Approx(0.143200000000000 * 1000));
+
+}
+
+TEST_CASE("EcefToLlh Test1")
+{
+    Vector3f vecECEF;
+    vecECEF[0] = 218984.818755685;
+    vecECEF[1] = -6870059.20017860;
+    vecECEF[2] = -14687.6088752119;
+    Vector3f vecLLH = ecef2llh(vecECEF);
+
+    REQUIRE(vecLLH[0] == Approx(-0.00215018349404917));
+    REQUIRE(vecLLH[1] == Approx(-1.53893187083921));
+    REQUIRE(vecLLH[2] == Approx(495427.201998211));
+
+}
+
+TEST_CASE("EcefToLlh Test2")
+{
+    Vector3f vecECEF;
+    vecECEF[0] = -2352955.19123252;
+    vecECEF[1] = -6385334.94375174;
+    vecECEF[2] = -974941.937267234;
+
+    Vector3f vecLLH = ecef2llh(vecECEF);
+
+    REQUIRE(vecLLH[0] == Approx(-0.143176024574243));
+    REQUIRE(vecLLH[1] == Approx(-1.92385060820004));
+    REQUIRE(vecLLH[2] == Approx(496843.174380195));
+
+}
+
+TEST_CASE("EcefToLlh Test3")
+{
+    Vector3f vecECEF;
+    vecECEF[0] = 217654.986658955;
+    vecECEF[1] = -6870105.25711085;
+    vecECEF[2] = -7888.63372952578;
+    Vector3f vecLLH = ecef2llh(vecECEF);
+
+    REQUIRE(vecLLH[0] == Approx(-0.00115485233360311));
+    REQUIRE(vecLLH[1] == Approx(-1.53912545696974));
+    REQUIRE(vecLLH[2] == Approx(495419.761713431));
+
+}

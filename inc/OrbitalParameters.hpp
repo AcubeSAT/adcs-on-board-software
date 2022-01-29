@@ -7,13 +7,13 @@
 
 class OrbitalParameters {
 private:
-    double jd;
+    double julianDay;
     elsetrec satrec;
     double tsince;
     Eigen::Vector3f position;
     double gstime;
-    double time_gregorian;
-    Eigen::Vector3f sat_llh;
+    double timeGregorian;
+    Eigen::Vector3f satelliteLLH;
 
 public:
 
@@ -24,8 +24,8 @@ public:
 
     void calculateNextPosition();
 
-    double getJd() const {
-        return jd;
+    double getjulianDay() const {
+        return julianDay;
     }
 
     elsetrec getSatrec() const {
@@ -42,7 +42,7 @@ public:
     }
 
     Eigen::Vector3f getSatLLH() const {
-        return sat_llh;
+        return satelliteLLH;
 
     }
 
@@ -51,6 +51,6 @@ public:
     }
 
     double getTimeGregorian() const {
-        return time_gregorian;
+        return timeGregorian;
     }
 };

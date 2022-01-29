@@ -98,23 +98,23 @@ Vector3f sphericalToCartesian(Vector3f vectorSpherical) {
     return {x, y, z};
 }
 
-Eigen::Vector3f eci_to_ecef(Eigen::Vector3f vec_eci, double gstime) {
+Eigen::Vector3f eci2ecef(Eigen::Vector3f vecECI, double gstime) {
 
 
     double OMEGAE = 7.292115860000000e-05;
     double CGAST = cos(gstime);
     double SGAST = sin(gstime);
-    Eigen::Vector3f vec_ecef;
+    Eigen::Vector3f vecECEF;
 
-    vec_ecef[0] = (vec_eci[0] * CGAST + vec_eci[1] * SGAST) * 1000;
-    vec_ecef[1] = (-vec_eci[0] * SGAST + vec_eci[1] * CGAST) * 1000;
-    vec_ecef[2] = vec_eci[2] * 1000;
+    vecECEF[0] = (vecECI[0] * CGAST + vecECI[1] * SGAST) * 1000;
+    vecECEF[1] = (-vecECI[0] * SGAST + vecECI[1] * CGAST) * 1000;
+    vecECEF[2] = vecECI[2] * 1000;
 
 
-    return vec_ecef;
+    return vecECEF;
 }
 
-Eigen::Vector3f ecef_to_llh(Eigen::Vector3f uvw) {
+Eigen::Vector3f ecef2llh(Eigen::Vector3f uvw) {
     Eigen::Vector3f llh;
     double lat;
     double re;
@@ -126,7 +126,7 @@ Eigen::Vector3f ecef_to_llh(Eigen::Vector3f uvw) {
     double a = 6378137.0; //meters
     double f = 1.0 / 298.257223563;
     //eccentricity squared for WGS84.
-    double ecc_sq = (2.0 - f) * f;
+    double eccSq = (2.0 - f) * f;
 
     double tmp1 = sqrt(pow(uvw[0], 2) + pow(uvw[1], 2));
 
@@ -134,10 +134,10 @@ Eigen::Vector3f ecef_to_llh(Eigen::Vector3f uvw) {
     if (tmp1 == 0.0) {
         llh[1] = 0;//lon
         if (uvw[2] > 0.0) {
-            llh[2] = uvw[2] - (a / sqrt(1.0 - ecc_sq));//hgt
+            llh[2] = uvw[2] - (a / sqrt(1.0 - eccSq));//hgt
             llh[0] = asin(1.0);//lat
         } else {
-            llh[2] = -uvw[2] - (a / sqrt(1.0 - ecc_sq));
+            llh[2] = -uvw[2] - (a / sqrt(1.0 - eccSq));
             llh[0] = asin(-1.0);
         }
     } else {
@@ -148,9 +148,9 @@ Eigen::Vector3f ecef_to_llh(Eigen::Vector3f uvw) {
 
         while (dlat > 1.0e-7) {
             olatsav = lat;
-            tmp2 = uvw[2] + ecc_sq * re * sin(lat);
+            tmp2 = uvw[2] + eccSq * re * sin(lat);
             lat = atan2(tmp2, tmp1);
-            re = a / sqrt(1 - ecc_sq * pow(sin(lat), 2));
+            re = a / sqrt(1 - eccSq * pow(sin(lat), 2));
             dlat = abs(lat - olatsav);
         }
         llh[2] = tmp1 / cos(lat) - re;
