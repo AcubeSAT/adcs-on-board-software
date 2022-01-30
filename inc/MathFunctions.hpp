@@ -89,4 +89,4 @@ Eigen::Vector3f ecef2llh(Eigen::Vector3f uvw);
 
 Eigen::Vector3f ned2ecef(Eigen::Vector3f vectorNED, float latitude, float longitude);
 
-
+Eigen::Vector3f ecef2eci(Eigen::Vector3f vectorECEF, double gstime);

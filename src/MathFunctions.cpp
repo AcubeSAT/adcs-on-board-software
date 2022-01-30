@@ -100,8 +100,6 @@ Vector3f sphericalToCartesian(Vector3f vectorSpherical) {
 
 Eigen::Vector3f eci2ecef(Eigen::Vector3f vecECI, double gstime) {
 
-
-    double OMEGAE = 7.292115860000000e-05;
     double CGAST = cos(gstime);
     double SGAST = sin(gstime);
     Eigen::Vector3f vecECEF;
@@ -121,15 +119,10 @@ Eigen::Vector3f ecef2llh(Eigen::Vector3f uvw) {
     double olatsav;
     double tmp2;
     double dlat = 1.0;
-    //Set up WGS-84 constants.
-    //Earth model
-    double a = 6378137.0; //meters
+    double a = 6378137.0;
     double f = 1.0 / 298.257223563;
-    //eccentricity squared for WGS84.
     double eccSq = (2.0 - f) * f;
-
     double tmp1 = sqrt(pow(uvw[0], 2) + pow(uvw[1], 2));
-
 
     if (tmp1 == 0.0) {
         llh[1] = 0;//lon
@@ -174,4 +167,22 @@ Eigen::Vector3f ned2ecef(Eigen::Vector3f vectorNED, float latitude, float longit
     R(2, 2) = -sin(latitude);
     vectorECEF = R * vectorNED;
     return vectorECEF;
+}
+
+Eigen::Vector3f ecef2eci(Eigen::Vector3f vectorECEF, double gstime) {
+    Eigen::Vector3f vectorECI;
+    Eigen::Matrix<float, 3, 3> R;
+    double CGAST = cos(-gstime);
+    double SGAST = sin(-gstime);
+    R(0, 0) = CGAST;
+    R(0, 1) = SGAST;
+    R(0, 2) = 0;
+    R(1, 0) = -SGAST;
+    R(1, 1) = CGAST;
+    R(1, 2) = 0;
+    R(2, 0) = 0;
+    R(2, 1) = 0;
+    R(2, 2) = 1;
+    vectorECI = R * vectorECEF;
+    return vectorECI;
 }

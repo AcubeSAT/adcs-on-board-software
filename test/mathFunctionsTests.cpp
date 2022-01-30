@@ -340,3 +340,31 @@ TEST_CASE("Ned2ecef Test2")
     REQUIRE(vecECEF[1] == Approx(7878.02890637489));
     REQUIRE(vecECEF[2] == Approx(21939.5621110306));
 }
+
+TEST_CASE("ecef2eci Test1")
+{
+    Vector3f vecECEF;
+    double gstime = 4.88306753699435;
+    vecECEF[0] = 241.979515198619;
+    vecECEF[1] = 7812.59729678756;
+    vecECEF[2] = 21943.9176853079;
+    Vector3f vecECI = ecef2eci(vecECEF, gstime);
+
+    REQUIRE(vecECI[0] == Approx(7740.17871171431));
+    REQUIRE(vecECI[1] == Approx(1088.51463852010));
+    REQUIRE(vecECI[2] == Approx(21943.9176853079));
+}
+
+TEST_CASE("ecef2eci Test2")
+{
+    Vector3f vecECEF;
+    double gstime = 5.28741536250600;
+    vecECEF[0] = 1831.29948279837;
+    vecECEF[1] = -5124.17879734563;
+    vecECEF[2] = 22315.2957509272;
+    Vector3f vecECI = ecef2eci(vecECEF, gstime);
+
+    REQUIRE(vecECI[0] == Approx(-3304.13296729673));
+    REQUIRE(vecECI[1] == Approx(-4323.60630461274));
+    REQUIRE(vecECI[2] == Approx(22315.2957509272));
+}
