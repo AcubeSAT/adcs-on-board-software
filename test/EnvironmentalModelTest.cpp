@@ -21,9 +21,9 @@ TEST_CASE("Environmental Model Test1 ") {
     REQUIRE(sunPosTest1[2] == Approx(0.398346002571225));
 
     Eigen::Vector3f magneticField = em.GetMagneticField();
-    REQUIRE(magneticField(0) == Approx(21927.0935576559).epsilon(0.01));
-    REQUIRE(magneticField(1) == Approx(490.758716715348).epsilon(0.01));
-    REQUIRE(magneticField(2) == Approx(7848.08753664789).epsilon(0.01));
+    REQUIRE(magneticField(0) == Approx(7740.17871171431).epsilon(0.01));
+    REQUIRE(magneticField(1) == Approx(1088.51463852010).epsilon(0.01));
+    REQUIRE(magneticField(2) == Approx(21943.9176853079).epsilon(0.01));
 
 
     auto alb = em.GetAlbedo();

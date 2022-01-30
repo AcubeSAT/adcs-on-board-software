@@ -21,12 +21,12 @@ void EnvironmentalModel::ModelEnvironment() {
     satellitePosition = orbitalParameters.getPosition();
     double julianDate = orbitalParameters.getjulianDay();
     double gstime = orbitalParameters.getGstime();
-    Vector3f sat_llh = orbitalParameters.getSatLLH();
+    Vector3f satelliteLLH = orbitalParameters.getSatLLH();
     double timeGregorian = orbitalParameters.getTimeGregorian();
 
-    igrf_struct.latitude = sat_llh[0] * 180 / PI;
-    igrf_struct.longitude = sat_llh[1] * 180 / PI;
-    igrf_struct.altitude = sat_llh[2] / 1000;
+    igrf_struct.latitude = satelliteLLH[0] * 180 / PI;
+    igrf_struct.longitude = satelliteLLH[1] * 180 / PI;
+    igrf_struct.altitude = satelliteLLH[2] / 1000;
     igrf_struct.currentDate = timeGregorian;
 
     geomag(&igrf_struct);
@@ -34,6 +34,8 @@ void EnvironmentalModel::ModelEnvironment() {
     magneticField(0) = igrf_struct.xMagneticField;
     magneticField(1) = igrf_struct.yMagneticField;
     magneticField(2) = igrf_struct.zMagneticField;
+    magneticField = ned2ecef(magneticField, satelliteLLH[0], satelliteLLH[1]);
+    magneticField = ecef2eci(magneticField, gstime);
 
     Eigen::Vector3f sunPositionECI = calculateSunPosition(julianDate);
     sunPosition = sunPositionECI;
