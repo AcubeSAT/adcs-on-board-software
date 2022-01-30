@@ -4,17 +4,16 @@
 using namespace Eigen;
 
 EnvironmentalModel::EnvironmentalModel(OrbitalParameters orbitalParameters,
-                                       Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> reflectivityData)
+                                       EarthCellsMatrix reflectivityData)
         : orbitalParameters(orbitalParameters), reflectivityData{reflectivityData} {
     igrf_struct = {.currentDate = 0, .latitude = 0, .longitude = 0,
             .altitude = 0, .xMagneticField = 0, .yMagneticField = 0, .zMagneticField = 0,
             .norm = 0, .declination = 0, .inclination = 0, .horizontalIntensity = 0, .totalIntensity = 0};
     isEclipse = false;
     sunPosition = {0, 0, 0};
-    albedo = Matrix<float, ReflectivityDataRows, ReflectivityDataColumns>::Zero();
+    albedo = EarthCellsMatrix::Zero();
     magneticField = {0, 0, 0};
 }
-
 
 void EnvironmentalModel::ModelEnvironment() {
     orbitalParameters.calculateNextPosition();

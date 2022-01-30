@@ -12,35 +12,56 @@ private:
     bool isEclipse;
     Eigen::Vector3f sunPosition;
     Eigen::Vector3f satellitePosition;
-    Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> albedo;
+    EarthCellsMatrix albedo;
     Eigen::Vector3f magneticField;
-    Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> reflectivityData;
+    EarthCellsMatrix reflectivityData;
     geomag_vector igrf_struct;
     OrbitalParameters orbitalParameters;
 public:
+    /**
+     * initialize the parameters
+     * @param orbitalParameters OrbitalParameters class's properties
+     * @param reflectivityData Earth surface reflectivity data from TOMS project
+     */
+    EnvironmentalModel(OrbitalParameters orbitalParameters, EarthCellsMatrix reflectivityData);
 
-    EnvironmentalModel(OrbitalParameters orbitalParameters, Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> reflectivityData);
-
+    /**
+     * calculate properties
+     */
     void ModelEnvironment();
 
-    //get magnetic field (NED)
+    /**
+     * @return Magnetic field ECI frame
+     */
     Eigen::Vector3f GetMagneticField() const {
         return magneticField;
     }
 
+    /**
+     * @return sun position ECI frame
+     */
     Eigen::Vector3f GetSunPosition() const {
         return sunPosition;
     }
 
+    /**
+     * @return true (if we are in eclipse ) ,false (if we are not)
+     */
     bool GetEclipse() {
         return isEclipse;
     }
 
+    /**
+     * @return satellite position ECI
+     */
     Eigen::Vector3f GetSatellitePosition() const {
         return satellitePosition;
     }
 
-    Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> GetAlbedo() const {
+    /**
+     * @return albedo
+     */
+    EarthCellsMatrix GetAlbedo() const {
         return albedo;
     }
 };

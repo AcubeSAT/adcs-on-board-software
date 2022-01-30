@@ -99,8 +99,6 @@ OrbitalParameters::calculateTime(const TLE &tle, char typerun, char typeinput, c
     SGP4Funcs::days2mdhms_SGP4(Eyear, timeDay, mon, day, hr, minute, sec);
     timeGregorian = date2decimal(Eyear, mon, day, hr, minute, sec);
 }
-
-
 void OrbitalParameters::calculateNextPosition() {
     double xsatelliteECI[3];
     double velocity[3];

@@ -28,9 +28,9 @@ float albedo::gridAngle(int16_t loopI, int16_t loopJ, int16_t sunIndexI, int16_t
     return angle;
 }
 
-Matrix<float, ReflectivityDataRows, ReflectivityDataColumns>
+EarthCellsMatrix
 calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
-                const Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> &reflectivityData) {
+                const EarthCellsMatrix &reflectivityData) {
     const float solarIrradiance = 1;
 
     Vector3f sunPositionSpherical = cartesianToSpherical(sunPosition);
@@ -39,7 +39,7 @@ calculateAlbedo(const Vector3f &satellite, const Vector3f &sunPosition,
     Vector<int16_t, 2> sunIndices = albedo::radiansToIndices(sunPositionSpherical(0), sunPositionSpherical(1));
 
     Vector3f grid;
-    Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> albedo;
+    EarthCellsMatrix albedo;
 
     for (int16_t i = 0; i < ReflectivityDataRows; i++) {
         for (int16_t j = 0; j < ReflectivityDataColumns; j++) {
