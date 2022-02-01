@@ -113,7 +113,7 @@ Eigen::Vector3f eci2ecef(Eigen::Vector3f vecECI, double gstime) {
 }
 
 Eigen::Vector3f ecef2llh(Eigen::Vector3f uvw) {
-    Eigen::Vector3f llh;
+    Vector3f llh;
     double lat;
     double re;
     double olatsav;
