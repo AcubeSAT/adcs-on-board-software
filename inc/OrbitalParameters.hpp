@@ -34,7 +34,7 @@ private:
 
 public:
     /**
-     * initialize properties
+     * initialize properties of OrbitalParameters class
      */
     OrbitalParameters();
 
@@ -54,16 +54,10 @@ public:
      */
     void calculateNextPosition();
 
-    /**
-     * @return julian day property
-     */
     double getjulianDay() const {
         return julianDay;
     }
 
-    /**
-     * @return satellite record
-     */
     elsetrec getSatrec() const {
         return satrec;
     }
@@ -96,9 +90,6 @@ public:
         return gstime;
     }
 
-    /**
-     * @return Gregorian time
-     */
     double getTimeGregorian() const {
         return timeGregorian;
     }

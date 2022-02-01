@@ -44,9 +44,6 @@ public:
         return sunPosition;
     }
 
-    /**
-     * @return true (if we are in eclipse ) ,false (if we are not)
-     */
     bool getIsEclipse() {
         return isEclipse;
     }
@@ -58,9 +55,6 @@ public:
         return satellitePosition;
     }
 
-    /**
-     * @return albedo
-     */
     EarthCellsMatrix GetAlbedo() const {
         return albedo;
     }
