@@ -29,7 +29,7 @@ Quaternionf quaternionProduct(const Quaternionf &quaternion1, const Quaternionf 
     return quaternionProduct;
 }
 
-Vector3f rotateVector(const Eigen::Quaternionf &quaternion, const Vector3f &vector) {
+Vector3f rotateVector(const Quaternionf &quaternion, const Vector3f &vector) {
     Vector3f t = 2 * vector.cross(quaternion.vec());
     Vector3f rotatedVector = vector + quaternion.w() * t + t.cross(quaternion.vec());
     return rotatedVector;
@@ -98,7 +98,7 @@ Vector3f sphericalToCartesian(Vector3f vectorSpherical) {
     return {x, y, z};
 }
 
-Eigen::Vector3f eci2ecef(Eigen::Vector3f vecECI, double gstime) {
+Vector3f eci2ecef(Vector3f vecECI, double gstime) {
 
     double CGAST = cos(gstime);
     double SGAST = sin(gstime);
@@ -112,7 +112,7 @@ Eigen::Vector3f eci2ecef(Eigen::Vector3f vecECI, double gstime) {
     return vecECEF;
 }
 
-Eigen::Vector3f ecef2llh(Eigen::Vector3f uvw) {
+Vector3f ecef2llh(Vector3f uvw) {
     Vector3f llh;
     double lat;
     double re;
@@ -154,9 +154,9 @@ Eigen::Vector3f ecef2llh(Eigen::Vector3f uvw) {
 
 }
 
-Eigen::Vector3f ned2ecef(Eigen::Vector3f vectorNED, float latitude, float longitude) {
-    Eigen::Vector3f vectorECEF;
-    Eigen::Matrix<float, 3, 3> R;
+Vector3f ned2ecef(Vector3f vectorNED, float latitude, float longitude) {
+    Vector3f vectorECEF;
+    Matrix<float, 3, 3> R;
     R(0, 0) = -sin(latitude) * cos(longitude);
     R(1, 0) = -sin(latitude) * sin(longitude);
     R(2, 0) = cos(latitude);
@@ -170,9 +170,9 @@ Eigen::Vector3f ned2ecef(Eigen::Vector3f vectorNED, float latitude, float longit
     return vectorECEF;
 }
 
-Eigen::Vector3f ecef2eci(Eigen::Vector3f vectorECEF, double gstime) {
-    Eigen::Vector3f vectorECI;
-    Eigen::Matrix<float, 3, 3> R;
+Vector3f ecef2eci(Vector3f vectorECEF, double gstime) {
+    Vector3f vectorECI;
+    Matrix<float, 3, 3> R;
     double CGAST = cos(-gstime);
     double SGAST = sin(-gstime);
     R(0, 0) = CGAST;
