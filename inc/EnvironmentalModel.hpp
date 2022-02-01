@@ -47,7 +47,7 @@ public:
     /**
      * @return true (if we are in eclipse ) ,false (if we are not)
      */
-    bool GetEclipse() {
+    bool getIsEclipse() {
         return isEclipse;
     }
 
