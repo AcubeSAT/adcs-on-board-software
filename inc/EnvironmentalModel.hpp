@@ -19,14 +19,14 @@ private:
     OrbitalParameters orbitalParameters;
 public:
     /**
-     * initialize the parameters
+     * initialize the parameters of EnvironmentalModel class
      * @param orbitalParameters OrbitalParameters class's properties
      * @param reflectivityData Earth surface reflectivity data from TOMS project
      */
     EnvironmentalModel(OrbitalParameters orbitalParameters, EarthCellsMatrix reflectivityData);
 
     /**
-     * calculate properties
+     * calculate properties of EnvironmentalModel class
      */
     void ModelEnvironment();
 
