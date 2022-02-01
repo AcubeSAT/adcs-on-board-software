@@ -6,9 +6,6 @@
 
 #include "TLEUtils.hpp"
 
-#define R_EARTH 6371
-#define R_SUN 696000
-#define AU 149600000
 
 /**
  * calculate if we have or not eclipse
