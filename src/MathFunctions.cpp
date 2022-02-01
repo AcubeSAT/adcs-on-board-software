@@ -102,7 +102,7 @@ Eigen::Vector3f eci2ecef(Eigen::Vector3f vecECI, double gstime) {
 
     double CGAST = cos(gstime);
     double SGAST = sin(gstime);
-    Eigen::Vector3f vecECEF;
+    Vector3f vecECEF;
 
     vecECEF[0] = (vecECI[0] * CGAST + vecECI[1] * SGAST) * 1000;
     vecECEF[1] = (-vecECI[0] * SGAST + vecECI[1] * CGAST) * 1000;
