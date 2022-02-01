@@ -12,7 +12,7 @@ TEST_CASE("Environmental Model Test1 ") {
     EnvironmentalModel em(orbitalParameters, reflectivityData1);
 
     em.ModelEnvironment();
-    bool ecl1 = em.GetEclipse();
+    bool ecl1 = em.getIsEclipse();
     REQUIRE(ecl1 == false);
 
     Eigen::Vector3f sunPosTest1 = em.GetSunPosition();
