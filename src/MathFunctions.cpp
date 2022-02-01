@@ -123,6 +123,7 @@ Eigen::Vector3f ecef2llh(Eigen::Vector3f uvw) {
     double f = 1.0 / 298.257223563;
     double eccSq = (2.0 - f) * f;
     double tmp1 = sqrt(pow(uvw[0], 2) + pow(uvw[1], 2));
+    double halfMeterError = 1.0e-7;
 
     if (tmp1 == 0.0) {
         llh[1] = 0;//lon
@@ -139,7 +140,7 @@ Eigen::Vector3f ecef2llh(Eigen::Vector3f uvw) {
         re = a;
 
 
-        while (dlat > 1.0e-7) {
+        while (dlat > halfMeterError) {
             olatsav = lat;
             tmp2 = uvw[2] + eccSq * re * sin(lat);
             lat = atan2(tmp2, tmp1);
