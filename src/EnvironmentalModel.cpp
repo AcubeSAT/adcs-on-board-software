@@ -44,6 +44,7 @@ void EnvironmentalModel::ModelEnvironment() {
     Vector3f satelliteECEF = eci2ecef(satellitePosition, gstime);
     Vector3f sunECEF = eci2ecef(sunPositionECI, gstime);
     satellitePosition *= 1000;
+    satelliteECEF *= 1000;
 
     albedo = calculateAlbedo(satelliteECEF, sunECEF, reflectivityData);
 

@@ -104,9 +104,9 @@ Vector3f eci2ecef(Vector3f vecECI, double gstime) {
     double SGAST = sin(gstime);
     Vector3f vecECEF;
 
-    vecECEF[0] = (vecECI[0] * CGAST + vecECI[1] * SGAST) * 1000;
-    vecECEF[1] = (-vecECI[0] * SGAST + vecECI[1] * CGAST) * 1000;
-    vecECEF[2] = vecECI[2] * 1000;
+    vecECEF[0] = vecECI[0] * CGAST + vecECI[1] * SGAST;
+    vecECEF[1] = -vecECI[0] * SGAST + vecECI[1] * CGAST;
+    vecECEF[2] = vecECI[2];
 
 
     return vecECEF;

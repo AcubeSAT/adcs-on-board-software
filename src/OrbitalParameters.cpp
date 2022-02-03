@@ -116,5 +116,5 @@ void OrbitalParameters::calculateNextPosition() {
     gstime = SGP4Funcs::gstime_SGP4(julianDay);
 
     Eigen::Vector3f satelliteECEF = eci2ecef(position, gstime);
-    satelliteLLH = ecef2llh(satelliteECEF);
+    satelliteLLH = ecef2llh(satelliteECEF * 1000);
 }
