@@ -2,9 +2,9 @@
 #include "MathFunctions.hpp"
 #include "Eigen/Core"
 
-inline constexpr uint16_t const R_EARTH = 6371;
-inline constexpr uint16_t const R_SUN = 696000;
-inline constexpr uint16_t const AU = 149600000;
+inline constexpr double const R_EARTH = 6371;
+inline constexpr double const R_SUN = 696000;
+inline constexpr double const AU = 149600000;
 using namespace Eigen;
 
 bool calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPositionECI) {
