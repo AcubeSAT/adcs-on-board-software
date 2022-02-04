@@ -2,17 +2,17 @@
 #include "MathFunctions.hpp"
 #include "Eigen/Core"
 
-inline constexpr double const R_EARTH = 6371;
-inline constexpr double const R_SUN = 696000;
+inline constexpr double const EarthRatio = 6371;
+inline constexpr double const SunRatio = 696000;
 inline constexpr double const AU = 149600000;
 using namespace Eigen;
 
 bool calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPositionECI) {
     bool eclipse;
-    double x1 = R_EARTH * AU / (R_SUN + R_EARTH);
-    double x2 = R_EARTH * AU / (R_SUN - R_EARTH);
-    double alpha1 = M_PI - acos(R_EARTH / x1) - acos(R_EARTH / (xSatelliteECI.norm()));
-    double alpha2 = acos(R_EARTH / x2) - acos(R_EARTH / (xSatelliteECI).norm());
+    double alpha1 = M_PI - acos(EarthRatio / (EarthRatio * AU / (SunRatio + EarthRatio))) -
+                    acos(EarthRatio / (xSatelliteECI.norm()));
+    double alpha2 =
+            acos(EarthRatio / (EarthRatio * AU / (SunRatio - EarthRatio))) - acos(EarthRatio / (xSatelliteECI).norm());
     double alpha = M_PI - acos(sunPositionECI.dot(xSatelliteECI) / ((sunPositionECI).norm() * (xSatelliteECI).norm()));
 
     if ((alpha2 < alpha) && (alpha < alpha1)) {
