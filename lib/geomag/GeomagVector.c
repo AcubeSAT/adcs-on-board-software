@@ -8,7 +8,7 @@
 // to understand how this file is used in Geomag.cpp/Geomag.hpp.
 
 geomag_vector igrf_vector = {.currentDate = 0, .latitude = 0, .longitude = 0,
-        .altitude = 0, .xMagneticField = 0,
-        .yMagneticField = 0, .zMagneticField = 0,
-        .norm = 0, .declination = 0, .inclination = 0,
-        .horizontalIntensity = 0, .totalIntensity = 0};
+	.altitude = 0, .xMagneticField = 0,
+	.yMagneticField = 0, .zMagneticField = 0,
+	.norm = 0, .declination = 0, .inclination = 0,
+	.horizontalIntensity = 0, .totalIntensity = 0};
