@@ -6,7 +6,7 @@ using namespace Eigen;
 EnvironmentalModel::EnvironmentalModel(OrbitalParameters orbitalParameters,
                                        EarthCellsMatrix reflectivityData)
         : orbitalParameters(orbitalParameters), reflectivityData{reflectivityData} {
-    igrf_struct = {.currentDate = 0, .latitude = 0, .longitude = 0,
+    geomagneticVectorStruct = {.currentDate = 0, .latitude = 0, .longitude = 0,
             .altitude = 0, .xMagneticField = 0, .yMagneticField = 0, .zMagneticField = 0,
             .norm = 0, .declination = 0, .inclination = 0, .horizontalIntensity = 0, .totalIntensity = 0};
     isEclipse = false;
@@ -23,16 +23,16 @@ void EnvironmentalModel::ModelEnvironment() {
     Vector3f satelliteLLH = orbitalParameters.getSatLLH();
     double timeGregorian = orbitalParameters.getTimeGregorian();
 
-    igrf_struct.latitude = satelliteLLH[0] * 180 / PI;
-    igrf_struct.longitude = satelliteLLH[1] * 180 / PI;
-    igrf_struct.altitude = satelliteLLH[2] / 1000;
-    igrf_struct.currentDate = timeGregorian;
+    geomagneticVectorStruct.latitude = satelliteLLH[0] * 180 / PI;
+    geomagneticVectorStruct.longitude = satelliteLLH[1] * 180 / PI;
+    geomagneticVectorStruct.altitude = satelliteLLH[2] / 1000;
+    geomagneticVectorStruct.currentDate = timeGregorian;
 
-    geomag(&igrf_struct);
+    geomag(&geomagneticVectorStruct);
 
-    magneticField(0) = igrf_struct.xMagneticField;
-    magneticField(1) = igrf_struct.yMagneticField;
-    magneticField(2) = igrf_struct.zMagneticField;
+    magneticField(0) = geomagneticVectorStruct.xMagneticField;
+    magneticField(1) = geomagneticVectorStruct.yMagneticField;
+    magneticField(2) = geomagneticVectorStruct.zMagneticField;
     magneticField = ned2ecef(magneticField, satelliteLLH[0], satelliteLLH[1]);
     magneticField = ecef2eci(magneticField, gstime);
 

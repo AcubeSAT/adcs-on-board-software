@@ -30,9 +30,9 @@ Eigen::Vector3f calculateSunPosition(double time) {
     double ut1 = (time - 2451545) / 36525;
     double meanlong = 280.4606184 + 36000.77005361 * ut1;
     double meananomaly = 357.5277233 + 35999.05034 * ut1;
-    double eclplong;
+    double eclipselong;
     double obliquity;
-    double magr;
+    double magnitude;
 
     meanlong = std::fmod((meanlong), (360));
     meananomaly = std::fmod((meananomaly * M_PI / 180), (2 * M_PI));
@@ -41,7 +41,7 @@ Eigen::Vector3f calculateSunPosition(double time) {
         meananomaly = 2 * M_PI + meananomaly;
     }
 
-    eclplong = meanlong + 1.91466471 * sin(meananomaly) + 0.019994643 * sin(2 * meananomaly);
+    eclipselong = meanlong + 1.91466471 * sin(meananomaly) + 0.019994643 * sin(2 * meananomaly);
     obliquity = 23.439291 - 0.0130042 * ut1;
     meanlong = meanlong * M_PI / 180;
 
@@ -49,13 +49,13 @@ Eigen::Vector3f calculateSunPosition(double time) {
         meanlong = 2 * M_PI + meanlong;
     }
 
-    eclplong = eclplong * M_PI / 180;
+    eclipselong = eclipselong * M_PI / 180;
     obliquity = obliquity * M_PI / 180;
-    magr = 1.000140612 - 0.016708617 * cos(meananomaly) - 0.000139589 * cos(2 * meananomaly);
+    magnitude = 1.000140612 - 0.016708617 * cos(meananomaly) - 0.000139589 * cos(2 * meananomaly);
 
-    sunPositionECI[0] = magr * cos(eclplong);
-    sunPositionECI[1] = magr * cos(obliquity) * sin(eclplong);
-    sunPositionECI[2] = magr * sin(obliquity) * sin(eclplong);
+    sunPositionECI[0] = magnitude * cos(eclipselong);
+    sunPositionECI[1] = magnitude * cos(obliquity) * sin(eclipselong);
+    sunPositionECI[2] = magnitude * sin(obliquity) * sin(eclipselong);
 
     return sunPositionECI;
 
@@ -69,6 +69,7 @@ OrbitalParameters::OrbitalParameters() {
     timeGregorian = 0;
     satelliteLLH = {0, 0, 0};
 }
+
 
 void
 OrbitalParameters::calculateTime(const TLE &tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst) {

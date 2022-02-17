@@ -85,7 +85,7 @@ Eigen::Vector3f sphericalToCartesian(Eigen::Vector3f vectorSpherical);
 
 Eigen::Vector3f eci2ecef(Eigen::Vector3f vecECI, double gstime);
 
-Eigen::Vector3f ecef2llh(Eigen::Vector3f uvw);
+Eigen::Vector3f ecef2llh(Eigen::Vector3f vectorInUVW);
 
 Eigen::Vector3f ned2ecef(Eigen::Vector3f vectorNED, float latitude, float longitude);
 

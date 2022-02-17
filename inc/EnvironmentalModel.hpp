@@ -15,7 +15,7 @@ private:
     EarthCellsMatrix albedo;
     Eigen::Vector3f magneticField;
     EarthCellsMatrix reflectivityData;
-    geomag_vector igrf_struct;
+    geomag_vector geomagneticVectorStruct;
     OrbitalParameters orbitalParameters;
 public:
     /**
