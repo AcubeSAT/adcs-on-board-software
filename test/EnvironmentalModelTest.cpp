@@ -3,7 +3,7 @@
 
 using namespace Eigen;
 
-TEST_CASE("Environmental Model Test1 ") {
+TEST_CASE("Environmental Model Test with tle6PM500") {
     OrbitalParameters orbitalParameters;
     Matrix<float, 180, 288> reflectivityData1 = Matrix<float, 180, 288>::Identity() * 100000;
 
@@ -30,7 +30,7 @@ TEST_CASE("Environmental Model Test1 ") {
     REQUIRE(alb.sum() == Approx(-9.579723442651105).epsilon(1e-4));
 }
 
-TEST_CASE("Environmental Model Test2 ") {
+TEST_CASE("Environmental Model Test with tle11PM600") {
     OrbitalParameters orbitalParameters;
     Matrix<float, 180, 288> reflectivityData1 = Matrix<float, 180, 288>::Identity() * 100000;
 
@@ -54,7 +54,7 @@ TEST_CASE("Environmental Model Test2 ") {
 
 }
 
-TEST_CASE("Environmental Model Test3 ") {
+TEST_CASE("Environmental Model Test with tle11PM500 for eclipse") {
     OrbitalParameters orbitalParameters;
     Matrix<float, 180, 288> reflectivityData1 = Matrix<float, 180, 288>::Identity() * 100000;
 
@@ -67,7 +67,7 @@ TEST_CASE("Environmental Model Test3 ") {
     REQUIRE(ecl1 == true);
 }
 
-TEST_CASE("Environmental Model Test4 ") {
+TEST_CASE("Environmental Model Test with tle6PM500 and 4th time-step") {
     OrbitalParameters orbitalParameters;
     Matrix<float, 180, 288> reflectivityData1 = Matrix<float, 180, 288>::Identity() * 100000;
 
