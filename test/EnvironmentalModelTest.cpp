@@ -15,12 +15,12 @@ TEST_CASE("Environmental Model Test1 ") {
     bool ecl1 = em.getIsEclipse();
     REQUIRE(ecl1 == false);
 
-    Eigen::Vector3f sunPosTest1 = em.GetSunPosition();
+    Vector3f sunPosTest1 = em.GetSunPosition();
     REQUIRE(sunPosTest1[0] == Approx(-0.174717604923527));
     REQUIRE(sunPosTest1[1] == Approx(0.918928406982493));
     REQUIRE(sunPosTest1[2] == Approx(0.398346002571225));
 
-    Eigen::Vector3f magneticField = em.GetMagneticField();
+    Vector3f magneticField = em.GetMagneticField();
     REQUIRE(magneticField(0) == Approx(7740.17871171431).epsilon(0.01));
     REQUIRE(magneticField(1) == Approx(1088.51463852010).epsilon(0.01));
     REQUIRE(magneticField(2) == Approx(21943.9176853079).epsilon(0.01));
@@ -42,12 +42,12 @@ TEST_CASE("Environmental Model Test2 ") {
     bool ecl1 = em.getIsEclipse();
     REQUIRE(ecl1 == true);
 
-    Eigen::Vector3f sunPosTest1 = em.GetSunPosition();
+    Vector3f sunPosTest1 = em.GetSunPosition();
     REQUIRE(sunPosTest1[0] == Approx(-0.174717604923527));
     REQUIRE(sunPosTest1[1] == Approx(0.918928406982493));
     REQUIRE(sunPosTest1[2] == Approx(0.398346002571225));
 
-    Eigen::Vector3f magneticField = em.GetMagneticField();
+    Vector3f magneticField = em.GetMagneticField();
     REQUIRE(magneticField(0) == Approx(-3754.63144650908).epsilon(0.01));
     REQUIRE(magneticField(1) == Approx(-9109.37704516883).epsilon(0.01));
     REQUIRE(magneticField(2) == Approx(19692.5520758561).epsilon(0.01));
@@ -80,12 +80,12 @@ TEST_CASE("Environmental Model Test4 ") {
     bool ecl1 = em.getIsEclipse();
     REQUIRE(ecl1 == false);
 
-    Eigen::Vector3f sunPosTest1 = em.GetSunPosition();
+    Vector3f sunPosTest1 = em.GetSunPosition();
     REQUIRE(sunPosTest1[0] == Approx(-0.174717643510772));
     REQUIRE(sunPosTest1[1] == Approx(0.918928400843573));
     REQUIRE(sunPosTest1[2] == Approx(0.398345999910050));
 
-    Eigen::Vector3f magneticField = em.GetMagneticField();
+    Vector3f magneticField = em.GetMagneticField();
     REQUIRE(magneticField(0) == Approx(7754.40242187146).epsilon(0.01));
     REQUIRE(magneticField(1) == Approx(1091.60673407232).epsilon(0.01));
     REQUIRE(magneticField(2) == Approx(21942.9617533484).epsilon(0.01));

@@ -25,8 +25,8 @@ bool calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPositionECI) {
     return eclipse;
 }
 
-Eigen::Vector3f calculateSunPosition(double time) {
-    Eigen::Vector3f sunPositionECI(3);
+Vector3f calculateSunPosition(double time) {
+    Vector3f sunPositionECI(3);
     double ut1 = (time - 2451545) / 36525;
     double meanlong = 280.4606184 + 36000.77005361 * ut1;
     double meananomaly = 357.5277233 + 35999.05034 * ut1;
@@ -116,6 +116,6 @@ void OrbitalParameters::calculateNextPosition() {
     julianDay = satrec.jdsatepoch + satrec.t / 1440;
     gstime = SGP4Funcs::gstime_SGP4(julianDay);
 
-    Eigen::Vector3f satelliteECEF = eci2ecef(position, gstime);
+    Vector3f satelliteECEF = eci2ecef(position, gstime);
     satelliteLLH = ecef2llh(satelliteECEF * 1000);
 }

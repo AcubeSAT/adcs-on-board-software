@@ -36,7 +36,7 @@ void EnvironmentalModel::ModelEnvironment() {
     magneticField = ned2ecef(magneticField, satelliteLLH[0], satelliteLLH[1]);
     magneticField = ecef2eci(magneticField, gstime);
 
-    Eigen::Vector3f sunPositionECI = calculateSunPosition(julianDate);
+    Vector3f sunPositionECI = calculateSunPosition(julianDate);
     sunPosition = sunPositionECI;
 
     isEclipse = calculateEclipse(satellitePosition, sunPositionECI);
