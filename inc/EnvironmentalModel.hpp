@@ -1,10 +1,8 @@
 #pragma once
 
-#include "Eigen/Geometry"
-#include "Albedo.hpp"
 #include "Geomag.h"
-#include "TLEUtils.hpp"
-#include "MathFunctions.hpp"
+
+#include "Albedo.hpp"
 #include "OrbitalParameters.hpp"
 
 class EnvironmentalModel {

@@ -73,7 +73,7 @@ OrbitalParameters::OrbitalParameters() {
 
 void
 OrbitalParameters::calculateTime(const TLE &tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst) {
-    int_fast16_t Eyear;
+    uint16_t Eyear;
     int timeDay;
     int mon;
     int day;
