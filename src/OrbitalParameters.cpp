@@ -8,7 +8,7 @@ inline constexpr double const AU = 149600000;
 using namespace Eigen;
 
 bool calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPositionECI) {
-    bool eclipse;
+    bool isEclipse;
     double alpha1 = M_PI - acos(EarthRatio / (EarthRatio * AU / (SunRatio + EarthRatio))) -
                     acos(EarthRatio / (xSatelliteECI.norm()));
     double alpha2 =
@@ -16,13 +16,13 @@ bool calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPositionECI) {
     double alpha = M_PI - acos(sunPositionECI.dot(xSatelliteECI) / ((sunPositionECI).norm() * (xSatelliteECI).norm()));
 
     if ((alpha2 < alpha) && (alpha < alpha1)) {
-        eclipse = true;
+        isEclipse = true;
     } else if (alpha < alpha2) {
-        eclipse = true;
+        isEclipse = true;
     } else {
-        eclipse = false;
+        isEclipse = false;
     }
-    return eclipse;
+    return isEclipse;
 }
 
 Vector3f calculateSunPosition(double time) {
