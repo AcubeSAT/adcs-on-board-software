@@ -19,14 +19,17 @@ private:
     OrbitalParameters orbitalParameters;
 public:
     /**
-     * initialize the parameters of EnvironmentalModel class
+     * Initialize the parameters orbitalParameters, isEclipse, sunPosition, albedo, magneticField
+     * of EnvironmentalModel class
+     *
      * @param orbitalParameters OrbitalParameters class's properties
      * @param reflectivityData Earth surface reflectivity data from TOMS project
      */
     EnvironmentalModel(OrbitalParameters orbitalParameters, EarthCellsMatrix reflectivityData);
 
     /**
-     * calculate properties of EnvironmentalModel class
+     * Calculate all properties of EnvironmentalModel class: isEclipse, sunPosition, satellitePosition, albedo,
+     * magneticField, reflectivityData, geomagneticVectorStruct, orbitalParameters
      */
     void ModelEnvironment();
 

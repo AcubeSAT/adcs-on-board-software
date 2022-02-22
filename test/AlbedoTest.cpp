@@ -53,5 +53,3 @@ TEST_CASE("Albedo test") {
     Matrix<float, 180, 288> albedo2 = calculateAlbedo(satellite, sunPosition, reflectivityData2);
     REQUIRE(albedo2.sum() == Approx(0.003260881560396).epsilon(1e-4));
 }
-
-
