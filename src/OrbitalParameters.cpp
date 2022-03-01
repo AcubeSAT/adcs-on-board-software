@@ -2,70 +2,14 @@
 #include "MathFunctions.hpp"
 #include "Eigen/Core"
 
-inline constexpr double const EarthRatio = 6371;
-inline constexpr double const SunRatio = 696000;
-inline constexpr double const AU = 149600000;
 using namespace Eigen;
 
-bool calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPositionECI) {
-    bool isEclipse;
-    double alpha1 = M_PI - acos(EarthRatio / (EarthRatio * AU / (SunRatio + EarthRatio))) -
-                    acos(EarthRatio / (xSatelliteECI.norm()));
-    double alpha2 =
-            acos(EarthRatio / (EarthRatio * AU / (SunRatio - EarthRatio))) - acos(EarthRatio / (xSatelliteECI).norm());
-    double alpha = M_PI - acos(sunPositionECI.dot(xSatelliteECI) / ((sunPositionECI).norm() * (xSatelliteECI).norm()));
-
-    if ((alpha2 < alpha) && (alpha < alpha1)) {
-        isEclipse = true;
-    } else if (alpha < alpha2) {
-        isEclipse = true;
-    } else {
-        isEclipse = false;
-    }
-    return isEclipse;
-}
-
-Vector3f calculateSunPosition(double time) {
-    Vector3f sunPositionECI(3);
-    double ut1 = (time - 2451545) / 36525;
-    double meanlong = 280.4606184 + 36000.77005361 * ut1;
-    double meanAnomaly = 357.5277233 + 35999.05034 * ut1;
-    double eclipseLongtitude;
-    double obliquity;
-    double magnitude;
-
-    meanlong = std::fmod((meanlong), (360));
-    meanAnomaly = std::fmod((meanAnomaly * M_PI / 180), (2 * M_PI));
-
-    if (meanAnomaly < 0) {
-        meanAnomaly = 2 * M_PI + meanAnomaly;
-    }
-
-    eclipseLongtitude = meanlong + 1.91466471 * sin(meanAnomaly) + 0.019994643 * sin(2 * meanAnomaly);
-    obliquity = 23.439291 - 0.0130042 * ut1;
-    meanlong = meanlong * M_PI / 180;
-
-    if (meanlong < 0) {
-        meanlong = 2 * M_PI + meanlong;
-    }
-
-    eclipseLongtitude = eclipseLongtitude * M_PI / 180;
-    obliquity = obliquity * M_PI / 180;
-    magnitude = 1.000140612 - 0.016708617 * cos(meanAnomaly) - 0.000139589 * cos(2 * meanAnomaly);
-
-    sunPositionECI[0] = magnitude * cos(eclipseLongtitude);
-    sunPositionECI[1] = magnitude * cos(obliquity) * sin(eclipseLongtitude);
-    sunPositionECI[2] = magnitude * sin(obliquity) * sin(eclipseLongtitude);
-
-    return sunPositionECI;
-
-}
 
 OrbitalParameters::OrbitalParameters() {
-    julianDay = 0;
-    tsince = 0;
+    julianDate = 0;
+    timeSince = 0;
     position = {0, 0, 0};
-    gstime = 0;
+    greenwichSiderealTime = 0;
     timeGregorian = 0;
     satelliteLLH = {0, 0, 0};
 }
@@ -79,11 +23,7 @@ OrbitalParameters::calculateTime(const TLE &tle, char typerun, char typeinput, c
     int day;
     int hr;
     int minute;
-    double sec;
-
-    double stopmfe;
-    double deltamin;
-
+    double sec, stopmfe, deltamin;
     char tle1[TLELineSize];
     char tle2[TLELineSize];
 
@@ -93,13 +33,13 @@ OrbitalParameters::calculateTime(const TLE &tle, char typerun, char typeinput, c
 
     SGP4Funcs::twoline2rv(tle1, tle2,
                           typerun, typeinput, opsmode, whichconst,
-                          tsince, stopmfe, deltamin, satrec);
+                          timeSince, stopmfe, deltamin, satrec);
 
-    julianDay = satrec.jdsatepoch + satrec.t / 1440;
+    julianDate = satrec.jdsatepoch + satrec.t / 1440;
 
 
     Eyear = satrec.epochyr + 2000;
-    timeDay = satrec.epochdays + tsince / 1440;
+    timeDay = satrec.epochdays + timeSince / 1440;
     SGP4Funcs::days2mdhms_SGP4(Eyear, timeDay, mon, day, hr, minute, sec);
     timeGregorian = date2decimal(Eyear, mon, day, hr, minute, sec);
 }
@@ -107,15 +47,16 @@ void OrbitalParameters::calculateNextPosition() {
     double xsatelliteECI[3];
     double velocity[3];
 
-    SGP4Funcs::sgp4(satrec, tsince, xsatelliteECI, velocity);
+    SGP4Funcs::sgp4(satrec, timeSince, xsatelliteECI, velocity);
 
+    //The purpose of the next operation is to "typecast" c++ arrays to Eigen vector
     for (uint8_t i = 0; i < 3; i++) {
         position(i) = xsatelliteECI[i];
     }
 
-    julianDay = satrec.jdsatepoch + satrec.t / 1440;
-    gstime = SGP4Funcs::gstime_SGP4(julianDay);
+    julianDate = satrec.jdsatepoch + satrec.t / 1440;
+    greenwichSiderealTime = SGP4Funcs::gstime_SGP4(julianDate);
 
-    Vector3f satelliteECEF = eci2ecef(position, gstime);
+    Vector3f satelliteECEF = eci2ecef(position, greenwichSiderealTime);
     satelliteLLH = ecef2llh(satelliteECEF * 1000);
 }

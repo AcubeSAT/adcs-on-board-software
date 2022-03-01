@@ -16,9 +16,9 @@ TEST_CASE("Environmental Model Test with tle6PM500") {
     REQUIRE(ecl1 == false);
 
     Vector3f sunPosTest1 = em.GetSunPosition();
-    REQUIRE(sunPosTest1[0] == Approx(-0.174717604923527));
-    REQUIRE(sunPosTest1[1] == Approx(0.918928406982493));
-    REQUIRE(sunPosTest1[2] == Approx(0.398346002571225));
+    REQUIRE(sunPosTest1[0] == Approx(-0.174717604923527).epsilon(1e-4));
+    REQUIRE(sunPosTest1[1] == Approx(0.918928406982493).epsilon(1e-4));
+    REQUIRE(sunPosTest1[2] == Approx(0.398346002571225).epsilon(1e-4));
 
     Vector3f magneticField = em.GetMagneticField();
     REQUIRE(magneticField(0) == Approx(7740.17871171431).epsilon(0.01));
@@ -43,9 +43,9 @@ TEST_CASE("Environmental Model Test with tle11PM600") {
     REQUIRE(ecl1 == true);
 
     Vector3f sunPosTest1 = em.GetSunPosition();
-    REQUIRE(sunPosTest1[0] == Approx(-0.174717604923527));
-    REQUIRE(sunPosTest1[1] == Approx(0.918928406982493));
-    REQUIRE(sunPosTest1[2] == Approx(0.398346002571225));
+    REQUIRE(sunPosTest1[0] == Approx(-0.174717604923527).epsilon(1e-4));
+    REQUIRE(sunPosTest1[1] == Approx(0.918928406982493).epsilon(1e-4));
+    REQUIRE(sunPosTest1[2] == Approx(0.398346002571225).epsilon(1e-4));
 
     Vector3f magneticField = em.GetMagneticField();
     REQUIRE(magneticField(0) == Approx(-3754.63144650908).epsilon(0.01));
@@ -81,9 +81,9 @@ TEST_CASE("Environmental Model Test with tle6PM500 and 4th time-step") {
     REQUIRE(ecl1 == false);
 
     Vector3f sunPosTest1 = em.GetSunPosition();
-    REQUIRE(sunPosTest1[0] == Approx(-0.174717643510772));
-    REQUIRE(sunPosTest1[1] == Approx(0.918928400843573));
-    REQUIRE(sunPosTest1[2] == Approx(0.398345999910050));
+    REQUIRE(sunPosTest1[0] == Approx(-0.174717643510772).epsilon(1e-4));
+    REQUIRE(sunPosTest1[1] == Approx(0.918928400843573).epsilon(1e-4));
+    REQUIRE(sunPosTest1[2] == Approx(0.398345999910050).epsilon(1e-4));
 
     Vector3f magneticField = em.GetMagneticField();
     REQUIRE(magneticField(0) == Approx(7754.40242187146).epsilon(0.01));
@@ -112,13 +112,13 @@ TEST_CASE("Sun Position Test")
 {
     double time = 2460127.50000000;
     Vector3f sunpos = calculateSunPosition(time);
-    REQUIRE(sunpos(0) == Approx(-0.174717604923527));
-    REQUIRE(sunpos(1) == Approx(0.918928406982493));
-    REQUIRE(sunpos(2) == Approx(0.398346002571225));
+    REQUIRE(sunpos(0) == Approx(-0.174717604923527).epsilon(1e-4));
+    REQUIRE(sunpos(1) == Approx(0.918928406982493).epsilon(1e-4));
+    REQUIRE(sunpos(2) == Approx(0.398346002571225).epsilon(1e-4));
 
     time = 2.4601;
     sunpos = calculateSunPosition(time);
-    REQUIRE(sunpos(0) == Approx(-0.407105226684744));
-    REQUIRE(sunpos(1) == Approx(-0.828752263583653));
-    REQUIRE(sunpos(2) == Approx(-0.374407193426776));
+    REQUIRE(sunpos(0) == Approx(-0.407105226684744).epsilon(1e-4));
+    REQUIRE(sunpos(1) == Approx(-0.828752263583653).epsilon(1e-4));
+    REQUIRE(sunpos(2) == Approx(-0.374407193426776).epsilon(1e-4));
 }

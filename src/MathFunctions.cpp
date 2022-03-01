@@ -100,46 +100,46 @@ Vector3f sphericalToCartesian(Vector3f vectorSpherical) {
 
 Vector3f eci2ecef(Vector3f vecECI, double gstime) {
     Vector3f vecECEF;
-    vecECEF[0] = vecECI[0] * cos(gstime) + vecECI[1] * sin(gstime);
-    vecECEF[1] = -vecECI[0] * sin(gstime) + vecECI[1] * cos(gstime);
-    vecECEF[2] = vecECI[2];
+    vecECEF(0) = vecECI(0) * cos(gstime) + vecECI(1) * sin(gstime);
+    vecECEF(1) = -vecECI(0) * sin(gstime) + vecECI(1) * cos(gstime);
+    vecECEF(2) = vecECI(2);
     return vecECEF;
 }
 
-Vector3f ecef2llh(Vector3f vectorInUVW) {
+Vector3f ecef2llh(Vector3f vectorInECEF) {
     Vector3f vectorInLLH;
     double latitude;
     double radiusOfEarth;
     double oLatitudeSave;
     double temporaryTwo;
     double dLatitude = 1.0;
-    double temporaryOne = sqrt(pow(vectorInUVW[0], 2) + pow(vectorInUVW[1], 2));
+    double temporaryOne = sqrt(pow(vectorInECEF(0), 2) + pow(vectorInECEF(1), 2));
     double halfMeterError = 1.0e-7;
 
     if (temporaryOne == 0.0) {
-        vectorInLLH[1] = 0;
-        if (vectorInUVW[2] > 0.0) {
-            vectorInLLH[2] = vectorInUVW[2] - (axisOfEarth / sqrt(1.0 - eccentricitySquared));
+        vectorInLLH(1) = 0;
+        if (vectorInECEF(2) > 0.0) {
+            vectorInLLH(2) = vectorInECEF(2) - (axisOfEarth / sqrt(1.0 - eccentricitySquared));
             vectorInLLH[0] = asin(1.0);
         } else {
-            vectorInLLH[2] = -vectorInUVW[2] - (axisOfEarth / sqrt(1.0 - eccentricitySquared));
-            vectorInLLH[0] = asin(-1.0);
+            vectorInLLH(2) = -vectorInECEF(2) - (axisOfEarth / sqrt(1.0 - eccentricitySquared));
+            vectorInLLH(0) = asin(-1.0);
         }
     } else {
-        vectorInLLH[1] = atan2(vectorInUVW[1], vectorInUVW[0]);
-        latitude = atan2(vectorInUVW[2], temporaryOne);
+        vectorInLLH(1) = atan2(vectorInECEF(1), vectorInECEF(0));
+        latitude = atan2(vectorInECEF(2), temporaryOne);
         radiusOfEarth = axisOfEarth;
 
 
         while (dLatitude > halfMeterError) {
             oLatitudeSave = latitude;
-            temporaryTwo = vectorInUVW[2] + eccentricitySquared * radiusOfEarth * sin(latitude);
+            temporaryTwo = vectorInECEF(2) + eccentricitySquared * radiusOfEarth * sin(latitude);
             latitude = atan2(temporaryTwo, temporaryOne);
             radiusOfEarth = axisOfEarth / sqrt(1 - eccentricitySquared * pow(sin(latitude), 2));
             dLatitude = abs(latitude - oLatitudeSave);
         }
-        vectorInLLH[2] = temporaryOne / cos(latitude) - radiusOfEarth;
-        vectorInLLH[0] = latitude;
+        vectorInLLH(2) = temporaryOne / cos(latitude) - radiusOfEarth;
+        vectorInLLH(0) = latitude;
     }
     return vectorInLLH;
 
@@ -147,7 +147,7 @@ Vector3f ecef2llh(Vector3f vectorInUVW) {
 
 Vector3f ned2ecef(Vector3f vectorNED, float latitude, float longitude) {
     Vector3f vectorECEF;
-    Matrix<float, 3, 3> R;
+    Matrix<float, VectorSize, VectorSize> R;
     R(0, 0) = -sin(latitude) * cos(longitude);
     R(1, 0) = -sin(latitude) * sin(longitude);
     R(2, 0) = cos(latitude);
@@ -163,7 +163,7 @@ Vector3f ned2ecef(Vector3f vectorNED, float latitude, float longitude) {
 
 Vector3f ecef2eci(Vector3f vectorECEF, double gstime) {
     Vector3f vectorECI;
-    Matrix<float, 3, 3> R;
+    Matrix<float, VectorSize, VectorSize> R;
     R(0, 0) = cos(-gstime);
     R(0, 1) = sin(-gstime);
     R(0, 2) = 0;

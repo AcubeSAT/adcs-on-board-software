@@ -94,10 +94,10 @@ Eigen::Vector3f eci2ecef(Eigen::Vector3f vecECI, double gstime);
 /**
  * Convert vectors from ECEF (or UVW) frame to LLH frame
  *
- * @param vectorInUVW
+ * @param vectorInECEF
  * @return vector in LLH frame
  */
-Eigen::Vector3f ecef2llh(Eigen::Vector3f vectorInUVW);
+Eigen::Vector3f ecef2llh(Eigen::Vector3f vectorInECEF);
 
 /**
  * Convert vectors from NED frame to ECEF frame
