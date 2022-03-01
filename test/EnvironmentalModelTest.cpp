@@ -42,12 +42,12 @@ TEST_CASE("Environmental Model Test with tle11PM600") {
     bool ecl1 = em.getIsEclipse();
     REQUIRE(ecl1 == true);
 
-    Vector3f sunPosTest1 = em.GetSunPosition();
+    Vector3f sunPosTest1 = em.getSunPosition();
     REQUIRE(sunPosTest1[0] == Approx(-0.174717604923527));
     REQUIRE(sunPosTest1[1] == Approx(0.918928406982493));
     REQUIRE(sunPosTest1[2] == Approx(0.398346002571225));
 
-    Vector3f magneticField = em.GetMagneticField();
+    Vector3f magneticField = em.getMagneticField();
     REQUIRE(magneticField(0) == Approx(-3754.63144650908).epsilon(0.01));
     REQUIRE(magneticField(1) == Approx(-9109.37704516883).epsilon(0.01));
     REQUIRE(magneticField(2) == Approx(19692.5520758561).epsilon(0.01));
