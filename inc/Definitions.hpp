@@ -1,11 +1,14 @@
-#pragma once 
+#pragma once
 
 #include "Eigen/Geometry"
 #include <cstdint>
 
 using std::uint8_t;
 
-inline constexpr auto const PI = 3.14159265358979323846;
+inline constexpr double const PI = 3.14159265358979323846;
+inline constexpr double const axisOfEarth = 6378137.0;
+inline constexpr double const flattening = 1.0 / 298.257223563;
+inline constexpr double const eccentricitySquared = (2.0 - flattening) * flattening;
 
 inline uint8_t const VectorSize = 3;
 inline uint8_t const NumOfActuators = 2;

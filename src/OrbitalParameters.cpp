@@ -29,19 +29,19 @@ Vector3f calculateSunPosition(double time) {
     Vector3f sunPositionECI(3);
     double ut1 = (time - 2451545) / 36525;
     double meanlong = 280.4606184 + 36000.77005361 * ut1;
-    double meananomaly = 357.5277233 + 35999.05034 * ut1;
-    double eclipselong;
+    double meanAnomaly = 357.5277233 + 35999.05034 * ut1;
+    double eclipseLongtitude;
     double obliquity;
     double magnitude;
 
     meanlong = std::fmod((meanlong), (360));
-    meananomaly = std::fmod((meananomaly * M_PI / 180), (2 * M_PI));
+    meanAnomaly = std::fmod((meanAnomaly * M_PI / 180), (2 * M_PI));
 
-    if (meananomaly < 0) {
-        meananomaly = 2 * M_PI + meananomaly;
+    if (meanAnomaly < 0) {
+        meanAnomaly = 2 * M_PI + meanAnomaly;
     }
 
-    eclipselong = meanlong + 1.91466471 * sin(meananomaly) + 0.019994643 * sin(2 * meananomaly);
+    eclipseLongtitude = meanlong + 1.91466471 * sin(meanAnomaly) + 0.019994643 * sin(2 * meanAnomaly);
     obliquity = 23.439291 - 0.0130042 * ut1;
     meanlong = meanlong * M_PI / 180;
 
@@ -49,13 +49,13 @@ Vector3f calculateSunPosition(double time) {
         meanlong = 2 * M_PI + meanlong;
     }
 
-    eclipselong = eclipselong * M_PI / 180;
+    eclipseLongtitude = eclipseLongtitude * M_PI / 180;
     obliquity = obliquity * M_PI / 180;
-    magnitude = 1.000140612 - 0.016708617 * cos(meananomaly) - 0.000139589 * cos(2 * meananomaly);
+    magnitude = 1.000140612 - 0.016708617 * cos(meanAnomaly) - 0.000139589 * cos(2 * meanAnomaly);
 
-    sunPositionECI[0] = magnitude * cos(eclipselong);
-    sunPositionECI[1] = magnitude * cos(obliquity) * sin(eclipselong);
-    sunPositionECI[2] = magnitude * sin(obliquity) * sin(eclipselong);
+    sunPositionECI[0] = magnitude * cos(eclipseLongtitude);
+    sunPositionECI[1] = magnitude * cos(obliquity) * sin(eclipseLongtitude);
+    sunPositionECI[2] = magnitude * sin(obliquity) * sin(eclipseLongtitude);
 
     return sunPositionECI;
 

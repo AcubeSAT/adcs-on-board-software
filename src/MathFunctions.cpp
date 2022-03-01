@@ -113,9 +113,6 @@ Vector3f ecef2llh(Vector3f vectorInUVW) {
     double oLatitudeSave;
     double temporaryTwo;
     double dLatitude = 1.0;
-    double axisOfEarth = 6378137.0;
-    double flattening = 1.0 / 298.257223563;
-    double eccentricitySquared = (2.0 - flattening) * flattening;
     double temporaryOne = sqrt(pow(vectorInUVW[0], 2) + pow(vectorInUVW[1], 2));
     double halfMeterError = 1.0e-7;
 

@@ -18,7 +18,7 @@ bool calculateEclipse(Eigen::Vector3f xSatelliteECI, Eigen::Vector3f sunPosition
 /**
  * Calculate sun's position
  *
- * @param time
+ * @param time and we convert in ut1 which is Jan 1, 2000 12 h epoch
  * @return sun's position ECI frame
  */
 Eigen::Vector3f calculateSunPosition(double time);

@@ -4,7 +4,10 @@
 
 #include "Albedo.hpp"
 #include "OrbitalParameters.hpp"
-
+/**
+ * A class that takes Gregorian time, greenwich sidereal time, satellite position in LLH and ECI frame ,
+ * time since epoch, satrec, julian Day and gives sun position ,satellite position ,albedo ,if we are in eclipse, magnetic filed
+ */
 class EnvironmentalModel {
 private:
     bool isEclipse;
