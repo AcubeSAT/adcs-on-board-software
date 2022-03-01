@@ -34,29 +34,29 @@ public:
     /**
      * @return Magnetic field ECI frame
      */
-    Eigen::Vector3f GetMagneticField() const {
+    Eigen::Vector3f getMagneticField() const {
         return magneticField;
     }
 
     /**
      * @return sun position ECI frame
      */
-    Eigen::Vector3f GetSunPosition() const {
+    Eigen::Vector3f getSunPosition() const {
         return sunPosition;
     }
 
-    bool getIsEclipse() {
+    bool getIsEclipse() const {
         return isEclipse;
     }
 
     /**
      * @return satellite position ECI
      */
-    Eigen::Vector3f GetSatellitePosition() const {
+    Eigen::Vector3f getSatellitePosition() const {
         return satellitePosition;
     }
 
-    EarthCellsMatrix GetAlbedo() const {
+    EarthCellsMatrix getAlbedo() const {
         return albedo;
     }
 };

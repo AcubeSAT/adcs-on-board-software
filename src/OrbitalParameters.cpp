@@ -74,11 +74,7 @@ OrbitalParameters::OrbitalParameters() {
 void
 OrbitalParameters::calculateTime(const TLE &tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst) {
     uint16_t Eyear;
-    int timeDay;
-    int mon;
-    int day;
-    int hr;
-    int minute;
+    int timeDay, month, day, hour, minute;
     double sec;
 
     double stopmfe;
@@ -100,8 +96,8 @@ OrbitalParameters::calculateTime(const TLE &tle, char typerun, char typeinput, c
 
     Eyear = satrec.epochyr + 2000;
     timeDay = satrec.epochdays + tsince / 1440;
-    SGP4Funcs::days2mdhms_SGP4(Eyear, timeDay, mon, day, hr, minute, sec);
-    timeGregorian = date2decimal(Eyear, mon, day, hr, minute, sec);
+    SGP4Funcs::days2mdhms_SGP4(Eyear, timeDay, month, day, hour, minute, sec);
+    timeGregorian = date2decimal(Eyear, month, day, hour, minute, sec);
 }
 void OrbitalParameters::calculateNextPosition() {
     double xsatelliteECI[3];
