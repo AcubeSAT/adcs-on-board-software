@@ -107,7 +107,6 @@ TEST_CASE("Eclipse Test")
     eclps = calculateEclipse(xSatelliteECI, sunPositionECI);
     REQUIRE(eclps == false);
 }
-
 TEST_CASE("Sun Position Test")
 {
     double time = 2460127.50000000;
@@ -121,4 +120,21 @@ TEST_CASE("Sun Position Test")
     REQUIRE(sunpos(0) == Approx(-0.407105226684744).epsilon(1e-4));
     REQUIRE(sunpos(1) == Approx(-0.828752263583653).epsilon(1e-4));
     REQUIRE(sunpos(2) == Approx(-0.374407193426776).epsilon(1e-4));
+}
+
+TEST_CASE("Environmental Model Test with tle6PM500 time step 39") {
+    OrbitalParameters orbitalParameters;
+    Matrix<float, 180, 288> reflectivityData1 = Matrix<float, 180, 288>::Identity() * 100000;
+
+    orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
+
+    EnvironmentalModel em(orbitalParameters, reflectivityData1);
+
+    for (int i = 1; i < 40; i++) {
+        em.ModelEnvironment();
+    }
+    Vector3f satPosTest1 = em.GetSatellitePosition();
+    REQUIRE(satPosTest1[0] == Approx(-6733757.51820706).epsilon(1e-4));
+    REQUIRE(satPosTest1[1] == Approx(-1379046.15879295).epsilon(1e-4));
+    REQUIRE(satPosTest1[2] == Approx(14019.1944664209).epsilon(1e-4));
 }

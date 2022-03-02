@@ -4,7 +4,6 @@
 
 using namespace Eigen;
 
-
 OrbitalParameters::OrbitalParameters() {
     julianDate = 0;
     timeSince = 0;
@@ -59,4 +58,5 @@ void OrbitalParameters::calculateNextPosition() {
 
     Vector3f satelliteECEF = eci2ecef(position, greenwichSiderealTime);
     satelliteLLH = ecef2llh(satelliteECEF * 1000);
+    timeSince = timeSince + 0.1 / 60;
 }
