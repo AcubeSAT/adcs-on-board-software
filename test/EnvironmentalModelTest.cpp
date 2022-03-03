@@ -15,18 +15,18 @@ TEST_CASE("Environmental Model Test with tle6PM500") {
     bool ecl1 = em.getIsEclipse();
     REQUIRE(ecl1 == false);
 
-    Vector3f sunPosTest1 = em.GetSunPosition();
+    Vector3f sunPosTest1 = em.getSunPosition();
     REQUIRE(sunPosTest1[0] == Approx(-0.174717604923527).epsilon(1e-4));
     REQUIRE(sunPosTest1[1] == Approx(0.918928406982493).epsilon(1e-4));
     REQUIRE(sunPosTest1[2] == Approx(0.398346002571225).epsilon(1e-4));
 
-    Vector3f magneticField = em.GetMagneticField();
+    Vector3f magneticField = em.getMagneticField();
     REQUIRE(magneticField(0) == Approx(7740.17871171431).epsilon(0.01));
     REQUIRE(magneticField(1) == Approx(1088.51463852010).epsilon(0.01));
     REQUIRE(magneticField(2) == Approx(21943.9176853079).epsilon(0.01));
 
 
-    auto alb = em.GetAlbedo();
+    auto alb = em.getAlbedo();
     REQUIRE(alb.sum() == Approx(-9.579723442651105).epsilon(1e-4));
 }
 
@@ -42,12 +42,12 @@ TEST_CASE("Environmental Model Test with tle11PM600") {
     bool ecl1 = em.getIsEclipse();
     REQUIRE(ecl1 == true);
 
-    Vector3f sunPosTest1 = em.GetSunPosition();
+    Vector3f sunPosTest1 = em.getSunPosition();
     REQUIRE(sunPosTest1[0] == Approx(-0.174717604923527).epsilon(1e-4));
     REQUIRE(sunPosTest1[1] == Approx(0.918928406982493).epsilon(1e-4));
     REQUIRE(sunPosTest1[2] == Approx(0.398346002571225).epsilon(1e-4));
 
-    Vector3f magneticField = em.GetMagneticField();
+    Vector3f magneticField = em.getMagneticField();
     REQUIRE(magneticField(0) == Approx(-3754.63144650908).epsilon(0.01));
     REQUIRE(magneticField(1) == Approx(-9109.37704516883).epsilon(0.01));
     REQUIRE(magneticField(2) == Approx(19692.5520758561).epsilon(0.01));
@@ -80,12 +80,12 @@ TEST_CASE("Environmental Model Test with tle6PM500 and 4th time-step") {
     bool ecl1 = em.getIsEclipse();
     REQUIRE(ecl1 == false);
 
-    Vector3f sunPosTest1 = em.GetSunPosition();
+    Vector3f sunPosTest1 = em.getSunPosition();
     REQUIRE(sunPosTest1[0] == Approx(-0.174717643510772).epsilon(1e-4));
     REQUIRE(sunPosTest1[1] == Approx(0.918928400843573).epsilon(1e-4));
     REQUIRE(sunPosTest1[2] == Approx(0.398345999910050).epsilon(1e-4));
 
-    Vector3f magneticField = em.GetMagneticField();
+    Vector3f magneticField = em.getMagneticField();
     REQUIRE(magneticField(0) == Approx(7754.40242187146).epsilon(0.01));
     REQUIRE(magneticField(1) == Approx(1091.60673407232).epsilon(0.01));
     REQUIRE(magneticField(2) == Approx(21942.9617533484).epsilon(0.01));
@@ -113,7 +113,7 @@ TEST_CASE("Sun Position Test")
 
     EnvironmentalModel em(orbitalParameters, reflectivityData1);
     em.ModelEnvironment();
-    Vector3f sunpos = em.GetSunPosition();
+    Vector3f sunpos = em.getSunPosition();
     REQUIRE(sunpos(0) == Approx(-0.174717604923527).epsilon(1e-4));
     REQUIRE(sunpos(1) == Approx(0.918928406982493).epsilon(1e-4));
     REQUIRE(sunpos(2) == Approx(0.398346002571225).epsilon(1e-4));
@@ -130,7 +130,7 @@ TEST_CASE("Environmental Model Test with tle6PM500 time step 39") {
     for (int i = 1; i < 40; i++) {
         em.ModelEnvironment();
     }
-    Vector3f satPosTest1 = em.GetSatellitePosition();
+    Vector3f satPosTest1 = em.getSatellitePosition();
     REQUIRE(satPosTest1[0] == Approx(-6733757.51820706).epsilon(1e-4));
     REQUIRE(satPosTest1[1] == Approx(-1379046.15879295).epsilon(1e-4));
     REQUIRE(satPosTest1[2] == Approx(14019.1944664209).epsilon(1e-4));
