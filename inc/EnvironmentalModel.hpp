@@ -69,7 +69,7 @@ public:
     * Calculate sun's position
     *
     * @param time and we convert in ut1 which is Jan 1, 2000 12 h epoch
-     * @return sun's position ECI frame
+    * @return sun's position ECI frame
     */
 
     void calculateSunPosition(double time);

@@ -28,7 +28,7 @@ private:
     /**
      * Satellite position in ECI frame
      */
-    Eigen::Vector3f position;
+    Eigen::Vector3f satelliteECI;
     /**
      * Greenwich sidereal time (0 to 2pi rad)
      */
@@ -78,7 +78,7 @@ public:
      * @return satellite position ECI frame
      */
     Eigen::Vector3f getPosition() const {
-        return position;
+        return satelliteECI;
     }
 
     /**
@@ -91,7 +91,7 @@ public:
     /**
      * @return greenwich sidereal time
      */
-    double getgreenwichSiderealTime() const {
+    double getGreenwichSiderealTime() const {
         return greenwichSiderealTime;
     }
 

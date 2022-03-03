@@ -4,15 +4,13 @@
 
 using namespace Eigen;
 
-OrbitalParameters::OrbitalParameters() {
-    julianDate = 0;
-    timeSince = 0;
-    position = {0, 0, 0};
-    greenwichSiderealTime = 0;
-    timeGregorian = 0;
-    satelliteLLH = {0, 0, 0};
-}
-
+OrbitalParameters::OrbitalParameters() :
+        julianDate{0},
+        timeSince{0},
+        satelliteECI{{0, 0, 0}},
+        greenwichSiderealTime{0},
+        timeGregorian{0},
+        satelliteLLH{{0, 0, 0}} {}
 
 void
 OrbitalParameters::calculateTime(const TLE &tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst) {
@@ -44,20 +42,20 @@ OrbitalParameters::calculateTime(const TLE &tle, char typerun, char typeinput, c
 }
 
 void OrbitalParameters::calculateNextPosition() {
-    double xsatelliteECI[3];
+    double satelliteECI[3];
     double velocity[3];
 
-    SGP4Funcs::sgp4(satrec, timeSince, xsatelliteECI, velocity);
+    SGP4Funcs::sgp4(satrec, timeSince, satelliteECI, velocity);
 
     //The purpose of the next operation is to "typecast" c++ arrays to Eigen vector
     for (uint8_t i = 0; i < 3; i++) {
-        position(i) = xsatelliteECI[i];
+        this->satelliteECI(i) = satelliteECI[i];
     }
 
     julianDate = satrec.jdsatepoch + satrec.t / 1440;
     greenwichSiderealTime = SGP4Funcs::gstime_SGP4(julianDate);
 
-    Vector3f satelliteECEF = eci2ecef(position, greenwichSiderealTime);
+    Vector3f satelliteECEF = eci2ecef(this->satelliteECI, greenwichSiderealTime);
     satelliteLLH = ecef2llh(satelliteECEF * 1000);
     timeSince = timeSince + 0.1 / 60;
 }

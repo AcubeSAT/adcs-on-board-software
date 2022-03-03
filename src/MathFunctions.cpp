@@ -4,6 +4,8 @@
 #include "Eigen/Geometry"
 #include "Eigen/Dense"
 
+inline constexpr double const halfMeterError = 1.0e-7;
+
 using namespace Eigen;
 
 Quaternionf quaternionExponent(Vector3f angularVelocity) {
@@ -98,10 +100,10 @@ Vector3f sphericalToCartesian(Vector3f vectorSpherical) {
     return {x, y, z};
 }
 
-Vector3f eci2ecef(Vector3f vecECI, double gstime) {
+Vector3f eci2ecef(Vector3f vecECI, double greenwichSiderealTime) {
     Vector3f vecECEF;
-    vecECEF(0) = vecECI(0) * cos(gstime) + vecECI(1) * sin(gstime);
-    vecECEF(1) = -vecECI(0) * sin(gstime) + vecECI(1) * cos(gstime);
+    vecECEF(0) = vecECI(0) * cos(greenwichSiderealTime) + vecECI(1) * sin(greenwichSiderealTime);
+    vecECEF(1) = -vecECI(0) * sin(greenwichSiderealTime) + vecECI(1) * cos(greenwichSiderealTime);
     vecECEF(2) = vecECI(2);
     return vecECEF;
 }
@@ -114,7 +116,6 @@ Vector3f ecef2llh(Vector3f vectorInECEF) {
     double temporaryTwo;
     double dLatitude = 1.0;
     double temporaryOne = sqrt(pow(vectorInECEF(0), 2) + pow(vectorInECEF(1), 2));
-    double halfMeterError = 1.0e-7;
 
     if (temporaryOne == 0.0) {
         vectorInLLH(1) = 0;
@@ -161,14 +162,14 @@ Vector3f ned2ecef(Vector3f vectorNED, float latitude, float longitude) {
     return vectorECEF;
 }
 
-Vector3f ecef2eci(Vector3f vectorECEF, double gstime) {
+Vector3f ecef2eci(Vector3f vectorECEF, double greenwichSiderealTime) {
     Vector3f vectorECI;
     Matrix<float, VectorSize, VectorSize> R;
-    R(0, 0) = cos(-gstime);
-    R(0, 1) = sin(-gstime);
+    R(0, 0) = cos(-greenwichSiderealTime);
+    R(0, 1) = sin(-greenwichSiderealTime);
     R(0, 2) = 0;
-    R(1, 0) = -sin(-gstime);
-    R(1, 1) = cos(-gstime);
+    R(1, 0) = -sin(-greenwichSiderealTime);
+    R(1, 1) = cos(-greenwichSiderealTime);
     R(1, 2) = 0;
     R(2, 0) = 0;
     R(2, 1) = 0;
