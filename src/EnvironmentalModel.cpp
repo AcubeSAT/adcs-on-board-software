@@ -7,8 +7,7 @@ inline constexpr double const AU = 149600000;
 
 using namespace Eigen;
 
-bool calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPositionECI) {
-    bool isEclipse;
+void EnvironmentalModel::calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPositionECI) {
     double alpha1 = M_PI - acos(EarthRatio / (EarthRatio * AU / (SunRatio + EarthRatio))) -
                     acos(EarthRatio / (xSatelliteECI.norm()));
     double alpha2 =
@@ -22,11 +21,9 @@ bool calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPositionECI) {
     } else {
         isEclipse = false;
     }
-    return isEclipse;
 }
 
-Vector3f calculateSunPosition(double time) {
-    Vector3f sunPositionECI(3);
+void EnvironmentalModel::calculateSunPosition(double time) {
     double ut1 = (time - 2451545) / 36525;
     double meanlong = 280.4606184 + 36000.77005361 * ut1;
     double meanAnomaly = 357.5277233 + 35999.05034 * ut1;
@@ -53,11 +50,9 @@ Vector3f calculateSunPosition(double time) {
     obliquity = obliquity * M_PI / 180;
     magnitude = 1.000140612 - 0.016708617 * cos(meanAnomaly) - 0.000139589 * cos(2 * meanAnomaly);
 
-    sunPositionECI[0] = magnitude * cos(eclipseLongtitude);
-    sunPositionECI[1] = magnitude * cos(obliquity) * sin(eclipseLongtitude);
-    sunPositionECI[2] = magnitude * sin(obliquity) * sin(eclipseLongtitude);
-
-    return sunPositionECI;
+    sunPosition[0] = magnitude * cos(eclipseLongtitude);
+    sunPosition[1] = magnitude * cos(obliquity) * sin(eclipseLongtitude);
+    sunPosition[2] = magnitude * sin(obliquity) * sin(eclipseLongtitude);
 
 }
 
@@ -94,9 +89,9 @@ void EnvironmentalModel::ModelEnvironment() {
     magneticField = ned2ecef(magneticField, satelliteLLH[0], satelliteLLH[1]);
     magneticField = ecef2eci(magneticField, greenwichSiderealTime);
 
-    sunPosition = calculateSunPosition(julianDate);
+    calculateSunPosition(julianDate);
 
-    isEclipse = calculateEclipse(satellitePosition, sunPosition);
+    calculateEclipse(satellitePosition, sunPosition);
 
     Vector3f satelliteECEF = eci2ecef(satellitePosition, greenwichSiderealTime);
     Vector3f sunECEF = eci2ecef(sunPosition, greenwichSiderealTime);
@@ -104,5 +99,4 @@ void EnvironmentalModel::ModelEnvironment() {
     satelliteECEF *= 1000;
 
     albedo = calculateAlbedo(satelliteECEF, sunECEF, reflectivityData);
-
 }

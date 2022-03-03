@@ -13,10 +13,25 @@
  */
 class OrbitalParameters {
 private:
+    /**
+     * Day month year hour minute second converted into julian date
+     */
     double julianDate;
+    /**
+     * Structure containing all the sgp4 satellite information
+     */
     elsetrec satrec;
+    /**
+     * Time since epoch in minutes
+     */
     double timeSince;
+    /**
+     * Satellite position in ECI frame
+     */
     Eigen::Vector3f position;
+    /**
+     * Greenwich sidereal time (0 to 2pi rad)
+     */
     double greenwichSiderealTime;
     double timeGregorian;
     Eigen::Vector3f satelliteLLH;

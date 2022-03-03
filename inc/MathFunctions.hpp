@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "Eigen/Geometry"
 #include "Definitions.hpp"
@@ -82,6 +82,7 @@ Eigen::Vector3f cartesianToSpherical(Eigen::Vector3f vectorCartesian);
  * @return vector in Cartesian coordinates (x, y, z) in radians
  */
 Eigen::Vector3f sphericalToCartesian(Eigen::Vector3f vectorSpherical);
+
 /**
  * Convert vectors from ECI frame to ECEF frame
  *

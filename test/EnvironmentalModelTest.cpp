@@ -90,36 +90,33 @@ TEST_CASE("Environmental Model Test with tle6PM500 and 4th time-step") {
     REQUIRE(magneticField(1) == Approx(1091.60673407232).epsilon(0.01));
     REQUIRE(magneticField(2) == Approx(21942.9617533484).epsilon(0.01));
 }
+
 TEST_CASE("Eclipse Test")
 {
-    Vector3f xSatelliteECI = {-2.9899, -1.4137, -6.0306};
-    Vector3f sunPositionECI = {-0.1754, 0.9188, 0.3983};
-    bool eclps = calculateEclipse(xSatelliteECI, sunPositionECI);
-    REQUIRE(eclps == false);
+    OrbitalParameters orbitalParameters;
+    Matrix<float, 180, 288> reflectivityData1 = Matrix<float, 180, 288>::Identity() * 100000;
 
-    xSatelliteECI = {-2.8489, -1.3942, -6.1030};
-    sunPositionECI = {-0.1758, 0.9188, 0.3983};
-    eclps = calculateEclipse(xSatelliteECI, sunPositionECI);
-    REQUIRE(eclps == false);
+    orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
 
-    xSatelliteECI = {-3.4753, -1.4765, -5.7487};
-    sunPositionECI = {-0.1758, 0.9188, 0.3983};
-    eclps = calculateEclipse(xSatelliteECI, sunPositionECI);
+    EnvironmentalModel em(orbitalParameters, reflectivityData1);
+    em.ModelEnvironment();
+    bool eclps = em.getIsEclipse();
     REQUIRE(eclps == false);
 }
+
 TEST_CASE("Sun Position Test")
 {
-    double time = 2460127.50000000;
-    Vector3f sunpos = calculateSunPosition(time);
+    OrbitalParameters orbitalParameters;
+    Matrix<float, 180, 288> reflectivityData1 = Matrix<float, 180, 288>::Identity() * 100000;
+
+    orbitalParameters.calculateTime(tle11PM500, 'v', 'd', 'i', wgs84);
+
+    EnvironmentalModel em(orbitalParameters, reflectivityData1);
+    em.ModelEnvironment();
+    Vector3f sunpos = em.GetSunPosition();
     REQUIRE(sunpos(0) == Approx(-0.174717604923527).epsilon(1e-4));
     REQUIRE(sunpos(1) == Approx(0.918928406982493).epsilon(1e-4));
     REQUIRE(sunpos(2) == Approx(0.398346002571225).epsilon(1e-4));
-
-    time = 2.4601;
-    sunpos = calculateSunPosition(time);
-    REQUIRE(sunpos(0) == Approx(-0.407105226684744).epsilon(1e-4));
-    REQUIRE(sunpos(1) == Approx(-0.828752263583653).epsilon(1e-4));
-    REQUIRE(sunpos(2) == Approx(-0.374407193426776).epsilon(1e-4));
 }
 
 TEST_CASE("Environmental Model Test with tle6PM500 time step 39") {
