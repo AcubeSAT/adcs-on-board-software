@@ -8,8 +8,8 @@
 
 
 /**
- * A class that takes a TLE file and initialize Gregorian time, greenwich sidereal time, satellite position in LLH frame and in ECI,
- * time since epoch, satrec, julian Date,
+ * A class that implements the algorithms necessary for the calculation of Gregorian time, greenwich sidereal time, satellite position in LLH and ECI frames,
+ * time since epoch, satrec and julian Date given a TLE file
  */
 class OrbitalParameters {
 private:
@@ -34,28 +34,30 @@ private:
      */
     double greenwichSiderealTime;
     double timeGregorian;
+    /**
+     * Satellite position in LLH frame
+     */
     Eigen::Vector3f satelliteLLH;
 
 public:
     /**
-     * Initialize properties of OrbitalParameters class julianDate, timeSince, position, greenwichSiderealTime, timeGregorian, satelliteLLH
+     * Initialize all class's parameters, julianDate, timeSince, position, greenwichSiderealTime, timeGregorian, satelliteLLH
      */
     OrbitalParameters();
 
     /**
      * Calculate julian day and Gregorian time
-     *
      * @param tle Two-line element set
-     * @param typerun type of run (verification 'v',catalog 'c',manual 'm')
-     * @param typeinput type of manual input (mfe 'm', epoch 'e', dayofyr 'd')
-     * @param opsmode mode of operation afspc or improved 'a', 'i'
-     * @param whichconst which set of constants to use  72, 84
+     * @param typerun Type of run (verification 'v',catalog 'c',manual 'm')
+     * @param typeinput Type of manual input (mfe 'm', epoch 'e', dayofyr 'd')
+     * @param opsmode Mode of operation afspc or improved 'a', 'i'
+     * @param whichconst Which set of constants to use  72, 84
      */
     void
     calculateTime(const TLE &tle, char typerun, char typeinput, char opsmode, gravconsttype whichconst);
 
     /**
-     * Calculate satellite position for the next time-step
+     * Calculate next time-step satellite position
      */
     void calculateNextPosition();
 
@@ -68,28 +70,28 @@ public:
     }
 
     /**
-     * @return time since epoch (minutes)
+     * @return Time since epoch (minutes)
      */
     double getTimeSince() const {
         return timeSince;
     }
 
     /**
-     * @return satellite position ECI frame
+     * @return Satellite position (ECI frame)
      */
     Eigen::Vector3f getPosition() const {
         return satelliteECI;
     }
 
     /**
-     * @return satellite position LLH frame
+     * @return Satellite position (LLH frame)
      */
     Eigen::Vector3f getSatelliteLLH() const {
         return satelliteLLH;
     }
 
     /**
-     * @return greenwich sidereal time
+     * @return Greenwich sidereal time
      */
     double getGreenwichSiderealTime() const {
         return greenwichSiderealTime;

@@ -23,35 +23,36 @@ void EnvironmentalModel::calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPo
 }
 
 void EnvironmentalModel::calculateSunPosition(double time) {
+    //we convert time to ut1 which is Jan 1, 2000 12 h epoch
     double ut1 = (time - 2451545) / 36525;
-    double meanlong = 280.4606184 + 36000.77005361 * ut1;
+    double meanLong = 280.4606184 + 36000.77005361 * ut1;
     double meanAnomaly = 357.5277233 + 35999.05034 * ut1;
-    double eclipticLongtitude;
+    double eclipticLongitude;
     double obliquity;
     double magnitude;
 
-    meanlong = std::fmod((meanlong), (360));
+    meanLong = std::fmod((meanLong), (360));
     meanAnomaly = std::fmod((meanAnomaly * M_PI / 180), (2 * M_PI));
 
     if (meanAnomaly < 0) {
         meanAnomaly = 2 * M_PI + meanAnomaly;
     }
 
-    eclipticLongtitude = meanlong + 1.91466471 * sin(meanAnomaly) + 0.019994643 * sin(2 * meanAnomaly);
+    eclipticLongitude = meanLong + 1.91466471 * sin(meanAnomaly) + 0.019994643 * sin(2 * meanAnomaly);
     obliquity = 23.439291 - 0.0130042 * ut1;
-    meanlong = meanlong * M_PI / 180;
+    meanLong = meanLong * M_PI / 180;
 
-    if (meanlong < 0) {
-        meanlong = 2 * M_PI + meanlong;
+    if (meanLong < 0) {
+        meanLong = 2 * M_PI + meanLong;
     }
 
-    eclipticLongtitude = eclipticLongtitude * M_PI / 180;
+    eclipticLongitude = eclipticLongitude * M_PI / 180;
     obliquity = obliquity * M_PI / 180;
     magnitude = 1.000140612 - 0.016708617 * cos(meanAnomaly) - 0.000139589 * cos(2 * meanAnomaly);
 
-    sunPosition[0] = magnitude * cos(eclipticLongtitude);
-    sunPosition[1] = magnitude * cos(obliquity) * sin(eclipticLongtitude);
-    sunPosition[2] = magnitude * sin(obliquity) * sin(eclipticLongtitude);
+    sunPosition[0] = magnitude * cos(eclipticLongitude);
+    sunPosition[1] = magnitude * cos(obliquity) * sin(eclipticLongitude);
+    sunPosition[2] = magnitude * sin(obliquity) * sin(eclipticLongitude);
 
 }
 

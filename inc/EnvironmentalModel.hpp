@@ -6,8 +6,9 @@
 #include "OrbitalParameters.hpp"
 
 /**
- * A class that takes Gregorian time, greenwich sidereal time, satellite position in LLH and ECI frame ,
- * time since epoch, satrec, julian Day and gives sun position ,satellite position ,albedo ,if we are in eclipse, magnetic filed
+ * A class that implements the algorithms necessary for the calculation of sun position ,satellite position ,albedo ,whether we are in eclipse or not and magnetic filed
+ * given Gregorian time, greenwich sidereal time, satellite position in LLH and ECI frame ,
+ * time since epoch, satrec, julian Day
  */
 class EnvironmentalModel {
 private:
@@ -20,7 +21,7 @@ private:
      */
     Eigen::Vector3f sunPosition;
     /**
-     * Satellite position coordinates on ECI frame
+     * Satellite position coordinates in ECI frame
      */
     Eigen::Vector3f satellitePosition;
     /**
@@ -42,58 +43,53 @@ private:
     OrbitalParameters orbitalParameters;
 public:
     /**
-     * Initialize the parameters orbitalParameters, isEclipse, sunPosition, albedo, magneticField
-     * of EnvironmentalModel class
-     *
-     * @param orbitalParameters OrbitalParameters class's properties
+     * Initialize all class's parameters, isEclipse, sunPosition, albedo, magneticField
+     * @param orbitalParameters OrbitalParameters class's object
      * @param reflectivityData Earth surface reflectivity data from TOMS project
      */
     EnvironmentalModel(OrbitalParameters orbitalParameters, EarthCellsMatrix reflectivityData);
 
     /**
-     * Calculate all properties of EnvironmentalModel class: isEclipse, sunPosition, satellitePosition, albedo,
-     * magneticField, reflectivityData, geomagneticVectorStruct, orbitalParameters
+     * Calculate all class's properties, eclipse, sun position, satellite position, albedo, magnetic field
      */
     void ModelEnvironment();
 
     /**
-    * Calculate if we have or not eclipse
-    *
-    * @param xSatelliteECI satellite position ECI frame
-    * @param sunPositionECI sun position ECI frame
-    * @return true if we are in eclipse , false if we are not
+    * Calculate whether we are or not in eclipse
+    * @param xSatelliteECI Satellite position (ECI frame)
+    * @param sunPositionECI Sun position (ECI frame)
     */
     void calculateEclipse(Eigen::Vector3f xSatelliteECI, Eigen::Vector3f sunPositionECI);
 
     /**
     * Calculate sun's position
-    *
-    * @param time and we convert in ut1 which is Jan 1, 2000 12 h epoch
-    * @return sun's position ECI frame
+    * @param time
     */
-
     void calculateSunPosition(double time);
 
     /**
-     * @return Magnetic field ECI frame
+     * @return Magnetic field (ECI frame)
      */
     Eigen::Vector3f getMagneticField() const {
         return magneticField;
     }
 
     /**
-     * @return sun position ECI frame
+     * @return Sun position (ECI frame)
      */
     Eigen::Vector3f getSunPosition() const {
         return sunPosition;
     }
 
+    /**
+     * @return True if we are in eclipse ,false if we are not
+     */
     bool getIsEclipse() const {
         return isEclipse;
     }
 
     /**
-     * @return satellite position ECI
+     * @return Satellite position (ECI frame)
      */
     Eigen::Vector3f getSatellitePosition() const {
         return satellitePosition;

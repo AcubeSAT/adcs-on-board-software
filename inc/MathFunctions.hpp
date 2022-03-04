@@ -84,37 +84,33 @@ Eigen::Vector3f cartesianToSpherical(Eigen::Vector3f vectorCartesian);
 Eigen::Vector3f sphericalToCartesian(Eigen::Vector3f vectorSpherical);
 
 /**
- * Convert vectors from ECI frame to ECEF frame
- *
+ * Convert ECI frame vectors to ECEF frame vectors
  * @param vecECI
  * @param gstime
- * @return vector in ECEF frame
+ * @return Vector in ECEF frame
  */
 Eigen::Vector3f eci2ecef(Eigen::Vector3f vecECI, double gstime);
 
 /**
- * Convert vectors from ECEF (or UVW) frame to LLH frame
- *
+ * Convert ECEF (or UVW) frame vectors to LLH frame vectors
  * @param vectorInECEF
- * @return vector in LLH frame
+ * @return Vector in LLH frame
  */
 Eigen::Vector3f ecef2llh(Eigen::Vector3f vectorInECEF);
 
 /**
- * Convert vectors from NED frame to ECEF frame
- *
+ * Convert NED frame vectors to ECEF frame vectors
  * @param vectorNED
  * @param latitude
  * @param longitude
- * @return vector in ECEF
+ * @return Vector in ECEF
  */
 Eigen::Vector3f ned2ecef(Eigen::Vector3f vectorNED, float latitude, float longitude);
 
 /**
- * Convert vectors from ECEF frame to ECI frame
- *
+ * Convert ECEF frame vectors to ECI frame  vectors
  * @param vectorECEF
  * @param gstime
- * @return vector in ECI
+ * @return Vector in ECI
  */
 Eigen::Vector3f ecef2eci(Eigen::Vector3f vectorECEF, double gstime);
