@@ -6,48 +6,15 @@
  * Default profile of the AOCS nominal mode during which actuation is carried out using both the magnetorquers and the reaction wheel
  */
 class MagnetorquerPlusRW : public PointingStrategy {
-private:
-    /**
-     * Reaction Wheel Maximum Rotation Rate (in rpm)
-     */
-    float reactionWheelAngularVelocityLimit;
-
-    /**
-     * Percentage of RW desaturation torque added to the torque given on Z-axis through magnetorquers
-     */
-    float torquePercentage;
-
-    /**
-     * (in kg*m^2)
-     */
-    float flywheelInertia;
-
-    /**
-     * Maximum torque provided by the Reaction Wheel (in Nm)
-     */
-    float maxReactionWheelTorque;
-
 public:
-    /**
-     * @param maxMagneticDipoleMoment Maximum magnetic dipole provided by the Magnetorquers (in Am^2)
-     * @param residualDipoleEstimation Estimation of the residual magnetic dipole (in Am^2)
-     * @param maxReactionWheelTorque Maximum torque provided by the Reaction Wheel (in Nm)
-     * @param reactionWheelAngularVelocityLimit Reaction Wheel Maximum Rotation Rate (in rpm)
-     * @param torquePercentage Percentage of RW desaturation torque added to the torque given on Z-axis through magnetorquers
-     * @param flywheelInertia Inertia of the flywheel (in kg*m^2)
-     */
-    MagnetorquerPlusRW(Eigen::Vector3f maxMagneticDipoleMoment, Eigen::Vector3f residualDipoleEstimation,
-                       float maxReactionWheelTorque, float reactionWheelAngularVelocityLimit, float torquePercentage,
-                       float flywheelInertia);
-
     /**
      * Algorithm for the decomposition of the control torque into magnetic torque and reaction wheel torque
      * @param magneticField Magnetic field value expressed in the Body Frame (in T)
      * @param commandedTorque Control torque calculated by the PD controller (in Nm)
      * @return Magnetic torque and Reaction Wheel torque
      */
-    Eigen::Matrix<float, VectorSize, NumOfActuators> splitTorque(Eigen::Vector3f magneticField,
-                                                                    Eigen::Vector3f commandedTorque) const;
+    Eigen::Matrix<float, VectorSize, NumOfActuators> splitTorque(const Eigen::Vector3f magneticField,
+                                                                    const Eigen::Vector3f commandedTorque) const;
 
 
     /**
@@ -59,8 +26,8 @@ public:
     Eigen::Matrix<float, VectorSize, NumOfActuators>
     desaturateMagnetorquer(Eigen::Vector3f desiredMagneticTorque,
                            Eigen::Vector3f desiredReactionWheelTorque,
-                           Eigen::Vector3f commandedTorque,
-                           Eigen::Vector3f magneticField,
+                           const Eigen::Vector3f commandedTorque,
+                           const Eigen::Vector3f magneticField,
                            Eigen::Vector3f desiredMagneticDipole) const;
 
     /**
@@ -77,9 +44,9 @@ public:
     Eigen::Matrix<float, VectorSize, NumOfActuators>
     desaturateReactionWheel(Eigen::Vector3f effectiveMagneticTorque,
                             Eigen::Vector3f reactionWheelTorque,
-                            Eigen::Vector3f magneticFieldBody,
-                            float reactionWheelAngularVelocity,
-                            float reactionWheelAngularAcceleration) const;
+                            const Eigen::Vector3f magneticFieldBody,
+                            const float reactionWheelAngularVelocity,
+                            const float reactionWheelAngularAcceleration) const;
 
     /**
      * Reaction wheel torque scaling algorithm
@@ -93,7 +60,7 @@ public:
      * @return Magnetic torque and Reaction Wheel torque
      */
     Eigen::Matrix<float, VectorSize, NumOfActuators>
-    actuate(Eigen::Vector3f commandedTorque, Eigen::Vector3f magneticField, bool firstTime,
-            float currentReactionWheelAngularVelocity,
-            float oldReactionWheelAcceleration) const override;
+    actuate(const Eigen::Vector3f commandedTorque, const Eigen::Vector3f magneticField, const bool firstTime,
+            const float currentReactionWheelAngularVelocity,
+            const float oldReactionWheelAcceleration) const override;
 };

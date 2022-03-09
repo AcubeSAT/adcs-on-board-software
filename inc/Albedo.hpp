@@ -14,9 +14,9 @@ namespace albedo {
  * @param phi reflectivity data point's longitude
  * @return vector containing TOMS reflectivity matrix indices
  */
-    inline Eigen::Vector<int16_t, 2> radiansToIndices(float theta, float phi) {
-        float dx = 2 * PI / ReflectivityDataColumns;
-        float dy = PI / ReflectivityDataRows;
+    inline Eigen::Vector<int16_t, 2> radiansToIndices(const float theta, const float phi) {
+        const float dx = 2 * PI / ReflectivityDataColumns;
+        const float dy = PI / ReflectivityDataRows;
 
         int16_t i = static_cast<int16_t>(round((PI - dy / 2 - phi) / dy));
         int16_t j = static_cast<int16_t>(round((theta + PI - dx / 2) / dx));
@@ -33,12 +33,12 @@ namespace albedo {
  * @param j TOMS reflectivity matrix index
  * @return vector containing reflectivity data point's latitude and longitude
  */
-    inline Eigen::Vector2f indicesToRadians(int16_t i, int16_t j) {
-        float dx = 2 * PI / ReflectivityDataColumns;
-        float dy = PI / ReflectivityDataRows;
+    inline Eigen::Vector2f indicesToRadians(const int16_t i, const int16_t j) {
+        const float dx = 2 * PI / ReflectivityDataColumns;
+        const float dy = PI / ReflectivityDataRows;
 
-        float phi = PI - dy / 2 - i * dy;
-        float theta = j * dx - PI + dx / 2;
+        const float phi = PI - dy / 2 - i * dy;
+        const float theta = j * dx - PI + dx / 2;
 
         return {theta, phi};
     }
@@ -49,7 +49,7 @@ namespace albedo {
  * @param j index j
  * @return area of a cell with indices i, j
  */
-    float calculateCellArea(int16_t i, int16_t j);
+    float calculateCellArea(const int16_t i, const int16_t j);
 
 /**
  * Calculates the angle between two grid index pairs
@@ -59,7 +59,7 @@ namespace albedo {
  * @param sunIndexJ sun grid index j
  * @return angle between two grid index pairs
  */
-    float gridAngle(int16_t loopI, int16_t loopJ, int16_t sunIndexI, int16_t sunIndexJ);
+    float gridAngle(const int16_t loopI, const int16_t loopJ, const int16_t sunIndexI, const int16_t sunIndexJ);
 }
 
 /**

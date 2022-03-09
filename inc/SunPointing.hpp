@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "PointingTarget.hpp"
 
@@ -13,17 +13,16 @@ public:
      * @param desiredQuaternion desired quaternion to achieve sun pointing
      * @param angularVelocityECIOrbit angular velocity of the orbit frame with respect to the ECI frame, expressed in the orbit frame
      */
-    SunPointing(Eigen::Matrix<float, 3, 3> Kp,
-                Eigen::Matrix<float, 3, 3> Kd,
-                Eigen::Quaternionf desiredQuaternion,
-                Eigen::Vector3f angularVelocityECIOrbit);
+    SunPointing(const Eigen::Matrix<float, 3, 3> Kp,
+                const Eigen::Matrix<float, 3, 3> Kd);
 
-    void changeGains(bool eclipse, Eigen::Matrix<float, 3, 3> &KpGain, Eigen::Matrix<float, 3, 3> &KdGain) const override;
+    void changeGains(const bool eclipse, Eigen::Matrix<float, 3, 3> &KpGain,
+                     Eigen::Matrix<float, 3, 3> &KdGain) const override;
 
-    Eigen::Vector3f calculateTorque(Eigen::Quaternionf quaternionOrbitBody,
-                                    Eigen::Vector3f sunECIUnitVector,
-                                    GlobalStateVector state,
-                                    bool eclipse) const override;
+    Eigen::Vector3f calculateTorque(const Eigen::Quaternionf quaternionOrbitBody,
+                                    const Eigen::Vector3f sunECIUnitVector,
+                                    const GlobalStateVector state,
+                                    const bool eclipse) const override;
 
     /**
      * Function that calculates the quaternion that expresses the rotation from the body frame to sun
@@ -32,6 +31,6 @@ public:
      * @return quaternion that expresses the rotation from the body frame to sun
      */
     Eigen::Quaternionf calculateQuaternionSunBody(Eigen::Vector3f sunECIUnitVector,
-                                         Eigen::Quaternionf quaternionECIBody) const;
+                                                  const Eigen::Quaternionf quaternionECIBody) const;
 
 };

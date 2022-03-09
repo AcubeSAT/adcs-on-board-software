@@ -4,28 +4,15 @@
 #include "NadirPointing.hpp"
 #include "MagnetorquerOnly.hpp"
 #include "MagnetorquerPlusRW.hpp"
+#include "Parameters.hpp"
 
 using namespace Eigen;
 
+MagnetorquerPlusRW magnetorquerPlusRW;
+MagnetorquerOnly magnetorquerOnly;
 
-const Quaternionf desiredQuaternion = {1, 0, 0, 0};
-const Vector3f residualDipoleEstimation = {0.05, 0.05, 0.05};
-const Vector3f angularVelocityECIOrbit = {0, 0.0011, 0};
-const Vector3f maxMagneticDipole = {0.2, 0.2, 0.2};
-const float maxReactionWheelTorque = 1e-04;
-const float reactionWheelAngularVelocityLimit = 10000;
-const float torquePercentage = 0.12;
-const float flywheelInertia = 0.0015;
-
-const auto Kp = Matrix<float, 3, 3>::Identity(3, 3);
-const auto Kd = Matrix<float, 3, 3>::Identity(3, 3);
-
-MagnetorquerPlusRW magnetorquerPlusRW(maxMagneticDipole, residualDipoleEstimation, maxReactionWheelTorque,
-                                      reactionWheelAngularVelocityLimit, torquePercentage, flywheelInertia);
-MagnetorquerOnly magnetorquerOnly(maxMagneticDipole, residualDipoleEstimation);
-
-SunPointing sunPointing(Kp, Kd, desiredQuaternion, angularVelocityECIOrbit);
-NadirPointing nadirPointing(Kp, Kd, desiredQuaternion, angularVelocityECIOrbit);
+SunPointing sunPointing(Parameters::SunPointingPlusRW::Kp, Parameters::SunPointingPlusRW::Kd);
+NadirPointing nadirPointing(Parameters::SunPointingPlusRW::Kp, Parameters::SunPointingPlusRW::Kd);
 
 
 TEST_CASE("Pointing - Nadir Pointing Magnetorquers Plus RW") {
@@ -42,7 +29,8 @@ TEST_CASE("Pointing - Nadir Pointing Magnetorquers Plus RW") {
 
     auto actuatorTorque = nadirPointingMagnetorquerPlusRW.performPointing(quaternionOrbitBody, sunECIUnitVector, state,
                                                                           eclipse, magneticField,
-                                                                          firstTime, currentReactionWheelAngularVelocity,
+                                                                          firstTime,
+                                                                          currentReactionWheelAngularVelocity,
                                                                           oldReactionWheelAcceleration);
 
     Vector3f magnetorquerTorque = actuatorTorque.col(0);

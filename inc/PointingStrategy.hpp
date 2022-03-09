@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "Eigen/Dense"
 #include "Definitions.hpp"
@@ -8,17 +8,6 @@
  */
 class PointingStrategy {
 protected:
-
-    /**
-     * Maximum magnetic dipole provided by the Magnetorquers (in Am^2)
-     */
-    Eigen::Vector3f maxMagneticDipoleMoment;
-
-    /**
-     * Estimation of the residual magnetic dipole (in Am^2)
-     */
-    Eigen::Vector3f residualDipoleEstimation;
-
     /**
      * Magnetorquer desaturation algorithm
      * @param desiredMagneticTorque Torque to be provided by the magnetorquers (in Nm)
@@ -31,18 +20,11 @@ protected:
     Eigen::Matrix<float, VectorSize, NumOfActuators>
     desaturateMagnetorquer(Eigen::Vector3f desiredMagneticTorque,
                            Eigen::Vector3f desiredReactionWheelTorque,
-                           Eigen::Vector3f commandedTorque,
-                           Eigen::Vector3f magneticField,
+                           const Eigen::Vector3f commandedTorque,
+                           const Eigen::Vector3f magneticField,
                            Eigen::Vector3f desiredMagneticDipole) const;
 
 public:
-
-    /**
-     * @param maxMagneticDipoleMoment Maximum magnetic dipole provided by the Magnetorquers (in Am^2)
-     * @param residualDipoleEstimation Estimation of the residual magnetic dipole (in Am^2)
-     */
-    PointingStrategy(Eigen::Vector3f maxMagneticDipoleMoment, Eigen::Vector3f residualDipoleEstimation);
-
     /**
      * Magnetorquer scaling algorithm
      * @param desiredMagneticDipole Magnetic dipole moment (in Am^2)
@@ -60,31 +42,7 @@ public:
      * @return Magnetic torque and Reaction Wheel torque
      */
     virtual Eigen::Matrix<float, VectorSize, NumOfActuators>
-    actuate(Eigen::Vector3f commandedTorque, Eigen::Vector3f magneticField, bool firstTime,
-            float currentReactionWheelAngularVelocity,
-            float oldReactionWheelAcceleration) const = 0;
-
-    /**
-     * Maximum magnetic dipole provided by the Magnetorquers setter
-     * @param maxMagneticDipoleMoment Maximum magnetic dipole provided by the Magnetorquers (in Am^2)
-     */
-    void setMaxMagneticDipoleMoment(Eigen::Vector3f maxMagneticDipoleMoment);
-
-    /**
-     * Maximum magnetic dipole provided by the Magnetorquers getter
-     * @return maximum magnetic dipole provided by the Magnetorquers (in Am^2)
-     */
-    Eigen::Vector3f getMaxMagneticDipoleMoment() const;
-
-    /**
-     * Estimation of the residual magnetic dipole setter
-     * @param residualDipoleEstimation Estimation of the residual magnetic dipole (in Am^2)
-     */
-    void setResidualDipoleEstimation(Eigen::Vector3f residualDipoleEstimation);
-
-    /**
-     * Estimation of the residual magnetic dipole getter
-     * @return estimation of the residual magnetic dipole (in Am^2)
-     */
-    Eigen::Vector3f getResidualDipoleEstimation() const;
+    actuate(const Eigen::Vector3f commandedTorque, const Eigen::Vector3f magneticField, const bool firstTime,
+            const float currentReactionWheelAngularVelocity,
+            const float oldReactionWheelAcceleration) const = 0;
 };

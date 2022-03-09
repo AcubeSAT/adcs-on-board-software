@@ -3,23 +3,15 @@
 
 using namespace Eigen;
 
-const Vector3f residualDipoleEstimation = {0.05, 0.05, 0.05};
-const Vector3f angularVelocityECIOrbit = {0, 0.0011, 0};
-const Vector3f maxMagneticDipole = {0.2, 0.2, 0.2};
-const float maxReactionWheelTorque = 1e-04;
-const float reactionWheelAngularVelocityLimit = 10000;
-const float torquePercentage = 0.12;
-const float flywheelInertia = 0.0015;
 
-const MagnetorquerPlusRW magnetorquerPlusRW(maxMagneticDipole, residualDipoleEstimation, maxReactionWheelTorque,
-                                      reactionWheelAngularVelocityLimit, torquePercentage, flywheelInertia);
+const MagnetorquerPlusRW magnetorquerPlusRW;
 
 TEST_CASE("Magnetorquer Plus RW Strategy - Torque Split") {
     Vector3f commandedTorque1 = {1e-06, 1e-06, 1e-06};
     Vector3f magneticField1 = {0, 0, 1e-05};
 
     Matrix<float, VectorSize, NumOfActuators> actuatorTorque1 = magnetorquerPlusRW.splitTorque(magneticField1,
-                                                                                                  commandedTorque1);
+                                                                                               commandedTorque1);
 
     Vector3f desiredMagneticTorque1 = actuatorTorque1.col(0);
     Vector3f desiredReactionWheelTorque1 = actuatorTorque1.col(1);
@@ -27,7 +19,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Torque Split") {
     Vector3f commandedTorque2 = {-1e-03 * 0.40561, -1e-03 * 0.55451, 1e-03 * 0.29295};
     Vector3f magneticField2 = {1e-04 * 0.44848, -1e-04 * 0.02672, -1e-04 * 0.14255};
     Matrix<float, VectorSize, NumOfActuators> actuatorTorque2 = magnetorquerPlusRW.splitTorque(magneticField2,
-                                                                                                  commandedTorque2);
+                                                                                               commandedTorque2);
 
     Vector3f desiredMagneticTorque2 = actuatorTorque2.col(0);
     Vector3f desiredReactionWheelTorque2 = actuatorTorque2.col(1);
@@ -35,7 +27,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Torque Split") {
     Vector3f commandedTorque3 = {1e-04 * 0.52402, -1e-04 * 0.13596, 1e-04 * 0.72617};
     Vector3f magneticField3 = {1e-04 * 0.44672, -1e-04 * 0.03053, -1e-04 * 0.14552};
     Matrix<float, VectorSize, NumOfActuators> actuatorTorque3 = magnetorquerPlusRW.splitTorque(magneticField3,
-                                                                                                  commandedTorque3);
+                                                                                               commandedTorque3);
 
     Vector3f desiredMagneticTorque3 = actuatorTorque3.col(0);
     Vector3f desiredReactionWheelTorque3 = actuatorTorque3.col(1);
@@ -112,7 +104,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Magnetorquer Saturation") {
     REQUIRE(desiredReactionWheelTorque2(1) == Approx(0).epsilon(1e-4));
     REQUIRE(desiredReactionWheelTorque2(2) == Approx(1e-04 * 0.139415).epsilon(1e-4));
 
-    SECTION("Zero desired dipole in all axes"){
+    SECTION("Zero desired dipole in all axes") {
         Vector3f commandedTorque = {5e-06, 5e-06, 0};
         Vector3f magneticField = {0, 0, 1e-05};
         Vector3f desiredMagneticDipole = {0, 0, 0};
@@ -134,11 +126,11 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Magnetorquer Saturation") {
 
         REQUIRE(desiredReactionWheelTorque(0) == Approx(0).epsilon(1e-4));
         REQUIRE(desiredReactionWheelTorque(1) == Approx(0).epsilon(1e-4));
-        REQUIRE(desiredReactionWheelTorque(2) == Approx(- 1e-04 * 0.11933).epsilon(1e-4));
+        REQUIRE(desiredReactionWheelTorque(2) == Approx(-1e-04 * 0.11933).epsilon(1e-4));
 
     }
 
-    SECTION("Zero desired dipole in two axes - Division by zero"){
+    SECTION("Zero desired dipole in two axes - Division by zero") {
         Vector3f commandedTorque = {5e-06, 5e-06, 0};
         Vector3f magneticField = {0, 0, 1e-05};
         Vector3f desiredMagneticDipole = {0, 0, 0.5};
@@ -163,7 +155,7 @@ TEST_CASE("Magnetorquer Plus RW Strategy - Magnetorquer Saturation") {
         REQUIRE(desiredReactionWheelTorque(2) == Approx(1e-04).epsilon(1e-4));
     }
 
-    SECTION("Zero desired dipole in one axis - Division by zero"){
+    SECTION("Zero desired dipole in one axis - Division by zero") {
         Vector3f commandedTorque = {5e-06, 5e-06, 0};
         Vector3f magneticField = {0, 0, 1e-05};
         Vector3f desiredMagneticDipole = {0, 0.5, 0.5};

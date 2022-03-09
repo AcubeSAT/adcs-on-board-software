@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "Eigen/Dense"
 #include "Definitions.hpp"
@@ -7,19 +7,7 @@
  * Class that implements the space environment
  */
 class SatelliteModel {
-private:
-    /**
-     * timestep sampling time in seconds
-     */
-    float timestep;
-
 public:
-    /**
-     * Class constructor that initializes the timestep
-     * @param timestep sampling time in seconds
-     */
-    SatelliteModel(float timestep);
-
     /**
      * Rotates the magnetic field and sun position measurements to body frame
      * @param magneticField magnetic field measurements
@@ -31,9 +19,9 @@ public:
      * @return magnetic field and sun position measurements in body frame
      */
     MeasurementVector
-    measurementFunction(Eigen::Vector3f magneticField,
-                        Eigen::Vector3f sunPosition, bool eclipse,
-                        GlobalStateVector state, Eigen::Vector3f satPositionECI, float albedo) const;
+    measurementFunction(const Eigen::Vector3f magneticField,
+                        const Eigen::Vector3f sunPosition, const bool eclipse,
+                        const GlobalStateVector state, const Eigen::Vector3f satPositionECI, const float albedo) const;
 
     /**
      * Updates the state vector taking into account measurements from gyroscope
@@ -41,8 +29,8 @@ public:
      * @param gyroMeasurements measurements from gyroscope
      * @return updated state
      */
-    GlobalStateVector stateTransitionFunction(GlobalStateVector state,
-                                              Eigen::Vector3f gyroMeasurements) const;
+    GlobalStateVector stateTransitionFunction(const GlobalStateVector state,
+                                              const Eigen::Vector3f gyroMeasurements) const;
 
     /**
      * Calculates the state's Jacobian
@@ -51,8 +39,8 @@ public:
      * @return state's Jacobian
      */
     Eigen::Matrix<float, LocalStateSize, LocalStateSize>
-    stateTransitionJacobian(GlobalStateVector state,
-                            Eigen::Vector3f gyroMeasurements) const;
+    stateTransitionJacobian(const GlobalStateVector state,
+                            const Eigen::Vector3f gyroMeasurements) const;
 
     /**
      * Calculates the measurements' Jacobian
@@ -64,7 +52,7 @@ public:
      * @return measurements' Jacobian
      */
     Eigen::Matrix<float, MeasurementSize, MeasurementSize>
-    measurementJacobian(Eigen::Vector3f magneticField,
-                        Eigen::Vector3f sunPosition, bool eclipse,
-                        GlobalStateVector state, Eigen::Vector3f satPositionECI, float albedo) const;
+    measurementJacobian(const Eigen::Vector3f magneticField,
+                        const Eigen::Vector3f sunPosition, const bool eclipse,
+                        const GlobalStateVector state, const Eigen::Vector3f satPositionECI, const float albedo) const;
 };

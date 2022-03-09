@@ -1,9 +1,15 @@
 #include "MEKF.hpp"
 #include "MathFunctions.hpp"
+#include "Parameters.hpp"
 
 using namespace Eigen;
 
-void MEKF::predict(float timestep, const SatelliteModel &satelliteModel, const Vector3f &gyroMeasurements) {
+MEKF::MEKF() :
+        Q{Parameters::CovarianceMatrices::Q},
+        R{Parameters::CovarianceMatrices::R} {}
+
+
+void MEKF::predict(const float timestep, const SatelliteModel &satelliteModel, const Vector3f &gyroMeasurements) {
     F_k = satelliteModel.stateTransitionJacobian(globalState, gyroMeasurements);
     globalState = satelliteModel.stateTransitionFunction(globalState, gyroMeasurements);
     auto Phi = (F_k * timestep).exp();
@@ -12,8 +18,8 @@ void MEKF::predict(float timestep, const SatelliteModel &satelliteModel, const V
 
 void MEKF::correct(const MeasurementVector &measurement, const Vector3f &magneticField,
                    const Vector3f &sunPosition, bool eclipse, const SatelliteModel &satelliteModel,
-                   Vector3f satellitePositionECI,
-                   float albedo) {
+                   const Vector3f satellitePositionECI,
+                   const float albedo) {
     H_k = satelliteModel.measurementJacobian(magneticField, sunPosition, eclipse, globalState, satellitePositionECI,
                                              albedo);
     MeasurementVector estimatedMeasurement = satelliteModel.measurementFunction(magneticField, sunPosition, eclipse,

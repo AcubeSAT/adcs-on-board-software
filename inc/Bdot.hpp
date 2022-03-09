@@ -13,6 +13,7 @@ private:
     Eigen::Vector3f magneticFieldBody;
 
     Eigen::Vector3f bDotVector;
+<<<<<<< HEAD
 
     /**
      * proportional positive scalar gain
@@ -29,15 +30,14 @@ private:
      */
     float timestep;
 
+=======
+>>>>>>> master
 public:
 
     /**
      * @param magneticFieldBody magnetic field value expressed in the Body Frame
-     * @param Kp proportional positive scalar gain
-     * @param maxMagneticDipole magnetorquers maximum magnetic dipole (in Am^2)
-     * @param timestep derivation value (in sec)
      */
-    Bdot(Eigen::Vector3f magneticFieldBody, Eigen::Matrix<float, 3, 3> Kp, Eigen::Vector3f maxMagneticDipole, float timestep);
+    Bdot(Eigen::Vector3f magneticFieldBody);
 
     /**
      * Bdot controller is used in Detumbling mode, during which actuation is performed by the magnetorquers, and
@@ -46,7 +46,7 @@ public:
      * @param magneticFieldBody magnetic field value expressed in the Body Frame
      * @return magnetic dipole value
      */
-    Eigen::Vector3f controller(Eigen::Vector3f &magneticFieldBody);
+    Eigen::Vector3f controller(const Eigen::Vector3f &magneticFieldBody);
 
     /**
      * Scaling of the desired magnetic dipole in case it exceeds the maximum dipole provided by each magnetorquer
@@ -59,7 +59,7 @@ public:
      * magnetic field value expressed in the Body Frame getter
      * @return magnetic field value expressed in the Body Frame
      */
-    Eigen::Vector3f getMagneticFieldBody(){
+    Eigen::Vector3f getMagneticFieldBody() const{
         return magneticFieldBody;
     }
 
@@ -75,7 +75,7 @@ public:
      * Bdot vector getter
      * @return Bdot vector
      */
-    Eigen::Vector3f getBDotVector(){
+    Eigen::Vector3f getBDotVector() const{
         return bDotVector;
     }
 
@@ -85,53 +85,5 @@ public:
      */
     void setBDotVector(Eigen::Vector3f bDotVector){
         this->bDotVector = bDotVector;
-    }
-
-    /**
-     * proportional positive scalar gain getter
-     * @return proportional positive scalar gain
-     */
-    Eigen::Matrix<float, 3, 3> getKp(){
-        return Kp;
-    }
-
-    /**
-     * proportional positive scalar gain setter
-     * @param Kp proportional positive scalar gain
-     */
-    void setKp(Eigen::Matrix<float, 3, 3> Kp){
-        this->Kp = Kp;
-    }
-
-    /**
-     * Maximum magnetic dipole of magnetorquers (in Am^2) getter
-     * @return Maximum magnetic dipole of magnetorquers (in Am^2)
-     */
-    Eigen::Vector3f getMaxMagneticDipole(){
-        return maxMagneticDipole;
-    }
-
-    /**
-     * Maximum magnetic dipole of magnetorquers (in Am^2) setter
-     * @param maxMagneticDipole Maximum magnetic dipole of magnetorquers (in Am^2)
-     */
-    void setMaxMagneticDipole(Eigen::Vector3f maxMagneticDipole){
-        this->maxMagneticDipole = maxMagneticDipole;
-    }
-
-    /**
-     * derivation value getter
-     * @return derivation value
-     */
-    float getTimestep(){
-        return timestep;
-    }
-
-    /**
-     * derivation value setter
-     * @param timestep derivation value
-     */
-    void setTimestep(float timestep){
-        this->timestep = timestep;
     }
 };
