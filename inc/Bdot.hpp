@@ -13,25 +13,6 @@ private:
     Eigen::Vector3f magneticFieldBody;
 
     Eigen::Vector3f bDotVector;
-<<<<<<< HEAD
-
-    /**
-     * proportional positive scalar gain
-     */
-    Eigen::Matrix<float, 3, 3> Kp;
-
-    /**
-     * Maximum magnetic dipole of magnetorquers (in Am^2)
-     */
-    Eigen::Vector3f maxMagneticDipole;
-
-    /**
-     * derivation value equal to the time-period elapsed between two measurements of the magnetic field (in sec)
-     */
-    float timestep;
-
-=======
->>>>>>> master
 public:
 
     /**
