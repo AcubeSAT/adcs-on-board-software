@@ -12,3 +12,17 @@ insert_final_newline = true
 [*.{c,cpp,h,hpp}, CMakeLists.txt]
 indent_style = tab
 indent_size = 4
+
+# See https://github.com/mvdan/sh/blob/master/cmd/shfmt/shfmt.1.scd#examples
+[*.sh]
+# like -i=4
+indent_style = space
+indent_size = 4
+
+shell_variant      = posix # like -ln=posix
+binary_next_line   = true  # like -bn
+switch_case_indent = true  # like -ci
+
+# Ignore the entire "third_party" directory
+[third_party/**]
+ignore = true
