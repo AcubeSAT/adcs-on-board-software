@@ -31,6 +31,9 @@ private:
      * Greenwich Sidereal Time (0 to 2pi rad)
      */
     double greenwichSiderealTime;
+    /**
+     * Time in Gregorian format
+     */
     double timeGregorian;
     /**
      * Satellite position (LLH)
@@ -56,10 +59,16 @@ public:
      */
     void calculateNextPosition();
 
+    /**
+     * @return Julian date in ut1
+     */
     double getJulianDate() const {
         return julianDate;
     }
 
+    /**
+     * @return Structure containing all SGP4 parameters
+     */
     elsetrec getSatrec() const {
         return satrec;
     }
@@ -92,6 +101,9 @@ public:
         return greenwichSiderealTime;
     }
 
+    /**
+     * @return Time in Gregorian format
+     */
     double getTimeGregorian() const {
         return timeGregorian;
     }

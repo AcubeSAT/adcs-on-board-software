@@ -102,11 +102,11 @@ Vector3f sphericalToCartesian(const Vector3f vectorSpherical) {
     return {x, y, z};
 }
 
-Vector3f eci2ecef(const Vector3f vecECI, const double greenwichSiderealTime) {
+Vector3f eci2ecef(const Vector3f vectorECI, const double greenwichSiderealTime) {
     Vector3f vecECEF;
-    vecECEF(0) = vecECI(0) * cos(greenwichSiderealTime) + vecECI(1) * sin(greenwichSiderealTime);
-    vecECEF(1) = -vecECI(0) * sin(greenwichSiderealTime) + vecECI(1) * cos(greenwichSiderealTime);
-    vecECEF(2) = vecECI(2);
+    vecECEF(0) = vectorECI(0) * cos(greenwichSiderealTime) + vectorECI(1) * sin(greenwichSiderealTime);
+    vecECEF(1) = -vectorECI(0) * sin(greenwichSiderealTime) + vectorECI(1) * cos(greenwichSiderealTime);
+    vecECEF(2) = vectorECI(2);
     return vecECEF;
 }
 

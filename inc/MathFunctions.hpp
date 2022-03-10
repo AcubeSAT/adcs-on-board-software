@@ -141,14 +141,14 @@ T clampUp(T number, const T limit) {
 
 /**
  * Transforms ECI frame vector to ECEF frame
- * @param vecECI
- * @param gstime
+ * @param vectorECI
+ * @param greenwichSiderealTime
  * @return Vector in ECEF frame
  */
-Eigen::Vector3f eci2ecef(const Eigen::Vector3f vecECI, const double gstime);
+Eigen::Vector3f eci2ecef(const Eigen::Vector3f vectorECI, const double greenwichSiderealTime);
 
 /**
- * Transforms ECEF (or UVW) frame vectore to LLH frame
+ * Transforms ECEF frame vectore to LLH frame
  * @param vectorInECEF
  * @return Vector in LLH frame
  */
@@ -157,8 +157,8 @@ Eigen::Vector3f ecef2llh(const Eigen::Vector3f vectorInECEF);
 /**
  * Transforms NED frame vector to ECEF frame
  * @param vectorNED
- * @param latitude
- * @param longitude
+ * @param latitude satellite latitude
+ * @param longitude satellite longitude
  * @return Vector in ECEF
  */
 Eigen::Vector3f ned2ecef(const Eigen::Vector3f vectorNED, const float latitude, const float longitude);
@@ -166,7 +166,7 @@ Eigen::Vector3f ned2ecef(const Eigen::Vector3f vectorNED, const float latitude, 
 /**
  * Transforms ECEF frame vector to ECI frame
  * @param vectorECEF
- * @param gstime
+ * @param greenwichSiderealTime
  * @return Vector in ECI
  */
-Eigen::Vector3f ecef2eci(const Eigen::Vector3f vectorECEF, const double gstime);
+Eigen::Vector3f ecef2eci(const Eigen::Vector3f vectorECEF, const double greenwichSiderealTime);

@@ -55,7 +55,7 @@ public:
 
     /**
     * Calculates sun position
-    * @param time
+    * @param time Time in JD format
     */
     void calculateSunPosition(double time);
 
@@ -87,6 +87,9 @@ public:
         return satellitePosition;
     }
 
+    /**
+     * @return Sunlight reflected off the Earth's surface
+     */
     EarthCellsMatrix getAlbedo() const {
         return albedo;
     }
