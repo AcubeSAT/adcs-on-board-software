@@ -10,7 +10,10 @@
 # See https://www.gnu.org/software/parallel/parallel.pdf
 
 DESIRED_PATH="aflplusplus"
-[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || { echo "Run from $DESIRED_PATH"; exit; }
+[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || {
+  echo "Run from $DESIRED_PATH"
+  exit
+}
 
 input_directory=$1
 output_directory=$2

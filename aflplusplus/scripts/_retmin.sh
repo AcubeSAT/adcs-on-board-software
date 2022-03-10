@@ -4,7 +4,10 @@
 # the queue from the two fuzzer instances.
 
 DESIRED_PATH="aflplusplus"
-[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || { echo "Run from $DESIRED_PATH"; exit; }
+[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || {
+  echo "Run from $DESIRED_PATH"
+  exit
+}
 
 mkdir -p queue
 ./scripts/_tmin.sh queue_cmin queue "$(nproc)" || exit
