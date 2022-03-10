@@ -7,6 +7,9 @@
 # https://google.github.io/styleguide/shellguide.html
 
 DESIRED_PATH="aflplusplus"
-[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || { echo "Run from $DESIRED_PATH"; exit; }
+[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || {
+  echo "Run from $DESIRED_PATH"
+  exit
+}
 
 shfmt -f . | xargs shfmt -l -w -i 2 -ci -bn

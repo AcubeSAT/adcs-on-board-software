@@ -3,6 +3,9 @@
 # TODO: find a better way?
 
 DESIRED_PATH="aflplusplus"
-[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || { echo "Run from $DESIRED_PATH"; exit; }
+[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || {
+  echo "Run from $DESIRED_PATH"
+  exit
+}
 
 screen -xr "tmin" -X stuff $'./scripts/_retmin.sh\n'
