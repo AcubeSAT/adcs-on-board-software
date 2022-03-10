@@ -10,13 +10,13 @@ inline constexpr double const axisOfEarth = 6378137.0;
 inline constexpr double const flattening = 1.0 / 298.257223563;
 inline constexpr double const eccentricitySquared = (2.0 - flattening) * flattening;
 
-inline constexpr uint8_t const VectorSize = 3;
-inline constexpr uint8_t const NumOfActuators = 2;
-inline constexpr uint8_t const LocalStateSize = 6;
-inline constexpr uint8_t const GlobalStateSize = 7;
-inline constexpr uint8_t const MeasurementSize = 6;
-inline constexpr uint8_t const ReflectivityDataRows = 180;
-inline constexpr uint16_t const ReflectivityDataColumns = 288;
+inline constexpr uint8_t VectorSize = 3;
+inline constexpr uint8_t NumOfActuators = 2;
+inline constexpr uint8_t LocalStateSize = 6;
+inline constexpr uint8_t GlobalStateSize = 7;
+inline constexpr uint8_t MeasurementSize = 6;
+inline constexpr uint8_t ReflectivityDataRows = 180;
+inline constexpr uint16_t ReflectivityDataColumns = 288;
 
 typedef Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> EarthCellsMatrix;
 typedef Eigen::Vector<float, MeasurementSize> MeasurementVector;
