@@ -111,6 +111,9 @@ Vector3f eci2ecef(const Vector3f vecECI, const double greenwichSiderealTime) {
 }
 
 Vector3f ecef2llh(const Vector3f vectorInECEF) {
+    const double axisOfEarth = 6378137.0;
+    const double flattening = 1.0 / 298.257223563;
+    const double eccentricitySquared = (2.0 - flattening) * flattening;
     Vector3f vectorInLLH;
     double latitude, radiusOfEarth, oLatitudeSave, temporaryTwo;
     double dLatitude = 1.0;
