@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Geomag.h"
+#include "Geomag.hpp"
 
 #include "Albedo.hpp"
 #include "OrbitalParameters.hpp"
@@ -32,7 +32,6 @@ private:
      * Earth surface reflectivity data from TOMS project
      */
     EarthCellsMatrix reflectivityData;
-    geomag_vector geomagneticVectorStruct;
     OrbitalParameters orbitalParameters;
 public:
     /**

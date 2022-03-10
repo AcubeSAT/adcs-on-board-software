@@ -62,8 +62,7 @@ EnvironmentalModel::EnvironmentalModel(OrbitalParameters orbitalParameters,
           isEclipse{false},
           sunPosition{{0, 0, 0}},
           albedo{EarthCellsMatrix::Zero()},
-          magneticField{{0, 0, 0}},
-          geomagneticVectorStruct{.currentDate = 0, .latitude = 0, .longitude = 0, .altitude = 0, .xMagneticField = 0, .yMagneticField = 0, .zMagneticField = 0, .norm = 0, .declination = 0, .inclination = 0, .horizontalIntensity = 0, .totalIntensity = 0} {}
+          magneticField{{0, 0, 0}}{}
 
 void EnvironmentalModel::ModelEnvironment() {
     orbitalParameters.calculateNextPosition();
@@ -76,17 +75,17 @@ void EnvironmentalModel::ModelEnvironment() {
 
     const Vector3f satelliteLLH = orbitalParameters.getSatelliteLLH();
 
-    geomagneticVectorStruct.latitude = satelliteLLH(0) * 180 / PI;
-    geomagneticVectorStruct.longitude = satelliteLLH(1) * 180 / PI;
-    geomagneticVectorStruct.altitude = satelliteLLH(2) / 1000;
+    igrf_vector.latitude = satelliteLLH(0) * 180 / PI;
+    igrf_vector.longitude = satelliteLLH(1) * 180 / PI;
+    igrf_vector.altitude = satelliteLLH(2) / 1000;
 
-    geomagneticVectorStruct.currentDate = timeGregorian;
+    igrf_vector.currentDate = timeGregorian;
 
-    geomag(&geomagneticVectorStruct);
+    geomag(&igrf_vector);
 
-    magneticField(0) = geomagneticVectorStruct.xMagneticField;
-    magneticField(1) = geomagneticVectorStruct.yMagneticField;
-    magneticField(2) = geomagneticVectorStruct.zMagneticField;
+    magneticField(0) = igrf_vector.xMagneticField;
+    magneticField(1) = igrf_vector.yMagneticField;
+    magneticField(2) = igrf_vector.zMagneticField;
 
     magneticField = ned2ecef(magneticField, satelliteLLH(0), satelliteLLH(1));
     magneticField = ecef2eci(magneticField, greenwichSiderealTime);
