@@ -140,7 +140,7 @@ T clampUp(T number, const T limit) {
 }
 
 /**
- * Convert ECI frame vectors to ECEF frame vectors
+ * Transforms ECI frame vector to ECEF frame
  * @param vecECI
  * @param gstime
  * @return Vector in ECEF frame
@@ -148,14 +148,14 @@ T clampUp(T number, const T limit) {
 Eigen::Vector3f eci2ecef(Eigen::Vector3f vecECI, double gstime);
 
 /**
- * Convert ECEF (or UVW) frame vectors to LLH frame vectors
+ * Transforms ECEF (or UVW) frame vectore to LLH frame
  * @param vectorInECEF
  * @return Vector in LLH frame
  */
 Eigen::Vector3f ecef2llh(Eigen::Vector3f vectorInECEF);
 
 /**
- * Convert NED frame vectors to ECEF frame vectors
+ * Transforms NED frame vector to ECEF frame
  * @param vectorNED
  * @param latitude
  * @param longitude
@@ -164,7 +164,7 @@ Eigen::Vector3f ecef2llh(Eigen::Vector3f vectorInECEF);
 Eigen::Vector3f ned2ecef(Eigen::Vector3f vectorNED, float latitude, float longitude);
 
 /**
- * Convert ECEF frame vectors to ECI frame  vectors
+ * Transforms ECEF frame vector to ECI frame
  * @param vectorECEF
  * @param gstime
  * @return Vector in ECI

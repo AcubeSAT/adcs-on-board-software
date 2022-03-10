@@ -127,7 +127,7 @@ TEST_CASE("Environmental Model Test with tle6PM500 time step 39") {
 
     EnvironmentalModel em(orbitalParameters, reflectivityData1);
 
-    for (int i = 1; i < 40; i++) {
+    for (int i = 1; i < 4000; i++) {
         em.ModelEnvironment();
     }
     Vector3f satPosTest1 = em.getSatellitePosition();
