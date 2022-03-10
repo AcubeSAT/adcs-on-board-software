@@ -4,14 +4,14 @@
 using namespace Eigen;
 
 void EnvironmentalModel::calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPositionECI) {
-    constexpr double const EarthRatio = 6371;
-    constexpr double const SunRatio = 696000;
-    constexpr double const AU = 149600000;
-    double alpha1 = M_PI - acos(EarthRatio / (EarthRatio * AU / (SunRatio + EarthRatio))) -
+    const double EarthRatio = 6371;
+    const double SunRatio = 696000;
+    const double AU = 149600000;
+    const double alpha1 = M_PI - acos(EarthRatio / (EarthRatio * AU / (SunRatio + EarthRatio))) -
                     acos(EarthRatio / (xSatelliteECI.norm()));
-    double alpha2 =
+    const double alpha2 =
             acos(EarthRatio / (EarthRatio * AU / (SunRatio - EarthRatio))) - acos(EarthRatio / (xSatelliteECI).norm());
-    double alpha = M_PI - acos(sunPositionECI.dot(xSatelliteECI) / ((sunPositionECI).norm() * (xSatelliteECI).norm()));
+    const double alpha = M_PI - acos(sunPositionECI.dot(xSatelliteECI) / ((sunPositionECI).norm() * (xSatelliteECI).norm()));
 
     if ((alpha2 < alpha) && (alpha < alpha1)) {
         isEclipse = true;
@@ -23,8 +23,8 @@ void EnvironmentalModel::calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPo
 }
 
 void EnvironmentalModel::calculateSunPosition(double time) {
-    //we convert time to ut1 which is Jan 1, 2000 12 h epoch
-    double ut1 = (time - 2451545) / 36525;
+    // we convert time to ut1 which is Jan 1, 2000 12 h epoch
+    const double ut1 = (time - 2451545) / 36525;
     double meanLong = 280.4606184 + 36000.77005361 * ut1;
     double meanAnomaly = 357.5277233 + 35999.05034 * ut1;
     double eclipticLongitude;
@@ -67,15 +67,19 @@ EnvironmentalModel::EnvironmentalModel(OrbitalParameters orbitalParameters,
 
 void EnvironmentalModel::ModelEnvironment() {
     orbitalParameters.calculateNextPosition();
-    satellitePosition = orbitalParameters.getPosition();
-    double julianDate = orbitalParameters.getJulianDate();
-    double greenwichSiderealTime = orbitalParameters.getGreenwichSiderealTime();
-    Vector3f satelliteLLH = orbitalParameters.getSatelliteLLH();
-    double timeGregorian = orbitalParameters.getTimeGregorian();
 
-    geomagneticVectorStruct.latitude = satelliteLLH[0] * 180 / PI;
-    geomagneticVectorStruct.longitude = satelliteLLH[1] * 180 / PI;
-    geomagneticVectorStruct.altitude = satelliteLLH[2] / 1000;
+    satellitePosition = orbitalParameters.getPosition();
+
+    const double julianDate = orbitalParameters.getJulianDate();
+    const double greenwichSiderealTime = orbitalParameters.getGreenwichSiderealTime();
+    const double timeGregorian = orbitalParameters.getTimeGregorian();
+
+    const Vector3f satelliteLLH = orbitalParameters.getSatelliteLLH();
+
+    geomagneticVectorStruct.latitude = satelliteLLH(0) * 180 / PI;
+    geomagneticVectorStruct.longitude = satelliteLLH(1) * 180 / PI;
+    geomagneticVectorStruct.altitude = satelliteLLH(2) / 1000;
+
     geomagneticVectorStruct.currentDate = timeGregorian;
 
     geomag(&geomagneticVectorStruct);
@@ -83,7 +87,8 @@ void EnvironmentalModel::ModelEnvironment() {
     magneticField(0) = geomagneticVectorStruct.xMagneticField;
     magneticField(1) = geomagneticVectorStruct.yMagneticField;
     magneticField(2) = geomagneticVectorStruct.zMagneticField;
-    magneticField = ned2ecef(magneticField, satelliteLLH[0], satelliteLLH[1]);
+
+    magneticField = ned2ecef(magneticField, satelliteLLH(0), satelliteLLH(1));
     magneticField = ecef2eci(magneticField, greenwichSiderealTime);
 
     calculateSunPosition(julianDate);
@@ -92,6 +97,7 @@ void EnvironmentalModel::ModelEnvironment() {
 
     Vector3f satelliteECEF = eci2ecef(satellitePosition, greenwichSiderealTime);
     Vector3f sunPositionECEF = eci2ecef(sunPosition, greenwichSiderealTime);
+
     satellitePosition *= 1000;
     satelliteECEF *= 1000;
 

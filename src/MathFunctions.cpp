@@ -102,7 +102,7 @@ Vector3f sphericalToCartesian(const Vector3f vectorSpherical) {
     return {x, y, z};
 }
 
-Vector3f eci2ecef(Vector3f vecECI, double greenwichSiderealTime) {
+Vector3f eci2ecef(const Vector3f vecECI, const double greenwichSiderealTime) {
     Vector3f vecECEF;
     vecECEF(0) = vecECI(0) * cos(greenwichSiderealTime) + vecECI(1) * sin(greenwichSiderealTime);
     vecECEF(1) = -vecECI(0) * sin(greenwichSiderealTime) + vecECI(1) * cos(greenwichSiderealTime);
@@ -110,14 +110,11 @@ Vector3f eci2ecef(Vector3f vecECI, double greenwichSiderealTime) {
     return vecECEF;
 }
 
-Vector3f ecef2llh(Vector3f vectorInECEF) {
+Vector3f ecef2llh(const Vector3f vectorInECEF) {
     Vector3f vectorInLLH;
-    double latitude;
-    double radiusOfEarth;
-    double oLatitudeSave;
-    double temporaryTwo;
+    double latitude, radiusOfEarth, oLatitudeSave, temporaryTwo;
     double dLatitude = 1.0;
-    double temporaryOne = sqrt(pow(vectorInECEF(0), 2) + pow(vectorInECEF(1), 2));
+    const double temporaryOne = sqrt(pow(vectorInECEF(0), 2) + pow(vectorInECEF(1), 2));
 
     if (temporaryOne == 0.0) {
         vectorInLLH(1) = 0;
@@ -133,7 +130,6 @@ Vector3f ecef2llh(Vector3f vectorInECEF) {
         latitude = atan2(vectorInECEF(2), temporaryOne);
         radiusOfEarth = axisOfEarth;
 
-
         while (dLatitude > halfMeterError) {
             oLatitudeSave = latitude;
             temporaryTwo = vectorInECEF(2) + eccentricitySquared * radiusOfEarth * sin(latitude);
@@ -145,37 +141,40 @@ Vector3f ecef2llh(Vector3f vectorInECEF) {
         vectorInLLH(0) = latitude;
     }
     return vectorInLLH;
-
 }
 
-Vector3f ned2ecef(Vector3f vectorNED, float latitude, float longitude) {
-    Vector3f vectorECEF;
+Vector3f ned2ecef(const Vector3f vectorNED, const float latitude, const float longitude) {
     Matrix<float, VectorSize, VectorSize> R;
     R(0, 0) = -sin(latitude) * cos(longitude);
     R(1, 0) = -sin(latitude) * sin(longitude);
     R(2, 0) = cos(latitude);
+
     R(0, 1) = -sin(longitude);
     R(1, 1) = cos(longitude);
     R(2, 1) = 0;
+
     R(0, 2) = -cos(latitude) * cos(longitude);
     R(1, 2) = -cos(latitude) * sin(longitude);
     R(2, 2) = -sin(latitude);
-    vectorECEF = R * vectorNED;
+
+    const Vector3f vectorECEF = R * vectorNED;
     return vectorECEF;
 }
 
-Vector3f ecef2eci(Vector3f vectorECEF, double greenwichSiderealTime) {
-    Vector3f vectorECI;
+Vector3f ecef2eci(const Vector3f vectorECEF, const double greenwichSiderealTime) {
     Matrix<float, VectorSize, VectorSize> R;
     R(0, 0) = cos(-greenwichSiderealTime);
     R(0, 1) = sin(-greenwichSiderealTime);
     R(0, 2) = 0;
+
     R(1, 0) = -sin(-greenwichSiderealTime);
     R(1, 1) = cos(-greenwichSiderealTime);
     R(1, 2) = 0;
+
     R(2, 0) = 0;
     R(2, 1) = 0;
     R(2, 2) = 1;
-    vectorECI = R * vectorECEF;
+    
+    const Vector3f vectorECI = R * vectorECEF;
     return vectorECI;
 }
