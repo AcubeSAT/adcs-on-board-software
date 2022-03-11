@@ -134,4 +134,9 @@ TEST_CASE("Environmental Model Test with tle6PM500 time step 39") {
     REQUIRE(satPosTest1[0] == Approx(-6733757.51820706).epsilon(1e-4));
     REQUIRE(satPosTest1[1] == Approx(-1379046.15879295).epsilon(1e-4));
     REQUIRE(satPosTest1[2] == Approx(14019.1944664209).epsilon(1e-4));
+
+    Vector3f magneticField = em.getMagneticField();
+    REQUIRE(magneticField(0) == Approx(8010.61224322292).epsilon(0.01));
+    REQUIRE(magneticField(1) == Approx(1147.11562015444).epsilon(0.01));
+    REQUIRE(magneticField(2) == Approx(21924.5840590608).epsilon(0.01));
 }
