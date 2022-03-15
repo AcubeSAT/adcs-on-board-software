@@ -25,7 +25,6 @@ OrbitalParameters::calculateTime(const TLE &tle, const char typerun, const char 
     strcpy(tle1, tle.first.c_str());
     strcpy(tle2, tle.second.c_str());
 
-
     SGP4Funcs::twoline2rv(tle1, tle2,
                           typerun, typeinput, opsmode, whichconst,
                           timeSince, stopMfe, deltaMin, satrec);
