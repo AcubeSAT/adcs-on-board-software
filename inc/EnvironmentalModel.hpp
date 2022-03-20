@@ -54,7 +54,8 @@ public:
     void calculateEclipse(Eigen::Vector3f xSatelliteECI, Eigen::Vector3f sunPositionECI);
 
     /**
-    * Calculates sun position.In this function we use ut1,so we convert time to ut1 which is Jan 1, 2000 12 h epoch
+    * Calculates sun position.In this function we use ut1,so we convert time to ut1 which is Jan 1, 2000 12 h epoch.
+    * There are also some constants used (to calculate eclipticLongitude and magnitude) based on literature
     * @param time Time in JD format
     */
     void calculateSunPosition(double time);

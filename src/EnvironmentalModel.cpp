@@ -23,11 +23,6 @@ void EnvironmentalModel::calculateEclipse(Vector3f xSatelliteECI, Vector3f sunPo
 }
 
 void EnvironmentalModel::calculateSunPosition(double time) {
-    const double eclipticLongitudeConstantOne = 1.91466471;
-    const double eclipticLongitudeConstantTwo = 0.019994643;
-    const double earthSunDistanceParameterOne = 1.000140612;
-    const double earthSunDistanceParameterTwo = 0.016708617;
-    const double earthSunDistanceParameterThree = 0.000139589;
     const double meanLengthOfYear = 36525;
     const double ut1 = (time - 2451545) / meanLengthOfYear;
     double meanLong = 280.4606184 + 36000.77005361 * ut1;
@@ -43,7 +38,7 @@ void EnvironmentalModel::calculateSunPosition(double time) {
         meanAnomaly = 2 * M_PI + meanAnomaly;
     }
 
-    eclipticLongitude = meanLong + eclipticLongitudeConstantOne * sin(meanAnomaly) + eclipticLongitudeConstantTwo * sin(2 * meanAnomaly);
+    eclipticLongitude = meanLong + 1.91466471 * sin(meanAnomaly) + 0.019994643 * sin(2 * meanAnomaly);
 
     meanLong = meanLong * M_PI / 180;
 
@@ -53,7 +48,7 @@ void EnvironmentalModel::calculateSunPosition(double time) {
 
     eclipticLongitude = eclipticLongitude * M_PI / 180;
     obliquity = obliquity * M_PI / 180;
-    magnitude = earthSunDistanceParameterOne - earthSunDistanceParameterTwo * cos(meanAnomaly) - earthSunDistanceParameterThree * cos(2 * meanAnomaly);
+    magnitude = 1.000140612 - 0.016708617 * cos(meanAnomaly) - 0.000139589 * cos(2 * meanAnomaly);
 
     sunPosition[0] = magnitude * cos(eclipticLongitude);
     sunPosition[1] = magnitude * cos(obliquity) * sin(eclipticLongitude);
