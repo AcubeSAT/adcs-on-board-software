@@ -32,7 +32,8 @@ void EnvironmentalModel::calculateSunPosition(double time) {
     double magnitude;
 
     meanLong = std::fmod((meanLong), (360));
-    meanAnomaly = std::fmod((meanAnomaly * M_PI / 180), (2 * M_PI));
+    meanLong = std::fmod(meanLong, 360);
+    meanAnomaly = std::fmod(meanAnomaly * M_PI / 180, 2 * M_PI);
 
     if (meanAnomaly < 0) {
         meanAnomaly = 2 * M_PI + meanAnomaly;
