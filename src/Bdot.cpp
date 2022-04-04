@@ -10,7 +10,7 @@ Bdot::Bdot(Vector3f magneticFieldBody) :
         magneticFieldBody{magneticFieldBody},
         bDotVector{{0, 0, 0}}{}
 
-Vector3f Bdot::controller(const Vector3f &magneticFieldBody) {        
+Vector3f Bdot::controller(const Vector3f &magneticFieldBody) {
     bDotVector = (magneticFieldBody - this->magneticFieldBody) / Timestep;
 
     Vector3f magneticDipole;

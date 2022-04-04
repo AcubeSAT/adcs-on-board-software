@@ -5,10 +5,7 @@
 
 #include "Definitions.hpp"
 
-inline constexpr int16_t ReflectivityDataRows = 180;
-inline constexpr int16_t ReflectivityDataColumns = 288;
-
-inline constexpr auto const EMR = 6371.01e3;
+const static float EMR = 6371.01e3;
 
 namespace albedo {
 /**
@@ -72,6 +69,6 @@ namespace albedo {
  * @param reflectivityData Earth surface reflectivity data from TOMS project
  * @return sunlight reflected off the Earth's surface
  */
-Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns>
+EarthCellsMatrix
 calculateAlbedo(const Eigen::Vector3f &satellite, const Eigen::Vector3f &sunPosition,
-                const Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> &reflectivityData);
+                const EarthCellsMatrix &reflectivityData);

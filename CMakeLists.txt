@@ -32,7 +32,9 @@ add_library(adcs OBJECT
         src/SunPointing.cpp
         src/PointingStrategy.cpp
         src/MagnetorquerPlusRW.cpp
-        src/MagnetorquerOnly.cpp)
+        src/MagnetorquerOnly.cpp
+        src/EnvironmentalModel.cpp
+        src/OrbitalParameters.cpp)
 
 add_executable(adcs-onboard-software main.cpp
         $<TARGET_OBJECTS:adcs>)
