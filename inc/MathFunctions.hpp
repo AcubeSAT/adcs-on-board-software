@@ -114,7 +114,7 @@ T clamp(T number, const T lowerLimit, const T upperLimit) {
 /**
  * Clamps a value in case it is lower than a limit
  * @param number number to be clamped
- * @return clamped number 
+ * @return clamped number
  */
 template<typename T>
 T clampDown(T number, const T limit) {
@@ -128,7 +128,7 @@ T clampDown(T number, const T limit) {
 /**
  * Clamps a value in case it is upper than a limit
  * @param number number to be clamped
- * @return clamped number 
+ * @return clamped number
  */
 template<typename T>
 T clampUp(T number, const T limit) {
@@ -138,3 +138,35 @@ T clampUp(T number, const T limit) {
 
     return number;
 }
+
+/**
+ * Transforms ECI frame vector to ECEF frame
+ * @param vectorECI
+ * @param greenwichSiderealTime
+ * @return Vector in ECEF frame
+ */
+Eigen::Vector3f eci2ecef(const Eigen::Vector3f vectorECI, const double greenwichSiderealTime);
+
+/**
+ * Transforms ECEF frame vectore to LLH frame
+ * @param vectorInECEF
+ * @return Vector in LLH frame
+ */
+Eigen::Vector3f ecef2llh(const Eigen::Vector3f vectorInECEF);
+
+/**
+ * Transforms NED frame vector to ECEF frame
+ * @param vectorNED
+ * @param latitude satellite latitude
+ * @param longitude satellite longitude
+ * @return Vector in ECEF
+ */
+Eigen::Vector3f ned2ecef(const Eigen::Vector3f vectorNED, const float latitude, const float longitude);
+
+/**
+ * Transforms ECEF frame vector to ECI frame
+ * @param vectorECEF
+ * @param greenwichSiderealTime
+ * @return Vector in ECI
+ */
+Eigen::Vector3f ecef2eci(const Eigen::Vector3f vectorECEF, const double greenwichSiderealTime);

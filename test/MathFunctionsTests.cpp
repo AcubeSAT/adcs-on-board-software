@@ -303,3 +303,109 @@ TEST_CASE("Clamp up") {
     number2 = clampUp(number2, limit2);
     REQUIRE(number2 == Approx(0.3).epsilon(0.01));
 }
+
+TEST_CASE("eci2ecef Test")
+{
+    Vector3f vecECI = {-6733.04064617925, -1382.68992247076, -14.6876088752119};
+    double gstime = 4.883067536994346;
+    Vector3f vec = eci2ecef(vecECI, gstime);
+
+    REQUIRE(vec[0] == Approx(218.984818755685));
+    REQUIRE(vec[1] == Approx(-6870.05920017860));
+    REQUIRE(vec[2] == Approx(-14.6876088752119));
+
+    vecECI = {-2.3, 0, 1212};
+    gstime = 3.3453224;
+    vec = eci2ecef(vecECI, gstime);
+
+    REQUIRE(vec[0] == Approx(2.25243318591924));
+    REQUIRE(vec[1] == Approx(-0.465343682636487));
+    REQUIRE(vec[2] == Approx(1212));
+
+    vecECI = {-1234, -74329.123, 0.1432};
+    gstime = 12234909;
+    vec = eci2ecef(vecECI, gstime);
+
+    REQUIRE(vec[0] == Approx(-74334.9817031508));
+    REQUIRE(vec[1] == Approx(-807.327158822088));
+    REQUIRE(vec[2] == Approx(0.143200000000000));
+}
+TEST_CASE("ecef2llh Test")
+{
+    Vector3f vecECEF;
+    vecECEF[0] = 218984.818755685;
+    vecECEF[1] = -6870059.20017860;
+    vecECEF[2] = -14687.6088752119;
+    Vector3f vecLLH = ecef2llh(vecECEF);
+
+    REQUIRE(vecLLH[0] == Approx(-0.00215018349404917));
+    REQUIRE(vecLLH[1] == Approx(-1.53893187083921));
+    REQUIRE(vecLLH[2] == Approx(495427.201998211));
+
+    vecECEF[0] = -2352955.19123252;
+    vecECEF[1] = -6385334.94375174;
+    vecECEF[2] = -974941.937267234;
+    vecLLH = ecef2llh(vecECEF);
+
+    REQUIRE(vecLLH[0] == Approx(-0.143176024574243));
+    REQUIRE(vecLLH[1] == Approx(-1.92385060820004));
+    REQUIRE(vecLLH[2] == Approx(496843.174380195));
+
+    vecECEF[0] = 217654.986658955;
+    vecECEF[1] = -6870105.25711085;
+    vecECEF[2] = -7888.63372952578;
+    vecLLH = ecef2llh(vecECEF);
+
+    REQUIRE(vecLLH[0] == Approx(-0.00115485233360311));
+    REQUIRE(vecLLH[1] == Approx(-1.53912545696974));
+    REQUIRE(vecLLH[2] == Approx(495419.761713431));
+}
+TEST_CASE("Ned2ecef Test")
+{
+    Vector3f vecNED;
+    float lat = -0.00215018349404917;
+    float longit = -1.53893187083921;
+    vecNED[0] = 21927.0935576559;
+    vecNED[1] = 490.758716715348;
+    vecNED[2] = 7848.08753664789;
+    Vector3f vecECEF = ned2ecef(vecNED, lat, longit);
+
+    REQUIRE(vecECEF[0] == Approx(241.979515198619));
+    REQUIRE(vecECEF[1] == Approx(7812.59729678756));
+    REQUIRE(vecECEF[2] == Approx(21943.9176853079));
+
+    lat = -0.00115485233360311;
+    longit = -1.53912545696974;
+    vecNED[0] = 21930.4628495019;
+    vecNED[1] = 489.006234668502;
+    vecNED[2] = 7891.82083326086;
+    vecECEF = ned2ecef(vecNED, lat, longit);
+
+    REQUIRE(vecECEF[0] == Approx(239.664101962900));
+    REQUIRE(vecECEF[1] == Approx(7878.02890637489));
+    REQUIRE(vecECEF[2] == Approx(21939.5621110306));
+}
+
+TEST_CASE("ecef2eci Test")
+{
+    Vector3f vecECEF;
+    double gstime = 4.88306753699435;
+    vecECEF[0] = 241.979515198619;
+    vecECEF[1] = 7812.59729678756;
+    vecECEF[2] = 21943.9176853079;
+    Vector3f vecECI = ecef2eci(vecECEF, gstime);
+
+    REQUIRE(vecECI[0] == Approx(7740.17871171431));
+    REQUIRE(vecECI[1] == Approx(1088.51463852010));
+    REQUIRE(vecECI[2] == Approx(21943.9176853079));
+
+    gstime = 5.28741536250600;
+    vecECEF[0] = 1831.29948279837;
+    vecECEF[1] = -5124.17879734563;
+    vecECEF[2] = 22315.2957509272;
+    vecECI = ecef2eci(vecECEF, gstime);
+
+    REQUIRE(vecECI[0] == Approx(-3304.13296729673));
+    REQUIRE(vecECI[1] == Approx(-4323.60630461274));
+    REQUIRE(vecECI[2] == Approx(22315.2957509272));
+}
