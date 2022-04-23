@@ -17,7 +17,7 @@ A more experienced Linux user will get suspicious of `--security-opt seccomp=unc
 2. `curl -LJO https://raw.githubusercontent.com/AFLplusplus/AFLplusplus/stable/afl-system-config`
 3. `chmod +x afl-system-config`
 4. `sudo ./afl-system-config` (re-run after system has rebooted between sessions)
-5. `docker run -ti --security-opt seccomp=unconfined -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus`
+5. `docker run -ti --security-opt seccomp=unconfined -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus` (run from the parent dir of `on-board-software`, or change the `$PWD/on-board-software` part)
 6. `cd ../on-board-software/aflplusplus`
 7. `git submodule update --init --recursive` if you've never fetched the repo's submodules
 8. `. ./scripts/setup.sh`
@@ -89,7 +89,7 @@ After getting docker up and running, you can just pull the AFL++ image:
 docker pull aflplusplus/aflplusplus
 ```
 
-You can then start the AFL++ container. It would be convenient if you could transfer (mount) the project file somewhere on the container, so that you don't have to copy the files over, or `git clone` again from inside the container. You can do that with [docker volumes](https://docs.docker.com/storage/volumes/#start-a-container-with-a-volume). For example, if you were on the parent directory of `on-board-software`, you would run:
+You can then start the AFL++ container. It would be convenient if you could transfer (mount) the project file somewhere on the container, so that you don't have to copy the files over, or `git clone` again from inside the container. You can do that with [docker volumes](https://docs.docker.com/storage/volumes/#start-a-container-with-a-volume). For example, if you were on the parent directory of `on-board-software` (otherwise, change the `$PWD/on-board-software` part), you would run:
 ```sh
 docker run -ti --security-opt seccomp=unconfined -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus
 ```
