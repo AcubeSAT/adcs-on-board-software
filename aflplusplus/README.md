@@ -73,7 +73,10 @@ make shellcheck
 
 If you prefer to build the image locally, you can find their `Dockerfile` [here](https://github.com/AFLplusplus/AFLplusplus/blob/stable/Dockerfile).
 
-You might have to run docker with root privileges. If you want to run it as a non-root user, you usually have to add your user in the `docker` group. Beware, since adding a user to the `docker` group is equivalent to giving root access, since they will be able to start containers with root privileges with `docker run --privileged`.
+You might have to run docker with root privileges. If you want to run it as a non-root user, you usually have to add your user in the `docker` group. Beware, since adding a user to the `docker` group is equivalent to giving root access, since they will be able to start containers with root privileges with `docker run --privileged`. From the [Docker entry](https://wiki.archlinux.org/title/docker) on the Arch Linux wiki:
+> If you want to be able to run the docker CLI command as a non-root user, add your user to the docker user group, re-login, and restart docker.service.
+
+> Warning: Anyone added to the docker group is root equivalent because they can use the docker run --privileged command to start containers with root privileges. For more information see [3](https://github.com/docker/docker/issues/9976) and [4](https://docs.docker.com/engine/security/).
 
 ##### Development
 
