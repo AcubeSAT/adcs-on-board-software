@@ -181,3 +181,5 @@ Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflp
 13. `./scripts/quit-screen.sh`
    
    This gracefully kills the two `screen` sessions.
+
+All scripts were statically analyzed with and guided by [`shellcheck`](https://github.com/koalaman/shellcheck). For more info on a script, go through the actual file; there is further documentation in the form of comments.
