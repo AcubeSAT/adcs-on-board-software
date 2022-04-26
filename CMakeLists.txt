@@ -34,7 +34,8 @@ add_library(adcs OBJECT
         src/MagnetorquerPlusRW.cpp
         src/MagnetorquerOnly.cpp
         src/EnvironmentalModel.cpp
-        src/OrbitalParameters.cpp)
+        src/OrbitalParameters.cpp
+        src/Nominal.cpp)
 
 add_executable(adcs-onboard-software main.cpp
         $<TARGET_OBJECTS:adcs>)
