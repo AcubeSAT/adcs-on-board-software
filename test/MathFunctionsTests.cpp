@@ -409,3 +409,27 @@ TEST_CASE("ecef2eci Test")
     REQUIRE(vecECI[1] == Approx(-4323.60630461274));
     REQUIRE(vecECI[2] == Approx(22315.2957509272));
 }
+
+TEST_CASE("Conjugate quaternion  test") {
+    Quaternionf quaternion1 = {1, 2, 3, 4};
+    Quaternionf quaternion2 = {-1, -2, -3, -4};
+    Quaternionf quaternion3 = {1, -2.2, 3.1, -4};
+    Quaternionf conQuat1 = quaternionConjugate(quaternion1) ;
+    Quaternionf conQuat2 = quaternionConjugate(quaternion2) ;
+    Quaternionf conQuat3 = quaternionConjugate(quaternion3) ;
+
+    REQUIRE(conQuat1.w() == float(1));
+    REQUIRE(conQuat1.x() == float(-2));
+    REQUIRE(conQuat1.y() == float(-3));
+    REQUIRE(conQuat1.z() == float(-4));
+
+    REQUIRE(conQuat2.w() == float(-1));
+    REQUIRE(conQuat2.x() == float(2));
+    REQUIRE(conQuat2.y() == float(3));
+    REQUIRE(conQuat2.z() == float(4));
+
+    REQUIRE(conQuat3.w() == float(1));
+    REQUIRE(conQuat3.x() == float(2.2));
+    REQUIRE(conQuat3.y() == float(-3.1));
+    REQUIRE(conQuat3.z() == float(4));
+}

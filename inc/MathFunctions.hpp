@@ -170,3 +170,10 @@ Eigen::Vector3f ned2ecef(const Eigen::Vector3f vectorNED, const float latitude, 
  * @return Vector in ECI
  */
 Eigen::Vector3f ecef2eci(const Eigen::Vector3f vectorECEF, const double greenwichSiderealTime);
+
+/**
+ * Calculate the conjugate of a quaternion
+ * @param quaternion
+ * @return The conjugated  quaternion
+ */
+Eigen::Quaternionf quaternionConjugate(const Eigen::Quaternionf quaternion);

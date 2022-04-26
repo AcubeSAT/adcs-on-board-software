@@ -181,3 +181,12 @@ Vector3f ecef2eci(const Vector3f vectorECEF, const double greenwichSiderealTime)
     const Vector3f vectorECI = R * vectorECEF;
     return vectorECI;
 }
+
+Quaternionf quaternionConjugate(const Quaternionf quaternion){
+    Quaternionf conQuaternion;
+    conQuaternion.w() = quaternion.w();
+    conQuaternion.x() = -quaternion.x();
+    conQuaternion.y() = -quaternion.y();
+    conQuaternion.z() = -quaternion.z();
+    return conQuaternion;
+}
