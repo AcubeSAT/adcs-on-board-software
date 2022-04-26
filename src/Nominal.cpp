@@ -2,10 +2,11 @@
 #include "Nominal.hpp"
 #include "MathFunctions.hpp"
 #include "Wahba.hpp"
+#include "MEKF.hpp"
 
 using namespace Eigen;
 
-void FirstPartOfNominal(const TLE &tle,EarthCellsMatrix reflectivityData,const Quaternionf quaternionECIBody,Vector3f magneticBody){
+void FirstPartOfNominal(const TLE &tle,EarthCellsMatrix reflectivityData,const Quaternionf quaternionECIBody,Vector3f magneticBody,Vector3f giroscopeBias){
     Quaternionf quaternionFromSunPositionECI;
     Quaternionf temp;
     Vector3f satPositionECI;
@@ -16,10 +17,13 @@ void FirstPartOfNominal(const TLE &tle,EarthCellsMatrix reflectivityData,const Q
     Vector3f css;
     Eigen::Quaternionf outputQuaternion;
     Vector3f magneticFieldECI;
+    GlobalStateVector globalState;
 
+    //OrbitalParameters
     OrbitalParameters orbitalParameters;
     orbitalParameters.calculateTime(tle, 'v', 'd', 'i', wgs84);
 
+    //EnvironmentalModel
     EnvironmentalModel em(orbitalParameters, reflectivityData);
     em.ModelEnvironment();
 
@@ -41,4 +45,8 @@ void FirstPartOfNominal(const TLE &tle,EarthCellsMatrix reflectivityData,const Q
     magneticFieldECI = em.getMagneticField();
     outputQuaternion = wahba(magneticBody, magneticFieldECI, css, sunPosECI);
 
+    //MEKF
+    MEKF mekf;
+    globalState = {outputQuaternion.w(),outputQuaternion.x(),outputQuaternion.y(),outputQuaternion.z(),giroscopeBias(0),giroscopeBias(1),giroscopeBias(2)};
+    mekf.setGlobalState(globalState);
 }
