@@ -1,10 +1,11 @@
 
 #include "Nominal.hpp"
 #include "MathFunctions.hpp"
+#include "Wahba.hpp"
 
 using namespace Eigen;
 
-void FirstPartOfNominal(const TLE &tle,EarthCellsMatrix reflectivityData,const Quaternionf quaternionECIBody){
+void FirstPartOfNominal(const TLE &tle,EarthCellsMatrix reflectivityData,const Quaternionf quaternionECIBody,Vector3f magneticBody){
     Quaternionf quaternionFromSunPositionECI;
     Quaternionf temp;
     Vector3f satPositionECI;
@@ -12,6 +13,9 @@ void FirstPartOfNominal(const TLE &tle,EarthCellsMatrix reflectivityData,const Q
     Vector3f sunPosECI;
     Vector3f sunPositionBody;
     float totalAlbedo;
+    Vector3f css;
+    Eigen::Quaternionf outputQuaternion;
+    Vector3f magneticFieldECI;
 
     OrbitalParameters orbitalParameters;
     orbitalParameters.calculateTime(tle, 'v', 'd', 'i', wgs84);
@@ -30,5 +34,11 @@ void FirstPartOfNominal(const TLE &tle,EarthCellsMatrix reflectivityData,const Q
     satPositionECI = em.getSatellitePosition();
     albedo = em.getAlbedo();
     totalAlbedo = albedo.sum();
-    Vector3f css = cssCompensation(sunPositionBody, quaternionECIBody, satPositionECI, totalAlbedo);
+    css = cssCompensation(sunPositionBody, quaternionECIBody, satPositionECI, totalAlbedo);
+    css = css/css.norm();
+
+    //Wahba
+    magneticFieldECI = em.getMagneticField();
+    outputQuaternion = wahba(magneticBody, magneticFieldECI, css, sunPosECI);
+
 }
