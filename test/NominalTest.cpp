@@ -22,15 +22,13 @@ TEST_CASE("First part of Nominal test") {
 
 
     expectedState
-            <<0.449311355178033,-0.119669240619940,0.885255918577615,-0.0109789608264623,0,0,0;
-//    for (int i = 0; i < 7; i++) {
-//        REQUIRE(outputState(i) == Approx(expectedState(i)).epsilon(0.01));
-//    }
+            <<0.449311355178033,-0.119669240619940,0.885255918577615,-0.0109789608264623,1,1,1;
+
     REQUIRE(outputState(0) == Approx(expectedState(0)).epsilon(0.01));
     REQUIRE(outputState(1) == Approx(expectedState(1)).epsilon(0.01));
     REQUIRE(outputState(2) == Approx(expectedState(2)).epsilon(0.01));
-//    REQUIRE(outputState(3) == Approx(expectedState(3)).epsilon(0.01));
-//    REQUIRE(outputState(4) == Approx(expectedState(4)).epsilon(0.01));
-//    REQUIRE(outputState(5) == Approx(expectedState(5)).epsilon(0.01));
-//    REQUIRE(outputState(6) == Approx(expectedState(6)).epsilon(0.01));
+    REQUIRE(outputState(3) == Approx(expectedState(3)).epsilon(0.1));
+    REQUIRE(outputState(4) == Approx(expectedState(4)).epsilon(0.01));
+    REQUIRE(outputState(5) == Approx(expectedState(5)).epsilon(0.01));
+    REQUIRE(outputState(6) == Approx(expectedState(6)).epsilon(0.01));
 }
