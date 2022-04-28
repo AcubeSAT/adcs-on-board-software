@@ -50,6 +50,6 @@ IF (EXISTS "${PROJECT_SOURCE_DIR}/lib/Catch2/CMakeLists.txt")
     add_subdirectory(lib/Catch2)
     add_executable(tests $<TARGET_OBJECTS:adcs>
             ${test_main_SRC}
-            ${test_SRC})
+            ${test_SRC} test/NominalTest.cpp)
     target_link_libraries(tests Catch2::Catch2)
 ENDIF ()

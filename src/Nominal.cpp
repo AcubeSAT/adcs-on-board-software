@@ -6,7 +6,7 @@
 
 using namespace Eigen;
 
-void FirstPartOfNominal(const TLE &tle,EarthCellsMatrix reflectivityData,const Quaternionf quaternionECIBody,Vector3f magneticBody,Vector3f giroscopeBias){
+void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const Quaternionf quaternionECIBody,Vector3f magneticBody,Vector3f giroscopeBias){
     Quaternionf quaternionFromSunPositionECI;
     Quaternionf temp;
     Vector3f satPositionECI;
@@ -18,14 +18,6 @@ void FirstPartOfNominal(const TLE &tle,EarthCellsMatrix reflectivityData,const Q
     Eigen::Quaternionf outputQuaternion;
     Vector3f magneticFieldECI;
     GlobalStateVector globalState;
-
-    //OrbitalParameters
-    OrbitalParameters orbitalParameters;
-    orbitalParameters.calculateTime(tle, 'v', 'd', 'i', wgs84);
-
-    //EnvironmentalModel
-    EnvironmentalModel em(orbitalParameters, reflectivityData);
-    em.ModelEnvironment();
 
     //CSS
     sunPosECI = em.getSunPosition();
@@ -43,10 +35,11 @@ void FirstPartOfNominal(const TLE &tle,EarthCellsMatrix reflectivityData,const Q
 
     //Wahba
     magneticFieldECI = em.getMagneticField();
-    outputQuaternion = wahba(magneticBody, magneticFieldECI, css, sunPosECI);
+
+    outputQuaternion = wahba(magneticBody, magneticFieldECI* pow(10,-9), css, sunPosECI);
 
     //MEKF
-    MEKF mekf;
+
     globalState = {outputQuaternion.w(),outputQuaternion.x(),outputQuaternion.y(),outputQuaternion.z(),giroscopeBias(0),giroscopeBias(1),giroscopeBias(2)};
     mekf.setGlobalState(globalState);
 }
