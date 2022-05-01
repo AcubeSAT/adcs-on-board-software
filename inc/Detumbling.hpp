@@ -10,7 +10,7 @@
  * @param magneticFieldBody magnetic field value expressed in the Body Frame
  * @returns required magnetorquer torque value
  */
-Eigen::Vector3f getMagneticTorque(Bdot  &bDot, Eigen::Vector3f magneticFieldBody);
+Eigen::Vector3f getMagneticTorque(Bdot &bDot, Eigen::Vector3f magneticFieldBody1, Eigen::Vector3f magneticFieldBody2);
 
 /**
  * Calculate the current angular velocity of the satellite.
@@ -18,5 +18,3 @@ Eigen::Vector3f getMagneticTorque(Bdot  &bDot, Eigen::Vector3f magneticFieldBody
  * @return angular velocity expressed in body frame
  */
 Eigen::Vector3f getAngularVelocity(Bdot &bDot);
-
-
