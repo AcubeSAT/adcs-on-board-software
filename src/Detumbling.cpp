@@ -6,7 +6,7 @@ Vector3f getMagneticTorque(Bdot &bDot, Eigen::Vector3f magneticFieldBody1, Eigen
     bDot.setMagneticFieldBody(magneticFieldBody1);
     Vector3f magneticDipole = bDot.controller(magneticFieldBody2);
     Vector3f bDotVector = bDot.getBDotVector();
-    Vector3f magneticTorque = magneticDipole.cross(bDotVector);
+    Vector3f magneticTorque = magneticDipole.cross(magneticFieldBody1);
 
     return magneticTorque;
 }

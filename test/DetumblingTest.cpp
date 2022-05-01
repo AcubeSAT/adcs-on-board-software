@@ -5,24 +5,27 @@ using namespace Eigen;
 
 TEST_CASE("Torque Test"){
 
-    Vector3f initialMagneticField = {-0.1378, 0.1833, -0.0411};
-
-    initialMagneticField[0] /= 10000;
-    initialMagneticField[1] /= 10000;
-    initialMagneticField[2] /= 10000;
-
-    Bdot bDot(initialMagneticField);
-
-    Vector3f nextMagneticField ={-0.1445,0.1779,-0.0395};
-
-    nextMagneticField[0] /= 10000;
-    nextMagneticField[1] /= 10000;
-    nextMagneticField[2] /= 10000;
-
-    Vector3f magneticTorque = getMagneticTorque(bDot, nextMagneticField);
+    Vector3f magneticFieldBody1 ={-1.44505468032163,1.77939963990674,-3.95126047327029};
 
 
-    REQUIRE(magneticTorque[0] == Approx(-0.00001445).epsilon(1e-3));
-    REQUIRE(magneticTorque[1] == Approx(0.00001779).epsilon(1e-3));
-    REQUIRE(magneticTorque[2] == Approx(-0.00000395).epsilon(1e-3));
+    magneticFieldBody1[0] /= 100000;
+    magneticFieldBody1[1] /= 100000;
+    magneticFieldBody1[2] /= 1000000;
+
+    Vector3f magneticFieldBody2 = {-1.37815279474949,1.83322872033822, -4.11412598905325};
+
+    magneticFieldBody2[0] /= 100000;
+    magneticFieldBody2[1] /= 100000;
+    magneticFieldBody2[2] /= 1000000;
+
+    Bdot bDot({0, 0, 0});
+
+
+
+    Vector3f magneticTorque = getMagneticTorque(bDot, magneticFieldBody1, magneticFieldBody2);
+
+
+    REQUIRE(magneticTorque[0]*10000000 == Approx(-4.55641919081183).epsilon(1e-3));
+    REQUIRE(magneticTorque[1]*1000000 == Approx(-1.80204558688336).epsilon(1e-3));
+    REQUIRE(magneticTorque[2]*1000000 == Approx(-6.44890864045674).epsilon(1e-3));
 }
