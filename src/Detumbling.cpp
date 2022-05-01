@@ -2,11 +2,12 @@
 
 using namespace Eigen;
 
-Vector3f getMagneticTorque(Bdot &bDot, Eigen::Vector3f magneticFieldBody){
-
-    Vector3f magneticDipole = bDot.controller(magneticFieldBody);
+Vector3f getMagneticTorque(Bdot &bDot, Eigen::Vector3f magneticFieldBody1, Eigen::Vector3f magneticFieldBody2){
+    bDot.setMagneticFieldBody(magneticFieldBody1);
+    Vector3f magneticDipole = bDot.controller(magneticFieldBody2);
     Vector3f bDotVector = bDot.getBDotVector();
     Vector3f magneticTorque = magneticDipole.cross(bDotVector);
+
     return magneticTorque;
 }
 
