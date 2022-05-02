@@ -13,27 +13,34 @@ A more experienced Linux user will get suspicious of `--security-opt seccomp=unc
 
 [![asciicast](https://asciinema.org/a/457900.png)](https://asciinema.org/a/457900)
 
-1. `sudo docker pull aflplusplus/aflplusplus`
-2. `curl -LJO https://raw.githubusercontent.com/AFLplusplus/AFLplusplus/stable/afl-system-config`
-3. `chmod +x afl-system-config`
-4. `sudo ./afl-system-config` (re-run after system has rebooted between sessions)
-5. `sudo docker run -ti --security-opt seccomp=unconfined -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus` (run from the parent dir of `on-board-software`, or change the `$PWD/on-board-software` part)
-6. `cd ../on-board-software/aflplusplus`
-7. `git submodule update --init --recursive` if you've never fetched the repo's submodules
-8. `. ./scripts/setup.sh`
-9. `./scripts/instrument.sh`
-10. `./scripts/build-cov.sh`
-11. `./scripts/launch-screen.sh`
-12. `./scripts/tmin.sh`
-13. `./scripts/fuzz.sh`
-14. `./scripts/cov.sh`
-15. `./scripts/stop-fuzz.sh`
-16. `./scripts/cmin.sh`
-17. `./scripts/retmin.sh`
-18. `./scripts/refuzz.sh`
-19. Repeat 14-18
-20. `./scripts/triage.sh`
-21. `./scripts/quit-screen.sh`
+1. `cd on-board-software/aflplusplus/statsd`
+2. `docker-compose up -d` Starts Prometheus, `statsd-exporter` and Grafana in the same network
+3. browse `localhost:3000` (Grafana login page)
+4. login with username: `admin`, password: `admin`
+5. Set up a password for `admin`
+6. Go to `Create` -> `Import` -> `Upload JSON file` and select `statsd/grafana-afl++.json`
+7. In new terminal/pane: `sudo docker pull aflplusplus/aflplusplus`
+8. `curl -LJO https://raw.githubusercontent.com/AFLplusplus/AFLplusplus/stable/afl-system-config`
+9. `chmod +x afl-system-config`
+10. `sudo ./afl-system-config` (re-run after system has rebooted between sessions)
+11. `sudo docker run -ti --security-opt seccomp=unconfined -v $PWD/on-board-software:/on-board-software aflplusplus/aflplusplus` (run from the parent dir of `on-board-software`, or change the `$PWD/on-board-software` part)
+12. `cd ../on-board-software/aflplusplus`
+13. `git submodule update --init --recursive` if you've never fetched the repo's submodules
+14. `. ./scripts/setup.sh`
+15. `./scripts/instrument.sh`
+16. `./scripts/build-cov.sh`
+17. `./scripts/launch-screen.sh`
+18. `./scripts/tmin.sh`
+19. `./scripts/fuzz.sh`
+20. `./scripts/cov.sh`
+21. `./scripts/stop-fuzz.sh`
+22. `./scripts/cmin.sh`
+23. `./scripts/retmin.sh`
+24. `./scripts/refuzz.sh`
+25. Repeat 20-24 (`cov` - `refuzz`)
+26. `./scripts/triage.sh`
+27. `./scripts/quit-screen.sh`
+28. `docker-compose down` when you're done with StatsD/Prometheus/Grafana
 
 A `tldr` alias is defined through `setup.sh` so that you can get a quick overview of the script execution order.
 
