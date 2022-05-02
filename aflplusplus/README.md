@@ -82,6 +82,10 @@ You might have to run docker with root privileges. If you want to run it as a no
 
 > Warning: Anyone added to the docker group is root equivalent because they can use the docker run --privileged command to start containers with root privileges. For more information see [3](https://github.com/docker/docker/issues/9976) and [4](https://docs.docker.com/engine/security/).
 
+Note that to be able to [set up](https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/rpc_statsd.md#installing-and-setting-up-statsd-prometheus-and-grafana) the StatsD, Prometheus and Grafana infrastracture, if you want to be able to use the `docker-compose.yml` configuration provided in `statsd/`, you have to have the `docker-compose` binary. If you didn't use the `get-docker.sh` script to install Docker, you might have to install the binary separately, using your distributions' package manager (e.g., in arch it's `sudo pacman -S docker-compose`). Alternatively, you can run `docker compose up` instead of `docker-compose up -d`, as seen in the Docker [documentation page](https://docs.docker.com/compose/).
+
+If you get a `unknown option --dport` `iptables` error, that might mean you have to install `iptables-nft` instead of `iptables` (legacy). Make sure to reboot afterwards.
+
 ##### Development
 
 After getting docker up and running, you can just pull the AFL++ image:
@@ -113,6 +117,8 @@ cd ../on-board-software/aflplusplus
 
 Fun fact: Since you mounted the volume, any changes you do in `on-board-software` while inside the container will persist in the host directory even after closing the container. This is bidirectional: you can keep updating the `on-board-software` directory from outside, and the changes will be immediately reflected inside the container
 Fun fact #2: you can work inside the container, and sign your commits with `git commit -S` out of the box!
+
+If you want to be able to work with the `on-board-software` repository with `git` from inside the running `aflplusplus` mounted container, first run `git config --global --add safe.directory /on-board-software` (as prompted).
 
 #### Manual
 
