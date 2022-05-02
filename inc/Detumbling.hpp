@@ -17,4 +17,4 @@ Eigen::Vector3f getMagneticTorque(Bdot &bDot, Eigen::Vector3f magneticFieldBody1
  * @param bDot a b-dot controller to calculate the angular velocity
  * @return angular velocity expressed in body frame
  */
-Eigen::Vector3f getAngularVelocity(Bdot &bDot);
+Eigen::Vector3f getAngularVelocityEstimation(Bdot &bDot);
