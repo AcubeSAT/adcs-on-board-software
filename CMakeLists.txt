@@ -35,7 +35,7 @@ add_library(adcs OBJECT
         src/MagnetorquerOnly.cpp
         src/EnvironmentalModel.cpp
         src/Detumbling.cpp
-        src/OrbitalParameters.cpp inc/Detumbling.hpp src/Detumbling.cpp)
+        src/OrbitalParameters.cpp)
 
 add_executable(adcs-onboard-software main.cpp
         $<TARGET_OBJECTS:adcs>)
@@ -50,6 +50,6 @@ IF (EXISTS "${PROJECT_SOURCE_DIR}/lib/Catch2/CMakeLists.txt")
     add_subdirectory(lib/Catch2)
     add_executable(tests $<TARGET_OBJECTS:adcs>
             ${test_main_SRC}
-            ${test_SRC} test/DetumblingTest.cpp)
+            ${test_SRC})
     target_link_libraries(tests Catch2::Catch2)
 ENDIF ()
