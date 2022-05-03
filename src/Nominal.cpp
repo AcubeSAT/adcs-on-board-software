@@ -6,7 +6,7 @@
 
 using namespace Eigen;
 
-void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const Quaternionf quaternionECIBody,Vector3f magneticBody,Vector3f giroscopeBias){
+void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const Quaternionf quaternionECIBody,Vector3f magneticBody,Vector3f gyroscopeBias){
     Quaternionf quaternionFromSunPositionECI;
     Quaternionf temp;
     Vector3f satPositionECI;
@@ -36,10 +36,10 @@ void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const Quaternionf quate
     //Wahba
     magneticFieldECI = em.getMagneticField();
 
-    outputQuaternion = wahba(magneticBody, magneticFieldECI* pow(10,-9), css, sunPosECI);
+    outputQuaternion = wahba(magneticBody, magneticFieldECI, css, sunPosECI);
 
     //MEKF
 
-    globalState = {outputQuaternion.w(),outputQuaternion.x(),outputQuaternion.y(),outputQuaternion.z(),giroscopeBias(0),giroscopeBias(1),giroscopeBias(2)};
+    globalState = {outputQuaternion.w(),outputQuaternion.x(),outputQuaternion.y(),outputQuaternion.z(),gyroscopeBias(0),gyroscopeBias(1),gyroscopeBias(2)};
     mekf.setGlobalState(globalState);
 }
