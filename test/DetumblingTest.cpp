@@ -19,7 +19,7 @@ TEST_CASE("Torque Test") {
 
     Bdot bDot({0, 0, 0});
 
-    Vector3f magneticTorque = getMagneticTorque(bDot, magneticFieldBody1, magneticFieldBody2);
+    Vector3f magneticTorque = calculateMagneticTorque(bDot, magneticFieldBody1, magneticFieldBody2);
 
     REQUIRE(magneticTorque[0] * 10000000 == Approx(-4.55641919081183).epsilon(1e-3));
     REQUIRE(magneticTorque[1] * 1000000 == Approx(-1.80204558688336).epsilon(1e-3));
@@ -41,8 +41,8 @@ TEST_CASE("Angular Velocity") {
 
     Bdot bDot({0, 0, 0});
 
-    Vector3f magneticTorque = getMagneticTorque(bDot, magneticFieldBody1, magneticFieldBody2);
-    Vector3f angularVelocity = getAngularVelocityEstimation(bDot);
+    Vector3f magneticTorque = calculateMagneticTorque(bDot, magneticFieldBody1, magneticFieldBody2);
+    Vector3f angularVelocity = estimateAngularVelocityEstimation(bDot);
 
     REQUIRE(angularVelocity[0] == Approx(-0.0636545152441620).epsilon(1e-3));
     REQUIRE(angularVelocity[1] == Approx(0.0831996293001571).epsilon(1e-3));
