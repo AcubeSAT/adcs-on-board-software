@@ -3,6 +3,14 @@ project(aflplusplus)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# Check for unsupported combinations
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  # are we using the special AFL instrumented compiler?
+  string(REGEX MATCH "afl-clang-lto\\+\\+$" AFL ${CMAKE_CXX_COMPILER})
+else()
+  message(FATAL_ERROR "You should use the AFL-instrumented compiler (with LTO)")
+endif()
+
 include_directories(../inc
         ../lib/etl/include
         ../lib/eigen
