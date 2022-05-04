@@ -12,17 +12,18 @@ void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const Quaternionf quate
     Vector3f satPositionECI;
     EarthCellsMatrix albedo;
     Vector3f sunPosECI;
+    Vector3f sunPosECInNormalized;
     Vector3f sunPositionBody;
     float totalAlbedo;
     Vector3f css;
-    Eigen::Quaternionf outputQuaternion;
+    Quaternionf outputQuaternion;
     Vector3f magneticFieldECI;
     GlobalStateVector globalState;
 
     //CSS
     sunPosECI = em.getSunPosition();
-    sunPosECI = sunPosECI/sunPosECI.norm();
-    quaternionFromSunPositionECI={0,sunPosECI(0),sunPosECI(1),sunPosECI(2)};
+    sunPosECInNormalized = sunPosECI/sunPosECI.norm();
+    quaternionFromSunPositionECI={0,sunPosECInNormalized(0),sunPosECInNormalized(1),sunPosECInNormalized(2)};
     temp = quaternionProduct(quaternionConjugate(quaternionECIBody),quaternionProduct(quaternionFromSunPositionECI,quaternionECIBody));
     sunPositionBody(0) = temp.x();
     sunPositionBody(1) = temp.y();
@@ -30,16 +31,19 @@ void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const Quaternionf quate
     satPositionECI = em.getSatellitePosition();
     albedo = em.getAlbedo();
     totalAlbedo = albedo.sum();
-    css = cssCompensation(sunPositionBody, quaternionECIBody, satPositionECI, totalAlbedo);
+    css = cssCompensation(sunPositionBody, quaternionECIBody, css, totalAlbedo);
     css = css/css.norm();
 
     //Wahba
     magneticFieldECI = em.getMagneticField();
 
-    outputQuaternion = wahba(magneticBody, magneticFieldECI, css, sunPosECI);
+    outputQuaternion = wahba(magneticBody, magneticFieldECI, sunPositionBody, sunPosECI);
 
     //MEKF
 
     globalState = {outputQuaternion.w(),outputQuaternion.x(),outputQuaternion.y(),outputQuaternion.z(),gyroscopeBias(0),gyroscopeBias(1),gyroscopeBias(2)};
     mekf.setGlobalState(globalState);
 }
+//-0.413443195401665
+//0.862767093417922
+//-0.291028635517626
