@@ -12,4 +12,4 @@
  * @param magneticBody Magnetic field in Body frame
  * @param gyroscopeBias Gyroscope's Bias
  */
-void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const Eigen::Quaternionf quaternionECIBody,Eigen::Vector3f magneticBody,Eigen::Vector3f gyroscopeBias);
+void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,Eigen::Vector3f sunPositionBody,Eigen::Vector3f magneticBody,Eigen::Vector3f gyroscopeBias);
