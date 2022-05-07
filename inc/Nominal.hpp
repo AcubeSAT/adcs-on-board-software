@@ -1,7 +1,6 @@
 #pragma once
 
 #include "EnvironmentalModel.hpp"
-#include "CSSCompensation.hpp"
 #include "MEKF.hpp"
 
 /**

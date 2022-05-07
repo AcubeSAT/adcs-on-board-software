@@ -1,6 +1,5 @@
 
 #include "Nominal.hpp"
-#include "MathFunctions.hpp"
 #include "Wahba.hpp"
 #include "MEKF.hpp"
 
