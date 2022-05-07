@@ -9,20 +9,20 @@ TEST_CASE("Max desired magnetic dipole") {
     Vector3f magneticFieldBody2 = {-0.1282e-04, 0.1732e-04, -0.0887e-4};
     Vector3f magneticFieldBody1 = {1.0e-04 * (0.2759), 1.0e-04 * (-0.2003), 1.0e-04 * (0.3259)};
 
-    Bdot bdot(magneticFieldBody1);
+    Bdot bdot({0,0,0},{0,0,0});
 
-    Vector3f magneticDipole = bdot.controller(magneticFieldBody2);
+    Vector3f magneticDipole = bdot.controller(magneticFieldBody1,magneticFieldBody2);
     REQUIRE(magneticDipole(0) == Approx(0.2).epsilon(1e-3));
     REQUIRE(magneticDipole(1) == Approx(-0.2).epsilon(1e-3));
     REQUIRE(magneticDipole(2) == Approx(0.2).epsilon(1e-3));
 
-    Vector3f magneticFieldBody = bdot.getMagneticFieldBody();
+    Vector3f magneticFieldBody = bdot.getCycleEndMagneticFieldBody();
     REQUIRE(magneticFieldBody(0) == Approx(-0.1282e-04).epsilon(1e-3));
     REQUIRE(magneticFieldBody(1) == Approx(0.1732e-04).epsilon(1e-3));
     REQUIRE(magneticFieldBody(2) == Approx(-0.0887e-4).epsilon(1e-3));
 
-    bdot.controller(magneticFieldBody3);
-    magneticFieldBody = bdot.getMagneticFieldBody();
+    bdot.controller(magneticFieldBody2,magneticFieldBody3);
+    magneticFieldBody = bdot.getCycleEndMagneticFieldBody();
     REQUIRE(magneticFieldBody(0) == Approx(-0.123e-04).epsilon(1e-3));
     REQUIRE(magneticFieldBody(1) == Approx(0.175e-04).epsilon(1e-3));
     REQUIRE(magneticFieldBody(2) == Approx(-0.048e-4).epsilon(1e-3));
@@ -33,21 +33,21 @@ TEST_CASE("Less than max desired magnetic dipole") {
     Vector3f magneticFieldBody2 = {1.0e-04 * (-0.0871098), 1.0e-04 * (0.0483917), 1.0e-04 * (-0.2420372)};
     Vector3f magneticFieldBody1 = {1.0e-04 * (0.0783222), 1.0e-04 * (0.0468520), 1.0e-04 * (0.4403655)};
 
-    Bdot bdot(magneticFieldBody1);
+    Bdot bdot({0,0,0},{0,0,0});
 
-    Vector3f magneticDipole = bdot.controller(magneticFieldBody2);
+    Vector3f magneticDipole = bdot.controller(magneticFieldBody1,magneticFieldBody2);
 
     REQUIRE(magneticDipole(0) == Approx(0.2).epsilon(1e-3));
     REQUIRE(magneticDipole(1) == Approx(-0.034236).epsilon(1e-3));
     REQUIRE(magneticDipole(2) == Approx(0.2).epsilon(1e-3));
 
-    Vector3f magneticFieldBody = bdot.getMagneticFieldBody();
+    Vector3f magneticFieldBody = bdot.getCycleEndMagneticFieldBody();
     REQUIRE(magneticFieldBody(0) == Approx(1.0e-04 * (-0.0871098)).epsilon(1e-3));
     REQUIRE(magneticFieldBody(1) == Approx(1.0e-04 * (0.0483917)).epsilon(1e-3));
     REQUIRE(magneticFieldBody(2) == Approx(1.0e-04 * (-0.2420372)).epsilon(1e-3));
 
-    bdot.controller(magneticFieldBody3);
-    magneticFieldBody = bdot.getMagneticFieldBody();
+    bdot.controller(magneticFieldBody2, magneticFieldBody3);
+    magneticFieldBody = bdot.getCycleEndMagneticFieldBody();
     REQUIRE(magneticFieldBody(0) == Approx(1.0e-04 * (-0.08852)).epsilon(1e-3));
     REQUIRE(magneticFieldBody(1) == Approx(1.0e-04 * (0.048456)).epsilon(1e-3));
     REQUIRE(magneticFieldBody(2) == Approx(1.0e-04 * (0.242746)).epsilon(1e-3));
@@ -57,7 +57,7 @@ TEST_CASE("Magnetorquer scaling") {
     Vector3f magneticFieldBody2 = {1.0e-04 * (-0.0871098), 1.0e-04 * (0.0483917), 1.0e-04 * (-0.2420372)};
     Vector3f magneticFieldBody1 = {1.0e-04 * (0.0783222), 1.0e-04 * (0.0468520), 1.0e-04 * (0.4403655)};
 
-    Bdot bdot(magneticFieldBody1);
+    Bdot bdot(magneticFieldBody1, magneticFieldBody2);
 
     Vector3f regularDesiredMagneticDipole = {0.12345, 0.12345, 0.12345};
     Vector3f magneticDipole = bdot.magnetorquerScaling(regularDesiredMagneticDipole);
