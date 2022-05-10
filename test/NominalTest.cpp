@@ -4,9 +4,10 @@
 using namespace Eigen;
 
 TEST_CASE("First part of Nominal test time step 11") {
-    Vector3f magneticBody(-0.946772755370904, -0.141294636304082, -0.289235501692104);
+    MeasurementVector measurments(-0.946772755370904, -0.141294636304082, -0.289235501692104,-0.413443195401665,0.862767093417922,-0.291028635517626);
+
     Vector3f gyroscopeBias = {0, 0, 0};
-    Vector3f Sunbody(-0.413443195401665,0.862767093417922,-0.291028635517626);
+
     OrbitalParameters orbitalParameters;
     Matrix<float, 180, 288> reflectivityData1 = Matrix<float, 180, 288>::Identity() * 0;
     orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
@@ -16,7 +17,7 @@ TEST_CASE("First part of Nominal test time step 11") {
         em.ModelEnvironment();
     }
     MEKF mekf;
-    FirstPartOfNominal(em, mekf, Sunbody, magneticBody, gyroscopeBias);
+    FirstPartOfNominal(em, mekf, gyroscopeBias,measurments);
     auto outputState = mekf.getGlobalState();
     GlobalStateVector expectedState;
     expectedState
@@ -30,17 +31,18 @@ TEST_CASE("First part of Nominal test time step 11") {
     REQUIRE(outputState(6) == Approx(expectedState(6)).epsilon(0.01));
 }
 TEST_CASE("First part of Nominal test time step 1") {
-    Vector3f magneticBody(-0.945805868176365,-0.140182728736128,-0.292916476640093);
+    MeasurementVector measurments(-0.945805868176365, -0.140182728736128, -0.292916476640093,-0.418613482147844,0.855938538682595,-0.303532486831246);
+
     Vector3f gyroscopeBias = {-1, 3.141592, 2.7182};
-    Vector3f Sunbody(-0.418613482147844,0.855938538682595,-0.303532486831246);
+
     OrbitalParameters orbitalParameters;
     Matrix<float, 180, 288> reflectivityData1 = Matrix<float, 180, 288>::Identity() * 0;
     orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
     EnvironmentalModel em(orbitalParameters, reflectivityData1);
     em.ModelEnvironment();
-    em.ModelEnvironment();
+    //em.ModelEnvironment();
     MEKF mekf;
-    FirstPartOfNominal(em, mekf, Sunbody, magneticBody, gyroscopeBias);
+    FirstPartOfNominal(em, mekf, gyroscopeBias,measurments);
     auto outputState = mekf.getGlobalState();
     GlobalStateVector expectedState;
     expectedState
