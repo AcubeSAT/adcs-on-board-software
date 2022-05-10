@@ -11,4 +11,4 @@
  * @param magneticBody Magnetic field in Body frame
  * @param gyroscopeBias Gyroscope's Bias
  */
-void  FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,Eigen::Vector3f gyroscopeBias,const MeasurementVector &measurement);
+void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const SatelliteModel &satelliteModel,Eigen::Vector3f gyroscopeBias,Eigen::Matrix<float, LocalStateSize, LocalStateSize> Q,Eigen::Matrix<float, MeasurementSize, MeasurementSize> R,Eigen::Matrix<float, LocalStateSize, LocalStateSize> P,MeasurementVector measurements);

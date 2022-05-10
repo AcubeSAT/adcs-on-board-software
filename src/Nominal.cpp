@@ -4,24 +4,39 @@
 #include "MEKF.hpp"
 
 using namespace Eigen;
-
-void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,Vector3f gyroscopeBias,const MeasurementVector &measurement){
+void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const SatelliteModel &satelliteModel,Vector3f gyroscopeBias,Matrix<float, LocalStateSize, LocalStateSize> Q,Matrix<float, MeasurementSize, MeasurementSize> R,Matrix<float, LocalStateSize, LocalStateSize> P,MeasurementVector measurements){
     Vector3f sunPositionBody;
     Vector3f magneticBody;
     Vector3f sunPosECI;
     Vector3f sunPosECInNormalized;
+    Vector3f satPositionECI;
+    bool eclipse;
+    EarthCellsMatrix albedoMatrix;
+    float albedo;
     Quaternionf outputQuaternion;
     Vector3f magneticFieldECI;
     GlobalStateVector globalState;
-    magneticBody[0]=measurement[0];
-    magneticBody[1]=measurement[1];
-    magneticBody[2]=measurement[2];
-    sunPositionBody[0]=measurement[3];
-    sunPositionBody[1]=measurement[4];
-    sunPositionBody[2]=measurement[5];
+
+    magneticBody[0]=measurements[0];
+    magneticBody[1]=measurements[1];
+    magneticBody[2]=measurements[2];
+    sunPositionBody[0]=measurements[3];
+    sunPositionBody[1]=measurements[4];
+    sunPositionBody[2]=measurements[5];
+
+    satPositionECI = em.getSatellitePosition();
+    eclipse = em.getIsEclipse();
+    albedoMatrix = em.getAlbedo();
+    albedo = albedoMatrix.sum();
     sunPosECI = em.getSunPosition();
     magneticFieldECI = em.getMagneticField();
     outputQuaternion = wahba(magneticBody, magneticFieldECI, sunPositionBody, sunPosECI);
     globalState = {outputQuaternion.w(),outputQuaternion.x(),outputQuaternion.y(),outputQuaternion.z(),gyroscopeBias(0),gyroscopeBias(1),gyroscopeBias(2)};
     mekf.setGlobalState(globalState);
+
+    mekf.setQ(Q);
+    mekf.setR(R);
+    mekf.setP(P);
+
+    mekf.correct(measurements, magneticFieldECI, sunPosECI, eclipse, satelliteModel, satPositionECI, albedo);
 }
