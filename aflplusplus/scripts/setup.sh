@@ -18,6 +18,14 @@ CURRENT_DIRECTORY="$PWD"
 # If you want to run afl-fuzz without these changes just comment this out.
 export AFL_SKIP_CPUFREQ=0
 
+# Enable the StatsD metrics collection on the fuzzer instances.
+# See https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/rpc_statsd.md#setting-environment-variables-in-afl
+export AFL_STATSD=1
+
+# Enable tags for each StatsD metric. Needed to see aggregate metrics for each individual fuzzing instance.
+# See https://github.com/AFLplusplus/AFLplusplus/blob/stable/docs/rpc_statsd.md#setting-environment-variables-in-afl
+export AFL_STATSD_TAGS_FLAVOR=dogstatsd
+
 # Have everything in the Docker container use vim instead of Joe.
 export VISUAL=vim
 export EDITOR="$VISUAL"
