@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Wrapper script to call the afl-cmin script in a screen session.
+# Wrapper script to call the afl-cov script in a screen session.
 # TODO: find a better way?
 
 DESIRED_PATH="aflplusplus"
@@ -8,4 +8,4 @@ DESIRED_PATH="aflplusplus"
   exit
 }
 
-screen -xr "cmin" -X stuff $'./scripts/_cmin.sh\n'
+screen -xr "cov" -X stuff $'./scripts/_cov.sh\n'
