@@ -2,6 +2,9 @@
 #include "MathFunctions.hpp"
 
 #include "Eigen/Geometry"
+#include "Eigen/Dense"
+
+inline constexpr double const halfMeterError = 1.0e-7;
 
 using namespace Eigen;
 
@@ -97,4 +100,84 @@ Vector3f sphericalToCartesian(const Vector3f vectorSpherical) {
     const float z = r * sin(elevation);
 
     return {x, y, z};
+}
+
+Vector3f eci2ecef(const Vector3f vectorECI, const double greenwichSiderealTime) {
+    Vector3f vecECEF;
+    vecECEF(0) = vectorECI(0) * cos(greenwichSiderealTime) + vectorECI(1) * sin(greenwichSiderealTime);
+    vecECEF(1) = -vectorECI(0) * sin(greenwichSiderealTime) + vectorECI(1) * cos(greenwichSiderealTime);
+    vecECEF(2) = vectorECI(2);
+    return vecECEF;
+}
+
+Vector3f ecef2llh(const Vector3f vectorInECEF) {
+    const double axisOfEarth = 6378137.0;
+    const double flattening = 1.0 / 298.257223563;
+    const double eccentricitySquared = (2.0 - flattening) * flattening;
+    Vector3f vectorInLLH;
+    double latitude, radiusOfEarth, oLatitudeSave, temporaryTwo;
+    double dLatitude = 1.0;
+    const double temporaryOne = sqrt(pow(vectorInECEF(0), 2) + pow(vectorInECEF(1), 2));
+
+    if (temporaryOne == 0.0) {
+        vectorInLLH(1) = 0;
+        if (vectorInECEF(2) > 0.0) {
+            vectorInLLH(2) = vectorInECEF(2) - (axisOfEarth / sqrt(1.0 - eccentricitySquared));
+            vectorInLLH[0] = asin(1.0);
+        } else {
+            vectorInLLH(2) = -vectorInECEF(2) - (axisOfEarth / sqrt(1.0 - eccentricitySquared));
+            vectorInLLH(0) = asin(-1.0);
+        }
+    } else {
+        vectorInLLH(1) = atan2(vectorInECEF(1), vectorInECEF(0));
+        latitude = atan2(vectorInECEF(2), temporaryOne);
+        radiusOfEarth = axisOfEarth;
+
+        while (dLatitude > halfMeterError) {
+            oLatitudeSave = latitude;
+            temporaryTwo = vectorInECEF(2) + eccentricitySquared * radiusOfEarth * sin(latitude);
+            latitude = atan2(temporaryTwo, temporaryOne);
+            radiusOfEarth = axisOfEarth / sqrt(1 - eccentricitySquared * pow(sin(latitude), 2));
+            dLatitude = abs(latitude - oLatitudeSave);
+        }
+        vectorInLLH(2) = temporaryOne / cos(latitude) - radiusOfEarth;
+        vectorInLLH(0) = latitude;
+    }
+    return vectorInLLH;
+}
+
+Vector3f ned2ecef(const Vector3f vectorNED, const float latitude, const float longitude) {
+    Matrix<float, VectorSize, VectorSize> R;
+    R(0, 0) = -sin(latitude) * cos(longitude);
+    R(1, 0) = -sin(latitude) * sin(longitude);
+    R(2, 0) = cos(latitude);
+
+    R(0, 1) = -sin(longitude);
+    R(1, 1) = cos(longitude);
+    R(2, 1) = 0;
+
+    R(0, 2) = -cos(latitude) * cos(longitude);
+    R(1, 2) = -cos(latitude) * sin(longitude);
+    R(2, 2) = -sin(latitude);
+
+    const Vector3f vectorECEF = R * vectorNED;
+    return vectorECEF;
+}
+
+Vector3f ecef2eci(const Vector3f vectorECEF, const double greenwichSiderealTime) {
+    Matrix<float, VectorSize, VectorSize> R;
+    R(0, 0) = cos(-greenwichSiderealTime);
+    R(0, 1) = sin(-greenwichSiderealTime);
+    R(0, 2) = 0;
+
+    R(1, 0) = -sin(-greenwichSiderealTime);
+    R(1, 1) = cos(-greenwichSiderealTime);
+    R(1, 2) = 0;
+
+    R(2, 0) = 0;
+    R(2, 1) = 0;
+    R(2, 2) = 1;
+    
+    const Vector3f vectorECI = R * vectorECEF;
+    return vectorECI;
 }

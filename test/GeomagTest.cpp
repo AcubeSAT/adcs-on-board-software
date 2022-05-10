@@ -3,6 +3,11 @@
 #include "MathFunctions.hpp"
 
 TEST_CASE("IGRF test") {
+    igrf_vector = {.currentDate = 0, .latitude = 0, .longitude = 0,
+            .altitude = 0, .xMagneticField = 0,
+            .yMagneticField = 0, .zMagneticField = 0,
+            .norm = 0, .declination = 0, .inclination = 0,
+            .horizontalIntensity = 0, .totalIntensity = 0};
     igrf_vector.altitude = 500;
 
     double decimal_date = date2decimal(2024, 1, 1, 0, 0, 0);
