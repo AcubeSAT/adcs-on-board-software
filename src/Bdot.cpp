@@ -6,25 +6,22 @@ using namespace Parameters::BDot;
 using namespace Parameters::Actuators;
 using namespace Eigen;
 
-Bdot::Bdot(Vector3f cycleBeginMagneticFieldBody, Vector3f cycleEndMagneticFieldBody) :
-        cycleBeginMagneticFieldBody{cycleBeginMagneticFieldBody},
-        cycleEndMagneticFieldBody{cycleEndMagneticFieldBody},
+Bdot::Bdot(Vector3f samplingBeginMagneticFieldBody, Vector3f samplingEndMagneticFieldBody) :
+        samplingBeginMagneticFieldBody{samplingBeginMagneticFieldBody},
+        samplingEndMagneticFieldBody{samplingEndMagneticFieldBody},
         bDotVector{{0, 0, 0}}{}
 
-Vector3f Bdot::controller(const Vector3f &cycleBeginMagneticFieldBody, const Vector3f &cycleEndMagneticFieldBody) {
-    bDotVector = (cycleEndMagneticFieldBody - cycleBeginMagneticFieldBody) / Timestep;
+Vector3f Bdot::controller() {
+    bDotVector = (samplingEndMagneticFieldBody - samplingBeginMagneticFieldBody) / Timestep;
 
     Vector3f magneticDipole;
-    if (cycleBeginMagneticFieldBody.norm() != 0) {
-        magneticDipole = -Kp * bDotVector / cycleBeginMagneticFieldBody.norm();
+    if (samplingBeginMagneticFieldBody.norm() != 0) {
+        magneticDipole = -Kp * bDotVector / samplingBeginMagneticFieldBody.norm();
     } else {
         magneticDipole = -Kp * bDotVector;
     }
 
     magneticDipole = magnetorquerScaling(magneticDipole);
-
-    this->cycleBeginMagneticFieldBody = cycleBeginMagneticFieldBody;
-    this->cycleEndMagneticFieldBody = cycleEndMagneticFieldBody;
 
     return magneticDipole;
 }
