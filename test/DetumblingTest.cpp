@@ -100,7 +100,7 @@ TEST_CASE("Detumbling Case 2") {
     orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
     EnvironmentalModel em(orbitalParameters, reflectivityData);
 
-    Quaternionf q_body_eci({0.3757, 0.5983, -0.2364, -0.6671});
+    Quaternionf q_body_eci({0.71772,0.449563,0.177631,0.501259});
     Vector3f omega = {PI / 3, PI / 3, PI / 3};
     Vector3f omega_dot = {0, 0, 0};
     Matrix<float, 3, 3> Inertia({
