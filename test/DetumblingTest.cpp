@@ -5,7 +5,6 @@
 using namespace Eigen;
 
 TEST_CASE("Torque Test") {
-
     Vector3f magneticFieldBody1 = {-1.44505468032163e-5, 1.77939963990674e-5, -3.95126047327029e-6};
 
     Vector3f magneticFieldBody2 = {-1.37815279474949e-5, 1.83322872033822e-5, -4.11412598905325e-6};
@@ -14,9 +13,9 @@ TEST_CASE("Torque Test") {
 
     Vector3f magneticTorque = calculateDesiredMagneticTorque(bDot);
 
-    REQUIRE(magneticTorque[0] * 10000000 == Approx(-4.55641919081183).epsilon(1e-3));
-    REQUIRE(magneticTorque[1] * 1000000 == Approx(-1.80204558688336).epsilon(1e-3));
-    REQUIRE(magneticTorque[2] * 1000000 == Approx(-6.44890864045674).epsilon(1e-3));
+    REQUIRE(magneticTorque[0] == Approx(-4.55641919081183e-7).epsilon(1e-3));
+    REQUIRE(magneticTorque[1] == Approx(-1.80204558688336e-6).epsilon(1e-3));
+    REQUIRE(magneticTorque[2] == Approx(-6.44890864045674e-6).epsilon(1e-3));
 }
 
 TEST_CASE("Angular Velocity Test") {
@@ -58,20 +57,25 @@ TEST_CASE("Detumbling Case 1") {
     Vector3f w_estim = {100, 100, 100};
     Quaternionf q_dot = {0, omega.x(), omega.y(), omega.z()};
     float trigger = 0.035;
-
-    while (!switchToNominal) {
+    int stepsIsStable = 0;
+    while (stepsIsStable < 10) {
         em.ModelEnvironment();
         magneticFieldBody1 = rotateVector(q_body_eci, em.getMagneticField());
         bdot.setSamplingBeginMagneticFieldBody(magneticFieldBody1);
-        q_dot = quaternionProduct(q_body_eci, q_dot);
-        q_dot.coeffs() = q_dot.coeffs() * 0.5;
-        q_body_eci.coeffs() += q_dot.coeffs() * dt;
-        q_body_eci.normalize();
+        if (q_dot.norm() > 1e-100) {
+            q_dot = quaternionProduct(q_body_eci, q_dot);
+            q_dot.coeffs() = q_dot.coeffs() * 0.5;
+            q_body_eci.coeffs() += q_dot.coeffs() * dt;
+            q_body_eci.normalize();
+        }
         em.ModelEnvironment();
         magneticFieldBody2 = rotateVector(q_body_eci, em.getMagneticField());
         bdot.setSamplingEndMagneticFieldBody(magneticFieldBody2);
         desiredTorque = calculateDesiredMagneticTorque(bdot);
+
+
         w_estim = estimateAngularVelocity(bdot.getBDotVector(), bdot.getSamplingBeginMagneticFieldBody());
+
 
         // ACTUATE
 
@@ -82,14 +86,18 @@ TEST_CASE("Detumbling Case 1") {
         omega = 7 * 0.5 * omega * dt +
                 0.5 * Inertia.inverse() * (desiredTorque - omega.cross(Inertia * omega)) * (0.7 * dt) * (0.7 * dt);
         q_dot = {0, omega.x(), omega.y(), omega.z()};
-        q_dot.normalize();
-        q_body_eci = quaternionProduct(q_body_eci, q_dot);
-        q_body_eci.normalize();
-        switchToNominal = ((abs(w_estim.x()) < trigger) && (abs(w_estim.y()) < trigger) &&
-                            (abs(w_estim.z()) < trigger));
-    }
+        if (q_dot.norm() > 1e-100) {
+            q_dot.normalize();
+            q_body_eci = quaternionProduct(q_body_eci, q_dot);
+            q_body_eci.normalize();
+        }
 
-    REQUIRE(switchToNominal);
+        switchToNominal = ((abs(w_estim.x()) < trigger) && (abs(w_estim.y()) < trigger) &&
+                           (abs(w_estim.z()) < trigger));
+        if (switchToNominal) stepsIsStable++;
+
+    }
+    REQUIRE(!(stepsIsStable < 10));
 }
 
 
@@ -100,7 +108,7 @@ TEST_CASE("Detumbling Case 2") {
     orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
     EnvironmentalModel em(orbitalParameters, reflectivityData);
 
-    Quaternionf q_body_eci({0.71772,0.449563,0.177631,0.501259});
+    Quaternionf q_body_eci({0.71772, 0.449563, 0.177631, 0.501259});
     Vector3f omega = {PI / 3, PI / 3, PI / 3};
     Vector3f omega_dot = {0, 0, 0};
     Matrix<float, 3, 3> Inertia({
@@ -117,19 +125,24 @@ TEST_CASE("Detumbling Case 2") {
     Vector3f w_estim = {100, 100, 100};
     Quaternionf q_dot = {0, omega.x(), omega.y(), omega.z()};
     float trigger = 0.035;
+    int stepsIsStable = 0;
 
-    while (!switchToNominal) {
+    while (stepsIsStable < 10) {
         em.ModelEnvironment();
         magneticFieldBody1 = rotateVector(q_body_eci, em.getMagneticField());
         bdot.setSamplingBeginMagneticFieldBody(magneticFieldBody1);
-        q_dot = quaternionProduct(q_body_eci, q_dot);
-        q_dot.coeffs() = q_dot.coeffs() * 0.5;
-        q_body_eci.coeffs() += q_dot.coeffs() * dt;
-        q_body_eci.normalize();
+        if (q_dot.norm() > 1e-100) {
+            q_dot = quaternionProduct(q_body_eci, q_dot);
+            q_dot.coeffs() = q_dot.coeffs() * 0.5;
+            q_body_eci.coeffs() += q_dot.coeffs() * dt;
+            q_body_eci.normalize();
+        }
         em.ModelEnvironment();
         magneticFieldBody2 = rotateVector(q_body_eci, em.getMagneticField());
         bdot.setSamplingEndMagneticFieldBody(magneticFieldBody2);
         desiredTorque = calculateDesiredMagneticTorque(bdot);
+
+
         w_estim = estimateAngularVelocity(bdot.getBDotVector(), bdot.getSamplingBeginMagneticFieldBody());
 
 
@@ -142,12 +155,17 @@ TEST_CASE("Detumbling Case 2") {
         omega = 7 * 0.5 * omega * dt +
                 0.5 * Inertia.inverse() * (desiredTorque - omega.cross(Inertia * omega)) * (0.7 * dt) * (0.7 * dt);
         q_dot = {0, omega.x(), omega.y(), omega.z()};
-        q_dot.normalize();
-        q_body_eci = quaternionProduct(q_body_eci, q_dot);
-        q_body_eci.normalize();
+        if (q_dot.norm() > 1e-100) {
+            q_dot.normalize();
+            q_body_eci = quaternionProduct(q_body_eci, q_dot);
+            q_body_eci.normalize();
+        }
+
         switchToNominal = ((abs(w_estim.x()) < trigger) && (abs(w_estim.y()) < trigger) &&
                            (abs(w_estim.z()) < trigger));
+        if (switchToNominal) stepsIsStable++;
+
     }
 
-    REQUIRE(switchToNominal);
+    REQUIRE(!(stepsIsStable < 10));
 }
