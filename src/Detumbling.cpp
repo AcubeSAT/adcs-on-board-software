@@ -11,7 +11,7 @@ Vector3f calculateDesiredMagneticTorque(Bdot &bDot) {
 }
 
 Vector3f estimateAngularVelocity(const Vector3f bDotVector, const Vector3f magneticFieldBody) {
-    Vector3f angularVelocityEstimation = (skew(magneticFieldBody) * (-bDotVector)) /
+    const Vector3f angularVelocityEstimation = (skew(magneticFieldBody) * (-bDotVector)) /
                                          (magneticFieldBody.transpose() * magneticFieldBody);
 
     return angularVelocityEstimation;

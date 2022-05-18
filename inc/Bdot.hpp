@@ -54,7 +54,7 @@ public:
      * magnetic field value at the beginning of a control cycle expressed in the Body Frame setter
      * @param magneticFieldBody magnetic field value expressed in the Body Frame
      */
-    void setSamplingBeginMagneticFieldBody(Eigen::Vector3f samplingBeginMagneticFieldBody) {
+    void setSamplingBeginMagneticFieldBody(const Eigen::Vector3f samplingBeginMagneticFieldBody) {
         this->samplingBeginMagneticFieldBody = samplingBeginMagneticFieldBody;
     }
 
@@ -70,7 +70,7 @@ public:
      * magnetic field value at the end of a control cycle expressed in the Body Frame setter
      * @param magneticFieldBody magnetic field value expressed in the Body Frame
      */
-    void setSamplingEndMagneticFieldBody(Eigen::Vector3f samplingEndMagneticFieldBody) {
+    void setSamplingEndMagneticFieldBody(const Eigen::Vector3f samplingEndMagneticFieldBody) {
         this->samplingEndMagneticFieldBody = samplingEndMagneticFieldBody;
     }
 
@@ -86,7 +86,7 @@ public:
      * Bdot vector setter
      * @param bDotVector Bdot vector
      */
-    void setBDotVector(Eigen::Vector3f bDotVector) {
+    void setBDotVector(const Eigen::Vector3f bDotVector) {
         this->bDotVector = bDotVector;
     }
 };
