@@ -1,4 +1,3 @@
-
 #include "Nominal.hpp"
 #include "Wahba.hpp"
 #include "MEKF.hpp"
