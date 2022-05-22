@@ -21,8 +21,7 @@ void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const SatelliteModel &s
 
     satPositionECI = em.getSatellitePosition();
     eclipse = em.getIsEclipse();
-    albedoMatrix = em.getAlbedo();
-    albedo = albedoMatrix.sum();
+    albedo = em.getAlbedo().sum();
     sunPosECI = em.getSunPosition();
     magneticFieldECI = em.getMagneticField();
     outputQuaternion = wahba(magneticBody, magneticFieldECI, sunPositionBody, sunPosECI);
