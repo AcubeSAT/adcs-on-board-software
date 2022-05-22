@@ -1,7 +1,6 @@
 #include <catch2/catch.hpp>
 #include "Nominal.hpp"
 
-
 using namespace Eigen;
 const SatelliteModel satelliteModel;
 
@@ -9,6 +8,7 @@ TEST_CASE("First part of Nominal test time step 11") {
     MeasurementVector measurments(-0.946772755370904, -0.141294636304082, -0.289235501692104, -0.413443195401665,
                                   0.862767093417922, -0.291028635517626);
     Vector3f gyroscopeBias = {0, 0, 0};
+
 
     Matrix<float, LocalStateSize, LocalStateSize> P;
     P

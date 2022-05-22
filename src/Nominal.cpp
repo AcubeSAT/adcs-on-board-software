@@ -18,7 +18,7 @@ void initializeNominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, co
 
     for (int i = 0; i < 3; i++) {
         magneticBody[i] = measurements[i];
-        sunPositionBody[i] = measurements[i + 2];
+        sunPositionBody[i] = measurements[i + 3];
     }
 
     satellitePositionECI = environmentalModel.getSatellitePosition();
