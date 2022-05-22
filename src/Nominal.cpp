@@ -4,11 +4,7 @@
 
 using namespace Eigen;
 void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const SatelliteModel &satelliteModel,Vector3f gyroscopeBias,Matrix<float, LocalStateSize, LocalStateSize> Q,Matrix<float, MeasurementSize, MeasurementSize> R,Matrix<float, LocalStateSize, LocalStateSize> P,MeasurementVector measurements){
-    Vector3f sunPositionBody;
-    Vector3f magneticBody;
-    Vector3f sunPosECI;
-    Vector3f sunPosECInNormalized;
-    Vector3f satPositionECI;
+    Vector3f sunPositionBody, magneticBody, sunPositionECI, sunPositionECINormalized, satellitePositionECI;
     bool eclipse;
     EarthCellsMatrix albedoMatrix;
     float albedo;
