@@ -1,27 +1,12 @@
 #include <catch2/catch.hpp>
 #include "Nominal.hpp"
 
+
 using namespace Eigen;
 const SatelliteModel satelliteModel;
 TEST_CASE("First part of Nominal test time step 11") {
     MeasurementVector measurments(-0.946772755370904, -0.141294636304082, -0.289235501692104,-0.413443195401665,0.862767093417922,-0.291028635517626);
     Vector3f gyroscopeBias = {0, 0, 0};
-
-    Matrix<float, LocalStateSize, LocalStateSize> Q;
-    Q << 0.000100000000000000,	0,	0,	0,	0,	0,
-    0,	0.000100000000000000,	0,	0,	0,	0,
-    0,	0,	0.000100000000000000,	0,	0,	0,
-    0,	0,	0,	1.00000000000000e-07,	0,	0,
-    0,	0,	0,	0,	1.00000000000000e-07,	0,
-    0,	0,	0,	0,	0,	1.00000000000000e-07;
-
-    Matrix<float, MeasurementSize, MeasurementSize> R;
-    R << 0.000500000000000000	,0,	0,	0,	0,	0,
-    0,	0.000500000000000000,	0,	0,	0,	0,
-    0,	0,	0.000500000000000000,	0,	0,	0,
-    0,	0,	0,	0.00100000000000000,	0,	0,
-    0,	0,	0,	0,	0.00100000000000000,	0,
-    0,	0,	0,	0,	0,	0.00100000000000000;
 
     Matrix<float, LocalStateSize, LocalStateSize> P;
     P
@@ -41,7 +26,7 @@ TEST_CASE("First part of Nominal test time step 11") {
         em.ModelEnvironment();
     }
     MEKF mekf;
-    FirstPartOfNominal(em, mekf,satelliteModel, gyroscopeBias,Q,R,P,measurments);
+    initializeNominalMode(em, mekf,satelliteModel, gyroscopeBias,P,measurments);
     auto outputState = mekf.getGlobalState();
     GlobalStateVector expectedState;
 

@@ -2,8 +2,10 @@
 #include "Wahba.hpp"
 #include "MEKF.hpp"
 
+
 using namespace Eigen;
-void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const SatelliteModel &satelliteModel,Vector3f gyroscopeBias,Matrix<float, LocalStateSize, LocalStateSize> Q,Matrix<float, MeasurementSize, MeasurementSize> R,Matrix<float, LocalStateSize, LocalStateSize> P,MeasurementVector measurements){
+using namespace Parameters::CovarianceMatrices;
+void initializeNominalMode(EnvironmentalModel environmentalModel,MEKF &mekf,const SatelliteModel &satelliteModel,Vector3f gyroscopeBias,Matrix<float, LocalStateSize, LocalStateSize> P,MeasurementVector measurements){
     Vector3f sunPositionBody, magneticBody, sunPositionECI, sunPositionECINormalized, satellitePositionECI;
     bool eclipse;
     float albedo;
@@ -18,11 +20,11 @@ void FirstPartOfNominal(EnvironmentalModel em,MEKF &mekf,const SatelliteModel &s
     sunPositionBody[1]=measurements[4];
     sunPositionBody[2]=measurements[5];
 
-    satellitePositionECI = em.getSatellitePosition();
-    eclipse = em.getIsEclipse();
-    albedo = em.getAlbedo().sum();
-    sunPositionECI = em.getSunPosition();
-    magneticFieldECI = em.getMagneticField();
+    satellitePositionECI = environmentalModel.getSatellitePosition();
+    eclipse = environmentalModel.getIsEclipse();
+    albedo = environmentalModel.getAlbedo().sum();
+    sunPositionECI = environmentalModel.getSunPosition();
+    magneticFieldECI = environmentalModel.getMagneticField();
     outputQuaternion = wahba(magneticBody, magneticFieldECI, sunPositionBody, sunPositionECI);
     globalState = {outputQuaternion.w(),outputQuaternion.x(),outputQuaternion.y(),outputQuaternion.z(),gyroscopeBias(0),gyroscopeBias(1),gyroscopeBias(2)};
     mekf.setGlobalState(globalState);
