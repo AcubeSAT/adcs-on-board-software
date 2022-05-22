@@ -52,6 +52,32 @@ namespace Parameters {
         inline const float Timestep = 0.1;
     }
 
+    namespace Detumbling {
+        /**
+         * The inertia matrix of the whole AcubeSAT nanosatellite
+         */
+        inline const auto Inertia = Eigen::Matrix<float, 3, 3>({
+                                                                       {0.0412158223637031,    -1.85801942968305e-06, 0.00137245665256380},
+                                                                       {-1.85801942968300e-06, 0.0410190161501943,    -1.64802792093441e-05},
+                                                                       {0.00137245665256380,   -1.64802792093441e-05, 0.00695520282610255}
+                                                               });
+
+        /**
+         * Update timestep
+         */
+        inline const auto Timestep = 0.1;
+
+        /**
+         * Duration of the actuation period during a single control cycle
+         */
+        inline const auto ActuationTime = 0.7;
+
+        /**
+         * The required angular velocity value on every axis in order to switch to Nominal mode
+         */
+        inline const auto AngularVelocityTriggerValue = 0.035;
+    }
+
     namespace SatelliteModel {
         /**
          * Sampling time in seconds
