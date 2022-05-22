@@ -20,9 +20,9 @@ private:
 public:
 
     /**
-     * @param samplingBeginMagneticFieldBody magnetic field value sampled at the beginning oof the sampling period during
+     * @param samplingBeginMagneticFieldBody magnetic field value sampled at the beginning of the sampling period during
      * a single control cycle, expressed in the Body Frame.
-     * @param samplingEndMagneticFieldBody second magnetic field value sampled at the beginning of the sampling period
+     * @param samplingEndMagneticFieldBody second magnetic field value sampled consecutively after the first, at the beginning of the sampling period
      * during a single control cycle, expressed in the Body Frame.
      */
     Bdot(Eigen::Vector3f samplingBeginMagneticFieldBody, Eigen::Vector3f samplingEndMagneticFieldBody);
@@ -43,7 +43,8 @@ public:
     Eigen::Vector3f magnetorquerScaling(Eigen::Vector3f magneticDipole);
 
     /**
-     * magnetic field value at the beginning of a control cycle expressed in the Body Frame getter
+     * magnetic field value sampled at the beginning of the sampling period during a single control cycle,
+     * expressed in the Body Frame getter
      * @return magnetic field value expressed in the Body Frame
      */
     Eigen::Vector3f getSamplingBeginMagneticFieldBody() const {
@@ -51,7 +52,8 @@ public:
     }
 
     /**
-     * magnetic field value at the beginning of a control cycle expressed in the Body Frame setter
+     * magnetic field value sampled at the beginning of the sampling period during a single control cycle,
+     * expressed in the Body Frame setter
      * @param magneticFieldBody magnetic field value expressed in the Body Frame
      */
     void setSamplingBeginMagneticFieldBody(const Eigen::Vector3f samplingBeginMagneticFieldBody) {
@@ -59,7 +61,8 @@ public:
     }
 
     /**
-    * magnetic field value at the end of a control cycle expressed in the Body Frame getter
+    * second magnetic field value sampled consecutively after the first, at the beginning of the sampling period
+    * during a single control cycle, expressed in the Body Frame getter
     * @return magnetic field value expressed in the Body Frame
     */
     Eigen::Vector3f getSamplingEndMagneticFieldBody() const {
@@ -67,7 +70,8 @@ public:
     }
 
     /**
-     * magnetic field value at the end of a control cycle expressed in the Body Frame setter
+     * second magnetic field value sampled consecutively after the first, at the beginning of the sampling period
+     * during a single control cycle, expressed in the Body Frame setter
      * @param magneticFieldBody magnetic field value expressed in the Body Frame
      */
     void setSamplingEndMagneticFieldBody(const Eigen::Vector3f samplingEndMagneticFieldBody) {
