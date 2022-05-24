@@ -1,54 +1,39 @@
-cmake_minimum_required(VERSION 3.13)
-project(adcs-onboard-software)
+cmake_minimum_required(VERSION 3.15)
+project(adcs-onboard-software C CXX ASM)
+include(ExternalProject)
 
-set(CMAKE_CXX_STANDARD 17)
+set(
+    BUILD_KIND SUPERBUILD CACHE STRING 
+    "Select build kind: ATSAM, NATIVE or SUPERBUILD"
+)
 
-include_directories(${PROJECT_SOURCE_DIR}/inc
-        ${PROJECT_SOURCE_DIR}/lib/etl/include
-        ${PROJECT_SOURCE_DIR}/lib/eigen
-        ${PROJECT_SOURCE_DIR}/lib/SGP4
-        ${PROJECT_SOURCE_DIR}/lib/geomag)
 
-add_library(adcs OBJECT
-        src/MathFunctions.cpp
-        # This is completely fine, and it will work
-        # as long as you don't change
-        # project(adcs-onboard-software) to
-        # project(adcs-onboard-software CXX).
-        # If you want to specify the project language make sure to do
-        # project(adcs-onboard-software C CXX) instead.
-        lib/geomag/GeomagVector.c
-        lib/geomag/Geomag.cpp
-        src/SatelliteModel.cpp
-        src/MEKF.cpp
-        src/Albedo.cpp
-        src/Bdot.cpp
-        lib/SGP4/sgp4.cpp
-        src/Wahba.cpp
-        src/CSSCompensation.cpp
-        src/Pointing.cpp
-        src/PointingTarget.cpp
-        src/NadirPointing.cpp
-        src/SunPointing.cpp
-        src/PointingStrategy.cpp
-        src/MagnetorquerPlusRW.cpp
-        src/MagnetorquerOnly.cpp
-        src/EnvironmentalModel.cpp
-        src/OrbitalParameters.cpp)
+if ( ${BUILD_KIND} MATCHES "NATIVE" )
+    include(cmake/Native.cmake)
+elseif ( ${BUILD_KIND} MATCHES "ATSAM" )
+    include(cmake/ATSAM.cmake)
+elseif ( ${BUILD_KIND} MATCHES "SUPERBUILD" )
+    # This superbuild contains the two separate builds as external
+    # projects. These projects have their root in this file, but
+    # are exposed by CMake according to the -DBUILD_KIND argument.
+    ExternalProject_Add (native
+        DEPENDS ${DEPENDENCIES}
+        SOURCE_DIR ${PROJECT_SOURCE_DIR}
+        CMAKE_ARGS -DBUILD_KIND=NATIVE ${EXTRA_CMAKE_ARGS}
+        INSTALL_COMMAND ""
+        BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/native
+    )
 
-add_executable(adcs-onboard-software main.cpp
-        $<TARGET_OBJECTS:adcs>)
+    ExternalProject_Add (atsam
+        DEPENDS ${DEPENDENCIES}
+        SOURCE_DIR ${PROJECT_SOURCE_DIR}
+        CMAKE_ARGS -DBUILD_KIND=ATSAM ${EXTRA_CMAKE_ARGS}
+        INSTALL_COMMAND ""
+        BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/atsam
+    )
+else ()
+    message ( FATAL_ERROR "Unknown build kind: ${BUILD_KIND}" )
+endif () 
 
-add_compile_definitions(EIGEN_STACK_ALLOCATION_LIMIT=0)
-
-IF (EXISTS "${PROJECT_SOURCE_DIR}/lib/Catch2/CMakeLists.txt")
-    # Gather all the .cpp files corresponding to tests
-    file(GLOB test_main_SRC "test/*.cpp")
-    file(GLOB test_SRC "test/**/*.cpp")
-
-    add_subdirectory(lib/Catch2)
-    add_executable(tests $<TARGET_OBJECTS:adcs>
-            ${test_main_SRC}
-            ${test_SRC})
-    target_link_libraries(tests Catch2::Catch2)
-ENDIF ()
+set (DEPENDENCIES)
+set (EXTRA_CMAKE_ARGS)

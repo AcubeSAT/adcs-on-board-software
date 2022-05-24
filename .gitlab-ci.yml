@@ -17,7 +17,7 @@ check-build:
     GCC_COLORS: "error=31;1:warning=35;1:note=36;1:range1=32:range2=34:locus=39;1:quote=39;1:fixit-insert=32:fixit-delete=31:diff-filename=39;1:diff-hunk=32:diff-delete=31:diff-insert=32:type-diff=32;1"
     CLICOLOR_FORCE: 1 # Necessary for cmake to output colours
   script:
-    - cmake . -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -fdiagnostics-color=always"
+    - cmake . -DBUILD_KIND=NATIVE -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -fdiagnostics-color=always"
     - make -j$(nproc)
     
 cppcheck:
@@ -46,7 +46,7 @@ clang-tidy:
   stage: analyze
   script:
     - cd $CI_PROJECT_DIR
-    - cmake -B ./build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+    - cmake -B ./build -DBUILD_KIND=NATIVE -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
     - clang-tidy -p $CI_PROJECT_DIR/build/compile_commands.json --checks=* `find $CI_PROJECT_DIR/src -type f -regextype posix-egrep -regex '.*\.(cpp|hpp|c|h)'` >> clang-tidy-output.log
   after_script:
     - mkdir clang-tidy-html-report
@@ -63,7 +63,7 @@ clang-analyzer:
     - mkdir scan-build-html-report
   script:
     - cd $CI_PROJECT_DIR
-    - scan-build cmake ./ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+    - scan-build cmake ./ -DBUILD_KIND=NATIVE -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
     - scan-build -o ./scan-build-html-report make
   artifacts:
     paths:
@@ -87,7 +87,7 @@ ikos:
   allow_failure: true #FIXME:
   script:
     - cd $CI_PROJECT_DIR
-    - ikos-scan cmake .
+    - ikos-scan cmake . -DBUILD_KIND=NATIVE
     - ikos-scan make
     - ikos tests.bc
     - ikos adcs-onboard-software.bc
@@ -104,7 +104,7 @@ unit-tests:
   when: always
   coverage: '/^TOTAL.*\s+(\d+\%)$/'
   script:
-    - cmake .
+    - cmake -DBUILD_KIND=NATIVE .
     - make tests -j4
     - ./tests --use-colour yes # Run the tests
   after_script:
@@ -122,7 +122,7 @@ coverage:
     - mkdir gcovr
   script:
     - cd $CI_PROJECT_DIR
-    - cmake . -DCMAKE_CXX_FLAGS="-g -O0 --coverage" && make all -j4
+    - cmake . -DBUILD_KIND=NATIVE -DCMAKE_CXX_FLAGS="-g -O0 --coverage" && make all -j4
     - lcov -q --capture --initial --directory . -o coverage_base
     - ./tests --use-colour yes
     - lcov -q --capture --directory . -o coverage_tests
