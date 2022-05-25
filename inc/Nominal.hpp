@@ -4,6 +4,7 @@
 #include "MEKF.hpp"
 #include "Parameters.hpp"
 
+
 /**
  * Main function for Nominal Mode
  * @param em Environmental Model Class's Object
@@ -15,4 +16,6 @@
  * @param P Estimation error covariance Matrix
  * @param measurements Vector with the measurements of magnetic field vector and sun vector in the first frame, in our case Body
  */
-void initializeNominalMode(EnvironmentalModel environmentalModel,MEKF &mekf,const SatelliteModel &satelliteModel,Eigen::Vector3f gyroscopeBias,Eigen::Matrix<float, LocalStateSize, LocalStateSize> P,MeasurementVector measurements);
+void initializeNominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, const SatelliteModel &satelliteModel,
+                           Eigen::Vector3f gyroscopeMeasurement, Eigen::Matrix<float, LocalStateSize, LocalStateSize> P,
+                           MeasurementVector measurements);

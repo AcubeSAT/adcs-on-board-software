@@ -4,10 +4,10 @@
 using namespace Eigen;
 const SatelliteModel satelliteModel;
 
-TEST_CASE("First part of Nominal test time step 11") {
-    MeasurementVector measurments(-0.946772755370904, -0.141294636304082, -0.289235501692104, -0.413443195401665,
-                                  0.862767093417922, -0.291028635517626);
-    Vector3f gyroscopeBias = {0, 0, 0};
+TEST_CASE("First part of Nominal") {
+    MeasurementVector measurements(-0.946772755370904, -0.141294636304082, -0.289235501692104, -0.413443195401665,
+                                   0.862767093417922, -0.291028635517626);
+    Vector3f gyroscopeMeasurement = {0.00582761284785851, 0.157337129797268, -0.0767140312044903};
 
 
     Matrix<float, LocalStateSize, LocalStateSize> P;
@@ -25,13 +25,13 @@ TEST_CASE("First part of Nominal test time step 11") {
     EnvironmentalModel em(orbitalParameters, reflectivityData1);
     em.ModelEnvironment();
     MEKF mekf;
-    initializeNominalMode(em, mekf, satelliteModel, gyroscopeBias, P, measurments);
+    initializeNominalMode(em, mekf, satelliteModel, gyroscopeMeasurement, P, measurements);
     auto outputState = mekf.getGlobalState();
     GlobalStateVector expectedState;
 
     expectedState
-            << 0.449311355178033, -0.119669240619940, 0.885255918577615, -0.0109789608264623, 0, 0, 0;
-    for (int i = 0; i < 7; i++) {
+            << 0.449311355178033, -0.119669240619940, 0.885255918577615, -0.0109789608264623, 0.00556016691453519, 0.157069683863945, -0.0769814771378136;
+    for (int i = 0; i < 4; i++) {
         REQUIRE(outputState(i) == Approx(expectedState(i)).epsilon(0.01));
     }
 
