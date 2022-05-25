@@ -24,9 +24,6 @@ TEST_CASE("First part of Nominal test time step 11") {
     orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
     EnvironmentalModel em(orbitalParameters, reflectivityData1);
     em.ModelEnvironment();
-    for (int i = 1; i < 12; i++) {
-        em.ModelEnvironment();
-    }
     MEKF mekf;
     initializeNominalMode(em, mekf, satelliteModel, gyroscopeBias, P, measurments);
     auto outputState = mekf.getGlobalState();
