@@ -14,7 +14,7 @@ void initializeNominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, co
     Vector3f magneticFieldECI, sunPositionBody, magneticBody, sunPositionECI, sunPositionECINormalized, satellitePositionECI, angularEstimatedRate, gyroscopeBias;
     bool eclipse;
     float albedo, angularEstimatedRateMean;
-    Quaternionf wahbaOutputQuaternion1, wahbaOutputQuaternion2, qaternionDifference, conjugateQuaternion, temporaryQuaternion;
+    Quaternionf wahbaOutputQuaternion1, wahbaOutputQuaternion2, qaternionDifference, temporaryQuaternion;
     GlobalStateVector globalState;
 
     for (int i = 0; i < 3; i++) {
@@ -39,11 +39,6 @@ void initializeNominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, co
     qaternionDifference.x() = wahbaOutputQuaternion2.x() - wahbaOutputQuaternion1.x();
     qaternionDifference.y() = wahbaOutputQuaternion2.y() - wahbaOutputQuaternion1.y();
     qaternionDifference.z() = wahbaOutputQuaternion2.z() - wahbaOutputQuaternion1.z();
-
-    conjugateQuaternion.w() = wahbaOutputQuaternion2.w();
-    conjugateQuaternion.x() = -wahbaOutputQuaternion2.x();
-    conjugateQuaternion.y() = -wahbaOutputQuaternion2.y();
-    conjugateQuaternion.z() = -wahbaOutputQuaternion2.z();
 
     temporaryQuaternion = quaternionProduct(wahbaOutputQuaternion2.conjugate(), qaternionDifference);
     angularEstimatedRate = 2 * temporaryQuaternion.vec();
