@@ -2,6 +2,7 @@
 #include "Wahba.hpp"
 #include "MEKF.hpp"
 #include "MathFunctions.hpp"
+#include "Definitions.hpp"
 
 
 using namespace Eigen;
@@ -10,7 +11,6 @@ using namespace Parameters::CovarianceMatrices;
 void initializeNominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, const SatelliteModel &satelliteModel,
                            Vector3f gyroscopeMeasurement, Matrix<float, LocalStateSize, LocalStateSize> P,
                            MeasurementVector measurements) {
-    int NumberOfTimeStepsPerCycle = 10;
     Vector3f magneticFieldECI, sunPositionBody, magneticBody, sunPositionECI, sunPositionECINormalized, satellitePositionECI, angularEstimatedRate, gyroscopeBias;
     bool eclipse;
     float albedo, angularEstimatedRateMean;

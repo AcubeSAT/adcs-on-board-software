@@ -6,6 +6,7 @@
 using std::uint8_t;
 
 inline constexpr double const PI = 3.14159265358979323846;
+inline constexpr uint8_t NumberOfTimeStepsPerCycle = 10;
 inline constexpr uint8_t VectorSize = 3;
 inline constexpr uint8_t NumOfActuators = 2;
 inline constexpr uint8_t LocalStateSize = 6;
