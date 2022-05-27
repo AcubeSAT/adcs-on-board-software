@@ -45,7 +45,7 @@ void initializeNominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, co
     conjugateQuaternion.y() = -wahbaOutputQuaternion2.y();
     conjugateQuaternion.z() = -wahbaOutputQuaternion2.z();
 
-    temporaryQuaternion = quaternionProduct(conjugateQuaternion, qaternionDifference);
+    temporaryQuaternion = quaternionProduct(wahbaOutputQuaternion2.conjugate(), qaternionDifference);
     angularEstimatedRate[0] = 2 * temporaryQuaternion.x();
     angularEstimatedRate[1] = 2 * temporaryQuaternion.y();
     angularEstimatedRate[2] = 2 * temporaryQuaternion.z();
