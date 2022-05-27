@@ -89,9 +89,9 @@ public:
     }
 
     /**
-     * @return Sunlight reflected off the Earth's surface
+     * @return The sum of sunlight reflected off the Earth's surface
      */
-    EarthCellsMatrix getAlbedo() const {
-        return albedo;
+    float getAlbedo() const {
+        return albedo.sum();
     }
 };

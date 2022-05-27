@@ -27,7 +27,7 @@ TEST_CASE("Environmental Model Test with tle6PM500") {
 
 
     auto alb = em.getAlbedo();
-    REQUIRE(alb.sum() == Approx(-9.579723442651105).epsilon(1e-4));
+    REQUIRE(alb == Approx(-9.579723442651105).epsilon(1e-4));
 }
 
 TEST_CASE("Environmental Model Test with tle11PM600") {

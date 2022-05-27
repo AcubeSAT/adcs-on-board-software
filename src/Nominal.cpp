@@ -30,7 +30,7 @@ void initializeNominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, co
     }
     satellitePositionECI = environmentalModel.getSatellitePosition();
     eclipse = environmentalModel.getIsEclipse();
-    albedo = environmentalModel.getAlbedo().sum();
+    albedo = environmentalModel.getAlbedo();
     sunPositionECI = environmentalModel.getSunPosition();
     magneticFieldECI = environmentalModel.getMagneticField();
     wahbaOutputQuaternion2 = wahba(magneticBody, magneticFieldECI, sunPositionBody, sunPositionECI);
