@@ -46,9 +46,7 @@ void initializeNominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, co
     conjugateQuaternion.z() = -wahbaOutputQuaternion2.z();
 
     temporaryQuaternion = quaternionProduct(wahbaOutputQuaternion2.conjugate(), qaternionDifference);
-    angularEstimatedRate[0] = 2 * temporaryQuaternion.x();
-    angularEstimatedRate[1] = 2 * temporaryQuaternion.y();
-    angularEstimatedRate[2] = 2 * temporaryQuaternion.z();
+    angularEstimatedRate = 2 * temporaryQuaternion.vec();
     angularEstimatedRateMean = angularEstimatedRate.mean();
     for (int i = 0; i < 3; i++) {
         gyroscopeBias[i] = gyroscopeMeasurement[i] - angularEstimatedRateMean;
