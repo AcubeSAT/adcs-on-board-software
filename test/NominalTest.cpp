@@ -25,7 +25,7 @@ TEST_CASE("First part of Nominal") {
     EnvironmentalModel em(orbitalParameters, reflectivityData1);
     em.ModelEnvironment();
     MEKF mekf;
-    initializeNominalMode(em, mekf, satelliteModel, gyroscopeMeasurement, P, measurements);
+    NominalMode(em, mekf, satelliteModel, gyroscopeMeasurement, P, measurements);
     auto outputState = mekf.getGlobalState();
     GlobalStateVector expectedState;
 

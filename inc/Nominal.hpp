@@ -14,6 +14,6 @@
  * @param P Estimation error covariance Matrix
  * @param measurements Vector with the measurements of magnetic field vector and sun vector in the first frame, in our case Body
  */
-void initializeNominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, const SatelliteModel &satelliteModel,
+void NominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, const SatelliteModel &satelliteModel,
                            Eigen::Vector3f gyroscopeMeasurement, Eigen::Matrix<float, LocalStateSize, LocalStateSize> P,
                            MeasurementVector measurements);

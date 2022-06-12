@@ -8,7 +8,7 @@
 using namespace Eigen;
 using namespace Parameters::CovarianceMatrices;
 
-void initializeNominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, const SatelliteModel &satelliteModel,
+void NominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, const SatelliteModel &satelliteModel,
                            Vector3f gyroscopeMeasurement, Matrix<float, LocalStateSize, LocalStateSize> P,
                            MeasurementVector measurements) {
     Vector3f magneticFieldECI, sunPositionBody, magneticBody, sunPositionECI, sunPositionECINormalized, satellitePositionECI, angularEstimatedRate, gyroscopeBias;
