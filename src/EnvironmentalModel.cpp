@@ -62,7 +62,7 @@ EnvironmentalModel::EnvironmentalModel(OrbitalParameters orbitalParameters,
         : orbitalParameters(orbitalParameters), reflectivityData{reflectivityData},
           isEclipse{false},
           sunPosition{{0, 0, 0}},
-          albedo{EarthCellsMatrix::Zero()},
+          albedoSum{(EarthCellsMatrix::Zero()).sum()},
           magneticField{{0, 0, 0}}{}
 
 void EnvironmentalModel::ModelEnvironment() {
@@ -101,5 +101,5 @@ void EnvironmentalModel::ModelEnvironment() {
     satellitePosition *= 1000;
     satelliteECEF *= 1000;
 
-    albedo = calculateAlbedo(satelliteECEF, sunPositionECEF, reflectivityData);
+    albedoSum = calculateAlbedo(satelliteECEF, sunPositionECEF, reflectivityData).sum();
 }

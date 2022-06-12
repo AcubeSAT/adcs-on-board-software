@@ -21,9 +21,9 @@ private:
      */
     Eigen::Vector3f satellitePosition;
     /**
-     *  Sunlight reflected off the Earth's surface
+     *  Sum of sunlight reflected off the Earth's surface
      */
-    EarthCellsMatrix albedo;
+    float albedoSum;
     /**
      * Magnetic field (ECI)
      */
@@ -92,6 +92,6 @@ public:
      * @return The sum of sunlight reflected off the Earth's surface
      */
     float getAlbedo() const {
-        return albedo.sum();
+        return albedoSum;
     }
 };
