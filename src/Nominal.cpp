@@ -1,8 +1,8 @@
 #include "Nominal.hpp"
 #include "Wahba.hpp"
 #include "MEKF.hpp"
-#include "MathFunctions.hpp"
 #include "Definitions.hpp"
+#include "GyroBiasFunction.hpp"
 
 
 using namespace Eigen;
@@ -34,14 +34,7 @@ void NominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, const Satell
     sunPositionECI = environmentalModel.getSunPosition();
     magneticFieldECI = environmentalModel.getMagneticField();
     wahbaOutputQuaternion2 = wahba(magneticBody, magneticFieldECI, sunPositionBody, sunPositionECI);
-
-    quaternionDifference.vec() = wahbaOutputQuaternion2.vec() - wahbaOutputQuaternion1.vec();
-    temporaryQuaternion = quaternionProduct(wahbaOutputQuaternion2.conjugate(), quaternionDifference);
-    angularEstimatedRate = 2 * temporaryQuaternion.vec();
-    angularEstimatedRateMean = angularEstimatedRate.mean();
-    for (int i = 0; i < 3; i++) {
-        gyroscopeBias[i] = gyroscopeMeasurement[i] - angularEstimatedRateMean;
-    }
+    gyroscopeBias = calculateGyroBias(wahbaOutputQuaternion1,wahbaOutputQuaternion2,gyroscopeMeasurement);
     globalState = {wahbaOutputQuaternion2.w(), wahbaOutputQuaternion2.x(), wahbaOutputQuaternion2.y(),
                    wahbaOutputQuaternion2.z(), gyroscopeBias(0), gyroscopeBias(1), gyroscopeBias(2)};
     mekf.setGlobalState(globalState);
