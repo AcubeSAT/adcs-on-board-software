@@ -9,7 +9,7 @@ TEST_CASE("First part of Nominal") {
     Vector3f gyroscopeMeasurement = {0.00582761284785851, 0.157337129797268, -0.0767140312044903};
 
 
-    Matrix<float, LocalStateSize, LocalStateSize> P;
+    EstimationErrorCovarianceMatrix P;
     P
             << 0.00136699495713899, -0.000114760060275635, 0.000256861463917196, 0, 0, 0,
             -0.000114760060275612, 0.000441521240017950, -7.67733697177619e-06, 0, 0, 0,

@@ -16,5 +16,6 @@ inline constexpr uint8_t ReflectivityDataRows = 180;
 inline constexpr uint16_t ReflectivityDataColumns = 288;
 
 typedef Eigen::Matrix<float, ReflectivityDataRows, ReflectivityDataColumns> EarthCellsMatrix;
+typedef Eigen::Matrix<float, LocalStateSize, LocalStateSize> EstimationErrorCovarianceMatrix;
 typedef Eigen::Vector<float, MeasurementSize> MeasurementVector;
 typedef Eigen::Vector<float, GlobalStateSize> GlobalStateVector;
