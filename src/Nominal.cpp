@@ -8,13 +8,14 @@
 using namespace Eigen;
 using namespace Parameters::CovarianceMatrices;
 
-void NominalMode(EnvironmentalModel environmentalModel, MEKF &mekf, const SatelliteModel &satelliteModel,
+void NominalMode(EnvironmentalModel environmentalModel, MEKF &mekf,
                            Vector3f gyroscopeMeasurement, Matrix<float, LocalStateSize, LocalStateSize> P,
                            MeasurementVector measurements) {
-    Vector3f magneticFieldECI, sunPositionBody, magneticBody, sunPositionECI, satellitePositionECI, angularEstimatedRate, gyroscopeBias;
+    const SatelliteModel satelliteModel;
+    Vector3f magneticFieldECI, sunPositionBody, magneticBody, sunPositionECI, satellitePositionECI, gyroscopeBias;
     bool eclipse;
-    float albedo, angularEstimatedRateMean;
-    Quaternionf wahbaOutputQuaternion1, wahbaOutputQuaternion2, quaternionDifference, temporaryQuaternion;
+    float albedo;
+    Quaternionf wahbaOutputQuaternion1, wahbaOutputQuaternion2;
     GlobalStateVector globalState;
 
     for (int i = 0; i < 3; i++) {

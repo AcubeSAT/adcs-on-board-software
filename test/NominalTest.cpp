@@ -2,7 +2,6 @@
 #include "Nominal.hpp"
 
 using namespace Eigen;
-const SatelliteModel satelliteModel;
 
 TEST_CASE("First part of Nominal") {
     MeasurementVector measurements(-0.946772755370904, -0.141294636304082, -0.289235501692104, -0.413443195401665,
@@ -25,7 +24,7 @@ TEST_CASE("First part of Nominal") {
     EnvironmentalModel em(orbitalParameters, reflectivityData1);
     em.ModelEnvironment();
     MEKF mekf;
-    NominalMode(em, mekf, satelliteModel, gyroscopeMeasurement, P, measurements);
+    NominalMode(em, mekf, gyroscopeMeasurement, P, measurements);
     auto outputState = mekf.getGlobalState();
     GlobalStateVector expectedState;
 
