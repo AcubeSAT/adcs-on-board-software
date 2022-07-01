@@ -22,7 +22,7 @@ TEST_CASE("First part of Nominal") {
     Matrix<float, 180, 288> reflectivityData1 = Matrix<float, 180, 288>::Identity() * 0;
     orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
     EnvironmentalModel em(orbitalParameters, reflectivityData1);
-    em.ModelEnvironment();
+//    em.ModelEnvironment();
     MEKF mekf;
     NominalMode(em, mekf, gyroscopeMeasurement, P, measurements);
     auto outputState = mekf.getGlobalState();
