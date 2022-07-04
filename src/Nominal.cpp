@@ -3,7 +3,7 @@
 #include "MEKF.hpp"
 #include "Definitions.hpp"
 #include "GyroBiasFunction.hpp"
-#include "MeasurmentsForNominal.hpp"
+#include "MeasurementsForNominal.hpp"
 
 
 using namespace Eigen;

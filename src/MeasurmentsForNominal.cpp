@@ -1,4 +1,4 @@
-#include "MeasurmentsForNominal.hpp"
+#include "MeasurementsForNominal.hpp"
 #include "MathFunctions.hpp"
 #include "CSSCompensation.hpp"
 

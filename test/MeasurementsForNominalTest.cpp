@@ -1,5 +1,5 @@
 #include <catch2/catch.hpp>
-#include "MeasurmentsForNominal.hpp"
+#include "MeasurementsForNominal.hpp"
 
 using namespace Eigen;
 
