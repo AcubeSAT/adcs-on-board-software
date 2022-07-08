@@ -38,7 +38,7 @@ MeasurmentsProduction(Vector3f sunPositionECI, Vector3f satellitePositionECI, fl
     satellitePositionBody[2] = temp.z();
 
     Vector3f magneticBody = rotateVector(quaternionECItoBody, magneticFieldECI);
-    Vector3f randomVector = {rand(),rand(),rand()};
+    Vector3f randomVector = {1,2,3};
     magneticBody = magneticBody + R * randomVector;
     for (int i = 0; i < 3; i++) {
         magneticBody[i] = magneticBody[i] / magneticBody.norm();
