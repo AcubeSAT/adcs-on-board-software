@@ -4,6 +4,7 @@
 #include "Definitions.hpp"
 #include "GyroBiasFunction.hpp"
 #include "MeasurementsForNominal.hpp"
+#include "InitializationsForNominal.hpp"
 
 
 using namespace Eigen;
@@ -12,16 +13,11 @@ using namespace Parameters::CovarianceMatrices;
 GlobalStateVector NominalMode(int numberOfCycles) {
     Matrix<float, LocalStateSize, LocalStateSize> P;
     MeasurementVector measurementsForCorrection;
-    P << 0.00136699495713899, -0.000114760060275635, 0.000256861463917196, 0, 0, 0,
-            -0.000114760060275612, 0.000441521240017950, -7.67733697177619e-06, 0, 0, 0,
-            0.000256861463917308, -7.67733697184630e-06, 0.000401588226538019, 0, 0, 0,
-            0, 0, 0, 1, 0, 0,
-            0, 0, 0, 0, 1, 0,
-            0, 0, 0, 0, 0, 1;
+    PAndReflectivityData pAndReflectivity = InitializationsForNominal();
+    P = pAndReflectivity.P;
     MEKF mekf;
-    OrbitalParameters orbitalParameters;
-    auto reflectivityData1 = EarthCellsMatrix::Identity() * 0;
-    orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
+    OrbitalParameters orbitalParameters=pAndReflectivity.orbitalParameters;
+    auto reflectivityData1 = pAndReflectivity.reflectivityData;
     EnvironmentalModel environmentalModel(orbitalParameters, reflectivityData1);
     const SatelliteModel satelliteModel;
 

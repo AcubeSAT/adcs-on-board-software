@@ -36,7 +36,7 @@ add_library(adcs OBJECT
         src/EnvironmentalModel.cpp
         src/OrbitalParameters.cpp
         src/Nominal.cpp
-        src/GyroBiasFunction.cpp inc/MeasurementsForNominal.hpp src/MeasurmentsForNominal.cpp)
+        src/GyroBiasFunction.cpp inc/MeasurementsForNominal.hpp src/MeasurmentsForNominal.cpp inc/InitializationsForNominal.hpp src/InitializationsForNominal.cpp)
 
 add_executable(adcs-onboard-software main.cpp
         $<TARGET_OBJECTS:adcs>)
