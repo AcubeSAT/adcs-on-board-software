@@ -2,7 +2,7 @@
 #include "Wahba.hpp"
 #include "MEKF.hpp"
 #include "Definitions.hpp"
-#include "GyroBiasFunction.hpp"
+#include "MathFunctions.hpp"
 #include "MeasurementsForNominal.hpp"
 #include "InitializationsForNominal.hpp"
 
@@ -37,9 +37,9 @@ GlobalStateVector NominalMode(int numberOfCycles) {
             albedo = environmentalModel.getAlbedo();
             measurements = MeasurmentsProduction(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
             for (int i = 0; i < 3; i++) {
-                sunPositionBody[i] = measurements[i];
-                magneticBody[i] = measurements[i + 3];
-                gyroscopeMeasurement[i] = measurements[i + 6];
+                sunPositionBody(i) = measurements(i);
+                magneticBody(i) = measurements(i + 3);
+                gyroscopeMeasurement(i) = measurements(i + 6);
             }
             wahbaOutputQuaternion2 = wahba(magneticBody, magneticFieldECI, sunPositionBody, sunPositionECI);
         } else {
@@ -52,9 +52,9 @@ GlobalStateVector NominalMode(int numberOfCycles) {
             albedo = environmentalModel.getAlbedo();
             measurements = MeasurmentsProduction(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
             for (int i = 0; i < 3; i++) {
-                sunPositionBody[i] = measurements[i];
-                magneticBody[i] = measurements[i + 3];
-                gyroscopeMeasurement[i] = measurements[i + 6];
+                sunPositionBody(i) = measurements(i);
+                magneticBody(i) = measurements(i + 3);
+                gyroscopeMeasurement(i) = measurements(i + 6);
             }
             wahbaOutputQuaternion1 = wahbaOutputQuaternion2;
             wahbaOutputQuaternion2 = wahba(magneticBody, magneticFieldECI, sunPositionBody, sunPositionECI);
@@ -87,4 +87,19 @@ GlobalStateVector NominalMode(int numberOfCycles) {
     }
     GlobalStateVector outputState = mekf.getGlobalState();
     return outputState;
+}
+
+Vector3f calculateGyroBias(Quaternionf wahbaOutputQuaternion1,Quaternionf wahbaOutputQuaternion2,Vector3f gyroscopeMeasurement){
+    Vector3f gyroscopeBias;
+    Quaternionf quaternionDifference,temporaryQuaternion;
+    float angularEstimatedRateMean;
+    Vector3f angularEstimatedRate;
+    quaternionDifference.vec() = wahbaOutputQuaternion2.vec() - wahbaOutputQuaternion1.vec();
+    temporaryQuaternion = quaternionProduct(wahbaOutputQuaternion2.conjugate(), quaternionDifference);
+    angularEstimatedRate = 2 * temporaryQuaternion.vec();
+    angularEstimatedRateMean = angularEstimatedRate.mean();
+    for (int i = 0; i < 3; i++) {
+        gyroscopeBias[i] = gyroscopeMeasurement[i] - angularEstimatedRateMean;
+    }
+    return gyroscopeBias;
 }
