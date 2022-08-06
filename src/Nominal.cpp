@@ -20,7 +20,7 @@ GlobalStateVector NominalMode(int numberOfCycles) {
             0, 0, 0, 0, 0, 1;
     MEKF mekf;
     OrbitalParameters orbitalParameters;
-    Matrix<float, 180, 288> reflectivityData1 = Matrix<float, 180, 288>::Identity() * 0;
+    auto reflectivityData1 = EarthCellsMatrix::Identity() * 0;
     orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
     EnvironmentalModel environmentalModel(orbitalParameters, reflectivityData1);
     const SatelliteModel satelliteModel;
