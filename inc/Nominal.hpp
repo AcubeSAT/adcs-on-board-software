@@ -20,3 +20,10 @@ GlobalStateVector NominalMode(int numberOfCycles);
  * @return Gyroscope's Bias
  */
 Eigen::Vector3f calculateGyroBias(Eigen::Quaternionf wahbaOutputQuaternion1,Eigen::Quaternionf wahbaOutputQuaternion2,Eigen::Vector3f gyroscopeMeasurement);
+
+/**
+ * Function that initialize the wahba
+ * @param environmentalModel
+ * @return Mekf's global state vector
+ */
+GlobalStateVector WahbaInitilization(EnvironmentalModel &environmentalModel);
