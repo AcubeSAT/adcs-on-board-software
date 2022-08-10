@@ -24,7 +24,7 @@ MeasurementsProduction(Vector3f sunPositionECI, Vector3f satellitePositionECI, f
     Vector3f randomVector = {1,2,3};
     magneticBody = magneticBody + R * randomVector;
     magneticBody.normalize();
-    Vector3f gyroscopeMeasurements = {0, 0, 0};
+    Vector3f gyroscopeMeasurements = {0.1, 0.2, 0.3};
     measurements = {sunPositionBody[0], sunPositionBody[1], sunPositionBody[2], magneticBody[0], magneticBody[1],
                     magneticBody[2],
                     gyroscopeMeasurements[0], gyroscopeMeasurements[1], gyroscopeMeasurements[2]};

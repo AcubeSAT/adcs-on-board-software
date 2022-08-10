@@ -75,7 +75,7 @@ GlobalStateVector WahbaInitilization(EnvironmentalModel &environmentalModel){
     float albedo;
     Quaternionf wahbaOutputQuaternion1, wahbaOutputQuaternion2;
     GlobalStateVector globalState;
-    for (int i = 0; i < BiasWahbaLoop; i++) {
+    for (int i = 0; i < NumberOfWahbaLoops; i++) {
         if (i == 0) {
             environmentalModel.ModelEnvironment();
             sunPositionECI = environmentalModel.getSunPosition();

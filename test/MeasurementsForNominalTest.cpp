@@ -12,7 +12,7 @@ TEST_CASE("Measurements for nominal test") {
     float albedo = 0;
     measurements = MeasurementsProduction(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
     Vector<float, 9> res = {-0.413148384628908, 0.862004142487583, -0.293695881164122, -0.946661971565983,
-                            -0.140309616201384, -0.293181612221257, 0, 0, 0};
+                            -0.140309616201384, -0.293181612221257, 0.1, 0.2, 0.3};
     for (int i = 0; i < 3; i++) {
         REQUIRE(measurements(i) == Approx(res(i)).epsilon(0.01));
     }
