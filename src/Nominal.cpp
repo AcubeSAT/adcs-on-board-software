@@ -26,7 +26,7 @@ GlobalStateVector NominalMode(int numberOfCycles) {
     float albedo;
     Quaternionf wahbaOutputQuaternion1, wahbaOutputQuaternion2;
     GlobalStateVector globalState;
-    Vector<float, 9> measurements;
+    Vector<float, NominalMeasurementsSize> measurements;
     globalState = WahbaInitilization(environmentalModel);
     mekf.setGlobalState(globalState);
     mekf.setQ(Q);
@@ -34,15 +34,15 @@ GlobalStateVector NominalMode(int numberOfCycles) {
     mekf.setP(P);
 
     for (int i = 1; i < numberOfCycles; i++) {
-        for (int j = 2; j < 12; j++) {
+        for (int j = 0; j < NumberOfTimeStepsPerCycle; j++) {
             environmentalModel.ModelEnvironment();
-            if (j > 1 & j < 5) {
+            if (j >= 0 & j < NumberOfSamplesPerCycle) {
                 sunPositionECI = environmentalModel.getSunPosition();
                 magneticFieldECI = environmentalModel.getMagneticField();
                 satellitePositionECI = environmentalModel.getSatellitePosition();
                 eclipse = environmentalModel.getIsEclipse();
                 albedo = environmentalModel.getAlbedo();
-                measurements = MeasurmentsProduction(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
+                measurements = MeasurementsProduction(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
                 measurementsForCorrection = {measurements[3], measurements[4], measurements[5], measurements[0],
                                              measurements[1], measurements[2]};
                 mekf.correct(measurementsForCorrection, magneticFieldECI, sunPositionECI, eclipse, satelliteModel,
@@ -71,7 +71,7 @@ Vector3f calculateGyroBias(Quaternionf wahbaOutputQuaternion1,Quaternionf wahbaO
 
 GlobalStateVector WahbaInitilization(EnvironmentalModel &environmentalModel){
     Vector3f magneticFieldECI, sunPositionBody, magneticBody, sunPositionECI, satellitePositionECI, gyroscopeBias, gyroscopeMeasurement;
-    Vector<float, 9> measurements;
+    Vector<float, NominalMeasurementsSize> measurements;
     float albedo;
     Quaternionf wahbaOutputQuaternion1, wahbaOutputQuaternion2;
     GlobalStateVector globalState;
@@ -82,7 +82,7 @@ GlobalStateVector WahbaInitilization(EnvironmentalModel &environmentalModel){
             magneticFieldECI = environmentalModel.getMagneticField();
             satellitePositionECI = environmentalModel.getSatellitePosition();
             albedo = environmentalModel.getAlbedo();
-            measurements = MeasurmentsProduction(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
+            measurements = MeasurementsProduction(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
             for (int j = 0; j < 3; j++) {
                 sunPositionBody(j) = measurements(j);
                 magneticBody(j) = measurements(j + 3);
@@ -90,14 +90,14 @@ GlobalStateVector WahbaInitilization(EnvironmentalModel &environmentalModel){
             }
             wahbaOutputQuaternion2 = wahba(magneticBody, magneticFieldECI, sunPositionBody, sunPositionECI);
         } else {
-            for (int j = 0; j < 10; j++) {
+            for (int j = 0; j < NumberOfTimeStepsPerCycle; j++) {
                 environmentalModel.ModelEnvironment();
             }
             sunPositionECI = environmentalModel.getSunPosition();
             magneticFieldECI = environmentalModel.getMagneticField();
             satellitePositionECI = environmentalModel.getSatellitePosition();
             albedo = environmentalModel.getAlbedo();
-            measurements = MeasurmentsProduction(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
+            measurements = MeasurementsProduction(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
             for (int j = 0; j < 3; j++) {
                 sunPositionBody(j) = measurements(j);
                 magneticBody(j) = measurements(j + 3);

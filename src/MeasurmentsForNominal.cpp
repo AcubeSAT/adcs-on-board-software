@@ -5,8 +5,8 @@
 using namespace Eigen;
 
 Vector<float, 9>
-MeasurmentsProduction(Vector3f sunPositionECI, Vector3f satellitePositionECI, float albedo, Vector3f magneticFieldECI) {
-    Vector<float, 9> measurements;
+MeasurementsProduction(Vector3f sunPositionECI, Vector3f satellitePositionECI, float albedo, Vector3f magneticFieldECI) {
+    Vector<float, NominalMeasurementsSize> measurements;
     Matrix<float, 3, 3> R;
     R << 0.0014, 0, 0,
             0, 0.0014, 0,

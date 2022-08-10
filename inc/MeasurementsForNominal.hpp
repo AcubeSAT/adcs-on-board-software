@@ -3,5 +3,6 @@
 #include "EnvironmentalModel.hpp"
 #include "MEKF.hpp"
 #include "Parameters.hpp"
+#include "Definitions.hpp"
 
-Eigen::Vector<float,9> MeasurmentsProduction(Eigen::Vector3f sunPositionECI,Eigen::Vector3f satellitePositionECI,float albedo,Eigen::Vector3f magneticFieldECI);
+Eigen::Vector<float,NominalMeasurementsSize> MeasurementsProduction(Eigen::Vector3f sunPositionECI,Eigen::Vector3f satellitePositionECI,float albedo,Eigen::Vector3f magneticFieldECI);
