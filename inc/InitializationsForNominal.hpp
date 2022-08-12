@@ -15,4 +15,4 @@ struct PAndReflectivityData {
  * A function that initialize parameters needed in Nominal function
  * @return reflectivityData, estimation error covariance Matrix and an OrbitalParameters class item
  */
-PAndReflectivityData InitializationsForNominal();
+PAndReflectivityData initialiseNominal();
