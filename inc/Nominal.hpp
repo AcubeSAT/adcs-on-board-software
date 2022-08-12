@@ -15,18 +15,19 @@ struct PRData {
     Eigen::Matrix<float, LocalStateSize, LocalStateSize> pMekfErrorMatrix;
     OrbitalParameters orbitalParameters;
 };
+
 /**
  * A function that initialises parameters needed in Nominal function
  * @return reflectivityData, estimation error covariance Matrix and an OrbitalParameters class item
  */
 PRData initialiseNominal();
 
- /**
-  * Main function for Nominal Mode
-  * @param numberOfCycles The number of Cycles, that we need to test the Nominal mode
-  * @return Mekf's global state vector
-  */
-GlobalStateVector nominalMode(int numberOfCycles);
+/**
+ * Main function for Nominal Mode
+ * @param numberOfCycles The number of Cycles, that we need to test the Nominal mode
+ * @return Mekf's global state vector
+ */
+GlobalStateVector nominalMode(uint8_t numberOfCycles);
 
 /**
  * Function that takes as input the 2 quaternions and gyroscope's measurements and returns the Gyroscope bias
@@ -35,7 +36,8 @@ GlobalStateVector nominalMode(int numberOfCycles);
  * @param gyroscopeMeasurement
  * @return Gyroscope's Bias
  */
-Eigen::Vector3f calculateGyroBias(Eigen::Quaternionf wahbaOutputQuaternion1,Eigen::Quaternionf wahbaOutputQuaternion2,Eigen::Vector3f gyroscopeMeasurement);
+Eigen::Vector3f calculateGyroBias(Eigen::Quaternionf wahbaOutputQuaternion1, Eigen::Quaternionf wahbaOutputQuaternion2,
+                                  Eigen::Vector3f gyroscopeMeasurement);
 
 /**
  * Function that initialize the wahba
