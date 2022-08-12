@@ -8,7 +8,7 @@
  */
 struct PAndReflectivityData {
     Eigen::Matrix<float, 180, 288> reflectivityData;
-    Eigen::Matrix<float, LocalStateSize, LocalStateSize> P;
+    Eigen::Matrix<float, LocalStateSize, LocalStateSize> p;
     OrbitalParameters orbitalParameters;
 };
 /**
