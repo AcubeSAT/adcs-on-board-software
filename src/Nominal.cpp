@@ -10,11 +10,11 @@
 using namespace Eigen;
 using namespace Parameters::CovarianceMatrices;
 
-GlobalStateVector NominalMode(int numberOfCycles) {
+GlobalStateVector nominalMode(int numberOfCycles) {
     Matrix<float, LocalStateSize, LocalStateSize> P;
     MeasurementVector measurementsForCorrection;
-    PAndReflectivityData pAndReflectivity = initialiseNominal();
-    P = pAndReflectivity.p;
+    PRData pAndReflectivity = initialiseNominal();
+    P = pAndReflectivity.pMekfErrorMatrix;
     MEKF mekf;
     OrbitalParameters orbitalParameters=pAndReflectivity.orbitalParameters;
     auto reflectivityData1 = pAndReflectivity.reflectivityData;
@@ -27,7 +27,7 @@ GlobalStateVector NominalMode(int numberOfCycles) {
     Quaternionf wahbaOutputQuaternion1, wahbaOutputQuaternion2;
     GlobalStateVector globalState;
     Vector<float, NominalMeasurementsSize> measurements;
-    globalState = WahbaInitilization(environmentalModel);
+    globalState = wahbaInitilization(environmentalModel);
     mekf.setGlobalState(globalState);
     mekf.setQ(Q);
     mekf.setR(R);
@@ -69,7 +69,7 @@ Vector3f calculateGyroBias(Quaternionf wahbaOutputQuaternion1,Quaternionf wahbaO
     return gyroscopeBias;
 }
 
-GlobalStateVector WahbaInitilization(EnvironmentalModel &environmentalModel){
+GlobalStateVector wahbaInitilization(EnvironmentalModel &environmentalModel){
     Vector3f magneticFieldECI, sunPositionBody, magneticBody, sunPositionECI, satellitePositionECI, gyroscopeBias, gyroscopeMeasurement;
     Vector<float, NominalMeasurementsSize> measurements;
     float albedo;

@@ -10,7 +10,7 @@
   * @param numberOfCycles The number of Cycles, that we need to test the Nominal mode
   * @return Mekf's global state vector
   */
-GlobalStateVector NominalMode(int numberOfCycles);
+GlobalStateVector nominalMode(int numberOfCycles);
 
 /**
  * Function that takes as input the 2 quaternions and gyroscope's measurements and returns the Gyroscope bias
@@ -26,4 +26,4 @@ Eigen::Vector3f calculateGyroBias(Eigen::Quaternionf wahbaOutputQuaternion1,Eige
  * @param environmentalModel
  * @return Mekf's global state vector
  */
-GlobalStateVector WahbaInitilization(EnvironmentalModel &environmentalModel);
+GlobalStateVector wahbaInitilization(EnvironmentalModel &environmentalModel);
