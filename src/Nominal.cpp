@@ -13,8 +13,8 @@ using namespace Parameters::CovarianceMatrices;
 GlobalStateVector NominalMode(int numberOfCycles) {
     Matrix<float, LocalStateSize, LocalStateSize> P;
     MeasurementVector measurementsForCorrection;
-    PAndReflectivityData pAndReflectivity = InitializationsForNominal();
-    P = pAndReflectivity.P;
+    PAndReflectivityData pAndReflectivity = initialiseNominal();
+    P = pAndReflectivity.p;
     MEKF mekf;
     OrbitalParameters orbitalParameters=pAndReflectivity.orbitalParameters;
     auto reflectivityData1 = pAndReflectivity.reflectivityData;

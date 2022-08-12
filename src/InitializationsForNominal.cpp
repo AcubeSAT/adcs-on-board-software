@@ -4,7 +4,7 @@
 using namespace Eigen;
 using namespace Parameters::CovarianceMatrices;
 
-PAndReflectivityData InitializationsForNominal(){
+PAndReflectivityData initialiseNominal(){
     PAndReflectivityData refDataAndP;
     Matrix<float, LocalStateSize, LocalStateSize> P;
     auto reflectivityData = EarthCellsMatrix::Identity() * 0;
@@ -14,7 +14,7 @@ PAndReflectivityData InitializationsForNominal(){
             0, 0, 0, 1, 0, 0,
             0, 0, 0, 0, 1, 0,
             0, 0, 0, 0, 0, 1;
-    refDataAndP.P = P;
+    refDataAndP.p = P;
     refDataAndP.reflectivityData = reflectivityData;
     OrbitalParameters orbitalParameters;
     orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
