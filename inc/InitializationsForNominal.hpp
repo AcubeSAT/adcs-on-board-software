@@ -12,7 +12,7 @@ struct PAndReflectivityData {
     OrbitalParameters orbitalParameters;
 };
 /**
- * A function that initialize parameters needed in Nominal function
+ * A function that initialises parameters needed in Nominal function
  * @return reflectivityData, estimation error covariance Matrix and an OrbitalParameters class item
  */
 PAndReflectivityData initialiseNominal();
