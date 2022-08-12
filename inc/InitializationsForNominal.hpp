@@ -3,9 +3,8 @@
 #include "EnvironmentalModel.hpp"
 #include "Parameters.hpp"
 /**
- * A structure that contains, a reflectivity data matrix ,
- * an estimation error covariance Matrix and
- * an OrbitalParameters class item
+ * A structure that contains a reflectivity data matrix, an estimation error covariance
+ * matrix and an OrbitalParameters class item
  */
 typedef struct {
     Eigen::Matrix<float, 180, 288> reflectivityData;
