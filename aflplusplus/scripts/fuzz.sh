@@ -6,8 +6,11 @@
 # A Master is required, you can have as many Slave instances as your box can handle.
 
 DESIRED_PATH="aflplusplus"
-[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || { echo "Run from $DESIRED_PATH"; exit; }
+[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || {
+  echo "Run from $DESIRED_PATH"
+  exit
+}
 
 mkdir -p findings
-screen -xr "fuzzer1" -X stuff $'afl-fuzz -i minimized -o findings -M fuzzer1 -- build/aflplusplus\n' \
+screen -xr "fuzzer1" -X stuff $'AFL_STATSD_TAGS_FLAVOR=dogstatsd AFL_STATSD=1 afl-fuzz -i minimized -o findings -M fuzzer1 -- build/aflplusplus\n' \
   && screen -xr "fuzzer2" -X stuff $'afl-fuzz -i minimized -o findings -S fuzzer2 -- build/aflplusplus\n'

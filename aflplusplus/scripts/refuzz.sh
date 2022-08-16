@@ -5,7 +5,10 @@
 # corpus from the previous fuzzing iteration.
 
 DESIRED_PATH="aflplusplus"
-[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || { echo "Run from $DESIRED_PATH"; exit; }
+[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || {
+  echo "Run from $DESIRED_PATH"
+  exit
+}
 
-screen -xr "fuzzer1" -X stuff $'afl-fuzz -i- -o findings -M fuzzer1 -- build/aflplusplus\n' \
-  && screen -xr "fuzzer2" -X stuff $'afl-fuzz -i- -o findings -S fuzzer2 -- build/aflplusplus\n'
+screen -xr "fuzzer1" -X stuff $'AFL_STATSD_TAGS_FLAVOR=dogstatsd AFL_STATSD=1 afl-fuzz -i- -o findings -M fuzzer1 -- build/aflplusplus\n' \
+  && screen -xr "fuzzer2" -X stuff $'AFL_STATSD_TAGS_FLAVOR=dogstatsd AFL_STATSD=1 afl-fuzz -i- -o findings -S fuzzer2 -- build/aflplusplus\n'

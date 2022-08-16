@@ -6,7 +6,10 @@
 # because cp doesn't like overwriting files.
 
 DESIRED_PATH="aflplusplus"
-[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || { echo "Run from $DESIRED_PATH"; exit; }
+[[ "${PWD##*/}" == "$DESIRED_PATH" ]] || {
+  echo "Run from $DESIRED_PATH"
+  exit
+}
 
 mkdir -p queue_all
 rsync --progress -a --delete findings/fuzzer*/queue/* queue_all/ || exit
