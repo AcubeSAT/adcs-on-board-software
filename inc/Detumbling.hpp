@@ -31,7 +31,7 @@ Eigen::Vector3f calculateDesiredMagneticTorque(Bdot &bDot);
 
 /**
  * Estimate the current angular velocity of the satellite.
- * @param bDotVector the calculated magnetic field derivative vector of the Bdot controller in a single control cycled
+ * @param bDotVector the calculated magnetic field derivative vector of the Bdot controller in a single control cycle
  * @param magneticFieldBody the first magnetic field measurement of B-dot measured during sampling interval in a control cycle
  * @return angular velocity estimation expressed in body frame
  */
