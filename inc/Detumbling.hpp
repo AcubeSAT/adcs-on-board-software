@@ -15,18 +15,15 @@
  * initialized by a TLE file, is performed during this mode. In order to perform the actuation, it is necessary to
  * calculate the desired magnetic dipole from the B-dot controller and then calculate the required torque to detumble
  * the AcubeSAT nanosatellite.
- * @param bDot a B-dot controller to calculate the desired magnetic dipole
- * @param ECIToBodyQuaternion the quaternion between ECI and Body frame
- * @param currentAngularVelocity the current angular velocity of the satellite
- * @param environmentalModel a model of the environment around the AcubeSAT
- * @param isDone a parameter that indicates if detumbling is done or not
+ * @param bDot the B-dot controller used for detumbling
+ * @param magneticFieldBody1 the first magnetic field measurement required for bdot vector calculation measured in uT
+ * @param magneticFieldBody2 the second magnetic field measurement required for bdot vector calculation measured in uT
  */
-
-void Detumbling(Bdot &bDot, Eigen::Quaternionf &ECIToBodyQuaternion, Eigen::Vector3f &currentAngularVelocity,
-                EnvironmentalModel &environmentalModel, bool &isDone);
+void Detumbling(Bdot &bDot, const Eigen::Vector3f magneticFieldBody1,
+                const Eigen::Vector3f magneticFieldBody2);
 
 /**
- * Calculate the desired magnetic pole using a bdot controller
+ * Calculate the desired magnetic pole using a B-dot controller.
  * @param bDot a B-dot controller to calculate the desired magnetic dipole
  * @returns desired torque value for magnetorquer actuation
  */
@@ -41,24 +38,10 @@ Eigen::Vector3f calculateDesiredMagneticTorque(Bdot &bDot);
 Eigen::Vector3f estimateAngularVelocity(const Eigen::Vector3f bDotVector, const Eigen::Vector3f magneticFieldBody);
 
 /**
- * Update the coefficients of a non-constant quaternion, in this case the ECI frame to Body frame quaternion
- * with respect to the quaternion kinematic model.
- * @param quaternion the quaternion to be updated
- * @param angularVelocity the angular velocity of a coordinate system (frame), in this case the angular velocity of the
- * AcubeSAT nanosatellite expressed in the body frame
- * @param timeInterval the duration of the update
+ * Update the magnetic field measurements used by the B-dot controller. These measurements are updated every control cycle.
+ * @param bDot the B-dot controller to be updated.
+ * @param magneticFieldBody1 the first magnetic field sample used by the B-dot controller
+ * @param magneticFieldBody2 the second magnetic field sample used by the B-dot controller
  */
-void updateQuaternion(Eigen::Quaternionf &quaternion, const Eigen::Vector3f angularVelocity, const float timeInterval);
-
-/**
- * Actuate by using the magnetorquers to apply the desired torque calculated from previous steps, and reduce the angular
- * velocity of the AcubeSAT nanosatellite.
- * @param angularVelocity the current angular velocity of the satellite
- * @param quaternion
- * @param desiredMagneticTorque
- * @param timestep
- * @param actuationTime
- */
-void
-actuate(Eigen::Vector3f &angularVelocity, Eigen::Quaternionf &quaternion, const Eigen::Vector3f desiredMagneticTorque,
-        const float timestep, const float actuationTime);
+void updateMagneticFieldMeasurements(Bdot &bDot, const Eigen::Vector3f magneticFieldBody1,
+                                     const Eigen::Vector3f magneticFieldBody2);

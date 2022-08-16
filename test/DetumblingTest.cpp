@@ -26,6 +26,7 @@ TEST_CASE("Angular Velocity Test") {
     Bdot bDot(magneticFieldBody1, magneticFieldBody2);
 
     Vector3f magneticTorque = calculateDesiredMagneticTorque(bDot);
+
     Vector3f angularVelocity = estimateAngularVelocity(bDot.getBDotVector(), bDot.getSamplingEndMagneticFieldBody());
 
     REQUIRE(angularVelocity[0] == Approx(-0.0636545152441620).epsilon(1e-3));
@@ -33,7 +34,7 @@ TEST_CASE("Angular Velocity Test") {
     REQUIRE(angularVelocity[2] == Approx(0.439717616066728).epsilon(1e-3));
 }
 
-TEST_CASE("Detumbling Case 1") {
+TEST_CASE("Detumbling Case - Low initial angular velocity") {
     Bdot bdot({0, 0, 0}, {0, 0, 0});
     OrbitalParameters orbitalParameters;
     Matrix<float, 180, 288> reflectivityData = Matrix<float, 180, 288>::Identity() * 100000;
@@ -44,20 +45,10 @@ TEST_CASE("Detumbling Case 1") {
     Vector3f omega = {PI / 30, PI / 30, PI / 30};
     Vector3f omega_dot = {0, 0, 0};
 
-    bool isDone = false;
-    int stableTime = 0;
-    while (stableTime < 10) {
-        Detumbling(bdot, q_body_eci, omega, em, isDone);
-        if (isDone) {
-            stableTime++;
-        }
-    }
-
-    REQUIRE(!(stableTime < 10));
 }
 
 
-TEST_CASE("Detumbling Case 2") {
+TEST_CASE("Detumbling Case - Mission Loss Danger") {
     Bdot bdot({0, 0, 0}, {0, 0, 0});
     OrbitalParameters orbitalParameters;
     Matrix<float, 180, 288> reflectivityData = Matrix<float, 180, 288>::Identity() * 100000;
@@ -67,16 +58,5 @@ TEST_CASE("Detumbling Case 2") {
     Quaternionf q_body_eci({0.71772, 0.449563, 0.177631, 0.501259});
     Vector3f omega = {PI / 3, PI / 3, PI / 3};
     Vector3f omega_dot = {0, 0, 0};
-
-    bool isDone = false;
-    int stableTime = 0;
-    while (stableTime < 10) {
-        Detumbling(bdot, q_body_eci, omega, em, isDone);
-        if (isDone) {
-            stableTime++;
-        }
-    }
-
-    REQUIRE(!(stableTime < 10));
 
 }
