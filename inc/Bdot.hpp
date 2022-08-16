@@ -9,8 +9,8 @@ class Bdot {
 private:
     /**
      * magnetic field values sampled consecutively at the beginning of the sampling period during a single control cycle,
-     * expressed in the Body Frame.
-     * The time difference between the two samples is equal to the Timestep value defined in bdot namespace
+     * expressed in the Body Frame measured in uT.
+     * The time difference between the two samples is equal to the Timestep value defined in bdot namespace measured in seconds.
      */
     Eigen::Vector3f samplingBeginMagneticFieldBody;
 
@@ -21,9 +21,9 @@ public:
 
     /**
      * @param samplingBeginMagneticFieldBody magnetic field value sampled at the beginning of the sampling period during
-     * a single control cycle, expressed in the Body Frame.
+     * a single control cycle, expressed in the Body Frame measured in uT.
      * @param samplingEndMagneticFieldBody second magnetic field value sampled consecutively after the first, at the beginning of the sampling period
-     * during a single control cycle, expressed in the Body Frame.
+     * during a single control cycle, expressed in the Body Frame, measured in uT.
      */
     Bdot(Eigen::Vector3f samplingBeginMagneticFieldBody, Eigen::Vector3f samplingEndMagneticFieldBody);
 
@@ -37,14 +37,14 @@ public:
 
     /**
      * Scaling of the desired magnetic dipole in case it exceeds the maximum dipole provided by each magnetorquer
-     * @param magneticDipole desired magnetic dipole (in Am^2)
-     * @return scaled magnetic dipole (in Am^2)
+     * @param magneticDipole desired magnetic dipole measured in Am^2
+     * @return scaled magnetic dipole measured in Am^2
      */
     Eigen::Vector3f magnetorquerScaling(Eigen::Vector3f magneticDipole);
 
     /**
      * magnetic field value sampled at the beginning of the sampling period during a single control cycle,
-     * expressed in the Body Frame getter
+     * expressed in the Body Frame getter measured in uT
      * @return magnetic field value expressed in the Body Frame
      */
     Eigen::Vector3f getSamplingBeginMagneticFieldBody() const {
@@ -53,7 +53,7 @@ public:
 
     /**
      * magnetic field value sampled at the beginning of the sampling period during a single control cycle,
-     * expressed in the Body Frame setter
+     * expressed in the Body Frame setter measured in uT
      * @param magneticFieldBody magnetic field value expressed in the Body Frame
      */
     void setSamplingBeginMagneticFieldBody(const Eigen::Vector3f samplingBeginMagneticFieldBody) {

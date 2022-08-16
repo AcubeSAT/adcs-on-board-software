@@ -19,7 +19,7 @@
  * @param magneticFieldBody1 the first magnetic field measurement required for bdot vector calculation measured in uT
  * @param magneticFieldBody2 the second magnetic field measurement required for bdot vector calculation measured in uT
  */
-void Detumbling(Bdot &bDot, const Eigen::Vector3f magneticFieldBody1,
+void detumbling(Bdot &bDot, const Eigen::Vector3f magneticFieldBody1,
                 const Eigen::Vector3f magneticFieldBody2);
 
 /**

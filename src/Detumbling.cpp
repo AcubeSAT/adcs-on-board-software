@@ -2,7 +2,7 @@
 
 using namespace Eigen;
 
-void Detumbling(Bdot &bDot, const Vector3f magneticFieldBody1,
+void detumbling(Bdot &bDot, const Vector3f magneticFieldBody1,
                 const Vector3f magneticFieldBody2) {
 
     updateMagneticFieldMeasurements(bDot, magneticFieldBody1, magneticFieldBody2);
