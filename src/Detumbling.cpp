@@ -7,9 +7,9 @@ void detumbling(Bdot &bDot, const Vector3f magneticFieldBody1,
 
     updateMagneticFieldMeasurements(bDot, magneticFieldBody1, magneticFieldBody2);
 
-    Vector3f desiredMagneticTorque = calculateDesiredMagneticTorque(bDot);
+    const Vector3f desiredMagneticTorque = calculateDesiredMagneticTorque(bDot);
 
-    Vector3f angularVelocityEstimation = estimateAngularVelocity(bDot.getBDotVector(),
+    const Vector3f angularVelocityEstimation = estimateAngularVelocity(bDot.getBDotVector(),
                                                                  bDot.getSamplingEndMagneticFieldBody());
 }
 
