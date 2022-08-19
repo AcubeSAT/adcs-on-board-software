@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "Eigen/Dense"
 #include "SatelliteModel.hpp"
@@ -49,9 +49,11 @@ private:
      */
     MeasurementVector innovation;
 
+    SatelliteModel satelliteModel;
+
 public:
     MEKF();
-    
+
     /**
      * Q Setter
      * @param Q process noise covariance Matrix
@@ -171,7 +173,7 @@ public:
      * @param satelliteModel object of the Class SatelliteModel that implements the space environment
      * @param gyroMeasurements measurements of the gyroscope in this timestep
      */
-    void predict(const float timestep, const SatelliteModel &satelliteModel, const Eigen::Vector3f &gyroMeasurements);
+    void predict(const float timestep, const Eigen::Vector3f &gyroMeasurements);
 
     /**
      * MEKF Correction. A modified version of the classic Extended Kalman Filter version that uses a local error state to update the quaternion and the bias.
@@ -184,7 +186,7 @@ public:
      * @param albedo the fraction of the sunlight reflected off the Earth's surface
      */
     void correct(const MeasurementVector &measurement, const Eigen::Vector3f &magneticField,
-                 const Eigen::Vector3f &sunPosition, const bool eclipse, const SatelliteModel &satelliteModel,
+                 const Eigen::Vector3f &sunPosition, const bool eclipse,
                  const Eigen::Vector3f satellitePositionECI,
                  const float albedo);
 };

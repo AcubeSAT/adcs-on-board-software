@@ -8,7 +8,8 @@
 using namespace Eigen;
 using namespace Parameters::CovarianceMatrices;
 
-Vector3f calculateGyroBias(Quaternionf wahbaOutputQuaternion1, Quaternionf wahbaOutputQuaternion2, Vector3f gyroscopeMeasurement){
+Vector3f calculateGyroBias(Quaternionf wahbaOutputQuaternion1, Quaternionf wahbaOutputQuaternion2,
+                           Vector3f gyroscopeMeasurement) {
     Quaternionf quaternionDifference;
     quaternionDifference.vec() = wahbaOutputQuaternion2.vec() - wahbaOutputQuaternion1.vec();
 
@@ -19,27 +20,25 @@ Vector3f calculateGyroBias(Quaternionf wahbaOutputQuaternion1, Quaternionf wahba
     float angularEstimatedRateMean = angularEstimatedRate.mean();
 
     Vector3f gyroscopeBias;
-    for (int i = 0; i < 3; i++) {
-        gyroscopeBias[i] = gyroscopeMeasurement[i] - angularEstimatedRateMean;
+    for (uint8_t i = 0; i < 3; i++) {
+        gyroscopeBias(i) = gyroscopeMeasurement(i) - angularEstimatedRateMean;
     }
     return gyroscopeBias;
 }
 
 GlobalStateVector NominalMode(int numberOfCycles) {
     MEKF mekf;
+
     OrbitalParameters orbitalParameters;
     orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
-
     EnvironmentalModel environmentalModel(orbitalParameters, Parameters::reflectivityData);
-    const SatelliteModel satelliteModel;
 
-    Vector3f magneticFieldECI, sunPositionBody, magneticBody, sunPositionECI, satellitePositionECI, gyroscopeBias, gyroscopeMeasurement;
     bool eclipse;
     float albedo;
     Quaternionf wahbaOutputQuaternion1, wahbaOutputQuaternion2;
-    GlobalStateVector globalState;
-    Vector<float, 6> measurements;
+    MeasurementVector measurements;
 
+    Vector3f magneticFieldECI, sunPositionBody, magneticBody, sunPositionECI, satellitePositionECI, gyroscopeBias, gyroscopeMeasurement;
     for (uint8_t i = 0; i < BiasWahbaLoop; i++) {
         environmentalModel.ModelEnvironment();
         sunPositionECI = environmentalModel.getSunPosition();
@@ -55,8 +54,8 @@ GlobalStateVector NominalMode(int numberOfCycles) {
         wahbaOutputQuaternion2 = wahba(magneticBody, magneticFieldECI, sunPositionBody, sunPositionECI);
     }
     gyroscopeBias = calculateGyroBias(wahbaOutputQuaternion1, wahbaOutputQuaternion2, gyroscopeMeasurement);
-    globalState = {wahbaOutputQuaternion2.w(), wahbaOutputQuaternion2.x(), wahbaOutputQuaternion2.y(),
-                   wahbaOutputQuaternion2.z(), gyroscopeBias(0), gyroscopeBias(1), gyroscopeBias(2)};
+    GlobalStateVector globalState = {wahbaOutputQuaternion2.w(), wahbaOutputQuaternion2.x(), wahbaOutputQuaternion2.y(),
+                                     wahbaOutputQuaternion2.z(), gyroscopeBias(0), gyroscopeBias(1), gyroscopeBias(2)};
 
     mekf.setGlobalState(globalState);
     mekf.setQ(Q);
@@ -72,7 +71,7 @@ GlobalStateVector NominalMode(int numberOfCycles) {
         albedo = environmentalModel.getAlbedo();
         measurements = MeasurementsForNominal(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
 
-        mekf.correct(measurements, magneticFieldECI, sunPositionECI, eclipse, satelliteModel,
+        mekf.correct(measurements, magneticFieldECI, sunPositionECI, eclipse,
                      satellitePositionECI, albedo);
     }
 

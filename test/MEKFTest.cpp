@@ -28,7 +28,7 @@ TEST_CASE("MEKF predict test") {
 
     mekf.setP(P);
 
-    mekf.predict(Parameters::SatelliteModel::Timestep, satelliteModel, gyroMeasurements);
+    mekf.predict(Parameters::SatelliteModel::Timestep, gyroMeasurements);
 
     GlobalStateVector expectedState;
     expectedState
@@ -117,7 +117,7 @@ TEST_CASE("MEKF correct test - Without eclipse") {
     Vector3f satPositionECI(1.0e+06 * 4.569033859736713, 1.0e+06 * 0.261242083257025, -1.0e+06 * 5.135087257503072);
     float albedo = 1.000567064204868e-10;
 
-    mekf.correct(measurements, magneticFieldECI, sunPositionECI, eclipse, satelliteModel, satPositionECI, albedo);
+    mekf.correct(measurements, magneticFieldECI, sunPositionECI, eclipse, satPositionECI, albedo);
 
     auto outputState = mekf.getGlobalState();
     auto outputP = mekf.getP();
@@ -175,7 +175,7 @@ TEST_CASE("MEKF correct test - With eclipse") {
     Vector3f satPositionECI(1.0e+06 * 4.569033859736713, 1.0e+06 * 0.261242083257025, -1.0e+06 * 5.135087257503072);
     float albedo = 1.000567064204868e-10;
 
-    mekf.correct(measurements, magneticFieldECI, sunPositionECI, eclipse, satelliteModel, satPositionECI, albedo);
+    mekf.correct(measurements, magneticFieldECI, sunPositionECI, eclipse, satPositionECI, albedo);
 
     GlobalStateVector expectedState(-0.763759607585108, -0.477159784616164, 0.067216485704839, -0.429501741342207,
                                     -0.072431881749339, 0.123846663072216, -0.064529456997382);
