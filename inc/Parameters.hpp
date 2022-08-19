@@ -146,4 +146,6 @@ namespace Parameters {
      * Angular velocity of the orbit frame with respect to the ECI frame, expressed in the orbit frame
      */
     inline const Eigen::Vector3f AngularVelocityECIOrbit = {0, 0.0011, 0};
+
+    inline const EarthCellsMatrix reflectivityData = EarthCellsMatrix::Identity() * 0;
 }
