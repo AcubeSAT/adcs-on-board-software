@@ -26,8 +26,6 @@ Vector3f calculateGyroBias(Quaternionf wahbaOutputQuaternion1, Quaternionf wahba
 }
 
 GlobalStateVector NominalMode(int numberOfCycles) {
-    MeasurementVector measurementsForCorrection;
-
     MEKF mekf;
     OrbitalParameters orbitalParameters;
     orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
@@ -40,7 +38,7 @@ GlobalStateVector NominalMode(int numberOfCycles) {
     float albedo;
     Quaternionf wahbaOutputQuaternion1, wahbaOutputQuaternion2;
     GlobalStateVector globalState;
-    Vector<float, 9> measurements;
+    Vector<float, 6> measurements;
 
     for (uint8_t i = 0; i < BiasWahbaLoop; i++) {
         environmentalModel.ModelEnvironment();
@@ -73,9 +71,8 @@ GlobalStateVector NominalMode(int numberOfCycles) {
         eclipse = environmentalModel.getIsEclipse();
         albedo = environmentalModel.getAlbedo();
         measurements = MeasurementsForNominal(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
-        measurementsForCorrection = {measurements[3], measurements[4], measurements[5], measurements[0],
-                                     measurements[1], measurements[2]};
-        mekf.correct(measurementsForCorrection, magneticFieldECI, sunPositionECI, eclipse, satelliteModel,
+
+        mekf.correct(measurements, magneticFieldECI, sunPositionECI, eclipse, satelliteModel,
                      satellitePositionECI, albedo);
     }
 

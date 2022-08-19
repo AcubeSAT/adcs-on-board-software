@@ -3,9 +3,9 @@
 #include "Eigen/Geometry"
 #include "MathFunctions.hpp"
 
-Eigen::Vector<float, 9>
+Eigen::Vector<float, 6>
 MeasurementsForNominal(Eigen::Vector3f sunPositionECI, Eigen::Vector3f satellitePositionECI, float albedo, Eigen::Vector3f magneticFieldECI) {
-    Eigen::Vector<float, 9> measurements;
+    Eigen::Vector<float, 6> measurements;
     Eigen::Matrix<float, 3, 3> R;
     R << 0.0014, 0, 0,
             0, 0.0014, 0,
@@ -24,7 +24,10 @@ MeasurementsForNominal(Eigen::Vector3f sunPositionECI, Eigen::Vector3f satellite
     Eigen::Vector3f sunPositionBody  = temp.vec();
     sunPositionBody.normalize();
 
-    Eigen::Quaternionf quaternionSatelliteECI = {0, satellitePositionECI[0], satellitePositionECI[1], satellitePositionECI[2]};
+    Eigen::Quaternionf quaternionSatelliteECI;
+    quaternionSatelliteECI.w() = 0;
+    quaternionSatelliteECI.vec() = satellitePositionECI;
+
     Eigen::Quaternionf temp2 = quaternionProduct(quaternionECItoBodyConjugate,
                                           quaternionProduct(quaternionSatelliteECI, quaternionECItoBody));
     Eigen::Vector3f satellitePositionBody = temp.vec();
@@ -34,11 +37,8 @@ MeasurementsForNominal(Eigen::Vector3f sunPositionECI, Eigen::Vector3f satellite
     magneticBody = magneticBody + R * randomVector;
     magneticBody.normalize();
 
-    Eigen::Vector3f gyroscopeMeasurements = {0, 0, 0};
-
-    measurements = {sunPositionBody[0], sunPositionBody[1], sunPositionBody[2], magneticBody[0], magneticBody[1],
-                    magneticBody[2],
-                    gyroscopeMeasurements[0], gyroscopeMeasurements[1], gyroscopeMeasurements[2]};
+    measurements(Eigen::seq(0, 2)) = magneticBody;
+    measurements(Eigen::seq(3, 5)) = sunPositionBody;
 
     return measurements;
 }
