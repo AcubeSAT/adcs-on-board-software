@@ -137,6 +137,21 @@ namespace Parameters {
                 VectorSize, VectorSize);
     }
 
+    /**
+     * estimation error covariance Matrix from MEKF, to use in Nominal
+     */
+    inline const Eigen::Matrix<float, LocalStateSize, LocalStateSize> P{{0.00136699495713899,   -0.000114760060275635, 0.000256861463917196,  0, 0, 0},
+                                                                        {-0.000114760060275612, 0.000441521240017950,  -7.67733697177619e-06, 0, 0, 0},
+                                                                        {0.000256861463917308,  -7.67733697184630e-06, 0.000401588226538019,  0, 0, 0},
+                                                                        {0,                     0,                     0,                     1, 0, 0},
+                                                                        {0,                     0,                     0,                     0, 1, 0},
+                                                                        {0,                     0,                     0,                     0, 0, 1}};
+    /**
+     * measurement noise covariance Matrix from MEKF, to use in Nominal
+     */
+    inline const Eigen::Matrix<float, 3, 3> R{{0.0014, 0,      0},
+                                              {0,      0.0014, 0},
+                                              {0,      0,      0.0014}};
     /** 
      * Desired quaternion to achieve pointing
      */

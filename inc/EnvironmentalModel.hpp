@@ -21,7 +21,7 @@ private:
      */
     Eigen::Vector3f satellitePosition;
     /**
-     *  Sum of sunlight reflected off the Earth's surface
+     *  Sum of sunlight units reflected off the Earth's surface
      */
     float albedoSum;
     /**
