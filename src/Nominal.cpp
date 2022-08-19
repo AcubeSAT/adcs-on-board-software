@@ -6,7 +6,6 @@
 #include "MathFunctions.hpp"
 
 using namespace Eigen;
-using namespace Parameters::CovarianceMatrices;
 
 Vector3f calculateGyroBias(Quaternionf wahbaOutputQuaternion1, Quaternionf wahbaOutputQuaternion2,
                            Vector3f gyroscopeMeasurement) {
@@ -45,8 +44,8 @@ GlobalStateVector NominalMode(int numberOfCycles) {
         magneticFieldECI = environmentalModel.getMagneticField();
         satellitePositionECI = environmentalModel.getSatellitePosition();
         albedo = environmentalModel.getAlbedo();
-        measurements = MeasurementsForNominal(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
 
+        measurements = MeasurementsForNominal(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
         sunPositionBody = measurements(seq(0, 2));
         magneticBody = measurements(seq(3, 5));
         gyroscopeMeasurement = measurements(seq(6, 8));
@@ -58,9 +57,6 @@ GlobalStateVector NominalMode(int numberOfCycles) {
                                      wahbaOutputQuaternion2.z(), gyroscopeBias(0), gyroscopeBias(1), gyroscopeBias(2)};
 
     mekf.setGlobalState(globalState);
-    mekf.setQ(Q);
-    mekf.setR(R);
-//    mekf.setP(P);
 
     for (uint8_t i = 0; i < numberOfCycles; i++) {
         environmentalModel.ModelEnvironment();
