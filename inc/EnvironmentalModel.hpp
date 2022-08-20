@@ -63,14 +63,14 @@ public:
     /**
      * @return Magnetic field (ECI)
      */
-    Eigen::Vector3f getMagneticField() const {
+    Eigen::Vector3f getMagneticFieldECI() const {
         return magneticField;
     }
 
     /**
      * @return Sun position (ECI)
      */
-    Eigen::Vector3f getSunPosition() const {
+    Eigen::Vector3f getSunPositionECI() const {
         return sunPosition;
     }
 
@@ -84,7 +84,7 @@ public:
     /**
      * @return Satellite position (ECI)
      */
-    Eigen::Vector3f getSatellitePosition() const {
+    Eigen::Vector3f getSatellitePositionECI() const {
         return satellitePosition;
     }
 
