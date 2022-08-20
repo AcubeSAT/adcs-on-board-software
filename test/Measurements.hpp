@@ -4,7 +4,7 @@
 #include "MathFunctions.hpp"
 
 Eigen::Vector<float, 9>
-MeasurementsForNominal(Eigen::Vector3f sunPositionECI, Eigen::Vector3f magneticFieldECI,
+createMeasurements(Eigen::Vector3f sunPositionECI, Eigen::Vector3f magneticFieldECI,
                        Eigen::Vector3f satellitePositionECI) {
     Eigen::Vector<float, 9> measurements;
     Eigen::Matrix<float, VectorSize, VectorSize> R;
