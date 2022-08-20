@@ -146,12 +146,6 @@ namespace Parameters {
                                                                         {0,                     0,                     0,                     1, 0, 0},
                                                                         {0,                     0,                     0,                     0, 1, 0},
                                                                         {0,                     0,                     0,                     0, 0, 1}};
-    /**
-     * measurement noise covariance Matrix from MEKF, to use in Nominal
-     */
-    inline const Eigen::Matrix<float, 3, 3> R{{0.0014, 0,      0},
-                                              {0,      0.0014, 0},
-                                              {0,      0,      0.0014}};
     /** 
      * Desired quaternion to achieve pointing
      */

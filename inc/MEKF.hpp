@@ -170,7 +170,6 @@ public:
     /**
      * MEKF prediction.
      * @param timestep sampling time in seconds
-     * @param satelliteModel object of the Class SatelliteModel that implements the space environment
      * @param gyroMeasurements measurements of the gyroscope in this timestep
      */
     void predict(const float timestep, const Eigen::Vector3f &gyroMeasurements);
@@ -181,7 +180,6 @@ public:
      * @param magneticField magnetic field vector in the second frame, in our case ECI
      * @param sunPosition sun vector in the second frame, in our case ECI
      * @param eclipse bool variable which is set to false if during this timestep the satellite is not in eclipse
-     * @param satelliteModel object of the Class SatelliteModel that implements the space environment
      * @param satellitePositionECI satellite position in ECI frame
      * @param albedo the fraction of the sunlight reflected off the Earth's surface
      */

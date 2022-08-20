@@ -9,68 +9,59 @@ using namespace Eigen;
 
 Vector3f calculateGyroBias(Quaternionf wahbaOutputQuaternion1, Quaternionf wahbaOutputQuaternion2,
                            Vector3f gyroscopeMeasurement) {
-    Quaternionf quaternionDifference;
-    quaternionDifference.vec() = wahbaOutputQuaternion2.vec() - wahbaOutputQuaternion1.vec();
+    Quaternionf quaternionDerivative;
+    quaternionDerivative.vec() = wahbaOutputQuaternion2.vec() - wahbaOutputQuaternion1.vec();
 
-    Quaternionf temporaryQuaternion;
-    temporaryQuaternion = quaternionProduct(wahbaOutputQuaternion2.conjugate(), quaternionDifference);
+    const Vector3f estimatedAngularRate = 2 * quaternionProduct(wahbaOutputQuaternion2.conjugate(), quaternionDerivative).vec();
+    const float meanEstimatedAngularRate = estimatedAngularRate.mean();
 
-    Vector3f angularEstimatedRate = 2 * temporaryQuaternion.vec();
-    float angularEstimatedRateMean = angularEstimatedRate.mean();
-
-    Vector3f gyroscopeBias;
-    for (uint8_t i = 0; i < 3; i++) {
-        gyroscopeBias(i) = gyroscopeMeasurement(i) - angularEstimatedRateMean;
-    }
+    const Vector3f gyroscopeBias = gyroscopeMeasurement - Vector3f::Ones(VectorSize, 1) * meanEstimatedAngularRate;
     return gyroscopeBias;
 }
 
 GlobalStateVector NominalMode(int numberOfCycles) {
-    MEKF mekf;
-
     OrbitalParameters orbitalParameters;
     orbitalParameters.calculateTime(tle6PM500, 'v', 'd', 'i', wgs84);
     EnvironmentalModel environmentalModel(orbitalParameters, Parameters::reflectivityData);
 
-    bool eclipse;
-    float albedo;
     Quaternionf wahbaOutputQuaternion1, wahbaOutputQuaternion2;
-    MeasurementVector measurements;
 
-    Vector3f magneticFieldECI, sunPositionBody, magneticBody, sunPositionECI, satellitePositionECI, gyroscopeBias, gyroscopeMeasurement;
+    Vector3f gyroscopeMeasurement;
     for (uint8_t i = 0; i < BiasWahbaLoop; i++) {
         environmentalModel.ModelEnvironment();
-        sunPositionECI = environmentalModel.getSunPosition();
-        magneticFieldECI = environmentalModel.getMagneticField();
-        satellitePositionECI = environmentalModel.getSatellitePosition();
-        albedo = environmentalModel.getAlbedo();
 
-        measurements = MeasurementsForNominal(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
-        sunPositionBody = measurements(seq(0, 2));
-        magneticBody = measurements(seq(3, 5));
+        const Vector<float, 9> measurements = MeasurementsForNominal(environmentalModel.getSunPosition(),
+                                              environmentalModel.getMagneticField(),
+                                              environmentalModel.getSatellitePosition());
+        const Vector3f sunPositionBody = measurements(seq(0, 2));
+        const Vector3f magneticBody = measurements(seq(3, 5));
         gyroscopeMeasurement = measurements(seq(6, 8));
 
-        wahbaOutputQuaternion2 = wahba(magneticBody, magneticFieldECI, sunPositionBody, sunPositionECI);
+        wahbaOutputQuaternion2 = wahba(magneticBody, environmentalModel.getMagneticField(), sunPositionBody,
+                                       environmentalModel.getSunPosition());
     }
-    gyroscopeBias = calculateGyroBias(wahbaOutputQuaternion1, wahbaOutputQuaternion2, gyroscopeMeasurement);
-    GlobalStateVector globalState = {wahbaOutputQuaternion2.w(), wahbaOutputQuaternion2.x(), wahbaOutputQuaternion2.y(),
-                                     wahbaOutputQuaternion2.z(), gyroscopeBias(0), gyroscopeBias(1), gyroscopeBias(2)};
+    const Vector3f gyroscopeBias = calculateGyroBias(wahbaOutputQuaternion1, wahbaOutputQuaternion2, gyroscopeMeasurement);
 
+    GlobalStateVector globalState;
+    globalState(0) = wahbaOutputQuaternion2.w();
+    globalState(seq(1, 3)) = wahbaOutputQuaternion2.vec();
+    globalState(seq(4, 6)) = gyroscopeBias;
+
+    MEKF mekf;
     mekf.setGlobalState(globalState);
 
     for (uint8_t i = 0; i < numberOfCycles; i++) {
         environmentalModel.ModelEnvironment();
-        sunPositionECI = environmentalModel.getSunPosition();
-        magneticFieldECI = environmentalModel.getMagneticField();
-        satellitePositionECI = environmentalModel.getSatellitePosition();
-        eclipse = environmentalModel.getIsEclipse();
-        albedo = environmentalModel.getAlbedo();
-        measurements = MeasurementsForNominal(sunPositionECI, satellitePositionECI, albedo, magneticFieldECI);
 
-        mekf.correct(measurements, magneticFieldECI, sunPositionECI, eclipse,
-                     satellitePositionECI, albedo);
+        const Vector<float, 9> measurements = MeasurementsForNominal(environmentalModel.getSunPosition(),
+                                              environmentalModel.getMagneticField(),
+                                              environmentalModel.getSatellitePosition());
+
+        mekf.correct(measurements(seq(0, 5)), environmentalModel.getMagneticField(),
+                     environmentalModel.getSunPosition(), environmentalModel.getIsEclipse(),
+                     environmentalModel.getSatellitePosition(), environmentalModel.getAlbedo());
     }
 
-    GlobalStateVector outputState = mekf.getGlobalState();
+    const GlobalStateVector outputState = mekf.getGlobalState();
     return outputState;
 }
