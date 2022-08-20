@@ -4,6 +4,7 @@
 #include "Definitions.hpp"
 #include "../test/Measurements.hpp"
 #include "MathFunctions.hpp"
+#include "Parameters.hpp"
 
 using namespace Eigen;
 
@@ -12,8 +13,9 @@ Vector3f estimateInitialGyroBias(std::array<Quaternionf, NumberOfWahbaLoops> wah
     std::array<Quaternionf, NumberOfWahbaLoops-1> quaternionDerivative;
     Matrix<float, VectorSize, NumberOfWahbaLoops-1> estimatedAngularRate;
 
-    for(uint8_t i = 1; i < NumberOfWahbaLoops; i++) {
-        quaternionDerivative[i].vec() = wahbaOutputQuaternions[i].vec() - wahbaOutputQuaternions[i-1].vec(); // divide with timestep?
+    for(uint8_t i = 0; i < NumberOfWahbaLoops-1; i++) {
+        quaternionDerivative[i].w() = wahbaOutputQuaternions[i].w() - wahbaOutputQuaternions[i-1].w();
+        quaternionDerivative[i].vec() = wahbaOutputQuaternions[i].vec() - wahbaOutputQuaternions[i].vec(); // divide with timestep?
         estimatedAngularRate(seq(0, 2), i) = 2 * quaternionProduct(quaternionDerivative[i], wahbaOutputQuaternions[i].inverse()).vec();
     }
 
@@ -34,7 +36,7 @@ GlobalStateVector calculateInitialStateEstimation(EnvironmentalModel environment
                                                                  environmentalModel.getSatellitePositionECI());
         const Vector3f sunPositionBody = measurements(seq(0, 2));
         const Vector3f magneticBody = measurements(seq(3, 5));
-        const Vector3f gyroscopeMeasurement = measurements(seq(6, 8));
+        gyroscopeMeasurement = measurements(seq(6, 8));
 
         wahbaOutputQuaternions[i] = wahba(magneticBody, environmentalModel.getMagneticFieldECI(), sunPositionBody,
                                           environmentalModel.getSunPositionECI());
@@ -70,6 +72,6 @@ GlobalStateVector NominalMode(int numberOfCycles) {
                      environmentalModel.getSatellitePositionECI(), environmentalModel.getAlbedo());
     }
 
-    const GlobalStateVector outputState = mekf.getGlobalState();
+    GlobalStateVector outputState = mekf.getGlobalState();
     return outputState;
 }
