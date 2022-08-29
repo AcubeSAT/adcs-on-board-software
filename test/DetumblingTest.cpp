@@ -11,19 +11,17 @@ Matrix<float, 3, 3> Inertia({
                             });
 
 uint8_t totalSimulationSteps = 25;
-Matrix<float, 3, 3> I = Matrix<float, 3, 3>::Identity();
 
-Matrix<float, 6, 3> actualVelocitiesCase1({
-                                                  {0.105511225520354, 0.103969576196999, 0.104521131640659},
-                                                  {0.113671139332526, 0.094284264294752, 0.105480114264322},
-                                                  {0.120996785659813, 0.083916834778299, 0.106359399415552},
-                                                  {0.127445303954953, 0.072960332486723, 0.107244195152626},
-                                                  {0.132957923239574, 0.061468592122719, 0.107955187872409},
-                                                  {0.137493406985540, 0.049547921018137, 0.108584898816924}
+
+Matrix<float, 5, 3> actualVelocitiesCase1({
+                                                  {0.269359418811723,  -0.700790251161457, 0.503457016937098},
+                                                  {-0.029937827090688, -0.758895982402411, 0.487505906399663},
+                                                  {-0.327542432465865, -0.692803003941368, 0.479592726673585},
+                                                  {-0.577904225133820, -0.510357998047160, 0.478777086553297},
+                                                  {-0.736488722611760, -0.236644565280844, 0.480489855856063}
                                           });
 
-Matrix<float, 6, 3> actualVelocitiesCase2({
-                                                  {1.046872272855053,  1.046263442203266,  1.046697271787978},
+Matrix<float, 5, 3> actualVelocitiesCase2({
                                                   {1.456298474300431,  -0.131848057089224, 1.088453973477571},
                                                   {0.855610364696138,  -1.216455920963766, 1.033202919604997},
                                                   {-0.309797481211099, -1.490430571170476, 0.968336546045047},
@@ -54,14 +52,15 @@ TEST_CASE("Angular Velocity Test") {
 
     Vector3f magneticTorque = calculateDesiredMagneticTorque(bDot);
 
-    Vector3f angularVelocity = estimateAngularVelocity(bDot.getBDotVector(), bDot.getSamplingEndMagneticFieldBody());
+    Vector3f angularVelocity = estimateAngularVelocity(bDot.getBDotVector(),
+                                                       bDot.getSamplingEndMagneticFieldBody());
 
     REQUIRE(angularVelocity[0] == Approx(-0.0636545152441620).epsilon(1e-3));
     REQUIRE(angularVelocity[1] == Approx(0.0831996293001571).epsilon(1e-3));
     REQUIRE(angularVelocity[2] == Approx(0.439717616066728).epsilon(1e-3));
 }
 
-TEST_CASE("Detumbling Case - Low initial angular velocity") {
+TEST_CASE("Detumbling Case 1 - Simulation initial angular velocity") {
     Bdot bdot({0, 0, 0}, {0, 0, 0});
     OrbitalParameters orbitalParameters;
     Matrix<float, 180, 288> reflectivityData = Matrix<float, 180, 288>::Identity() * 100000;
@@ -70,9 +69,8 @@ TEST_CASE("Detumbling Case - Low initial angular velocity") {
 
     Quaternionf q_body_eci({0.3757, 0.5983, -0.2364, -0.6671});
     q_body_eci.normalize();
-    Vector3f omega = {PI / 30, PI / 30, PI / 30};
+    Vector3f omega = {PI/6, -PI/6, PI/6};
     Vector3f omega_dot = {0, 0, 0};
-
 
     Vector3f magneticFieldBody1 = {0, 0, 0};
     Vector3f magneticFieldBody2 = {0, 0, 0};
@@ -80,44 +78,51 @@ TEST_CASE("Detumbling Case - Low initial angular velocity") {
     for (uint8_t step; step < totalSimulationSteps; step++) {
 
         Quaternionf omega_quaternion = {0, omega.x(), omega.y(), omega.z()};
+        //SET FIRST MAGNETIC FIELD VALUE
         em.ModelEnvironment();
         magneticFieldBody1 = rotateVector(q_body_eci, em.getMagneticField() * 1e-9);
         bdot.setSamplingBeginMagneticFieldBody(magneticFieldBody1);
-        if (omega_quaternion.norm() > 1e-9) {
-            Quaternionf q_dot = quaternionProduct(q_body_eci, omega_quaternion);
-            q_body_eci.coeffs() = (0.5 + timeStep) * q_dot.coeffs();
-            q_body_eci.normalize();
-        }
+
+        //TIME STEP (0.1s) PASS
+        Quaternionf q_dot = quaternionProduct(q_body_eci, omega_quaternion);
+        q_dot.coeffs() *= 0.5;
+        q_body_eci.coeffs() += q_dot.coeffs() * timeStep;
+        q_body_eci.normalize();
+
+        //SET SECOND MAGNETIC FIELD VALUE
         em.ModelEnvironment();
         magneticFieldBody2 = rotateVector(q_body_eci, em.getMagneticField() * 1e-9);
         bdot.setSamplingBeginMagneticFieldBody(magneticFieldBody2);
 
+        //CALCULATED DESIRED TORQUE
         Vector3f desiredTorque = calculateDesiredMagneticTorque(bdot);
-
         Vector3f estimatedAngularVelocity = estimateAngularVelocity(bdot.getBDotVector(),
                                                                     bdot.getSamplingEndMagneticFieldBody());
+
         float tinyStep = 1e-3;
+        //ACTUATE FOR 0.7 SECONDS, WITH A TINY TIME STEP OF 0.001 SECONDS
         for (uint16_t dt = 0; dt < 700; dt++) {
-            Vector3f de_omega = Inertia.inverse() * (desiredTorque - omega.cross(Inertia * omega));
-            omega += de_omega * tinyStep;
-            q_body_eci = quaternionProduct(q_body_eci, quaternionExponent(omega));
+            //DYNAMICS
+            omega_dot = Inertia.inverse() * (desiredTorque - omega.cross(Inertia * omega));
+            omega += omega_dot * tinyStep;
+            q_body_eci = quaternionProduct(q_body_eci, Quaternionf{0, omega.x(), omega.y(), omega.z()});
             q_body_eci.normalize();
         }
 
-        if (step < 5){
-            CHECK(omega.x() == Approx(actualVelocitiesCase1.coeff(step,0)).epsilon(1e-3));
-            CHECK(omega.y() == Approx(actualVelocitiesCase1.coeff(step,1)).epsilon(1e-3));
-            CHECK(omega.z() == Approx(actualVelocitiesCase1.coeff(step,2)).epsilon(1e-3));
+        if (step < 5) {
+            CHECK(omega.x() == Approx(actualVelocitiesCase1.coeff(step, 0)).epsilon(1e-3));
+            CHECK(omega.y() == Approx(actualVelocitiesCase1.coeff(step, 1)).epsilon(1e-3));
+            CHECK(omega.z() == Approx(actualVelocitiesCase1.coeff(step, 2)).epsilon(1e-3));
         }
-
-        for(uint8_t i = 0; i < 7; i++){
+        //SKIP THE 7 TIME STEPS
+        for (uint8_t i = 0; i < 7; i++) {
             em.ModelEnvironment();
         }
     }
 }
 
 
-TEST_CASE("Detumbling Case - Mission Loss Danger") {
+TEST_CASE("Detumbling Case 2 - Mission Loss Danger") {
     Bdot bdot({0, 0, 0}, {0, 0, 0});
     OrbitalParameters orbitalParameters;
     Matrix<float, 180, 288> reflectivityData = Matrix<float, 180, 288>::Identity() * 100000;
@@ -129,4 +134,52 @@ TEST_CASE("Detumbling Case - Mission Loss Danger") {
     Vector3f omega = {PI / 3, PI / 3, PI / 3};
     Vector3f omega_dot = {0, 0, 0};
 
+
+    Vector3f magneticFieldBody1 = {0, 0, 0};
+    Vector3f magneticFieldBody2 = {0, 0, 0};
+    float timeStep = 0.1;
+    for (uint8_t step; step < totalSimulationSteps; step++) {
+
+        Quaternionf omega_quaternion = {0, omega.x(), omega.y(), omega.z()};
+        //SET FIRST MAGNETIC FIELD VALUE
+        em.ModelEnvironment();
+        magneticFieldBody1 = rotateVector(q_body_eci, em.getMagneticField() * 1e-9);
+        bdot.setSamplingBeginMagneticFieldBody(magneticFieldBody1);
+
+        //TIME STEP (0.1s) PASS
+        Quaternionf q_dot = quaternionProduct(q_body_eci, omega_quaternion);
+        q_dot.coeffs() *= 0.5;
+        q_body_eci.coeffs() += q_dot.coeffs() * timeStep;
+        q_body_eci.normalize();
+
+        //SET SECOND MAGNETIC FIELD VALUE
+        em.ModelEnvironment();
+        magneticFieldBody2 = rotateVector(q_body_eci, em.getMagneticField() * 1e-9);
+        bdot.setSamplingBeginMagneticFieldBody(magneticFieldBody2);
+
+        //CALCULATED DESIRED TORQUE
+        Vector3f desiredTorque = calculateDesiredMagneticTorque(bdot);
+        Vector3f estimatedAngularVelocity = estimateAngularVelocity(bdot.getBDotVector(),
+                                                                    bdot.getSamplingEndMagneticFieldBody());
+
+        float tinyStep = 1e-3;
+        //ACTUATE FOR 0.7 SECONDS, WITH A TINY TIME STEP OF 0.001 SECONDS
+        for (uint16_t dt = 0; dt < 700; dt++) {
+            //DYNAMICS
+            omega_dot = Inertia.inverse() * (desiredTorque - omega.cross(Inertia * omega));
+            omega += omega_dot * tinyStep;
+            q_body_eci = quaternionProduct(q_body_eci, Quaternionf{0, omega.x(), omega.y(), omega.z()});
+            q_body_eci.normalize();
+        }
+
+        if (step < 5) {
+            CHECK(omega.x() == Approx(actualVelocitiesCase2.coeff(step, 0)).epsilon(1e-3));
+            CHECK(omega.y() == Approx(actualVelocitiesCase2.coeff(step, 1)).epsilon(1e-3));
+            CHECK(omega.z() == Approx(actualVelocitiesCase2.coeff(step, 2)).epsilon(1e-3));
+        }
+        //SKIP THE 7 TIME STEPS
+        for (uint8_t i = 0; i < 7; i++) {
+            em.ModelEnvironment();
+        }
+    }
 }
