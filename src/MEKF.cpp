@@ -9,10 +9,10 @@ MEKF::MEKF() :
         R{Parameters::CovarianceMatrices::R} {}
 
 
-void MEKF::predict(const float timestep, const Vector3f &gyroMeasurements) {
+void MEKF::predict(const Vector3f &gyroMeasurements) {
     F_k = satelliteModel.stateTransitionJacobian(globalState, gyroMeasurements);
     globalState = satelliteModel.stateTransitionFunction(globalState, gyroMeasurements);
-    auto Phi = (F_k * timestep).exp();
+    auto Phi = (F_k * Parameters::SatelliteModel::Timestep).exp();
     P = Phi * P * Phi.transpose() + Q;
 }
 

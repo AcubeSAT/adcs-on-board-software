@@ -169,10 +169,9 @@ public:
 
     /**
      * MEKF prediction.
-     * @param timestep sampling time in seconds
      * @param gyroMeasurements measurements of the gyroscope in this timestep
      */
-    void predict(const float timestep, const Eigen::Vector3f &gyroMeasurements);
+    void predict(const Eigen::Vector3f &gyroMeasurements);
 
     /**
      * MEKF Correction. A modified version of the classic Extended Kalman Filter version that uses a local error state to update the quaternion and the bias.

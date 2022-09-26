@@ -28,7 +28,7 @@ TEST_CASE("MEKF predict test") {
 
     mekf.setP(P);
 
-    mekf.predict(Parameters::SatelliteModel::Timestep, gyroMeasurements);
+    mekf.predict(gyroMeasurements);
 
     GlobalStateVector expectedState;
     expectedState
