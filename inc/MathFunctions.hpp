@@ -148,7 +148,7 @@ T clampUp(T number, const T limit) {
 Eigen::Vector3f eci2ecef(const Eigen::Vector3f vectorECI, const double greenwichSiderealTime);
 
 /**
- * Transforms ECEF frame vectore to LLH frame
+ * Transforms ECEF frame vector to LLH frame
  * @param vectorInECEF
  * @return Vector in LLH frame
  */
@@ -172,4 +172,4 @@ Eigen::Vector3f ned2ecef(const Eigen::Vector3f vectorNED, const float latitude, 
 Eigen::Vector3f ecef2eci(const Eigen::Vector3f vectorECEF, const double greenwichSiderealTime);
 
 
-Eigen::Matrix<float, VectorSize, VectorSize> orbitToECI(float ascendingNode, float inclination, float argumentPerigeeMeanAnomaly);
+Eigen::Matrix<float, VectorSize, VectorSize> orbitToECI(double ascendingNode, double inclination, double argumentPerigeeMeanAnomaly);

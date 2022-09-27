@@ -184,7 +184,7 @@ Vector3f ecef2eci(const Vector3f vectorECEF, const double greenwichSiderealTime)
 
 
 Matrix<float, VectorSize, VectorSize>
-orbitToECI(float ascendingNode, float inclination, float argumentPerigeeMeanAnomaly) {
+orbitToECI(double ascendingNode, double inclination, double argumentPerigeeMeanAnomaly) {
     Matrix<float, VectorSize, VectorSize> R;
 
     R(0, 0) = -sin(argumentPerigeeMeanAnomaly) * sin(ascendingNode) * cos(inclination) +
