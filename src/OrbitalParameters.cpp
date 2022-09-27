@@ -44,6 +44,10 @@ void OrbitalParameters::calculateNextPosition() {
 
     SGP4Funcs::sgp4(satrec, timeSince, satelliteECI, velocity);
 
+    ascendingNode = satrec.nodeo;
+    inclination = satrec.inclo;
+    argumentPerigeeMeanAnomaly = satrec.argpo + satrec.mm;
+
     // The purpose of the next operation is to "typecast" c++ arrays to Eigen vector
     for (uint8_t i = 0; i < 3; i++) {
         this->satelliteECI(i) = satelliteECI[i];

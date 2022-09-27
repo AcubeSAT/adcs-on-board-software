@@ -40,6 +40,12 @@ private:
      */
     Eigen::Vector3f satelliteLLH;
 
+    double ascendingNode;
+
+    double inclination;
+
+    double argumentPerigeeMeanAnomaly;
+
 public:
     OrbitalParameters();
 
@@ -106,5 +112,17 @@ public:
      */
     double getTimeGregorian() const {
         return timeGregorian;
+    }
+
+    double getAscendingNode() const {
+        return ascendingNode;
+    }
+
+    double getInclination() const {
+        return inclination;
+    }
+
+    double getArgumentPerigeeMeanAnomaly() const{
+        return argumentPerigeeMeanAnomaly;
     }
 };
