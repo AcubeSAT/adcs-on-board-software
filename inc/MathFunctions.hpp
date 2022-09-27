@@ -170,3 +170,6 @@ Eigen::Vector3f ned2ecef(const Eigen::Vector3f vectorNED, const float latitude, 
  * @return Vector in ECI
  */
 Eigen::Vector3f ecef2eci(const Eigen::Vector3f vectorECEF, const double greenwichSiderealTime);
+
+
+Eigen::Matrix<float, VectorSize, VectorSize> orbitToECI(float ascendingNode, float inclination, float argumentPerigeeMeanAnomaly);

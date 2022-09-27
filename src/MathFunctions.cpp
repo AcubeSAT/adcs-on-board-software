@@ -66,13 +66,13 @@ date2decimal(const uint16_t year, const uint8_t month, const uint8_t day, const 
 
     const uint16_t daysInYear = yearIsLeap ? 366 : 365;
     const double dayNumber = (daysOfMonths[month - 1] + (day - 1)
-                        + (month > 2 ? yearIsLeap : 0));
+                              + (month > 2 ? yearIsLeap : 0));
 
     const double hourNumber = hour + static_cast<double>(minute) / solarHourMinutes +
-                        static_cast<double>(second) / solarHourSeconds;
+                              static_cast<double>(second) / solarHourSeconds;
 
     const DecimalDate decimalDate = (static_cast<double>(year) + (dayNumber / daysInYear))
-                              + hourNumber / solarDayHours / daysInYear;
+                                    + hourNumber / solarDayHours / daysInYear;
     return decimalDate;
 
 }
@@ -177,7 +177,36 @@ Vector3f ecef2eci(const Vector3f vectorECEF, const double greenwichSiderealTime)
     R(2, 0) = 0;
     R(2, 1) = 0;
     R(2, 2) = 1;
-    
+
     const Vector3f vectorECI = R * vectorECEF;
     return vectorECI;
+}
+
+
+Matrix<float, VectorSize, VectorSize>
+orbitToECI(float ascendingNode, float inclination, float argumentPerigeeMeanAnomaly) {
+    Matrix<float, VectorSize, VectorSize> R;
+
+    R(0, 0) = -sin(argumentPerigeeMeanAnomaly) * sin(ascendingNode) * cos(inclination) +
+              cos(argumentPerigeeMeanAnomaly) * cos(ascendingNode);
+    R(0, 1) = sin(argumentPerigeeMeanAnomaly) * cos(inclination) * cos(ascendingNode) +
+              sin(ascendingNode) * cos(argumentPerigeeMeanAnomaly);
+    R(0, 2) = sin(inclination) * sin(argumentPerigeeMeanAnomaly);
+
+    R(1, 0) = -sin(argumentPerigeeMeanAnomaly) * cos(ascendingNode) -
+              sin(ascendingNode) * cos(inclination) * cos(argumentPerigeeMeanAnomaly);
+    R(1, 1) = -sin(argumentPerigeeMeanAnomaly) * sin(ascendingNode) +
+              cos(inclination) * cos(argumentPerigeeMeanAnomaly) * cos(ascendingNode);
+    R(1, 2) = sin(inclination) * cos(argumentPerigeeMeanAnomaly);
+
+    R(2, 0) = sin(inclination) * sin(ascendingNode);
+    R(2, 1) = -sin(inclination) * cos(ascendingNode);
+    R(2, 2) = cos(inclination);
+
+    Matrix<float, VectorSize, VectorSize> rotatedR;
+    rotatedR(seq(0, 2), 0) = -R(0, seq(0, 2));
+    rotatedR(seq(0, 2), 1) = R(2, seq(0, 2));
+    rotatedR(seq(0, 2), 2) = R(1, seq(0, 2));
+
+    return rotatedR;
 }
