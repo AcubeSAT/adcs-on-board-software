@@ -330,6 +330,7 @@ TEST_CASE("eci2ecef Test")
     REQUIRE(vec[1] == Approx(-807.327158822088));
     REQUIRE(vec[2] == Approx(0.143200000000000));
 }
+
 TEST_CASE("ecef2llh Test")
 {
     Vector3f vecECEF;
@@ -360,6 +361,7 @@ TEST_CASE("ecef2llh Test")
     REQUIRE(vecLLH[1] == Approx(-1.53912545696974));
     REQUIRE(vecLLH[2] == Approx(495419.761713431));
 }
+
 TEST_CASE("Ned2ecef Test")
 {
     Vector3f vecNED;
@@ -408,4 +410,24 @@ TEST_CASE("ecef2eci Test")
     REQUIRE(vecECI[0] == Approx(-3304.13296729673));
     REQUIRE(vecECI[1] == Approx(-4323.60630461274));
     REQUIRE(vecECI[2] == Approx(22315.2957509272));
+}
+
+TEST_CASE("orbitToECI Test")
+{
+    double ascendingNode = 3.3439;
+    double inclination = 1.6995;
+    double argumentPerigeeMeanAnomaly = 0;
+
+    Matrix<float, VectorSize, VectorSize> rotationMatrix = orbitToECI(ascendingNode, inclination,
+                                                                      argumentPerigeeMeanAnomaly);
+
+    REQUIRE(rotationMatrix(0, 0) == Approx(0.97961).epsilon(0.01));
+    REQUIRE(rotationMatrix(0, 1) == Approx(-0.199227).epsilon(0.01));
+    REQUIRE(rotationMatrix(0, 2) == Approx(-0.02578).epsilon(0.01));
+    REQUIRE(rotationMatrix(1, 0) == Approx(0.20088).epsilon(0.01));
+    REQUIRE(rotationMatrix(1, 1) == Approx(0.971507).epsilon(0.01));
+    REQUIRE(rotationMatrix(1, 2) == Approx(0.12576).epsilon(0.01));
+    REQUIRE(rotationMatrix(2, 0) == Approx(0).epsilon(0.01));
+    REQUIRE(rotationMatrix(2, 1) == Approx(-0.128378).epsilon(0.01));
+    REQUIRE(rotationMatrix(2, 2) == Approx(0.99172).epsilon(0.01));
 }

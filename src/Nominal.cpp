@@ -11,7 +11,7 @@
 
 using namespace Eigen;
 
-Quaternionf calculateQuaterionOrbitBody(GlobalStateVector globalState, double ascendingNode, double inclination,
+Quaternionf calculateQuaternionOrbitBody(GlobalStateVector globalState, double ascendingNode, double inclination,
                                         double argumentPerigeeMeanAnomaly) {
     Quaternionf quaternionECItoBody;
     quaternionECItoBody.w() = globalState[0];
@@ -101,7 +101,7 @@ GlobalStateVector NominalMode(int numberOfCycles) {
         for (uint8_t controlCycles = 0; controlCycles < 7; controlCycles++) {
             environmentalModel.ModelEnvironment();
 
-            const Quaternionf quaternionOrbitBody = calculateQuaterionOrbitBody(mekf.getGlobalState(),
+            const Quaternionf quaternionOrbitBody = calculateQuaternionOrbitBody(mekf.getGlobalState(),
                                                                                 orbitalParameters.getAscendingNode(),
                                                                                 orbitalParameters.getInclination(),
                                                                                 orbitalParameters.getArgumentPerigeeMeanAnomaly());
