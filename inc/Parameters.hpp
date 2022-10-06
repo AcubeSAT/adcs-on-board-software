@@ -51,7 +51,7 @@ namespace Parameters {
          */
         inline const float Timestep = 0.1;
     }
-
+    
     namespace SatelliteModel {
         /**
          * Sampling time in seconds
