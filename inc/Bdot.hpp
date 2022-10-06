@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include "Eigen/Geometry"
 
@@ -8,55 +8,81 @@
 class Bdot {
 private:
     /**
-     * magnetic field value expressed in the Body Frame
+     * magnetic field values sampled consecutively at the beginning of the sampling period during a single control cycle,
+     * expressed in the Body Frame measured in uT.
+     * The time difference between the two samples is equal to the Timestep value defined in bdot namespace measured in seconds.
      */
-    Eigen::Vector3f magneticFieldBody;
+    Eigen::Vector3f samplingBeginMagneticFieldBody;
+
+    Eigen::Vector3f samplingEndMagneticFieldBody;
 
     Eigen::Vector3f bDotVector;
 public:
 
     /**
-     * @param magneticFieldBody magnetic field value expressed in the Body Frame
+     * @param samplingBeginMagneticFieldBody magnetic field value sampled at the beginning of the sampling period during
+     * a single control cycle, expressed in the Body Frame measured in uT.
+     * @param samplingEndMagneticFieldBody second magnetic field value sampled consecutively after the first, at the beginning of the sampling period
+     * during a single control cycle, expressed in the Body Frame, measured in uT.
      */
-    Bdot(Eigen::Vector3f magneticFieldBody);
+    Bdot(Eigen::Vector3f samplingBeginMagneticFieldBody, Eigen::Vector3f samplingEndMagneticFieldBody);
 
     /**
      * Bdot controller is used in Detumbling mode, during which actuation is performed by the magnetorquers, and
      * utilizes only magnetometer data.
      * It calculates a magnetic dipole opposite to the derivative of the magnetic field.
-     * @param magneticFieldBody magnetic field value expressed in the Body Frame
      * @return magnetic dipole value
      */
-    Eigen::Vector3f controller(const Eigen::Vector3f &magneticFieldBody);
+    Eigen::Vector3f controller();
 
     /**
      * Scaling of the desired magnetic dipole in case it exceeds the maximum dipole provided by each magnetorquer
-     * @param magneticDipole desired magnetic dipole (in Am^2)
-     * @return scaled magnetic dipole (in Am^2)
+     * @param magneticDipole desired magnetic dipole measured in Am^2
+     * @return scaled magnetic dipole measured in Am^2
      */
     Eigen::Vector3f magnetorquerScaling(Eigen::Vector3f magneticDipole);
 
     /**
-     * magnetic field value expressed in the Body Frame getter
+     * magnetic field value sampled at the beginning of the sampling period during a single control cycle,
+     * expressed in the Body Frame getter measured in uT
      * @return magnetic field value expressed in the Body Frame
      */
-    Eigen::Vector3f getMagneticFieldBody() const{
-        return magneticFieldBody;
+    Eigen::Vector3f getSamplingBeginMagneticFieldBody() const {
+        return samplingBeginMagneticFieldBody;
     }
 
     /**
-     * magnetic field value expressed in the Body Frame setter
+     * magnetic field value sampled at the beginning of the sampling period during a single control cycle,
+     * expressed in the Body Frame setter measured in uT
      * @param magneticFieldBody magnetic field value expressed in the Body Frame
      */
-    void setMagneticFieldBody(Eigen::Vector3f magneticFieldBody){
-        this->magneticFieldBody = magneticFieldBody;
+    void setSamplingBeginMagneticFieldBody(const Eigen::Vector3f samplingBeginMagneticFieldBody) {
+        this->samplingBeginMagneticFieldBody = samplingBeginMagneticFieldBody;
+    }
+
+    /**
+    * second magnetic field value sampled consecutively after the first, at the beginning of the sampling period
+    * during a single control cycle, expressed in the Body Frame getter
+    * @return magnetic field value expressed in the Body Frame
+    */
+    Eigen::Vector3f getSamplingEndMagneticFieldBody() const {
+        return samplingEndMagneticFieldBody;
+    }
+
+    /**
+     * second magnetic field value sampled consecutively after the first, at the beginning of the sampling period
+     * during a single control cycle, expressed in the Body Frame setter
+     * @param magneticFieldBody magnetic field value expressed in the Body Frame
+     */
+    void setSamplingEndMagneticFieldBody(const Eigen::Vector3f samplingEndMagneticFieldBody) {
+        this->samplingEndMagneticFieldBody = samplingEndMagneticFieldBody;
     }
 
     /**
      * Bdot vector getter
      * @return Bdot vector
      */
-    Eigen::Vector3f getBDotVector() const{
+    Eigen::Vector3f getBDotVector() const {
         return bDotVector;
     }
 
@@ -64,7 +90,7 @@ public:
      * Bdot vector setter
      * @param bDotVector Bdot vector
      */
-    void setBDotVector(Eigen::Vector3f bDotVector){
+    void setBDotVector(const Eigen::Vector3f bDotVector) {
         this->bDotVector = bDotVector;
     }
 };
