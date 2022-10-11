@@ -184,14 +184,15 @@ Assuming you can use `afl-clang-lto` and the like, and that you are inside `aflp
    
    The script also sets various environment variables to configure AFL++, for example mode, instrumentation strategy, sanitizer (optional). Then, it instruments the code and builds the instrumented executable. You can edit it to directly affect how AFL++ is configured.
 
-3. `/.scripts/build-cov.sh`
+3. `./scripts/build-cov.sh`
 
    This creates a spare copy of the project sources, and compiles the copy with gcov profiling support, as per the [GitHub README](https://github.com/mrash/afl-cov#workflow).
 4.  `./scripts/launch-screen.sh`
    
    This starts `screen` sessions in detached mode, meaning it starts the sessions without attaching to them. `screen` is key for this pipeline to work. Using `screen`, we can spawn the `afl-fuzz` fuzzing instances inside each session, have them run there without throttling/blocking the terminal, be sure that there won't be any premature termination of the fuzzing due to common accidents, be able to hop back and forth between the fuzzer instances to inspect them as we like, etc. We also use it to run `afl-cmin`. We can use it to run `afl-tmin` in the background where it spawns many processes to speed up the testcase minimization. 
    
-   `screen` is awesome. At any point in time, you can run `screen -ls` to list all running sessions, if any. You can use this to manually verify that the sessions have started/stopped. Use `screen -xr fuzzer1` to attach to `fuzzer1` or `fuzzer2` and do the same for the other sessions, respectively. To detach from a session, press the keyboard shortcut `CTRL+A+D`. If a session was not detached and you want to re-attach to it, use `screen -dr <screen-name>.
+   `screen` is awesome. At any point in time, you can run `screen -ls` to list all running sessions, if any. You can use this to manually verify that the sessions have started/stopped. Use `screen -xr fuzzer1` to attach to `fuzzer1` or `fuzzer2` and do the same for the other sessions, respectively. To detach from a session, press the keyboard shortcut `CTRL+A+D`. If a session was not detached and you want to re-attach to it, use `screen -dr <screen-name>`.
+
 5. `./scripts/tmin.sh`
    
    This uses `afl-tmin` to minimize each of the initial testcases to the bare minimum required to express the same code paths as the original testcase.
