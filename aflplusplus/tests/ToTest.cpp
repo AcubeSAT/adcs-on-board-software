@@ -1,6 +1,11 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <Albedo.hpp>
+#include <vector>
+#include <iterator>
+#include <filesystem>
+using namespace albedo;
 
 // Adapted from https://github.com/jefftrull/json_spirit/blob/develop/fuzzing/fuzz_onecase.cpp
 
@@ -29,6 +34,32 @@ int fuzz(std::string const &s) {
     return 0;
 }
 
+int fuzz2(){
+
+    std::string line ;
+    std::vector<std::vector<int>> all_integers;
+    
+    std::fstream txt;
+    txt.open("./inputs/ToTest");
+
+    while ( getline( txt, line ) ) {
+      std::istringstream is( line );
+      all_integers.push_back( 
+            std::vector<int>( std::istream_iterator<int>(is),
+                              std::istream_iterator<int>() ) );
+      
+        
+   }
+
+   txt.close();
+
+   for(int i; i<all_integers.size(); i++){
+    std::cout<<calculateCellArea(all_integers[i][0],all_integers[i][1])<<std::endl;
+   }    
+    
+    return 0;
+}
+
 int main() {
 
 // Deffered initialization not needed for now.
@@ -49,10 +80,10 @@ int main() {
     // Note that modifications for this to work with C++ will be required.
 
     // while (__AFL_LOOP(1000)) {
-    auto const s = std::string(
+    std::string s = std::string(
         std::istreambuf_iterator(std::cin), {});
     
-    fuzz(s);
-    // }
+    fuzz2();
+
     return 0;
 }
