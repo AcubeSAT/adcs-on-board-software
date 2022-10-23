@@ -6,7 +6,7 @@
 #include <iterator>
 #include <filesystem>
 using namespace albedo;
-
+using namespace std;
 // Adapted from https://github.com/jefftrull/json_spirit/blob/develop/fuzzing/fuzz_onecase.cpp
 
 int fuzz(std::string const &s) {
@@ -56,9 +56,45 @@ int fuzz2(){
    for(int i; i<all_integers.size(); i++){
     std::cout<<calculateCellArea(all_integers[i][0],all_integers[i][1])<<std::endl;
    }    
+   
     
     return 0;
 }
+
+vector<string> split(const string& s)
+{
+	vector<string> ret;
+	typedef string::size_type string_size;
+	string_size i = 0;
+    cout<<"asdfadf"<<endl;
+    //invariant: we have processed characters [original value of i, i)
+	while (i != s.size()){
+		// ignore leading blanks
+		// invariant: characters in range [original i, current i)
+	while (i != s.size() && isspace(s[i]))
+		++i;
+
+	// find end of next word
+	string_size j = i;
+	// invariant: none of the characters in range [original j, current j)
+	while (j != s.size() && !isspace(s[j]))
+		j++;
+		// if we found some nonwhitespace characters
+		if(i != j){
+			//copy from s starting at i and taking j-i chars
+			ret.push_back(s.substr(i, j - i));
+			i = j;
+		}
+	}
+
+    for(int i; i<ret.size(); i++){
+    std::cout<<calculateCellArea(ret[i][0],ret[i][1])<<std::endl;
+    calculateCellArea(ret[i][0],ret[i][1]);
+    }   
+
+	return ret;
+}
+
 
 int main() {
 
@@ -80,10 +116,19 @@ int main() {
     // Note that modifications for this to work with C++ will be required.
 
     // while (__AFL_LOOP(1000)) {
-    std::string s = std::string(
-        std::istreambuf_iterator(std::cin), {});
+    // std::string s = std::string(
+    //     std::istreambuf_iterator(std::cin), {});   
+    // split(s);
+
     
-    fuzz2();
+    string s;
+    while(getline(cin, s)){
+		vector<string> v = split(s);
+
+		//write each word in v
+	// 	for(vector<string>::size_type i = 0; i != v.size(); ++i)
+	// 		cout << v[i] << endl;
+	}
 
     return 0;
 }
