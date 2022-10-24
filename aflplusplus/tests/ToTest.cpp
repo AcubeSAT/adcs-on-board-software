@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <tuple>
 #include <Albedo.hpp>
 #include <vector>
 #include <iterator>
@@ -9,64 +10,39 @@ using namespace albedo;
 using namespace std;
 // Adapted from https://github.com/jefftrull/json_spirit/blob/develop/fuzzing/fuzz_onecase.cpp
 
-int fuzz(std::string const &s) {
-    for (auto s_begin = s.begin(); s_begin != s.end(); ++s_begin) {
-        if (*s_begin & 0x80) {
-            // Non-ASCII characters.
-            abort();
-        }
-        if (*s_begin == '"') {
-            // A string begins here.
-            auto s_current = s_begin + 1;
-            while ((s_current != s.end()) && (*s_current != '"')) {
-                if (*s_current == 'f') {
-                    abort();
-                }
-                s_current++;
-            }
-            if (s_current == s.end()) {
-                // We arrived at the end of the string without finding a terminating double quote.
-                abort();
-            }
-            s_begin = s_current; // Move forward.
-        }
-    }
-    return 0;
-}
 
-int fuzz2(){
 
-    std::string line ;
-    std::vector<std::vector<int>> all_integers;
-    
-    std::fstream txt;
-    txt.open("./inputs/ToTest");
-
-    while ( getline( txt, line ) ) {
-      std::istringstream is( line );
-      all_integers.push_back( 
-            std::vector<int>( std::istream_iterator<int>(is),
-                              std::istream_iterator<int>() ) );
-      
-        
-   }
-
-   txt.close();
-
-   for(int i; i<all_integers.size(); i++){
-    std::cout<<calculateCellArea(all_integers[i][0],all_integers[i][1])<<std::endl;
-   }    
-   
-    
-    return 0;
-}
+// int fuzz(std::string const &s) {
+//     for (auto s_begin = s.begin(); s_begin != s.end(); ++s_begin) {
+//         if (*s_begin & 0x80) {
+//             // Non-ASCII characters.
+//             abort();
+//         }
+//         if (*s_begin == '"') {
+//             // A string begins here.
+//             auto s_current = s_begin + 1;
+//             while ((s_current != s.end()) && (*s_current != '"')) {
+//                 if (*s_current == 'f') {
+//                     abort();
+//                 }
+//                 s_current++;
+//             }
+//             if (s_current == s.end()) {
+//                 // We arrived at the end of the string without finding a terminating double quote.
+//                 abort();
+//             }
+//             s_begin = s_current; // Move forward.
+//         }
+//     }
+//     return 0;
+// }
 
 vector<string> split(const string& s)
 {
 	vector<string> ret;
 	typedef string::size_type string_size;
 	string_size i = 0;
-    cout<<"asdfadf"<<endl;
+
     //invariant: we have processed characters [original value of i, i)
 	while (i != s.size()){
 		// ignore leading blanks
@@ -87,10 +63,11 @@ vector<string> split(const string& s)
 		}
 	}
 
-    for(int i; i<ret.size(); i++){
-    std::cout<<calculateCellArea(ret[i][0],ret[i][1])<<std::endl;
-    calculateCellArea(ret[i][0],ret[i][1]);
-    }   
+    std::vector<int> argument_list;
+
+    std::transform(ret.begin(),ret.end(),std::back_inserter(argument_list),[&](std::string s){return stoi(s);});
+	calculateCellArea(argument_list[0],argument_list[1]);
+
 
 	return ret;
 }
@@ -120,15 +97,9 @@ int main() {
     //     std::istreambuf_iterator(std::cin), {});   
     // split(s);
 
-    
     string s;
-    while(getline(cin, s)){
-		vector<string> v = split(s);
-
-		//write each word in v
-	// 	for(vector<string>::size_type i = 0; i != v.size(); ++i)
-	// 		cout << v[i] << endl;
-	}
+    getline(cin, s);
+    vector<string> v = split(s);
 
     return 0;
 }
